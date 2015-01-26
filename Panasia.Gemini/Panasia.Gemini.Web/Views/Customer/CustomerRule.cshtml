@@ -1,0 +1,47 @@
+﻿@{
+    var item = Model.Parameters["Data"];
+}
+
+    <form method="post" id="dataform" class="form-dialog">
+
+        <div class="edit-dialog">
+
+            <div class="edit-panel">
+
+                <div class="edit-field-w" style="margin-left:-25px;">
+                    <div class="edit-title-w"><label class="edit-label">公司名称：</label></div>
+                    <div class="edit-content-w">
+                        <input class="edit-input easyui-combobox " name="CompanyID" data-options="editable:false,missingMessage:'请选择部门',required:true,url:'/Share/Query?name=GetCompanyName&Key=',method:'get',valueField:'ID',textField:'Name',onSelect:function(rec){
+        var url='/Page/P01060/GetCustomerLimit?ID='+rec.ID;
+        $.ajax({
+            url: url,
+            type: 'post',
+            success: function (result)
+            {
+                var r=result.Data[0];
+                $('#CustomerLimit').numberspinner('setValue',r['CustomerLimit']);
+            },
+            error: function (d, error) {
+                showError(error);
+            }
+        });
+    }" value="@item["CompanyID"]" />
+                    </div>
+                </div>
+                <div class="edit-field-w" style="margin-left:-25px;">
+                    <div class="edit-title-w"><label class="edit-label">新增客户上限：</label></div>
+                    <div class="edit-content-w">
+                        <input class="edit-input easyui-numberspinner " style="width:150px;" value="@item["CustomerLimit"]" data-options="min:1,max:100,precision:0,increment:1,required:true,missingMessage:'请设定新增客户上限',editable:true" id="CustomerLimit" name="CustomerLimit" /> 人/月
+                    </div>
+                </div>
+                <div class="edit-field-w">
+                    <div class="showmsg"><label id="showmsg"></label></div>
+                </div>
+
+            </div>
+        </div>
+    </form>
+    <div class="dialog-button">
+        <a class="easyui-linkbutton edit-button" data-options="iconCls:'icon-ok'" onclick="submitAct_DGUpdate('dataform', '/Page/P01060/UpdateRule', 'datagrid')">确定</a>
+        <a class="easyui-linkbutton edit-button" data-options="iconCls:'icon-cancel'" onclick="cancel()">取消</a>
+    </div>

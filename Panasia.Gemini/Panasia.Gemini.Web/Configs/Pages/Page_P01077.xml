@@ -1,0 +1,65 @@
+<?xml version="1.0"?>
+<MvcEditPage xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" PageID="P01077" Controller="" DefaultAction="Index">
+  <Action ActionID="ce71aa90-662e-4b6e-9cdf-5a2061a3136b" Name="Index" Title="列表" ActionValue="1">
+    <Command CommandID="M01794" Name="列表页面" CommandType="RazorContentActionCommand"><![CDATA[<RazorContentActionCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ContentType="text/html" TemplateFile="\Reports\SocialSecurity.cshtml" SettingType="IndexPage" />]]></Command>
+    <Command CommandID="M01704" Name="列表页面" CommandType="IndexPageActionCommand"><![CDATA[<IndexPageActionCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ContentType="text/html">
+  <Page SettingType="IndexPage">
+    <ToolBar Tag="div" ID="toolbar" Class="toolbar-panel" PageID="P01077">
+      <Buttons>
+        <UIButton ID="btn-search" Class="easyui-linkbutton  normal-button" Options="iconCls:'icon-search',plain:true" Title="检索" ActionValue="2" Action="showActDlg('检索','/Page/P01077/Search',400,300)" />
+        <UIButton />
+      </Buttons>
+    </ToolBar>
+    <DataGrid Tag="table" ID="datagrid" Class="easyui-datagrid" Options="fitColumns:true,fit:true,pagination: true,rownumbers: true,nowrap: true,striped: true,collapsible: false,resizable:true,onClickRow:oncheckstate,onSelect:oncheckstate,onCheck:oncheckstate,onCheckAll:oncheckstate,onUncheckAll:oncheckstate,onUncheck:oncheckstate,onUnselect:oncheckstate" Key="AutoKey">
+      <Column />
+    </DataGrid>
+  </Page>
+</IndexPageActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="766956ef-a437-477c-8f58-43f77eef9280" Name="Search" Title="检索" ActionValue="2" ErrorCommand="检索页面">
+    <Command CommandID="M01500" Name="检索页面" Description="这个命令会直接返回到客户端，无需后继命令" CommandType="EditDialogActionCommand"><![CDATA[<EditDialogActionCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ContentType="text/html">
+  <Page SettingType="EditDialog">
+    <Form ID="dataform" Class="form-dialog">
+      <TableLayout />
+      <Fields>
+        <Field Title="公司" FieldType="ComboBox">
+          <ComboBox Tag="input" Name="CompanyID" Class="easyui-combobox" Style="width:185px" Options="editable:false,missingMessage:'请选择公司',required:true" Binding="CompanyID" Length="8" DisplayMember="Name" ValueMember="ID" DataUrl="/Share/Query?name=GetCompanyName&amp;Key=" IsAutoHeight="false" />
+        </Field>
+        <Field Title="年月" FieldType="TextBox">
+          <Input Tag="input" Name="YearMonth" Class="edit-input easyui-textbox" Options="prompt:'输入格式为:YYYY-mm',missingMessage:'请按正确格式输入年月',validType:'yearmonth',required:true" Binding="YearMonth" />
+        </Field>
+        <Field Title="类别" FieldType="ComboBox">
+          <ComboBox Tag="input" Name="SType" Class="easyui-combobox" Style="width:185px" Options="editable:false" Binding="SType" IsRequired="false" DisplayMember="Name" ValueMember="Name" DataUrl="/Share/GetSystemCodes?code=C067" />
+        </Field>
+      </Fields>
+      <ToolBar Tag="div" ID="toolbar" Class="dialog-button" PageID="P01077">
+        <Buttons>
+          <UIButton Tag="a" ID="btn-query" Class="easyui-linkbutton edit-button" Options="iconCls:'icon-ok'" Title="确定" ActionValue="2" Action="showReport('/Page/P01077/Report','report','dataform')" />
+          <UIButton Tag="a" ID="btn-cancel" Class="easyui-linkbutton edit-button" Options="iconCls:'icon-cancel'" Title="取消" Action="cancel()" />
+        </Buttons>
+      </ToolBar>
+    </Form>
+  </Page>
+</EditDialogActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="4f22954a-3a26-4302-adb0-63b40e3d9470" Name="Report" Title="列表" ActionValue="4" ErrorCommand="查询报表">
+    <Command CommandID="M01795" Name="查询报表" CommandType="SqlCommand"><![CDATA[<SqlCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" NextCommand="报表页面" GroupName="人事管理" TableName="hr_Employee" CommandName="SocialSecurityReport" SqlType="QueryTable">
+  <Parameter Name="SType" Path="Request[SType]" Type="Parameter" />
+  <Parameter Name="CompanyID" Path="Request[CompanyID]" Type="Parameter" />
+  <Parameter Name="YearMonth" Path="Request[YearMonth]" Type="Parameter" />
+</SqlCommand>]]></Command>
+    <Command CommandID="M01796" Name="报表页面" CommandType="ReportActionCommand"><![CDATA[<ReportActionCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ReportPath_x0020_="SocialSecurity.rdlc">
+  <Parameter Name="TableTitle" Type="Const" DefaultValue="社保人员增补月报表" />
+  <Parameter Name="YearMonth" Path="Request[YearMonth]" Type="Parameter" />
+  <Parameter Name="OperationUser" Path="CurrentUserProfiles" Type="SystemParameter" DefaultValue="EmployeeName" />
+  <Parameter Name="OperationDept" Path="CurrentUserProfiles" Type="SystemParameter" DefaultValue="DepartmentName" />
+  <DataSource Name="SocialSecurity" Path="LastResult.Table" Type="Parameter" />
+</ReportActionCommand>]]></Command>
+  </Action>
+  <Layout EditFieldClass="edit-field" />
+  <Buttons />
+  <EditSource>
+    <Fields />
+    <ChildTables />
+  </EditSource>
+</MvcEditPage>

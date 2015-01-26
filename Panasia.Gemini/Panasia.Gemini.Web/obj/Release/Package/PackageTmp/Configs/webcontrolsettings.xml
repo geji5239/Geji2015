@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<ControlSettings xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Classes>
+    <Item Name="按钮" Value="easyui-linkbutton" Targets="Button" />
+    <Item Name="功能项" Value="link" Targets="Button" />
+  </Classes>
+  <Styles />
+  <Settings>
+    <Item />
+  </Settings>
+</ControlSettings>

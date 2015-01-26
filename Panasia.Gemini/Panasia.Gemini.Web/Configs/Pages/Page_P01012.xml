@@ -1,0 +1,730 @@
+<?xml version="1.0"?>
+<MvcEditPage xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" PageID="P01012" Controller="" DefaultAction="Index">
+  <Action ActionID="A01044" Name="Index" Title="列表" ActionValue="1">
+    <Command CommandID="M01120" Name="列表页面" Description="这个命令会直接返回到客户端，无需后继命令" CommandType="FormViewActionCommand"><![CDATA[<FormViewActionCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ContentType="text/html" ViewPath="~/Views/Page/Index.cshtml" SettingType="IndexPage">
+  <Form Style="border: 0px;top:40px;margin:10px;" Options="region:'center'" IsContainer="false">
+    <Controls>
+      <StackPanel Class="content-padding" Options="region:'north'">
+        <Controls>
+          <ToolBar ID="toolbar" Class="toolbar-panel">
+            <Controls>
+              <StackPanel Class="toolbutton">
+                <Controls>
+                  <Button ID="btn-search" Class="easyui-linkbutton normal-button" Options="iconCls:'icon-search',plain:true" Title="检索" Action="showActDlg('检索','/Page/P01012/Search',400,300)" ActionValue="2" />
+                  <StackPanel Class="datagrid-btn-separator">
+                    <Controls />
+                  </StackPanel>
+                </Controls>
+              </StackPanel>
+              <StackPanel Class="toolbutton">
+                <Controls>
+                  <Button ID="btn-detail" Class="easyui-linkbutton toolradio normal-button" Options="iconCls:'icon-detail',plain:true" Title="查看" Action="showActDlg_DGItemActDlg('datagrid','查看','/Page/P01012/Detail',400,300)" ActionValue="4" />
+                  <StackPanel Class="datagrid-btn-separator">
+                    <Controls />
+                  </StackPanel>
+                </Controls>
+              </StackPanel>
+              <StackPanel Class="toolbutton">
+                <Controls>
+                  <Button ID="btn-create" Class="easyui-linkbutton normal-button" Options="iconCls:'icon-add',plain:true" Title="新增" Action="showActDlg('新增','/Page/P01012/Create',400,300)" ActionValue="8" />
+                  <StackPanel Class="datagrid-btn-separator">
+                    <Controls />
+                  </StackPanel>
+                </Controls>
+              </StackPanel>
+              <StackPanel Class="toolbutton">
+                <Controls>
+                  <Button ID="btn-edit" Class="easyui-linkbutton toolradio normal-button" Options="iconCls:'icon-edit',plain:true" Title="修改" Action="showActDlg_DGItemActDlg('datagrid','修改','/Page/P01012/Edit',400,300)" ActionValue="16" />
+                  <StackPanel Class="datagrid-btn-separator">
+                    <Controls />
+                  </StackPanel>
+                </Controls>
+              </StackPanel>
+              <StackPanel Class="toolbutton">
+                <Controls>
+                  <Button ID="btn-delete" Class="easyui-linkbutton toolmultiple normal-button" Options="iconCls:'icon-cancel',plain:true" Title="删除" Action="showActDlg_DGItemsConfirm('datagrid','删除','确认删除选择项？','/Page/P01012/Delete',400,300)" ActionValue="32" />
+                  <StackPanel Class="datagrid-btn-separator">
+                    <Controls />
+                  </StackPanel>
+                </Controls>
+              </StackPanel>
+              <StackPanel Class="toolbutton">
+                <Controls>
+                  <Button ID="btn-import" Class="easyui-linkbutton normal-button" Options="iconCls:'icon-import',plain:true" Title="导入" Action="showActDlg('导入','/Page/P01012/Import',400,300)" ActionValue="64" />
+                  <StackPanel Class="datagrid-btn-separator">
+                    <Controls />
+                  </StackPanel>
+                </Controls>
+              </StackPanel>
+              <StackPanel Class="toolbutton">
+                <Controls>
+                  <Button ID="btn-export" Class="easyui-linkbutton normal-button" Options="iconCls:'icon-export',plain:true" Title="导出" Action="showActDlg('导出','/Page/P01012/Export',400,300)" ActionValue="128" />
+                  <StackPanel Class="datagrid-btn-separator">
+                    <Controls />
+                  </StackPanel>
+                </Controls>
+              </StackPanel>
+              <StackPanel Class="toolbutton">
+                <Controls>
+                  <StackPanel Class="datagrid-btn-separator">
+                    <Controls />
+                  </StackPanel>
+                </Controls>
+              </StackPanel>
+            </Controls>
+          </ToolBar>
+        </Controls>
+      </StackPanel>
+      <StackPanel ID="contian" Class="content-padding" Options="region:'center',title:'工作经历'">
+        <Controls>
+          <GridView ID="datagrid" Class="easyui-datagrid" Options="fitColumns:true,fit:true,pagination: true,rownumbers: true,nowrap: true,striped: true,collapsible: false,resizable:true,onClickRow:oncheckstate,onSelect:oncheckstate,onCheck:oncheckstate,onCheckAll:oncheckstate,onUncheckAll:oncheckstate,onUncheck:oncheckstate,onUnselect:oncheckstate" Key="EjbID">
+            <Columns>
+              <Column Title="员工" FieldName="Name" />
+              <Column Title="起始日期" FieldName="StartDate" HAlignment="Center" />
+              <Column Title="结束日期" FieldName="EndDate" HAlignment="Center" />
+              <Column Title="公司名称" FieldName="CompanyName" />
+              <Column Title="部门名称" FieldName="DepartmentName" />
+              <Column Title="职位" FieldName="Position" />
+              <Column Title="直属主管" FieldName="ManagerName" />
+              <Column Title="联系电话" FieldName="ManagerPhone" />
+              <Column Title="离职原因" FieldName="LeaveReson" />
+            </Columns>
+          </GridView>
+        </Controls>
+      </StackPanel>
+    </Controls>
+  </Form>
+</FormViewActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="A01045" Name="Search" Title="检索" ActionValue="2">
+    <Command CommandID="M01165" Name="检索页面" Description="这个命令会直接返回到客户端，无需后继命令" CommandType="FormViewActionCommand"><![CDATA[<FormViewActionCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ContentType="text/html" ViewPath="~/Views/Page/Edit.cshtml" SettingType="EditDialog">
+  <Form>
+    <Controls>
+      <DataView ID="dataform" Class="form-dialog">
+        <Controls>
+          <StackPanel Class="edit-dialog">
+            <Controls>
+              <StackPanel Class="edit-panel">
+                <Controls>
+                  <StackPanel Class="edit-field">
+                    <Controls>
+                      <StackPanel Class="edit-title">
+                        <Controls>
+                          <Label Class="edit-label" Title="员工：" />
+                        </Controls>
+                      </StackPanel>
+                      <StackPanel Class="edit-content">
+                        <Controls>
+                          <TextBox ID="Name" Name="Name" Class="edit-input  easyui-textbox" Style="width:120px;" IsEnable="false" IsReadOnly="true" />
+                          <Button Class="edit-button easyui-linkbutton " Options="iconCls:'icon-search'" Action="ShowOrgTree('Name',['E:EmployeeID'],'1')" />
+                          <TextBox ID="EmployeeID" Name="EmployeeID" Class="edit-input  easyui-validatebox" IsHidden="true" />
+                        </Controls>
+                      </StackPanel>
+                    </Controls>
+                  </StackPanel>
+                  <StackPanel Class="edit-field">
+                    <Controls />
+                  </StackPanel>
+                </Controls>
+              </StackPanel>
+            </Controls>
+          </StackPanel>
+        </Controls>
+      </DataView>
+      <StackPanel Class="dialog-button">
+        <Controls>
+          <Button ID="btn-query" Class="easyui-linkbutton edit-button" Options="iconCls:'icon-ok'" Title="确定" Action="submitAct_DGReplace('dataform','/Page/P01012/Query','datagrid')" ActionValue="2" />
+          <Button ID="btn-cancel" Class="easyui-linkbutton edit-button" Options="iconCls:'icon-cancel'" Title="取消" Action="cancel()" />
+        </Controls>
+      </StackPanel>
+    </Controls>
+  </Form>
+</FormViewActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="A01046" Name="Query" Title="检索" ActionValue="2" ErrorCommand="搜索结果">
+    <Command CommandID="M01177" Name="执行查询" CommandType="QuerySqlCommand"><![CDATA[<QueryCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" NextCommand="搜索结果" GroupName="人事管理" TableName="hr_EmployeeJob" CommandName="Query">
+  <Parameter Name="EmployeeID" Path="Request[EmployeeID]" Type="Parameter" />
+</QueryCommand>]]></Command>
+    <Command CommandID="M01167" Name="搜索结果" Description="返回搜索结果" CommandType="JsonActionCommand"><![CDATA[<JsonActionCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ContentType="application/json">
+  <Parameter Name="Data" Path="Results[执行查询].Items" Type="Parameter" />
+  <Parameter Name="HasError" Path="Results[执行查询].IsError" Type="Parameter" />
+  <Parameter Name="ErrorMessage" Path="Results[执行查询].ErrorMessage" Type="Parameter" />
+</JsonActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="A01047" Name="Detail" Title="查看" ActionValue="128" ErrorCommand="查看页面">
+    <Command CommandID="M01190" Name="查询明细" Description="查询明细" CommandType="QuerySqlCommand"><![CDATA[<QueryCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" NextCommand="查看页面" GroupName="人事管理" TableName="hr_EmployeeJob" CommandName="GetDetail">
+  <Parameter Name="EjbID" Path="Request[ID]" Type="Parameter" />
+</QueryCommand>]]></Command>
+    <Command CommandID="M01191" Name="查看页面" Description="这个命令会直接返回到客户端，无需后继命令" CommandType="FormViewActionCommand"><![CDATA[<FormViewActionCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ContentType="text/html" ViewPath="~/Views/Page/Edit.cshtml" SettingType="EditDialog">
+  <Parameter Name="Data" Path="LastResult.Items" Type="Parameter" />
+  <Form>
+    <Controls>
+      <DataView ID="dataform" Class="form-dialog" Binding="Parameters[Data]">
+        <Controls>
+          <StackPanel Class="edit-dialog">
+            <Controls>
+              <StackPanel Class="edit-panel">
+                <Controls>
+                  <StackPanel Class="edit-field">
+                    <Controls>
+                      <StackPanel Class="edit-title">
+                        <Controls>
+                          <Label Class="edit-label" Title="员工：" />
+                        </Controls>
+                      </StackPanel>
+                      <StackPanel Class="edit-content">
+                        <Controls>
+                          <TextBox ID="Name" Name="Name" Class="edit-input easyui-textbox" Binding="Name" IsReadOnly="true" />
+                        </Controls>
+                      </StackPanel>
+                    </Controls>
+                  </StackPanel>
+                  <StackPanel Class="edit-field">
+                    <Controls>
+                      <StackPanel Class="edit-title">
+                        <Controls>
+                          <Label Class="edit-label" Title="起始日期：" />
+                        </Controls>
+                      </StackPanel>
+                      <StackPanel Class="edit-content">
+                        <Controls>
+                          <TextBox ID="StartDate" Name="StartDate" Class="edit-input easyui-textbox" Binding="StartDate" IsReadOnly="true" />
+                        </Controls>
+                      </StackPanel>
+                    </Controls>
+                  </StackPanel>
+                  <StackPanel Class="edit-field">
+                    <Controls>
+                      <StackPanel Class="edit-title">
+                        <Controls>
+                          <Label Class="edit-label" Title="结束日期：" />
+                        </Controls>
+                      </StackPanel>
+                      <StackPanel Class="edit-content">
+                        <Controls>
+                          <TextBox ID="EndDate" Name="EndDate" Class="edit-input easyui-textbox" Binding="EndDate" IsReadOnly="true" />
+                        </Controls>
+                      </StackPanel>
+                    </Controls>
+                  </StackPanel>
+                  <StackPanel Class="edit-field">
+                    <Controls>
+                      <StackPanel Class="edit-title">
+                        <Controls>
+                          <Label Class="edit-label" Title="公司名称：" />
+                        </Controls>
+                      </StackPanel>
+                      <StackPanel Class="edit-content">
+                        <Controls>
+                          <TextBox ID="CompanyName" Name="CompanyName" Class="edit-input easyui-textbox" Binding="CompanyName" IsReadOnly="true" />
+                        </Controls>
+                      </StackPanel>
+                    </Controls>
+                  </StackPanel>
+                  <StackPanel Class="edit-field">
+                    <Controls>
+                      <StackPanel Class="edit-title">
+                        <Controls>
+                          <Label Class="edit-label" Title="部门名称：" />
+                        </Controls>
+                      </StackPanel>
+                      <StackPanel Class="edit-content">
+                        <Controls>
+                          <TextBox ID="DepartmentName" Name="DepartmentName" Class="edit-input easyui-textbox" Binding="DepartmentName" IsReadOnly="true" />
+                        </Controls>
+                      </StackPanel>
+                    </Controls>
+                  </StackPanel>
+                  <StackPanel Class="edit-field">
+                    <Controls>
+                      <StackPanel Class="edit-title">
+                        <Controls>
+                          <Label Class="edit-label" Title="职位：" />
+                        </Controls>
+                      </StackPanel>
+                      <StackPanel Class="edit-content">
+                        <Controls>
+                          <TextBox ID="Position" Name="Position" Class="edit-input easyui-textbox" Binding="Position" IsReadOnly="true" />
+                        </Controls>
+                      </StackPanel>
+                    </Controls>
+                  </StackPanel>
+                  <StackPanel Class="edit-field">
+                    <Controls>
+                      <StackPanel Class="edit-title">
+                        <Controls>
+                          <Label Class="edit-label" Title="直属主管：" />
+                        </Controls>
+                      </StackPanel>
+                      <StackPanel Class="edit-content">
+                        <Controls>
+                          <TextBox ID="ManagerName" Name="ManagerName" Class="edit-input easyui-textbox" Binding="ManagerName" IsReadOnly="true" />
+                        </Controls>
+                      </StackPanel>
+                    </Controls>
+                  </StackPanel>
+                  <StackPanel Class="edit-field">
+                    <Controls>
+                      <StackPanel Class="edit-title">
+                        <Controls>
+                          <Label Class="edit-label" Title="联系电话：" />
+                        </Controls>
+                      </StackPanel>
+                      <StackPanel Class="edit-content">
+                        <Controls>
+                          <TextBox ID="ManagerPhone" Name="ManagerPhone" Class="edit-input easyui-textbox" Binding="ManagerPhone" IsReadOnly="true" />
+                        </Controls>
+                      </StackPanel>
+                    </Controls>
+                  </StackPanel>
+                  <StackPanel Class="edit-field-r2">
+                    <Controls>
+                      <StackPanel Class="edit-title">
+                        <Controls>
+                          <Label Class="edit-label" Title="离职原因：" />
+                        </Controls>
+                      </StackPanel>
+                      <StackPanel Class="edit-content-r2">
+                        <Controls>
+                          <TextBox ID="LeaveReson" Name="LeaveReson" Class="edit-input easyui-textbox" Style="height:90px" Options="multiline:true" Binding="LeaveReson" IsReadOnly="true" IsMutiLine="true" />
+                        </Controls>
+                      </StackPanel>
+                    </Controls>
+                  </StackPanel>
+                  <StackPanel Class="edit-field">
+                    <Controls />
+                  </StackPanel>
+                </Controls>
+              </StackPanel>
+            </Controls>
+          </StackPanel>
+        </Controls>
+      </DataView>
+      <StackPanel Class="dialog-button">
+        <Controls>
+          <Button ID="btn-close" Class="easyui-linkbutton edit-button" Options="iconCls:'icon-cancel'" Title="关闭" Action="cancel()" />
+        </Controls>
+      </StackPanel>
+    </Controls>
+  </Form>
+</FormViewActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="A01048" Name="Create" Title="新增" ActionValue="8">
+    <Command CommandID="M01168" Name="新增页面" Description="这个命令会直接返回到客户端，无需后继命令" CommandType="FormViewActionCommand"><![CDATA[<FormViewActionCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ContentType="text/html" ViewPath="~/Views/Page/Edit.cshtml" SettingType="EditDialog">
+  <Form>
+    <Controls>
+      <DataView ID="dataform" Class="form-dialog">
+        <Controls>
+          <StackPanel Class="edit-dialog">
+            <Controls>
+              <StackPanel Class="edit-panel">
+                <Controls>
+                  <StackPanel Class="edit-field">
+                    <Controls>
+                      <StackPanel Class="edit-title">
+                        <Controls>
+                          <Label Class="edit-label" Title="员工：" />
+                        </Controls>
+                      </StackPanel>
+                      <StackPanel Class="edit-content">
+                        <Controls>
+                          <TextBox ID="Name" Name="Name" Class="edit-input easyui-textbox" Style="width:120px" Options="missingMessage:'员工不能为空',required:true" Binding="Name" IsEnable="false" IsReadOnly="true" />
+                          <Button Class="edit-button easyui-linkbutton " Options="iconCls:'icon-search'" Action="ShowOrgTree('Name',['E:EmployeeID'],'1')" />
+                          <TextBox ID="EmployeeID" Name="EmployeeID" Binding="EmployeeID" IsReadOnly="true" IsHidden="true" />
+                        </Controls>
+                      </StackPanel>
+                    </Controls>
+                  </StackPanel>
+                  <StackPanel Class="edit-field">
+                    <Controls>
+                      <StackPanel Class="edit-title">
+                        <Controls>
+                          <Label Class="edit-label" Title="起始日期：" />
+                        </Controls>
+                      </StackPanel>
+                      <StackPanel Class="edit-content">
+                        <Controls>
+                          <TextBox Name="StartDate" Class="edit-input easyui-datebox" Options="missingMessage:'起始日期不能为空',required:true" Binding="StartDate" />
+                        </Controls>
+                      </StackPanel>
+                    </Controls>
+                  </StackPanel>
+                  <StackPanel Class="edit-field">
+                    <Controls>
+                      <StackPanel Class="edit-title">
+                        <Controls>
+                          <Label Class="edit-label" Title="结束日期：" />
+                        </Controls>
+                      </StackPanel>
+                      <StackPanel Class="edit-content">
+                        <Controls>
+                          <TextBox Name="EndDate" Class="edit-input easyui-datebox" Options="missingMessage:'结束日期不能为空',required:true" Binding="EndDate" />
+                        </Controls>
+                      </StackPanel>
+                    </Controls>
+                  </StackPanel>
+                  <StackPanel Class="edit-field">
+                    <Controls>
+                      <StackPanel Class="edit-title">
+                        <Controls>
+                          <Label Class="edit-label" Title="公司名称：" />
+                        </Controls>
+                      </StackPanel>
+                      <StackPanel Class="edit-content">
+                        <Controls>
+                          <TextBox ID="CompanyName" Name="CompanyName" Class="edit-input easyui-textbox" Options="missingMessage:'公司名称不能为空',required:true,validType:'length[1,20]',invalidMessage:'公司名称字数不得超过20个字符'" Binding="CompanyName" />
+                        </Controls>
+                      </StackPanel>
+                    </Controls>
+                  </StackPanel>
+                  <StackPanel Class="edit-field">
+                    <Controls>
+                      <StackPanel Class="edit-title">
+                        <Controls>
+                          <Label Class="edit-label" Title="部门名称：" />
+                        </Controls>
+                      </StackPanel>
+                      <StackPanel Class="edit-content">
+                        <Controls>
+                          <TextBox Name="DepartmentName" Class="edit-input easyui-textbox" Options="missingMessage:'部门名称不能为空',required:true,validType:'length[1,20]',invalidMessage:'部门名称字数不得超过20个字符'" Binding="DepartmentName" />
+                        </Controls>
+                      </StackPanel>
+                    </Controls>
+                  </StackPanel>
+                  <StackPanel Class="edit-field">
+                    <Controls>
+                      <StackPanel Class="edit-title">
+                        <Controls>
+                          <Label Class="edit-label" Title="职位：" />
+                        </Controls>
+                      </StackPanel>
+                      <StackPanel Class="edit-content">
+                        <Controls>
+                          <TextBox Name="Position" Class="edit-input easyui-textbox" Options="missingMessage:'职位不能为空',required:true,validType:'length[1,20]',invalidMessage:'职位字数不得超过20个字符'" Binding="Position" />
+                        </Controls>
+                      </StackPanel>
+                    </Controls>
+                  </StackPanel>
+                  <StackPanel Class="edit-field">
+                    <Controls>
+                      <StackPanel Class="edit-title">
+                        <Controls>
+                          <Label Class="edit-label" Title="直属主管：" />
+                        </Controls>
+                      </StackPanel>
+                      <StackPanel Class="edit-content">
+                        <Controls>
+                          <TextBox Name="ManagerName" Class="edit-input easyui-textbox" Options="validType:'length[1,10]',invalidMessage:'直属主管字数不得超过10个字符'" Binding="ManagerName" />
+                        </Controls>
+                      </StackPanel>
+                    </Controls>
+                  </StackPanel>
+                  <StackPanel Class="edit-field">
+                    <Controls>
+                      <StackPanel Class="edit-title">
+                        <Controls>
+                          <Label Class="edit-label" Title="联系电话：" />
+                        </Controls>
+                      </StackPanel>
+                      <StackPanel Class="edit-content">
+                        <Controls>
+                          <TextBox Name="ManagerPhone" Class="edit-input easyui-textbox" Options="validType:'mobile'" Binding="ManagerPhone" />
+                        </Controls>
+                      </StackPanel>
+                    </Controls>
+                  </StackPanel>
+                  <StackPanel Class="edit-field-r2">
+                    <Controls>
+                      <StackPanel Class="edit-title">
+                        <Controls>
+                          <Label Class="edit-label" Title="离职原因：" />
+                        </Controls>
+                      </StackPanel>
+                      <StackPanel Class="edit-content-r2">
+                        <Controls>
+                          <TextBox ID="LeaveReson" Name="LeaveReson" Class="edit-input easyui-textbox" Style="height:90px" Options="multiline:true,validType:'length[0,50]',invalidMessage:'备注字数不得超过50个字符'" Binding="LeaveReson" IsMutiLine="true" />
+                        </Controls>
+                      </StackPanel>
+                    </Controls>
+                  </StackPanel>
+                  <StackPanel Class="edit-field">
+                    <Controls>
+                      <StackPanel Class="showmsg">
+                        <Controls>
+                          <Label ID="showmsg" />
+                        </Controls>
+                      </StackPanel>
+                    </Controls>
+                  </StackPanel>
+                </Controls>
+              </StackPanel>
+            </Controls>
+          </StackPanel>
+        </Controls>
+      </DataView>
+      <StackPanel Class="dialog-button">
+        <Controls>
+          <Button ID="btn-add" Class="easyui-linkbutton edit-button" Options="iconCls:'icon-ok'" Title="确定" Action="submitAct_DGAppend('dataform','/Page/P01012/Add','datagrid')" ActionValue="8" />
+          <Button ID="btn-cancel" Class="easyui-linkbutton edit-button" Options="iconCls:'icon-cancel'" Title="取消" Action="cancel()" />
+        </Controls>
+      </StackPanel>
+    </Controls>
+  </Form>
+</FormViewActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="A01049" Name="Add" Title="新增" ActionValue="8" ErrorCommand="新增结果">
+    <Command CommandID="M01178" Name="执行新增" CommandType="QuerySqlCommand"><![CDATA[<QueryCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" NextCommand="新增结果" GroupName="人事管理" TableName="hr_EmployeeJob" CommandName="Add">
+  <Parameter Name="EmployeeID" Path="Request[EmployeeID]" Type="Parameter" />
+  <Parameter Name="CompanyName" Path="Request[CompanyName]" Type="Parameter" />
+  <Parameter Name="DepartmentName" Path="Request[DepartmentName]" Type="Parameter" />
+  <Parameter Name="StartDate" Path="Request[StartDate]" Type="Parameter" />
+  <Parameter Name="EndDate" Path="Request[EndDate]" Type="Parameter" />
+  <Parameter Name="ManagerName" Path="Request[ManagerName]" Type="Parameter" />
+  <Parameter Name="ManagerPhone" Path="Request[ManagerPhone]" Type="Parameter" />
+  <Parameter Name="LeaveReson" Path="Request[LeaveReson]" Type="Parameter" />
+  <Parameter Name="CreatedUser" Path="CurrentUserID" Type="SystemParameter" />
+  <Parameter Name="CreatedTime" Path="CurrentDateTime" Type="SystemParameter" />
+  <Parameter Name="ModifiedUser" Path="CurrentUserID" Type="SystemParameter" />
+  <Parameter Name="ModifiedTime" Path="CurrentDateTime" Type="SystemParameter" />
+  <Parameter Name="EjbID" Path="SerialCode" Type="SystemParameter" DefaultValue="EmpPosition,J,6" />
+  <Parameter Name="Position" Path="Request[Position]" Type="Parameter" />
+</QueryCommand>]]></Command>
+    <Command CommandID="M01170" Name="新增结果" Description="返回新增结果" CommandType="JsonActionCommand"><![CDATA[<JsonActionCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ContentType="application/json">
+  <Parameter Name="Data" Path="Results[执行新增].Items" Type="Parameter" />
+  <Parameter Name="HasError" Path="Results[执行新增].IsError" Type="Parameter" />
+  <Parameter Name="ErrorMessage" Path="Results[执行新增].ErrorMessage" Type="Parameter" />
+</JsonActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="A01050" Name="Edit" Title="编辑" ActionValue="16" ErrorCommand="编辑页面">
+    <Command CommandID="M01171" Name="查询编辑" Description="查询编辑" CommandType="QuerySqlCommand"><![CDATA[<QueryCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" NextCommand="编辑页面" GroupName="人事管理" TableName="hr_EmployeeJob" CommandName="GetEdit">
+  <Parameter Name="EjbID" Path="Request[ID]" Type="Parameter" />
+</QueryCommand>]]></Command>
+    <Command CommandID="M01172" Name="编辑页面" Description="这个命令会直接返回到客户端，无需后继命令" CommandType="FormViewActionCommand"><![CDATA[<FormViewActionCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ContentType="text/html" ViewPath="~/Views/Page/Edit.cshtml" SettingType="EditDialog">
+  <Parameter Name="Data" Path="LastResult.Items" Type="Parameter" />
+  <Form>
+    <Controls>
+      <DataView ID="dataform" Class="form-dialog" Binding="Parameters[Data]">
+        <Controls>
+          <StackPanel Class="edit-dialog">
+            <Controls>
+              <StackPanel Class="edit-panel">
+                <Controls>
+                  <StackPanel Class="edit-field">
+                    <Controls>
+                      <StackPanel Class="edit-title">
+                        <Controls>
+                          <Label Class="edit-label" Title="员工：" />
+                        </Controls>
+                      </StackPanel>
+                      <StackPanel Class="edit-content">
+                        <Controls>
+                          <TextBox Name="Name" Class="edit-input easyui-textbox" Binding="Name" IsRequired="false" IsEnable="false" IsReadOnly="true" />
+                          <TextBox Name="EjbID" Binding="EjbID" IsReadOnly="true" IsHidden="true" />
+                          <TextBox Name="EmployeeID" Binding="EmployeeID" IsReadOnly="true" IsHidden="true" />
+                        </Controls>
+                      </StackPanel>
+                    </Controls>
+                  </StackPanel>
+                  <StackPanel Class="edit-field">
+                    <Controls>
+                      <StackPanel Class="edit-title">
+                        <Controls>
+                          <Label Class="edit-label" Title="起始日期：" />
+                        </Controls>
+                      </StackPanel>
+                      <StackPanel Class="edit-content">
+                        <Controls>
+                          <TextBox Name="StartDate" Class="edit-input easyui-datebox" Binding="StartDate" />
+                        </Controls>
+                      </StackPanel>
+                    </Controls>
+                  </StackPanel>
+                  <StackPanel Class="edit-field">
+                    <Controls>
+                      <StackPanel Class="edit-title">
+                        <Controls>
+                          <Label Class="edit-label" Title="结束日期：" />
+                        </Controls>
+                      </StackPanel>
+                      <StackPanel Class="edit-content">
+                        <Controls>
+                          <TextBox Name="EndDate" Class="edit-input easyui-datebox" Binding="EndDate" />
+                        </Controls>
+                      </StackPanel>
+                    </Controls>
+                  </StackPanel>
+                  <StackPanel Class="edit-field">
+                    <Controls>
+                      <StackPanel Class="edit-title">
+                        <Controls>
+                          <Label Class="edit-label" Title="公司名称：" />
+                        </Controls>
+                      </StackPanel>
+                      <StackPanel Class="edit-content">
+                        <Controls>
+                          <TextBox Name="CompanyName" Class="edit-input easyui-textbox" Options="missingMessage:'公司名称不能为空',required:true,validType:'length[1,20]',invalidMessage:'公司名称字数不得超过20个字符'" Binding="CompanyName" />
+                        </Controls>
+                      </StackPanel>
+                    </Controls>
+                  </StackPanel>
+                  <StackPanel Class="edit-field">
+                    <Controls>
+                      <StackPanel Class="edit-title">
+                        <Controls>
+                          <Label Class="edit-label" Title="部门名称：" />
+                        </Controls>
+                      </StackPanel>
+                      <StackPanel Class="edit-content">
+                        <Controls>
+                          <TextBox Name="DepartmentName" Class="edit-input easyui-textbox" Options="missingMessage:'部门名称不能为空',required:true,validType:'length[1,20]',invalidMessage:'部门名称字数不得超过20个字符'" Binding="DepartmentName" />
+                        </Controls>
+                      </StackPanel>
+                    </Controls>
+                  </StackPanel>
+                  <StackPanel Class="edit-field">
+                    <Controls>
+                      <StackPanel Class="edit-title">
+                        <Controls>
+                          <Label Class="edit-label" Title="职位：" />
+                        </Controls>
+                      </StackPanel>
+                      <StackPanel Class="edit-content">
+                        <Controls>
+                          <TextBox Name="Position" Class="edit-input easyui-textbox" Options="missingMessage:'职位不能为空',required:true,validType:'length[1,20]',invalidMessage:'职位字数不得超过20个字符'" Binding="Position" />
+                        </Controls>
+                      </StackPanel>
+                    </Controls>
+                  </StackPanel>
+                  <StackPanel Class="edit-field">
+                    <Controls>
+                      <StackPanel Class="edit-title">
+                        <Controls>
+                          <Label Class="edit-label" Title="直属主管：" />
+                        </Controls>
+                      </StackPanel>
+                      <StackPanel Class="edit-content">
+                        <Controls>
+                          <TextBox Name="ManagerName" Class="edit-input easyui-textbox" Options="validType:'length[1,10]',invalidMessage:'直属主管字数不得超过10个字符'" Binding="ManagerName" />
+                        </Controls>
+                      </StackPanel>
+                    </Controls>
+                  </StackPanel>
+                  <StackPanel Class="edit-field">
+                    <Controls>
+                      <StackPanel Class="edit-title">
+                        <Controls>
+                          <Label Class="edit-label" Title="联系电话：" />
+                        </Controls>
+                      </StackPanel>
+                      <StackPanel Class="edit-content">
+                        <Controls>
+                          <TextBox Name="ManagerPhone" Class="edit-input easyui-textbox" Options="validType:'mobile'" Binding="ManagerPhone" />
+                        </Controls>
+                      </StackPanel>
+                    </Controls>
+                  </StackPanel>
+                  <StackPanel Class="edit-field-r2">
+                    <Controls>
+                      <StackPanel Class="edit-title">
+                        <Controls>
+                          <Label Class="edit-label" Title="离职原因：" />
+                        </Controls>
+                      </StackPanel>
+                      <StackPanel Class="edit-content-r2">
+                        <Controls>
+                          <TextBox ID="LeaveReson" Name="LeaveReson" Class="edit-input easyui-textbox" Style="height:90px" Options="multiline:true,validType:'length[0,50]',invalidMessage:'备注字数不得超过50个字符'" Binding="LeaveReson" />
+                        </Controls>
+                      </StackPanel>
+                    </Controls>
+                  </StackPanel>
+                  <StackPanel Class="edit-field">
+                    <Controls>
+                      <StackPanel Class="showmsg">
+                        <Controls>
+                          <Label ID="showmsg" />
+                        </Controls>
+                      </StackPanel>
+                    </Controls>
+                  </StackPanel>
+                </Controls>
+              </StackPanel>
+            </Controls>
+          </StackPanel>
+        </Controls>
+      </DataView>
+      <StackPanel Class="dialog-button">
+        <Controls>
+          <Button ID="btn-update" Class="easyui-linkbutton edit-button" Options="iconCls:'icon-ok'" Title="确定" Action="submitAct_DGUpdate('dataform','/Page/P01012/Update','datagrid')" ActionValue="16" />
+          <Button ID="btn-cancel" Class="easyui-linkbutton edit-button" Options="iconCls:'icon-cancel'" Title="取消" Action="cancel()" />
+        </Controls>
+      </StackPanel>
+    </Controls>
+  </Form>
+</FormViewActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="A01051" Name="Update" Title="编辑" ActionValue="16" ErrorCommand="编辑结果">
+    <Command CommandID="M01183" Name="执行更新" CommandType="QuerySqlCommand"><![CDATA[<QueryCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" NextCommand="编辑结果" GroupName="人事管理" TableName="hr_EmployeeJob" CommandName="Update">
+  <Parameter Name="CompanyName" Path="Request[CompanyName]" Type="Parameter" />
+  <Parameter Name="DepartmentName" Path="Request[DepartmentName]" Type="Parameter" />
+  <Parameter Name="StartDate" Path="Request[StartDate]" Type="Parameter" />
+  <Parameter Name="EndDate" Path="Request[EndDate]" Type="Parameter" />
+  <Parameter Name="ManagerName" Path="Request[ManagerName]" Type="Parameter" />
+  <Parameter Name="ManagerPhone" Path="Request[ManagerPhone]" Type="Parameter" />
+  <Parameter Name="LeaveReson" Path="Request[LeaveReson]" Type="Parameter" />
+  <Parameter Name="ModifiedUser" Path="CurrentUserID" Type="SystemParameter" />
+  <Parameter Name="ModifiedTime" Path="CurrentDateTime" Type="SystemParameter" />
+  <Parameter Name="EjbID" Path="Request[EjbID]" Type="Parameter" />
+  <Parameter Name="EmployeeID" Path="Request[EmployeeID]" Type="Parameter" />
+  <Parameter Name="Position" Path="Request[Position]" Type="Parameter" />
+</QueryCommand>]]></Command>
+    <Command CommandID="M01174" Name="编辑结果" Description="返回编辑结果" CommandType="JsonActionCommand"><![CDATA[<JsonActionCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ContentType="application/json">
+  <Parameter Name="Data" Path="Results[执行更新].Items" Type="Parameter" />
+  <Parameter Name="HasError" Path="Results[执行更新].IsError" Type="Parameter" />
+  <Parameter Name="ErrorMessage" Path="Results[执行更新].ErrorMessage" Type="Parameter" />
+</JsonActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="A01052" Name="Delete" Title="删除" ActionValue="32" ErrorCommand="删除结果">
+    <Command CommandID="M01175" Name="执行删除" Description="本查询的结果值为JSON，参数路径为Results[执行删除].Json" CommandType="QueryJsonSqlCommand"><![CDATA[<QueryJsonCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" NextCommand="删除结果" GroupName="人事管理" TableName="hr_EmployeeJob" CommandName="Delete">
+  <Parameter Name="EjbID" Path="Request[keys]" Type="Parameter" />
+</QueryJsonCommand>]]></Command>
+    <Command CommandID="M01176" Name="删除结果" Description="返回删除结果" CommandType="JsonActionCommand"><![CDATA[<JsonActionCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ContentType="application/json">
+  <Parameter Name="Data" Path="Results[执行删除].Items" Type="Parameter" />
+  <Parameter Name="HasError" Path="Results[执行删除].IsError" Type="Parameter" />
+  <Parameter Name="ErrorMessage" Path="Results[执行删除].ErrorMessage" Type="Parameter" />
+</JsonActionCommand>]]></Command>
+  </Action>
+  <Layout EditFieldClass="edit-field" />
+  <Buttons>
+    <Button ID="btn-search" Title="检索" ActionValue="2" Action="showActDlg('检索','/Page/P01012/Search',400,300)" Class="easyui-linkbutton" Option="iconCls:'icon-search'" />
+    <Button ID="btn-query" Title="确定" ActionValue="2" Action="submitAct_DGReplace('dataform','/Page/P01012/Query','datagrid')" Class="easyui-linkbutton edit-button" Option="iconCls:'icon-ok'" />
+    <Button ID="btn-detail" Title="查看" ActionValue="4" Action="showActDlg('查看','/Page/P01012/Detail',400,300)" Class="easyui-linkbutton" Option="iconCls:'icon-add'" />
+    <Button ID="btn-create" Title="新增" ActionValue="8" Action="showActDlg('新增','/Page/P01012/Create',400,300)" Class="easyui-linkbutton" Option="iconCls:'icon-add'" />
+    <Button ID="btn-add" Title="确定" ActionValue="8" Action="submitAct_DGAppend('dataform','/Page/P01012/Add','datagrid')" Class="easyui-linkbutton edit-button" Option="iconCls:'icon-ok'" />
+    <Button ID="btn-edit" Title="确定" ActionValue="16" Action="showActDlg_DGItemActDlg('datagrid','修改','/Page/P01012/Edit',400,300)" Class="easyui-linkbutton toolradio" Option="iconCls:'icon-edit'" />
+    <Button ID="btn-update" Title="确定" ActionValue="16" Action="submitAct_DGUpdate('dataform','/Page/P01012/Update','datagrid')" Class="easyui-linkbutton edit-button" Option="iconCls:'icon-ok'" />
+    <Button ID="btn-delete" Title="删除" ActionValue="32" Action="showActDlg_DGItemsConfirm('datagrid','删除','确认删除选择项？','/Page/P01012/Delete',400,300)" Class="easyui-linkbutton toolmultiple" Option="iconCls:'icon-cancel'" />
+    <Button ID="btn-import" Title="导入" ActionValue="64" Action="showActDlg('导入','/Page/P01012/Import',400,300)" Class="easyui-linkbutton" Option="iconCls:'icon-import'" />
+    <Button ID="btn-export" Title="导出" ActionValue="128" Action="showActDlg('导出','/Page/P01012/Export',400,300)" Class="easyui-linkbutton" Option="iconCls:'icon-export'" />
+    <Button ID="btn-cancel" Title="取消" Action="cancel()" Class="easyui-linkbutton edit-button" />
+    <Button ID="btn-close" Title="确定" Action="cancel()" Class="easyui-linkbutton edit-button" />
+  </Buttons>
+  <EditSource GroupName="人事管理" TableName="hr_EmployeeJob" Key="EjbID" LogicDeleteFlag="IsActive:0">
+    <Fields>
+      <EditField Name="EjbID" Title="EjbID" DataType="varchar" Length="6" ShowInGrid="false" ShowInCreate="false" ShowInDetail="false" ShowInSearch="false" EnableEdit="false" />
+      <EditField Name="EmployeeID" Title="员工" DataType="varchar" Length="6" EnableEdit="false" />
+      <EditField Name="CompanyName" Title="公司名称" DataType="nvarchar" Length="20" />
+      <EditField Name="DepartmentName" Title="部门名称" DataType="nvarchar" Length="20" />
+      <EditField Name="StartDate" Title="起始日期" DataType="datetime" ShowInSearch="false" EditBox="DateBox" ValueType="Date" />
+      <EditField Name="EndDate" Title="结束日期" DataType="datetime" ShowInSearch="false" EditBox="DateBox" ValueType="Date" />
+      <EditField Name="ManagerName" Title="直属主管" DataType="nvarchar" Length="10" ShowInSearch="false" />
+      <EditField Name="ManagerPhone" Title="联系电话" DataType="nvarchar" Length="20" ShowInSearch="false" />
+      <EditField Name="LeaveReson" Title="离职原因" DataType="nvarchar" Length="20" ShowInSearch="false" />
+      <EditField Name="CreatedUser" Title="CreatedUser" DataType="varchar" Length="6" ShowInGrid="false" ShowInCreate="false" ShowInEdit="false" ShowInDetail="false" ShowInSearch="false" IsRequired="false" EnableEdit="false" />
+      <EditField Name="CreatedTime" Title="CreatedTime" DataType="datetime" ShowInGrid="false" ShowInCreate="false" ShowInEdit="false" ShowInDetail="false" ShowInSearch="false" IsRequired="false" EnableEdit="false" />
+      <EditField Name="ModifiedUser" Title="ModifiedUser" DataType="varchar" Length="6" ShowInGrid="false" ShowInCreate="false" ShowInEdit="false" ShowInDetail="false" ShowInSearch="false" IsRequired="false" EnableEdit="false" />
+      <EditField Name="ModifiedTime" Title="ModifiedTime" DataType="datetime" ShowInGrid="false" ShowInCreate="false" ShowInEdit="false" ShowInDetail="false" ShowInSearch="false" IsRequired="false" EnableEdit="false" />
+      <EditField Name="AutoKey" Title="AutoKey" DataType="int" ShowInGrid="false" ShowInCreate="false" ShowInEdit="false" ShowInDetail="false" ShowInSearch="false" IsRequired="false" EnableEdit="false" />
+    </Fields>
+    <ChildTables />
+  </EditSource>
+</MvcEditPage>

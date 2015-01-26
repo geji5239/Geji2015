@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<LangTexts xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Item ID="0" Name="Null" Text="常用语句[{0}] 未设置！" Description="常用语句未设置" />
+  <Item ID="1001" Name="System.Welcome" Text="[{0}] , 欢迎您使用本系统！" Description="系统欢迎词" />
+  <Item ID="1002" Name="System.AuthFailed" Text="对不起，您没有使用功能[{0}]的权限，谢谢理解！" Description="无权使用" />
+  <Item ID="1003" Name="System.NetAuthFailed" Text="对不起，因网络受限，您不能使用功能[{0}]，谢谢理解！" Description="网络受限" />
+  <Item ID="1004" Name="System.PageNotFound" Text="请求的页面不存在！" Description="配置错误" />
+  <Item ID="1005" Name="System.ActionNotFound" Text="Action[{0}]不存在！" Description="配置错误" />
+  <Item ID="1006" Name="System.ActionNotAllowed" Text="无权访问此页面，谢谢理解！" Description="权限管控" />    
+  
+  <Item ID="2001" Name="System.InvalidUserNameOrPassword" Text="请检查您的用户名和密码是否输入正确。 " />
+  <Item ID="2002" Name="System.PasswordChangedSuccess" Text="密码修改成功！ " />
+  <Item ID="2003" Name="System.PasswordChangedFailure" Text="密码修改失败，请重新输入！ " />
+  <Item ID="2004" Name="System.ActionSuccess" Text="[{0}] + 成功！ " />
+  <Item ID="2005" Name="System.ActionFailure" Text="[{0}] + 失败！[{1}] " />
+  <Item ID="2006" Name="System.LoadFailure" Text="读取数据失败，请重试！ " />
+  <Item ID="2007" Name="System.CreateObjectError" Text="创建对象失败，请检查网络并重试！  " />
+  <Item ID="2008" Name="Files.UploadSuccess" Text="文档上传成功！  " />
+  <Item ID="2009" Name="Files.UploadFailure" Text="文档上传时出现异常，请重试！ " />
+  <Item ID="2010" Name="Files.DownloadFailure" Text="文档下载时出现异常，请重试！ " />
+  <Item ID="2011" Name="Validates.InputFieldNotNull" Text="请输入 [{0}] ！ " />
+  <Item ID="2012" Name="Validates.SelectFieldNotNull" Text=" [{0}] 不能为空，请先选择！ ！  " />
+  <Item ID="2013" Name="Validates.FieldValueError" Text="[{0}] 不能为 [{1}] " />
+  <Item ID="2014" Name="Validates.FieldValueMustInRange" Text="[{0}] 不能大于 [{1}] 或 [{0}] 不能小于 [{1}] " />
+  <Item ID="2015" Name="Validates.FieldValueOutRange" Text="[{0}], 超出业务允许范围区间！ " />
+  <Item ID="2016" Name="Validates.DataFormatError" Text="[{0}] 输入有误 [ 应该是：[{1}] ] 请重新输入！ " />
+  <Item ID="2017" Name="Validates.PleaseSelect" Text=" 请选择[{0}]！ " />
+  <Item ID="2018" Name="Confirm.Action" Text="确认要 + [{0}] + 吗？ " />
+  <Item ID="2019" Name="Confirm.Replace" Text="[{0}] 已经存在 , 确定要覆盖吗？ " />
+  <Item ID="2020" Name="Records.NotFound" Text="- 没有查询到符合条件的记录！ " />
+  <Item ID="2021" Name="Records.ReachMaxUserConnections" Text="- 登录用户已经达到最大连接数！ " />
+  <Item ID="2022" Name="Records.LoginTimeout" Text="- 登录超时，请重新操作！ " />
+  <Item ID="2023" Name="Records.NotAllowed" Text="- 对不起，您没有操作权限！ " />
+  <Item ID="2024" Name="Records.AlreadyExists" Text="- 已经存在相同信息，无法保存！ " />
+  <Item ID="9001" Name="RequestFunctions.FuncNotFound" Text="请求系统方法[{0}] 未定义！" Description="用于Share RequestFunction数据部分" />
+  <Item ID="9002" Name="RequestFunctions.QueryNotFound" Text="请求查询[{0}] 未定义！" Description="用于Share RequestFunction数据部分" />
+  <Item ID="9010" Name="RazorTemplates.CompileError" Text="模板[{0}]编译时出错:\r\n{1}" Description="用于Razor模板编译报错"/>
+  <Item ID="9011" Name="RazorTemplates.LoadTemplateError" Text="模板[{0}]加载失败" Description="用于Razor模板编译报错"/>
+  <Item ID="9012" Name="RazorTemplates.TemplateContentEmpty" Text="模板[{0}]内容为空" Description="用于Razor模板编译报错"/>
+  <Item ID="9013" Name="RazorTemplates.TemplateIDEmpty" Text="模板没有设置" Description="用于Razor模板编译报错"/>
+  <Item ID="0000" />
+</LangTexts>

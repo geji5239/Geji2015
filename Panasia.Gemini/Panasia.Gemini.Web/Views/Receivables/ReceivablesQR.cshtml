@@ -1,0 +1,333 @@
+﻿
+
+@{
+    var item = Model.Parameters["Data"];
+    
+    }
+<script type="text/javascript">
+
+    function addClick() {
+        cancleClickRow();
+        $('#EDelBtn').linkbutton('disable');//删除按钮不可用
+        $("#datagrid1").datagrid("unselectAll");
+    }
+    function delClick() {
+        $.extend($.messager.defaults, {
+            ok: "确定", cancel: "取消"
+        })
+        $.messager.confirm("提示","确认删除选择项？", function (r) {
+            if (r) {
+                $("#DeleteCheck").val('on');//删除checkbox选中
+                $('#EDelBtn').linkbutton('disable');//删除不按钮可用
+                Submit();//执行
+            }
+        })
+    }
+    function onClickRow(rowIndex, rowData) {
+        //alert(rowData['CustomerID']);
+        $('#AutoKey').textbox('setValue', rowData['AutoKey']);
+        $('#AutoKey1').val(rowData['AutoKey']);
+        $('#CustomerID').combobox('select', rowData['CustomerID']);
+        $('#ReceivabletMoney').textbox('setValue', rowData['ReceivabletMoney']);
+        $('#Remark').textbox('setValue', rowData['Remark']);
+        $('#EDelBtn').linkbutton('enable');//删除按钮可用
+        //$('.edit-field1:eq(11)').show();
+    }
+    function cancleClickRow(rowIndex, rowData) {
+        $('#AutoKey').val('');
+        $('#CustomerID').textbox('setValue', '');
+        $('#ReceivabletMoney').textbox('setValue', '');
+        $('#Remark').textbox('setValue', '');
+        $("#DeleteCheck").val('');//删除checkbox取消选中
+        $('#EDelBtn').linkbutton('disable');//删除不按钮可用
+        //$('.edit-field1:eq(11)').hide();
+    }
+    function Submit() {
+        var data = $('#datagrid1').datagrid('getRows');
+        var money = '';
+        for (var i = 0; i < data.length; i++) {
+            
+            if ($('#AutoKey1').val() != data[i].AutoKey) {
+                money = eval(money + data[i].ReceivabletMoney)
+            }
+        }
+        
+        
+        if ($("#ReceivableType").combobox('getValue') == "业务收款") {
+            if ((eval(money) + eval($("#ReceivabletMoney").textbox('getValue'))) > $("#PaymentMoney").textbox('getValue')) {
+                showError('确认金额不得大于收款金额！');
+                return;
+            } else {
+                if ((eval(money) + eval($("#ReceivabletMoney").textbox('getValue'))) == $("#PaymentMoney").textbox('getValue')) {
+                    $('#AutoKey1').val('A');
+                    
+                   
+                }
+            }
+        }
+        else
+        {
+            $('#AutoKey1').val('A');
+        }
+        if ($("#dataform").form('validate')) {
+            $.ajax({
+                url: "/Page/P01087/Add",
+                type: "post",
+                data: $("#dataform").serialize(),
+                dataType: "json",
+                success: function (result) {
+                    if (result.HasError) {
+                        showError(result.ErrorMessage);
+                        if (result.ErrorMessage == '新增成功！' || result.ErrorMessage == '更新成功！' || result.ErrorMessage == '删除成功！') {
+                            $('#datagrid1').datagrid('reload');
+                            if ($('#AutoKey1').val() == 'A')
+                            {
+                                $('#datagrid').datagrid('reload');
+                            }
+                           
+                            cancleClickRow();
+                        }
+                    }
+                    else {
+                    }
+                },
+                error: function (d, error) {
+                    showError(error);
+                }
+            });
+        }
+    }
+
+    function showdvDialog1(url, title, width, height) {
+        var boarddiv = "<div id=dvMain_org1></div>";
+        $(document.body).append(boarddiv);
+        $("#dvMain_org1").dialog({
+            title: title,
+            shadow: false,
+            closed: false,
+            cache: false,
+            href: url,
+            modal: true,
+            width: width,
+            height: height,
+            onLoadSuccess: function (data) {
+                $(":input:eq(0)").focus();
+            },
+            onLoad: function () {
+                
+                //$(".datebox :text").attr("readonly", "readonly");
+                $("#dvMain_org1").dialog('center');//居中
+                //$('.easyui-textbox:first').combobox().next('span').find('input').focus()//通用设置第一个input焦点
+                //$(".easyui-filebox[readonly!='readonly']:first").next('span').find('input').focus()//.combobox()会把第一个变成combobox，是失误还是有特别的用意？加入只读过滤  --杨磊 2014-9-18
+            }
+        });
+    }
+
+    function dvcancel() {
+        var data = $('#datagrid1').datagrid('getRows');
+        var money = '';
+        if (data.length > 0) {
+            for (var i = 0; i < data.length; i++) {
+                money = eval(money + data[i].ReceivabletMoney)
+            }
+            if ($("#ReceivableType").combobox('getValue') == "业务收款") {
+
+                if (money != $("#PaymentMoney").textbox('getValue')) {
+                    showError('确认金额与收款金额不一致！');
+                }
+                else {
+                    cancel();
+                }
+
+            }
+            else {
+                cancel();
+            }
+        } else {
+            cancel();
+        }
+       
+        //$(".combo-panel").hide();
+    }
+
+    function onl() {
+        $("#ReceivableType").combobox('select', '业务收款');
+        var data = $('#datagrid1').datagrid('getData');
+        if (data.rows.length > 0) {
+            $("#ReceivableType").combobox('disable');
+        }
+    }
+
+    function change() { 
+        
+        if ($("#ReceivableType").combobox('getValue')=="业务收款") {
+            $("[type='concrete']").css("display", "");
+            $("#ReceivabletMoney").textbox('setValue', '');
+            }
+            else {
+            $("[type='concrete']").css("display", "none");
+            var money = $("#PaymentMoney").textbox('getValue');
+            $("#ReceivabletMoney").textbox('setValue', money);
+            }
+
+        }
+
+</script>
+
+<style>
+    .edit-panel3 {
+    padding:5px 0px;
+    margin-top:5px;
+    width:530px;
+    height:20px;
+    margin-left: auto;
+    margin-right: auto;
+    }
+</style>
+
+<form method="post" id="dataform" class="form-dialog">
+
+    <div class="edit-dialog1" style="width:530px;">
+
+        <div class="edit-panel3">
+
+            <div class="edit-field1">
+                <div class="edit-title1"><label class="edit-label1">流水号：</label></div>
+                <div class="edit-content">
+                    <input class="edit-input easyui-textbox " id="RecNum" name="RecNum" value="@item["RecNum"]" readonly="readonly" />
+
+                </div>
+            </div>
+            <div class="edit-field1">
+                <div class="edit-title1"><label class="edit-label1">收款日期：</label></div>
+                <div class="edit-content">
+                    <input class="edit-input easyui-datebox " id="OccurencyDate" name="OccurencyDate" value="@item["OccurencyDate"]" readonly="readonly" />
+
+                </div>
+            </div>
+        </div>
+        <div class="edit-panel3">
+            <div class="edit-field1">
+                <div class="edit-title1"><label class="edit-label1">收款公司：</label></div>
+                <div class="edit-content">
+                    <input class="edit-input easyui-textbox " id="Name" value="@item["Name"]" readonly="readonly" />
+                    <input class="edit-input" name="CompanyID" id="CompanyID" value="@item["ID"]" type="hidden" />
+                </div>
+            </div>
+
+            <div class="edit-field1">
+                <div class="edit-title1"><label class="edit-label1">收款银行：</label></div>
+                <div class="edit-content">
+                    <input class="edit-input easyui-textbox " id="BankName" value="@item["BankName"]" readonly="readonly" />
+                </div>
+            </div>
+        </div>
+        <div class="edit-panel3">
+
+            <div class="edit-field1">
+                <div class="edit-title1"><label class="edit-label1">银行账号：</label></div>
+                <div class="edit-content">
+                    <input class="edit-input easyui-textbox " id="BankAccount" value="@item["BankAccount"]" readonly="readonly" />
+                </div>
+            </div>
+
+            <div class="edit-field1">
+                <div class="edit-title1"><label class="edit-label1">付款人：</label></div>
+                <div class="edit-content">
+                    <input class="edit-input easyui-textbox " id="PaymentName" value="@item["PaymentName"]" readonly="readonly" />
+                </div>
+            </div>
+        </div>
+        <div class="edit-panel3">
+            <div class="edit-field1">
+                <div class="edit-title1"><label class="edit-label1">付款金额：</label></div>
+                <div class="edit-content">
+                    <input class="edit-input easyui-textbox " id="PaymentMoney"  value="@item["PaymentMoney"]" readonly="readonly" />
+                </div>
+            </div>
+        </div>
+        <div class="edit-panel3" style="height:90px">
+            <div class="edit-field1">
+                <div class="edit-title1"><label class="edit-label1">备注：</label></div>
+                <div class="edit-content">
+                    <input class="edit-input easyui-textbox " style="width:434px;height:60px" value="@item["Remark"]" readonly="readonly" />
+                </div>
+            </div>
+
+        </div>
+
+        <div class="edit-panel3" >
+            <div class="edit-field1">
+                <div class="edit-title1"><label class="edit-label1">收款类型：</label></div>
+                <div class="edit-content">
+                    <input id="ReceivableType" class="easyui-combobox edit-input combobox-f combo-f textbox-f" name="ReceivableType" panelheight="auto" data-options="missingMessage:'请选择收款类型',required:true ,editable:false,url:'/Share/GetSystemCodes?code=C068',valueField:'Name',textField:'Name',onChange:change," />
+                </div>
+            </div>
+
+        </div>
+
+        <div type="concrete" class="edit-panel3" style="height:110px;width:439px; margin-left:70px; margin-top:-14px;text-align:left; ">
+            <table id="datagrid1" style=" text-align:left; height:110px;width:439px;" class="easyui-datagrid" data-options="url:'/Page/P01087/GetConfirmation?RecNum=@item["RecNum"]',fitColumns:true,fit:true,rownumbers:true,nowrap: true,singleSelect:true,striped: true,collapsible: false,resizable:true, onSelect: onClickRow,onUnselect: cancleClickRow,onLoadSuccess:onl">
+                <thead>
+                    <tr>
+                        <th data-options="field:'AutoKey',checkbox:true,hidden:true"></th>
+                        <th data-options="field:'CustomerName',fixed:true,">客户名称</th>
+                        <th data-options="field:'CustomerID',fixed:true,hidden:true,">客户ID</th>
+                        <th data-options="field:'ReceivabletMoney',fixed:true,">金额</th>
+                        <th data-options="field:'Remark',fixed:true,">备注</th>
+                    </tr>
+                </thead>
+            </table>
+
+        </div>
+        <a type="concrete" class="easyui-linkbutton edit-button" style="margin-left:70px" data-options="iconCls:'icon-add'" href="javascript:void(0)" onclick="addClick()">新增</a>
+        <a type="concrete" class="easyui-linkbutton edit-button" data-options="iconCls:'icon-cancel',disabled:true" onclick="delClick()" id="EDelBtn">删除</a>
+
+        <div type="concrete" class="edit-panel3">
+
+            <div class="edit-field1">
+                <div class="edit-title1"><label class="edit-label1">客户：</label></div>
+                <div class="edit-content">
+                    <input id="CustomerID" class="edit-input easyui-combobox" name="CustomerID" data-options="url:'/Share/Query?name=GetAllCustomer' ,editable:false,valueField:'ID',textField:'Name'" />
+                    <input class="edit-input" name="AutoKey1" id="AutoKey1" type="hidden" />
+                </div>
+            </div>
+
+
+            <div class="edit-field1">
+                <div class="edit-title1"><label class="edit-label1">金额：</label></div>
+                <div class="edit-content">
+                    <input id="ReceivabletMoney" class="edit-input easyui-textbox " name="ReceivabletMoney" data-options="" />
+                </div>
+            </div>
+        </div>
+
+        <div class="edit-panel3">
+            <div class="edit-field1">
+                <div class="edit-title"><label class="edit-label">备注：</label></div>
+                <div class="edit-content">
+                    <input id="Remark" class="edit-input easyui-textbox" name="Remark" style="width:434px;height:60px" data-options="validType:'length[1,200]',invalidMessage:'备注不得超过200个字符',multiline:true" />
+                </div>
+            </div>
+            <div class="edit-panel3">
+                <div class="edit-field1">
+                    <div class="edit-content">
+                        <input class="edit-input" name="DeleteCheck" id="DeleteCheck" type="hidden" />
+                    </div>
+                </div>
+                <div class="edit-field1" style="margin-top:30px;">
+                    <div class="showmsg"><label id="showmsg"></label></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</form>
+<div class="dialog-button">
+    <a class="easyui-linkbutton edit-button" data-options="iconCls:'icon-ok'" href="javascript:void(0)" onclick="Submit()">保存</a>
+    <a class="easyui-linkbutton edit-button" data-options="iconCls:'icon-cancel'" onclick="dvcancel()">关闭</a>
+</div>
+
+
+
+

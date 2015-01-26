@@ -1,0 +1,131 @@
+﻿@{
+    var item = Model.Parameters["Data"];
+}
+
+<script type="text/javascript">
+    function setTreeValue() {
+        alert('123')
+    }
+
+    $('#tt').tree({
+        //url: '/Share/Query?name=GetEmpTreeByCmp&resultformat=jsontree&root=000000&pid=PID&id=ID&text=Name&CompanyID=',
+        //valueField: 'id',
+        //textField: 'text',
+        checkbox: true,
+        lines: true,
+        state: 'closed',
+        width:200,
+        height:300,
+        loadFilter: function(data){
+            if (data.d){
+                return data.d;
+            } else {
+                return data;
+            }
+        },
+        onLoadSuccess: function (node, data) {
+            var employeeids = [];
+            employeeids=$("#EmployeeIDs").val().split(",");
+            for (var i = 0; i < employeeids.length; i++) {
+                var node = $("#tt").tree('find', employeeids[i]);
+                $("#tt").tree('check', node.target);
+            }
+            addEmps()
+        }
+    });
+    function addEmps() {
+        $('#datagrid1').datagrid('loadData', { total: 0, rows: [] });
+        var nodes = $('#tt').tree('getChecked');
+        var IDs = [];
+        var n=0
+        for (var i = 0; i < nodes.length; i++) {
+            var ID = nodes[i].id;
+            if (ID.charAt(0) == 'E')
+            {
+                IDs.push(ID);
+                n = n + 1;
+                var Dept=getDept( $('#tt').tree('getParent', nodes[i].target))
+                $('#datagrid1').datagrid('insertRow',{
+                    row: {
+                        Dept: Dept,
+                        Emp: nodes[i].text
+                    }
+                });
+
+            }
+        }
+        $('#EmployeeIDs').val(IDs)
+        if (n > 35) {
+            $.messager.alert('警告', '所选人员个数不得超过35！');
+            $('#ok').linkbutton('disable');
+        }
+        else
+            $('#ok').linkbutton('enable');
+    }
+    function getDept(node) {
+        var pnode = $('#tt').tree('getParent', node.target);
+        var rnode = $('#tt').tree('getRoot', node.target);
+        if (pnode == rnode)
+            return pnode.text + '-' + node.text;
+        else return getDept(pnode) + '-' + node.text;
+    }
+    function save() {
+        $("#dataform").form('submit', {
+            url: '/Page/' + $("#PageNo").val() + '/SavePermissions',
+            onSubmit: function () {
+                if ($('#EmployeeIDs').val() == "") {
+                    $.messager.alert("提示", "信息共享人员不能为空！");
+                    return false;
+                }
+            },
+            success: function (result) {
+                var result = $.parseJSON(result);
+                if (!result.HasError) {
+                    $.messager.alert("提示", "保存成功！");
+                }
+                else
+                    $.messager.alert("提示", result.ErrorMessage);
+            }
+            }
+        )
+    }
+</script>
+
+<form method="post" id="dataform" class="form-dialog">
+    <div class="edit-dialog1">
+        <div class="edit-panel" style="width:580px;">
+            <table style="height:300px;">
+                <tr>
+                    <td style="border:thin">
+                        <div class="easyui-panel" style="width:240px;height:360px;">
+
+                                <input id="EmployeeIDs" name="EmployeeIDs" value="@item["EmployeeIDs"]" type="hidden" />
+                            <input name="FormNo" value="@item["FormNo"]" type="hidden" />
+                            <input id="PageNo" name="PageNo" value="@Model.Parameters["PageNo"]" type="hidden" />
+                            <ul id="tt" class="easyui-tree" style="width:220px;height:300px" data-options="url:'/Share/Query?name=GetAllEmpTree&resultformat=jsontree&root=000000&pid=PID&id=ID&text=Name',valueField:'id',textField:'text'" />
+
+                        </div>
+                    </td>
+                    <td>
+                        <a class="easyui-linkbutton edit-button" style="width:40px" onclick="addEmps()">->></a>
+                    </td>
+                    <td valign="top" width="280px">
+                        <table id="datagrid1" class="easyui-datagrid" data-options="fitColumns:true,fit:true,rownumbers:true,nowrap: true,singleSelect:true,striped: true,collapsible: false,resizable:true">
+                            <thead>
+                                <tr>
+                                    <th data-options="field:'Dept',fixed:true" width="150px">部门</th>
+                                    <th data-options="field:'Emp',fixed:true" width="100px">姓名</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+    </div>
+</form>
+<div class="dialog-button">
+    <a id="ok" class="easyui-linkbutton edit-button" data-options="iconCls:'icon-ok'" onclick="save()">确定</a>
+        <a class="easyui-linkbutton edit-button" data-options="iconCls:'icon-cancel'" onclick="cancel()">取消</a>
+    </div>

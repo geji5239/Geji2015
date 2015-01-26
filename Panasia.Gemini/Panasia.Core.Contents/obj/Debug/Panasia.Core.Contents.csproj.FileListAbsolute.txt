@@ -1,0 +1,7 @@
+E:\Code2014\Panasia.Gemini\Panasia.Core.Contents\bin\Debug\Panasia.Core.Contents.dll
+E:\Code2014\Panasia.Gemini\Panasia.Core.Contents\bin\Debug\Panasia.Core.Contents.pdb
+E:\Code2014\Panasia.Gemini\bin\Panasia.Core.Contents.dll
+E:\Code2014\Panasia.Gemini\bin\Panasia.Core.Contents.pdb
+E:\Code2014\Panasia.Gemini\Panasia.Core.Contents\obj\Debug\Panasia.Core.Contents.csprojResolveAssemblyReference.cache
+E:\Code2014\Panasia.Gemini\Panasia.Core.Contents\obj\Debug\Panasia.Core.Contents.dll
+E:\Code2014\Panasia.Gemini\Panasia.Core.Contents\obj\Debug\Panasia.Core.Contents.pdb

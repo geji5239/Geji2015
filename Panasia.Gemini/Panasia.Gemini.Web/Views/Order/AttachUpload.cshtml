@@ -1,0 +1,121 @@
+﻿<script type="text/javascript">
+    function SubmitAttach() {
+        checkOnline();
+        var formID = "AttachForm";
+        if ($("#AttachForm").form("validate")) {
+            //先上传文件
+            $.messager.progress({
+                title: '请稍后',
+                msg: '附件正在上传...'
+            });
+            $('#AttachForm').form('submit', {
+                url: "/Order/UploadAttach",
+                queryParams: {
+                    OrderID: $("#OrderID").textbox("getValue")
+                },
+                success: function (attachFileData) {
+                    attachFileData = eval("(" + attachFileData + ")");
+                    if (!attachFileData.HasError) {
+                        var data = $("#AttachForm").serialize();
+                        var url = "/Page/P01075/AddOrderAttach";
+                        var orderID = $("#OrderID").textbox("getValue");
+                        $.ajax({
+                            url: url,
+                            type: "post",
+                            data: data + "&OrderID=" + orderID + "&AttFileUrl=/Upload/OrderAttachment/" + orderID + "/" + attachFileData.Data,
+                            dataType: "json",
+                            success: function (result) {
+                                if (!result.HasError) {
+                                    //var imgUrl = "/Upload/OrderAttachment/" + orderID + "/" + result.Data[0].AttFileUrl;
+                                    $(".newAttach").before(
+                                        '<div class="Img" id="' + result.Data[0].RDID + '">' +
+                                            '<a href="' + result.Data[0].AttFileUrl + '" target="_blank" class="link">' +
+                                                '<img src="' + result.Data[0].AttFileUrl + '" onload="AutoResizeImage(200, 200, this);" onerror="this.width=\'100\';this.height=\'100\';" />' +
+                                                '<div class="title">' + result.Data[0].AttFileName + '</div>' +
+                                            '</a>' +
+                                            '<div class="tools">' +
+                                                '<div onclick="deleteAttach(\'' + result.Data[0].RDID + '\', this)"><img src="/Content/Images/delete.jpg" alt="删除附件" title="删除附件" /></div>' +
+                                                '<div onclick="showActDlg(\'修改附件信息\', \'/Page/P01075/AttachModify?RDID=' + result.Data[0].RDID + '\', 400, 300, \'Attach\')"><img src="/Content/Images/edit.jpg" alt="修改附件" title="修改附件" /></div>' +
+                                            '</div>' +
+                                        '</div>');
+                                    $("#Attach").dialog("close");
+                                }
+                                else {
+                                    _showMessage(formID, result.ErrorMessage);
+                                }
+                                $.messager.progress("close");
+                            },
+                            error: function (d, error) {
+                                _showMessage(formID, error);
+                                $.messager.progress("close");
+                            }
+                        });
+                    }
+                    else {
+                        _showMessage(formID, attachFileData.ErrorMessage);
+                        $.messager.progress("close");
+                    }
+                }
+            });
+        }
+    }
+</script>
+<div>
+    <form id="AttachForm" class="form-dialog" method="post" action="/Order/UploadAttach" enctype="multipart/form-data">
+        <div class="form-dialog">
+            <div class="edit-dialog">
+                <div class="edit-panel">
+                    <div class="edit-field">
+                        <div class="edit-title">
+                            <label class="edit-label">
+                                附件类型：
+                            </label>
+                        </div>
+                        <div class="edit-content">
+                            <input class="edit-input easyui-combobox" name="AttType" data-options="editable:false,required:true,missingMessage:'请选择附件类型',panelHeight:'auto',url:'/Share/GetSystemCodes?code=C066',valueField:'Name',textField:'Name'" />
+                        </div>
+                    </div>
+                    <div class="edit-field">
+                        <div class="edit-title">
+                            <label class="edit-label">
+                                文件名：
+                            </label>
+                        </div>
+                        <div class="edit-content">
+                            <input class="edit-input easyui-textbox" id="AttFileName" name="AttFileName" data-options="required:true,missingMessage:'请填写文件名'" />
+                        </div>
+                    </div>
+                    <div class="edit-field">
+                        <div class="edit-title">
+                            <label class="edit-label">
+                                文件：
+                            </label>
+                        </div>
+                        <div class="edit-content">
+                            <input class="edit-input easyui-filebox" name="attfile" data-options="required:true,missingMessage:'请选择附件',buttonText:'选择附件'" />
+                        </div>
+                    </div>
+                    <div class="edit-field-w2">
+                        <div class="edit-title">
+                            <label class="edit-label">
+                                备注：
+                            </label>
+                        </div>
+                        <div class="edit-content-w2">
+                            <input class="edit-input-w easyui-textbox" id="Remark" name="Remark" data-options="multiline:true,validType:'length[1,200]',invalidMessage:'不得超过200个字符'" style="height:80px;" />
+                        </div>
+                    </div>
+                    <div class="edit-field">
+                        <div class="showmsg">
+                            <label id="showmsg_AttachForm"></label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="dialog-button">
+            <a class="edit-button easyui-linkbutton" href="#" onclick="SubmitAttach();" data-options="iconCls:'icon-edit'">确定</a>
+        </div>
+    </form>
+</div>
+

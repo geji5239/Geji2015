@@ -1,0 +1,48 @@
+﻿@model Panasia.Core.Sys.RoleModel
+@using Panasia.Core
+
+<form class="form-dialog" method="post" id="roleDatailForm">
+    <div class="edit-dialog">
+        <div class="edit-panel">
+            <div class="edit-field">
+                <div class="edit-title"><label class="edit-label">角色名：</label></div>
+                <div class="edit-content">
+                    <input class="edit-input easyui-textbox" name="Name" value="@Model.Name" readonly="readonly" />
+                </div>
+            </div>
+            <div class="edit-field-r2">
+                <div class="edit-title"><label class="edit-label">说明：</label></div>
+                <div class="edit-content-r2">
+                    @*<textarea class="edit-textarea easyui-textbox" name="Description" disabled="disabled">@Model.Description</textarea>*@
+                    <input class="edit-input-r2 easyui-textbox " data-options="multiline:true" name="Description" readonly="readonly" value="@Model.Description" style="height:90px" />
+                </div>
+            </div>
+
+            <div class="edit-field">
+            </div>
+        </div>
+    </div>
+</form>
+<div class="dialog-button">
+    <a class="easyui-linkbutton edit-button" data-options="iconCls:'icon-cancel'" onclick="cancel()">关闭</a>
+</div>
+@*<form method="post" id="roleDatailForm">
+    <table class="grid">
+        <tr>
+            <th>角色名:</th>
+            <td><input class="input-dialog" name="Name" disabled="disabled" value="@Model.Name" /></td>
+        </tr>
+        <tr>
+        <th>说明:</th>
+        <td><input class="input-dialog" name="Description" disabled="disabled" value="@Model.Description" /></td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <div class="btn-dialog">
+                    <a class="btn-padding easyui-linkbutton" data-options="iconCls:'icon-cancel'" onclick="cancel()">取消</a>
+                </div>
+            </td>
+        </tr>
+    </table>
+    <div class="showMsg"><label id="showMsg"></label></div>
+</form>*@

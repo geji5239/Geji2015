@@ -1,0 +1,659 @@
+﻿@*----------------------------------------------------------------
+    // Copyright (C) 2004 清风软件
+    // 版权所有。
+    //
+    // 文件名：Fl002.cshtml
+    // 文件功能描述：模板表单视图
+    //----------------------------------------------------------------*@
+@model Panasia.Gemini.FL.Models.TemplateModel
+@section Header
+{
+    <script type="text/javascript">
+        $(window).resize(function () {
+            $("#list").setGridWidth($("div.container").width());
+        });
+        function ShowTemplate(url) {
+            
+            $("#Template_Ifm")[0].src = url;
+        }
+        $(function () {
+            $(".alert").hide();
+            $("#list").jqGrid({
+                url: '/Template/TemplateList',
+                datatype: 'json',
+                colNames: ['表单名称', '数据表名','','公司','预览'],
+                colModel: [
+                { name: 'FormName', index: 'FormName', autowidth: true },
+                { name: 'DataFrom', index: 'DataFrom', autowidth: true, hidden: true },
+                { name: 'FormID', index: 'FormID', autowidth: true, hidden: true },
+                { name: 'Companys', index: 'Companys', autowidth: true },
+                {
+                    name: 'TemplateName', index: 'TemplateName', formatter: function (cellv, options, row) {
+                        var a = "";
+                        for (var i = 0; i < cellv.length; i++) {
+                            if (cellv[i] != "") {
+                                // var arr = temp[i].split(":");
+                                var temp = cellv[i];
+                                var txt = cellv[i].substring(0, cellv[i].indexOf("/"));
+                                var url = temp.substring(temp.indexOf('/'), temp.length);
+                                a += "<a data-toggle='modal' data-target='#myModal' onclick='ShowTemplate(\""+url+"\")'>" + txt + "</a>   ";
+                            }
+                        }
+                        return a;
+                    }
+                }
+                ],
+                rowNum: 10,
+                rowList: [10, 20, 30],
+                height: 300,
+              //  width: 600,
+                autowidth:true,
+                pager: '#gridPager',
+                viewrecords: true,
+                altRows: true,
+                caption: "模板表单",
+                multiselect:false,
+                loadComplete: function () {
+                    var table = this;
+                    setTimeout(function () {
+                        updatePagerIcons(table);
+                    }, 0);
+                },
+                onSelectRow: Edit1
+            });
+
+            //$("#dg1").jqGrid({
+            //    url:'',
+            //    datatype: 'json',
+            //    colNames: ['', '模版名称', '模板文件名', '模板文件路径',''],
+            //    colModel: [{ name: 'FormID', index: 'FormID', autowidth: true, hidden: true, sortable: false },
+            //        { name: 'TemplateDetail_Name', index: 'TemplateDetail_Name', autowidth: true, sortable: false },
+            //        { name: 'Template_FileName', index: 'Template_FileName', autowidth: true, sortable: false },
+            //        { name: 'Template_Url', index: 'Template_Url', autowidth: true, sortable: false },
+            //        { name: 'TemplateID', index: 'TemplateID', hidden: true }
+            //    ],
+            //    height: 200,
+            //    width:530,
+            //    onSelectRow: Edit1
+            //    //caption: "模板表单",
+            //})
+            $.post('/Template/GetTempName', function (res) {
+                for (var i = 0; i < res.length; i++) {
+                    $('#DataFrom').append("<option value='" + res[i].ID + "'>" + res[i].Name + "</option>");
+                }
+            })
+            function updatePagerIcons(table) {
+                var replacement =
+                {
+                    'ui-icon-seek-first': 'icon-double-angle-left bigger-140',
+                    'ui-icon-seek-prev': 'icon-angle-left bigger-140',
+                    'ui-icon-seek-next': 'icon-angle-right bigger-140',
+                    'ui-icon-seek-end': 'icon-double-angle-right bigger-140'
+                };
+                $('.ui-pg-table:not(.navtable) > tbody > tr > .ui-pg-button > .ui-icon').each(function () {
+                    var icon = $(this);
+                    var $class = $.trim(icon.attr('class').replace('ui-icon', ''));
+
+                    if ($class in replacement) icon.attr('class', 'ui-icon ' + replacement[$class]);
+                })
+            }
+            $("#dialog").dialog({
+                autoOpen: false,
+                height: 460,
+                width:700,
+                modal: true,
+                draggable:false,
+                close: function (event, ui) {
+                    $(".popover").hide();
+                },
+                buttons: {
+                    "确定": function () {
+                        SaveTemplete();
+                    },
+                    "取消": function () {
+                        Close();
+                    }
+                },
+                drag: function (event, ui) {
+                }
+            });
+            $("#compdialog").dialog({
+                autoOpen: false,
+                height: 460,
+                width: 700,
+                modal: true,
+                draggable: false,
+                close: function (event, ui) {
+                    $("#compList input[type='checkbox']").each(function () {
+                        $(this)[0].checked = false;
+                    })
+                    $("#compList").empty();
+                },
+                buttons: {
+                    "确定": function () {
+                        UpdateCompanys();
+                    },
+                    "取消": function () {
+                        Close();
+                    }
+                }
+            })
+            $("#frm").validate_popover({
+                rules: {
+                    Template_Name: {
+                        required: true,
+                        maxlength: 50
+                    }
+                },
+                messages: {
+                    FormName: {
+                        required: '请输入表单名称',
+                        maxlength: '表单名称不能大于50'
+                    },
+                    DataFrom: {
+                        required: '请输入数据表名',
+                        maxlength: '数据表名不能大于50'
+                    },
+                    TemplateDetail_Name: {
+                        required: '请输入模板名称',
+                        maxlength: '模板名称不能大于50'
+                    },
+                    Template_FileName: {
+                        required: '请输入模板文件名',
+                        maxlength: '模板文件名不能大于50'
+                    },
+                    Template_Url: {
+                        required: '请输入模板文件路径',
+                        maxlength: '模板文件路径名不能大于200'
+                    }
+                },
+                popoverPosition: 'right'
+            });
+           
+        });
+
+
+        var url;
+
+        function Add() {
+            var dialog = $("#dialog");
+            dialog.dialog('open');
+            dialog.dialog({ title: '新增' });
+            $(".alert").hide();
+            $("#frm")[0].reset();
+            $("#dg1").clearGridData();
+            url = '/Template/AddTemplate';
+        }
+        function EditComp() {
+            $(".alert").hide();
+            var row = $("#list").jqGrid('getRowData', $("#list").jqGrid('getGridParam', 'selrow'));
+            if (row.DataFrom == undefined) {
+                showerror('请先选择记录', 'error')
+            }
+            else {
+                var dialog = $("#compdialog");
+                var grid = $("#list");
+                dialog.dialog('open');
+               
+                $.post('/Template/GetCompanyName?formid=' + row.FormID, function (rec) {
+                    var check = " <div class='checkbox'><label><input name='checkbox' type='checkbox' id='allcheck' class='ace' onclick='CheckAll()'><span class='lbl'>全选</span></label></div>";
+                    var companys = rec.Companys.split(",");
+                    for (var i = 0; i < rec.CompanyName.length; i++) {
+                        if (rec.Companys.indexOf(rec.CompanyName[i].ID) > -1) {
+                            check += "<div class='checkbox'><label><input name='form-field-checkbox' type='checkbox' checked='checked' class='ace' value='" + rec.CompanyName[i].ID + "'><span class='lbl'>" + rec.CompanyName[i].Name + "</span></label></div>";
+                        }
+                        else {
+                            check += "<div class='checkbox'><label><input name='form-field-checkbox' type='checkbox' class='ace' value='" + rec.CompanyName[i].ID + "'><span class='lbl'>" + rec.CompanyName[i].Name + "</span></label></div>";
+                        }
+                    }
+                    $("#compList").append(check)
+                });
+                $("#Name").val(row.FormName);
+                $("#FormID").val(row.FormID);
+            }
+           
+        }
+        function UpdateCompanys()
+        {
+            var companys = [];
+            var formid = $("#FormID").val();
+            $("#compList input[name='form-field-checkbox']").each(function () {
+                if ($(this)[0].checked) {
+                    companys.push($(this).val())
+                }
+            });
+            console.log({ FromID: formid, Companys: companys })
+            $.post('/Template/UpdateCompanys', { FromID: formid, Companys: companys.join(",") }, function (rec) {
+                if (rec == "OK")
+                {
+                    Close();
+                    $("#list").trigger("reloadGrid");
+                }
+            })
+           
+        }
+        function SaveTemplete()
+        {
+            $.post('/Template/SaveTemplate', $("#frm_Templete").serialize(), function (rec) {
+                if (rec == "OK") {
+                    $("#dialog").dialog('close');
+                    $("#list").trigger("reloadGrid");
+                }
+                else {
+                    showerror(rec, 'error1')
+                }
+            })
+        }
+        //function Add1()
+        //{
+        //    $('#TemplateDetail_Name,#Template_FileName,#Template_Url,#TemplateID').val("");
+        //}
+
+        function Template() {
+            var dialog = $("#dialog");
+            $(".alert").hide();
+            var row = $("#list").jqGrid('getRowData', $("#list").jqGrid('getGridParam', 'selrow'));
+            if (row.DataFrom == undefined) {
+                showerror('请先选择记录', 'error')
+            }
+            else {
+                dialog.dialog('open');
+                dialog.dialog({ title: '表单模板' });
+
+                inputValue("FormID", row.FormID);
+                inputValue("FormName", row.FormName);
+                inputValue("DataFrom", row.DataFrom);
+                id = $("#FormID").val();
+                $("#dg1").jqGrid('setGridParam', { url: '/Template/TemplateDetailList?id=' + id });
+                $("#dg1").trigger("reloadGrid");
+                $.post('/Template/GetTempInfo', { DataFrom: row.DataFrom, FormID: row.FormID }, function (rec) {
+                    var name = rec.Name.split(",");
+                    var url = rec.Url.split(",");
+                    var tempid = rec.TempID.split(",");
+                    var tempname = rec.TempName.split(",");
+                    var str = "";
+                    for (var i = 0; i < name.length - 1; i++)
+                    {
+                        str += "<div class='form-group'><label class='col-md-2 control-label'>模版名称：</label><div class='col-md-5'><input class='form-control' id='Template_FileName' name='Template_FileName' readonly='readonly' value=" + name[i].substring(0, name[i].indexOf('.')) + "><input type='hidden' name='Template_Url' value=" + url[i] + "><input type='hidden' name='TemplateID' value=" + tempid[i] + "></input></div><div class='col-md-5'><input class='form-control' id='TemplateDetail_Name' name='TemplateDetail_Name' value="+tempname[i]+"></div></div>";
+                    }
+                    $("#temp").empty();
+                    $("#temp").append(str);
+                });
+            }
+        }
+        
+        function Edit1() {
+            var row =  $('#list').jqGrid('getRowData', $("#list").jqGrid('getGridParam', 'selrow'));
+            $('#FormName').val(row.FormName);
+            $('#DataFrom').val(row.DataFrom);
+            $('#FormID').val(row.FormID);
+        }
+        function Delete() {
+            var row = $("#list").jqGrid('getRowData', $("#list").jqGrid('getGridParam', 'selrow'));
+
+            if (row.DataFrom != undefined) {
+                $("#error").hide();
+                $("#dialog-confirm").dialog({
+                    resizable: false,
+                    height: 140,
+                    modal: true,
+                    buttons: {
+                        "确定": function () {
+                            var id = $("#list").jqGrid('getRowData', $("#list").jqGrid('getGridParam', 'selrow')).FormID;
+                            $.post('/Template/DeleteTemplate', { id: id }, function (result) {
+                                if (result == "OK") {
+                                    $("#list").trigger("reloadGrid");   // reload the template data
+                                    $("#dialog-confirm").dialog("close")
+                                    Reset('frm')
+                                } else {
+                                    $("#dialog-confirm").dialog("close")
+                                    showerror(result,'error')
+                                }
+                            });
+                        },
+                        "取消": function () {
+                            $(this).dialog("close")
+                        }
+                    }
+                });
+            } else {
+                showerror('请先选择记录','error')
+            }
+
+        }
+        function Delete1() {
+            var row = $('#dg1').jqGrid('getRowData', $("#dg1").jqGrid('getGridParam', 'selrow'));
+            if (row.TemplateID != undefined) {
+                var id = row.TemplateID;
+                $("#dialog-confirm").dialog({
+                    resizable: false,
+                    height: 140,
+                    modal: true,
+                    buttons: {
+                        "确定": function () {
+                            $.post('/Template/DeleteTemplateDetail', { id: id }, function (result) {
+                                if (result == "OK") {
+                                    $("#error1").hide();
+                                    $("#dialog-confirm").dialog("close");
+                                    $("#dg1").trigger("reloadGrid");   // reload the template data
+                                    Add1();
+                                } else {
+                                    showerror(result, 'error1')
+                                }
+                            });
+                        },
+                        "取消": function () {
+                            $(this).dialog("close")
+                        }
+                    }
+                });
+            } else {
+                showerror( "请先选择记录.",'error1');
+            }
+        }
+
+        function Save() {
+            if ($("#frm").valid()) {
+                if ($("#FormID").val() == "") {
+                    url = '/Template/AddTemplate'
+                } else {
+                    url='/Template/EditTemplate'
+                }
+                $.ajax({
+                    url: url,
+                    type: 'post',
+                    data: $("#frm").serialize(),
+                    success: function (result) {
+                         result = result.split(',');
+                        if (result[0] == "OK") {
+                            $("#list").trigger("reloadGrid");
+                            Reset('frm')
+                        }
+                        else {
+                           showerror(result,'error')
+                        }
+                    },
+                    error: function (d, error) {
+
+                    }
+                });
+            }
+        }
+
+        function showerror(error, id) {
+            $("#" + id).empty();
+            $("#" + id).append(error);
+            $("#" + id).show('slow');
+        }
+        function Close() {
+            $('#dialog').dialog('close');
+            $('#compdialog').dialog('close');
+            $(".popover").hide();
+            $("#compList input[type='checkbox']").each(function () {
+                $(this)[0].checked = false;
+            })
+            $("#compList").empty();
+        }
+
+        function inputValue(name, value) {
+            $("input[name='" + name + "']").val(value)
+        }
+        function CheckAll()
+        {
+            if ($("#allcheck")[0].checked) {
+                $("#compList input[type='checkbox']").each(function () {
+                    $(this)[0].checked = true;
+                })
+            } else {
+                $("#compList input[type='checkbox']").each(function () {
+                    $(this)[0].checked = false;
+                })
+            }
+        }
+        function Reset(formid)
+        {
+            $('#' + formid)[0].reset();
+            $("#FormID").val('');
+        }
+    </script>
+}
+<style>
+    body {
+        background-color: #fff;
+        margin: 0px;
+    }
+            .btn{
+            margin-right:10px;
+        }
+    .ui-jqgrid-view > .ui-jqgrid-titlebar {
+        border-radius: 0;
+    }
+
+    .ui-widget-content {
+        border: 0px;
+    }
+
+    /*.ui-dialog, .ui-jqdialog {
+        width: 900px !important;
+        height: 350px!important;
+    }*/
+
+        .ui-dialog .ui-dialog-titlebar, .ui-jqdialog .ui-dialog-titlebar, .ui-dialog .ui-jqdialog-titlebar, .ui-jqdialog .ui-jqdialog-titlebar {
+            color: #669fc7;
+            border: 1px solid #CCC;
+            border-bottom: 1px solid #DDD;
+            padding-left: 12px;
+            height: 35px;
+            border-radius: 0;
+        }
+
+        .ui-dialog .ui-dialog-title, .ui-jqdialog .ui-dialog-title, .ui-dialog .ui-jqdialog-title, .ui-jqdialog .ui-jqdialog-title {
+            line-height: 36px;
+            padding: 0;
+            margin: 0;
+            display: inline;
+        }
+    .popover {
+        box-shadow:none;
+
+    }
+    .ui-dialog-buttonset button {
+    background-color: #87b87f !important;
+    border-color: #87b87f;
+    background-image: none !important;
+    border: 5px solid #fff;
+    border-radius: 0;
+    box-shadow: none !important;
+    color: #fff !important;
+    cursor: pointer;
+    display: inline-block;
+    margin: 0;
+    position: relative;
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25) !important;
+    transition: all 0.15s ease 0s;
+    vertical-align: middle;
+    -moz-user-select: none;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 14px;
+    font-weight: normal;
+    line-height: 1.42857;
+    margin-bottom: 0;
+    padding: 6px 12px;
+    text-align: center;
+    vertical-align: middle;
+    white-space: nowrap;}
+    .checkbox {
+        width:50%;
+        float:left;
+    }
+
+</style>
+
+<div class="modal fade bs-example-modal-lg" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content" style="width:650px;height:480px;">
+                <iframe id="Template_Ifm" style="border:0px;height:100%;width:99%;"></iframe>
+        </div>
+    </div>
+</div>
+<div class="container" style="padding-top:5px;">
+    <div class="alert alert-danger" id="error">
+    </div>
+   
+        <div class="alert alert-danger" id="error1">
+        </div>
+        <div class="widget-box">
+            <div class="widget-header">
+                <h4>模板表单</h4>
+            </div>
+            <div class="widget-body">
+                <div class="widget-main">
+                    <form id="frm" method="post" novalidate="novalidate" class="form-horizontal">
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">表单名称：</label>
+                            <div class="col-md-8">
+                                @Html.HiddenFor(m => m.FormID)
+                                @Html.TextBoxFor(m => m.FormName, new Dictionary<string, object> { { "class", "form-control" }, { "required", "true" } })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">数据表名：</label>
+                            <div class="col-md-8">
+                                @*@Html.TextBoxFor(m => m.DataFrom, new Dictionary<string, object> { { "class", "form-control" }, { "required", "true" },
+               {"maxlength","50"} })*@
+                                @Html.DropDownListFor(m => m.DataFrom,new SelectList(new string[] { }), new Dictionary<string, object> { { "class", "form-control" }, { "required", "true" },
+               {"maxlength","50"}})
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-offset-7 col-md-5">
+                                <button type="button" class="btn btn-primary" onclick="Save()">
+                                    保存
+                                </button>
+                                <button type="reset" class="btn btn-primary" onclick="Reset('frm')">
+                                    重置
+                                </button>
+                                <button type="button" class="btn  btn-danger " onclick="Delete()"><i class="icon-trash"></i>删除</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    <div class="row" style="padding:12px;">
+        <button type="button" style="float:left" class="btn  btn-success " onclick="Template()"><i class="icon-plus"></i>表单模板</button>
+        @*<button type="button" style="float:left" class="btn  btn-warning " onclick="Edit()"><i class="icon-edit"></i>编辑</button>*@
+        <button type="button" style="float:left" class="btn  btn-info " onclick="EditComp()"><i class="icon-edit"></i>公司复权</button>
+
+    </div>
+    <table id="list"></table>
+    <div id="gridPager"></div>
+    @*</div>*@
+    <div id="dialog-confirm" title="提示" style="display:none">
+        <div style="padding:0px;margin:0px;">
+            <div style="padding:0px;margin:0px;"><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>确认删除该信息吗？</div>
+        </div>
+    </div>
+    <div id="compdialog">
+        <form class="form-horizontal">
+            <div class="form-group">
+                <label class="col-md-2 control-label">单据名称：</label>
+                <div class="col-md-10">
+                    <input class="form-control" readonly="readonly" id="Name" name="Name"/>
+                    <input id="FormID" name="FormID" type="hidden" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-2 control-label">公司列表：</label>
+                <div class="col-md-10" id="compList">
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div id="dialog">
+        <div class="container">
+            <form id="frm_Templete" method="post" novalidate="novalidate" class="form-horizontal">
+                <div class="form-group">
+                    <label class="col-md-2 control-label">表单名称：</label>
+                    <div class="col-md-10">
+                        <input class="form-control" readonly="readonly" id="FormName" name="FormName" />
+                        <input id="FormID" name="FormID" type="hidden" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-2 control-label">数据表名：</label>
+                    <div class="col-md-10">
+                        <input class="form-control" readonly="readonly" id="DataFrom" name="DataFrom" />
+                    </div>
+                </div>
+                <div id="temp">
+
+                </div>
+            </form>
+</div>
+    </div>
+</div>
+@*<table cellpadding="5" align="center">
+     <tr>
+         <td style="width:80px" align="right">表单名称：</td>
+         <td>@Html.TextBoxFor(m => m.FormName, new Dictionary<string, object> { { "class", "textbox" }, { "required", "true" } })</td>
+         <td style="width:90px" align="right">数据表名：</td>
+         <td>
+             @Html.TextBoxFor(m => m.DataFrom, new Dictionary<string, object> { { "class", "textbox" }, { "required", "true" },
+    {"maxlength","50"} })
+         </td>
+     </tr>*@
+@*<tr>
+         <td align="right" style="width:80px">模版名称：</td>
+         <td colspan="3">
+             @Html.TextBoxFor(m => m.TemplateDetail_Name, new Dictionary<string, object> { { "class", "textbox" }, { "required", "true" },
+                {"maxlength","50"}})
+         </td>
+     </tr>
+     <tr>
+         <td align="right" style="width:90px">模板文件名：</td>
+         <td>
+             @Html.TextBoxFor(m => m.Template_FileName, new Dictionary<string, object> { { "class", "textbox" }, { "required", "true" },
+    {"maxlength","50"}})
+         </td>
+         <td align="right" style="width:110px">模板文件路径：</td>
+         <td>
+             @Html.TextBoxFor(m => m.Template_Url, new Dictionary<string, object> { { "class", "textbox" }, { "required", "true" },
+    {"maxlength","200"} })
+            
+             @Html.HiddenFor(m => m.TemplateID)
+         </td>
+     </tr>*@
+@*<tr>
+        <td colspan="5">
+            <div id="tb" style="height:auto;text-align:right;">
+                <button type="button" class="btn btn-sm btn-info " onclick="Add1()"><i class="icon-plus"></i>添加</button>
+                <button type="button" class="btn btn-sm btn-danger "style="margin-right:0px;" onclick="Delete1()"><i class="icon-trash"></i>删除</button>
+            </div>
+
+        </td>
+    </tr>
+    <tr>
+        <td colspan="5">
+            <table id="dg1" class="easyui-datagrid" title="模板表单" style="height:auto;" data-options=" onSelect:Edit1">
+                <thead>
+                    <tr>
+                        <th data-options="field:'FormID',hidden:true"></th>
+                        <th data-options="field:'TemplateDetail_Name',width:150">模版名称</th>
+                        <th data-options="field:'Template_FileName',width:150">模板文件名</th>
+                        <th data-options="field:'Template_Url',width:400">模板文件路径</th>
+                    </tr>
+                </thead>
+            </table>
+        </td>
+    </tr>*@
+@*</table>*@
+
+@*<div style="margin-top:60px">
+        <button type="button" style="float:right" class="btn btn-sm btn-danger " onclick="Close()"><i class="icon-ban-circle"></i>关闭</button>
+        <button type="button" style="float:right" class="btn btn-sm btn-success " onclick="Save()"><i class="icon-ok"></i>确定</button>
+    </div>*@

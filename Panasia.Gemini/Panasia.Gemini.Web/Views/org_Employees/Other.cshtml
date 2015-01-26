@@ -1,0 +1,356 @@
+﻿@{
+    var item = Model.Parameters["Data"];
+}
+
+<script type="text/javascript">
+
+    $(function() {
+        IsLoad($("#IsEmploy").val(), IsEmploy, $("#IsEmploy"))
+        IsLoad($("#IsSponsor").val(), IsSponsor, $("#IsSponsor"))
+        IsLoad($("#IsCrime").val(), IsCrime, $("#IsCrime"))
+    });
+    function IsLoad(State, fun, checkbox) {
+        if (State == 'True') {
+            checkbox[0].checked = true;
+        }
+        else {
+            checkbox[0].checked = false;
+        }
+        fun(State)
+    }
+    function IsEmployClick(checkbox) {
+        IsClick(checkbox.checked, IsEmploy, "IsEmploy")
+    }
+    function IsSponsorClick(checkbox) {
+        IsClick(checkbox.checked, IsSponsor, "IsSponsor")
+    }
+    function IsCrimeClick(checkbox) {
+        IsClick(checkbox.checked, IsCrime, "IsCrime")
+    }
+
+    function IsClick(State, fun, checkbox) {
+        if (State == true) {
+            $("#" + checkbox).val('True')
+            fun('True')
+        }
+        else {
+            $("#" + checkbox).val('False')
+            fun('False')
+        }
+    }
+
+    function IsEmploy(State) {
+        if (State == 'True') {
+            $("#EmployWorkUnit").textbox({
+                required: true
+            });
+            $("#WorkDateBeg,#WorkDateEnd").datebox({
+                required: true
+            });
+            $("#hidden1,#hidden2").show();
+        }
+        else {
+            $("#hidden1,#hidden2").hide();
+            $("#EmployWorkUnit").textbox({
+                required: false
+            });
+            $("#WorkDateBeg,#WorkDateEnd").datebox({
+                required: false
+            });
+            $("#EmployWorkUnit").textbox('setValue', "");
+            $("#WorkDateBeg").datebox('clear');
+            $("#WorkDateEnd").datebox('clear');
+        }
+    }
+    function IsSponsor(State) {
+        if (State == 'True') {
+            $("#Sponsor,#Relation,#WorkUnit").textbox({
+                required: true
+            });
+            $("#hidden4,#hidden3").show();
+        } else {
+            $("#hidden4,#hidden3").hide();
+            $("#Sponsor,#Relation,#WorkUnit").textbox({
+                required: false
+            });
+            $("#Sponsor,#Relation,#WorkUnit").textbox('setValue', "");
+        }
+    }
+    function IsCrime(State) {
+        if (State == 'True') {
+            $("#CrimeDateBeg,#CrimeDateEnd").datebox({
+                required: true
+            });
+            $("#CrimeReason").textbox({
+                required: true
+            });
+            $("#hidden5,#hidden6").show();
+        } else {
+            $("#hidden5,#hidden6").hide();
+            $("#CrimeDateBeg,#CrimeDateEnd").datebox({
+                required: false
+            });
+            $("#CrimeReason").textbox({
+                required: false
+            });
+            $("#CrimeDateBeg").datebox('clear');
+            $("#CrimeDateEnd").datebox('clear');
+            $("#CrimeReason").textbox('setValue', "");
+        }
+    }
+    function Submit() {
+        console.log($("#Eoid").val())
+        if ($("#Eoid").val() != "") {
+            submitAct_DGUpdate('dataform', '/Page/P01011/OtherUpdate', 'datagrid')
+            
+        } else {
+            submitAct_DGAppend('dataform', '/Page/P01011/OtherAdd', 'datagrid');
+            console.log('add')
+        }
+    }
+</script>
+
+<style>
+    .edit-panel3 {
+        padding: 5px 0px;
+        margin-top: 5px;
+        width: 530px;
+        height: 20px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+</style>
+
+<form method="post" id="dataform" class="form-dialog">
+    <div class="edit-dialog1" style="width:530px">
+        <div class="edit-panel3">
+
+            <div class="edit-field1">
+                <div class="edit-title1"><label class="edit-label1">公司：</label></div>
+                <div class="edit-content">
+                    <input class="edit-input easyui-textbox " value="@item["CompanyName"]" readonly="readonly" />
+                    <input value="@item["EmployeeID"]" readonly="readonly" type="hidden" name="EmployeeID" />
+                </div>
+            </div>
+            <div class="edit-field1">
+                <div class="edit-title1"><label class="edit-label1">部门：</label></div>
+                <div class="edit-content">
+                    <input class="edit-input easyui-textbox" value="@item["DeptName"]" readonly="readonly" />
+                </div> 
+            </div>
+        </div>
+        <div class="edit-panel3">
+
+            <div class="edit-field1">
+                <div class="edit-title1"><label class="edit-label1">职位：</label></div>
+                <div class="edit-content">
+                    <input class="edit-input easyui-textbox" value="@item["JobName"]" readonly="readonly" />
+                </div>
+            </div>
+
+            <div class="edit-field1">
+                <div class="edit-title1"><label class="edit-label1">姓名：</label></div>
+                <div class="edit-content">
+                    <input class="edit-input easyui-textbox" value="@item["Name"]" readonly="readonly" />
+                </div>
+            </div>
+
+        </div>
+
+        @*<div class="edit-panel3" style="height:110px;width:434px;margin-left:70px">
+            <table id="datagrid1" style="height:110px;width:434px;" class="easyui-datagrid" data-options="url:'/Page/P01011/GetOtherData?EmployeeID=@item["EmployeeID"]',fitColumns:true,fit:true,rownumbers:true,nowrap: true,striped: true,singleSelect:true,collapsible: false,resizable:true, onSelect: onClickRow,onUnselect: cancleClickRow">
+                <thead>
+                    <tr>
+                        <th data-options="field:'Eoid',checkbox:true,hidden:true"></th>
+                        <th data-options="field:'RecruitingSources',fixed:true">我公司招聘信息来源</th>
+                        <th data-options="field:'IsEmploy',fixed:true">是否聘用过</th>
+                        <th data-options="field:'IsSponsor',fixed:true">是否有介绍人</th>
+                        <th data-options="field:'IsCrime',fixed:true">是否有犯罪记录</th>
+                        <th data-options="field:'MedicalHistory',fixed:true">病史</th>
+                        <th data-options="field:'EmployWorkUnit',fixed:true" hidden>聘用单位</th>
+                        <th data-options="field:'WorkDateBeg',fixed:true" hidden></th>
+                        <th data-options="field:'WorkDateEnd',fixed:true" hidden></th>
+                        <th data-options="field:'Sponsor',fixed:true" hidden></th>
+                        <th data-options="field:'Relation',fixed:true" hidden></th>
+                        <th data-options="field:'WorkUnit',fixed:true" hidden></th>
+                        <th data-options="field:'CrimeDateBeg',fixed:true" hidden></th>
+                        <th data-options="field:'CrimeReason',fixed:true" hidden></th>
+                    </tr>
+                </thead>
+            </table>
+
+        </div>*@
+        @*<a class="easyui-linkbutton edit-button" id="EAllBtn" style="margin-left:70px" data-options="iconCls:'icon-add'" href="javascript:void(0)" onclick="addClick()">新增</a>
+        <a class="easyui-linkbutton edit-button" id="EDelBtn" data-options="iconCls:'icon-cancel',disabled:true" onclick="delClick()">删除</a>*@
+
+        <div class="edit-panel3" style="width:434px;margin-left:40px" >
+            <div class="edit-field1" style="width:434px">
+                <div style="width:120px" class="edit-title1">
+                    <label class="edit-label1">
+                        我公司招聘信息来源：
+                    </label>
+                </div>
+                <div>
+                    <input name="Eoid" id="Eoid" value="@item["Eoid"]" type="hidden" />
+                    <input style="width:184px" id="RecruitingSources" value="@item["RecruitingSources"]" name="RecruitingSources" class="edit-input easyui-textbox" data-options="missingMessage:'请输入招聘信息来源',required:true,validType:'length[0,200]',invalidMessage:'招聘信息来源字数不得超过200个字符'" />
+                    @*<input id="Eoid" name="Eoid" class="edit-input" type="hidden" />*@
+                </div>
+            </div>
+        </div>
+
+        <div class="edit-panel3">
+            <div class="edit-field1" style="margin-left:40px;">
+                <input name="IsEmploy" id="IsEmploy" value="@item["IsEmploy"]" class="textbox" type="checkbox" onclick="IsEmployClick(this)" />
+                <span style="font-size:12px;font-family: 宋体;">是否被我公司或集团其他公司聘用过？</span>
+            </div>
+            <div class="edit-field1" style="width:150px">
+            </div>
+        </div>
+        <div class="edit-panel3" id="hidden1" hidden="hidden">
+            <div class="edit-field1">
+                <div class="edit-title1">
+                    <label class="edit-label1">
+                        聘用单位：
+                    </label>
+                </div>
+                <div class="edit-content">
+                    <input name="EmployWorkUnit" id="EmployWorkUnit" value="@item["EmployWorkUnit"]" class="edit-input easyui-textbox" data-options="missingMessage:'请输入聘用单位',validType:'length[0,200]',invalidMessage:'聘用单位字数不得超过200个字符'" />
+                </div>
+            </div>
+            <div class="edit-field1">
+            </div>
+        </div>
+        <div class="edit-panel3" id="hidden2" hidden="hidden">
+            <div class="edit-field1">
+                <div class="edit-title1">
+                    <label class="edit-label1">
+                        工作时间：
+                    </label>
+                </div>
+                <div class="edit-content">
+                    <input id="WorkDateBeg" value="@item["WorkDateBeg"]" name="WorkDateBeg" class="edit-input easyui-datebox" data-options="missingMessage:'请选择工作时间的起始日期'" />
+                </div>
+            </div>
+            <div class="edit-field1">
+                <div class="edit-title1">
+                    <label class="edit-label1">
+                        到：
+                    </label>
+                </div>
+                <div class="edit-content">
+                    <input id="WorkDateEnd" name="WorkDateEnd" value="@item["WorkDateEnd"]" class="edit-input easyui-datebox" data-options="missingMessage:'请选择工作时间的结束日期',validType:'dateCompare[\'#WorkDateBeg\']',invalidMessage:'结束日期必须大于开始日期'" />
+                </div>
+            </div>
+        </div>
+
+        <div class="edit-panel3">
+            <div class="edit-field1" style="margin-left:40px;">
+                <input name="IsSponsor" id="IsSponsor" class="textbox" type="checkbox" value="@item["IsSponsor"]" onclick="IsSponsorClick(this)" />
+                <span style="font-size:12px;font-family: 宋体;">是否有关系介绍人？</span>
+            </div>
+            <div class="edit-field1" style="width:150px">
+            </div>
+        </div>
+        <div class="edit-panel3" id="hidden3" hidden="hidden">
+            <div class="edit-field1">
+                <div class="edit-title1">
+                    <label class="edit-label1">
+                        介绍人姓名：
+                    </label>
+                </div>
+                <div class="edit-content">
+                    <input name="Sponsor" id="Sponsor" value="@item["Sponsor"]" class="edit-input easyui-textbox" data-options="missingMessage:'请输入介绍人姓名',validType:'length[0,20]',invalidMessage:'介绍人姓名字数不得超过20个字符'" />
+                </div>
+            </div>
+            <div class="edit-field1">
+                <div class="edit-title1">
+                    <label class="edit-label1">
+                        单位：
+                    </label>
+                </div>
+                <div class="edit-content">
+                    <input name="WorkUnit" id="WorkUnit" value="@item["WorkUnit"]" class="edit-input easyui-textbox" data-options="missingMessage:'请输入介绍人单位',validType:'length[0,100]',invalidMessage:'介绍人单位字数不得超过100个字符'" />
+                </div>
+            </div>
+        </div>
+        <div class="edit-panel3" id="hidden4" hidden="hidden">
+            <div class="edit-field1">
+                <div class="edit-title1">
+                    <label class="edit-label1">
+                        与本人关系：
+                    </label>
+                </div>
+                <div class="edit-content">
+                    <input name="Relation" id="Relation" value="@item["Relation"]" class="edit-input easyui-textbox" data-options="missingMessage:'请输入与本人关系',validType:'length[0,50]',invalidMessage:'与本人关系字数不得超过50个字符'" />
+                </div>
+            </div>
+
+        </div>
+
+        <div class="edit-panel3">
+            <div class="edit-field1" style="margin-left:40px;">
+                <input name="IsCrime" id="IsCrime" class="textbox" type="checkbox" value="@item["IsCrime"]" onclick="IsCrimeClick(this)" />
+                <span style="font-size:12px;font-family: 宋体;">是否有犯罪经历？</span>
+            </div>
+            <div class="edit-field1" style="width:150px">
+            </div>
+        </div>
+        <div class="edit-panel3" id="hidden5" hidden="hidden">
+            <div class="edit-field1">
+                <div class="edit-title1">
+                    <label class="edit-label1">
+                        服刑时间：
+                    </label>
+                </div>
+                <div class="edit-content">
+                    <input id="CrimeDateBeg" value="@item["CrimeDateBeg"]" name="CrimeDateBeg" class="edit-input easyui-datebox" data-options="missingMessage:'请选择服刑的起始日期'" />
+                </div>
+            </div>
+            <div class="edit-field1">
+                <div class="edit-title1">
+                    <label class="edit-label1">
+                        到：
+                    </label>
+                </div>
+                <div class="edit-content">
+                    <input id="CrimeDateEnd" name="CrimeDateEnd" value="@item["CrimeDateEnd"]" class="edit-input easyui-datebox" data-options="missingMessage:'请选择服刑的结束日期',validType:'dateCompare[\'#CrimeDateBeg\']',invalidMessage:'结束日期必须大于开始日期'" />
+                </div>
+            </div>
+        </div>
+        <div class="edit-panel3" id="hidden6" style="height:60px" hidden="hidden">
+            <div class="edit-field1">
+                <div class="edit-title1">
+                    <label class="edit-label1">
+                        原因：
+                    </label>
+                </div>
+                <div class="edit-content">
+                    <input name="CrimeReason" value="@item["CrimeReason"]" id="CrimeReason" class="edit-input easyui-textbox" style="width:434px;height:60px" data-options="multiline:true,missingMessage:'请输入服刑原因',validType:'length[0,200]',invalidMessage:'服刑原因字数不得超过200个字符'" />
+                </div>
+            </div>
+        </div>
+
+        <div class="edit-panel3" >
+            <div class="edit-field1">
+                <div class="edit-title1"><label class="edit-label1">病史：</label></div>
+                <div class="edit-content">
+                    <input name="MedicalHistory" id="MedicalHistory" value="@item["MedicalHistory"]" panelheight="auto" data-options="missingMessage:'请选择病史',required:true,editable:false,url:'/Share/GetSystemCodes?code=C029',valueField:'Name',textField:'Name'" class=" edit-input easyui-combobox" />
+                </div>
+            </div>
+
+            <div class="edit-field1">
+                <div class="showmsg"><label id="showmsg"></label></div>
+            </div>
+            <div class="edit-field1">
+                <div class="edit-content">
+                    <input class="edit-input" name="DeleteCheck" id="DeleteCheck" type="hidden" />
+                </div>
+            </div>
+        </div>
+
+        </div>
+</form>
+<div class="dialog-button">
+    <a class="easyui-linkbutton edit-button" data-options="iconCls:'icon-ok'" onclick="Submit()">确定</a>
+    <a class="easyui-linkbutton edit-button" data-options="iconCls:'icon-cancel'" onclick="cancel()">取消</a>
+</div>

@@ -1,0 +1,208 @@
+﻿@{
+    var item = Model.Parameters["Data"];
+}
+<style>
+    .edit-panel3 {
+        padding: 5px 0px;
+        margin-top: 5px;
+        width: 530px;
+        height: 20px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+</style>
+<script type="text/javascript">
+    var sort=0;
+    $(function () {
+        $("#datagrid1").datagrid({
+            url: '/Page/P01064/GetProductUI?ProductID=' + $("#ProductID").val(),
+            columns: [[{
+                field: 'PUIISD', checkbox: true, formatter: function (value, row, index) {
+                    if (row.ItemSort != "")
+                    {
+                        return true;
+                    }
+                }
+            },
+                { field: 'Text', title: '项目名称', fixed: true, halign: 'center' },
+                { field: 'ItemSort', title: '项目排序', fixed: true, halign: 'center', align: 'right', editor: { type: 'numberbox', name: 'sort', readonly: 'readonly', options: { required: true, missingMessage: '请输入显示排序', min: 0,readonly:true } } },
+                {
+                    field: 'ItemName', title: '显示项目', fixed: true, halign: 'center', align: 'center', editor: {
+                        type: 'textbox', options: {
+                            required: true, missingMessage: '请输入显示项目',
+                            validType: 'length[1,30]', invalidMessage: '显示项目长度不能大于30'
+                        }
+                    }, width: 200
+                },
+                {
+                    field: 'IsRequired', title: '必填项', fixed: true, halign: 'center', align: 'center', editor: { type: 'checkbox', options: { on: '是', off: '' } },
+                    formatter: function (value, row, index) {
+                        if (value) {
+                            return '是';
+                        }
+                        else if (value) { return '否' }
+                        else { return ''}
+                    }
+                },
+                {field: 'Remark',title:'备注', fixed: true, halign: 'center', align: 'center', editor: {
+                        type: 'textbox', options: {
+                            validType: 'length[1,200]', invalidMessage: '备注长度不能大于200'
+                        }
+                    }, width: 300
+                }
+            ]],
+            onLoadSuccess: function (data) {
+                if (data) {
+                    $.each(data.rows, function (index, item) {
+                        if (item.ItemSort != undefined) {
+                            $('#datagrid1').datagrid('checkRow', index);
+                        }
+                        if (item.IsRequired) {
+                            var editors = $("#datagrid1").datagrid('getEditors', index);
+                            $(editors[2].target)[0].checked = true;
+                        }
+                    });
+                }
+            }
+        });
+    });
+
+    function selectRow(index, data) {
+        $('#datagrid1').datagrid('beginEdit', index);
+        var editors = $("#datagrid1").datagrid('getEditors', index);
+        var sort =0;
+        var rows = $("#datagrid1").datagrid('getSelections');
+        for (var i = 0; i < rows.length; i++) {//获取排序值
+            var rowindex = $("#datagrid1").datagrid('getRowIndex', rows[i])
+            var editor = $("#datagrid1").datagrid('getEditor', { index: rowindex, field: 'ItemSort' });
+            var val = parseInt($(editor.target).textbox('getValue'));
+            sort = val > sort ? val : sort;
+        }
+        $(editors[0].target).textbox('setValue', sort + 1);
+        $(editors[1].target).textbox('setValue', data.Text)
+        $(editors[2].target)[0].checked = true;
+    }
+
+    function onUncheck(index) {
+        var editor = $("#datagrid1").datagrid('getEditor', { index: index, field: 'ItemSort' });
+        var temp= $(editor.target).textbox('getValue');
+        var rows = $("#datagrid1").datagrid('getSelections');
+
+        for (var i = 0; i < rows.length; i++) {
+            var rowindex = $("#datagrid1").datagrid('getRowIndex', rows[i]);
+            var editor = $("#datagrid1").datagrid('getEditor', { index: rowindex, field: 'ItemSort' });
+            if (parseInt($(editor.target).textbox('getValue')) > parseInt(temp))
+            {
+                $(editor.target).textbox('setValue', parseInt($(editor.target).textbox('getValue')) - 1);
+            }
+        }
+        $('#datagrid1').datagrid('cancelEdit', index);
+    }
+    //function onCancelEdit(index, data) {
+    //    $('#datagrid1').datagrid('updateRow', { index: index, row: { ItemSort: '', ItemName: '', IsRequired: undefined, Remark: '' } })
+    //}
+    function Submit() {
+        var rows = $("#datagrid1").datagrid('getSelections');
+        var puid= [];
+        var text = [];
+        var sort = [];
+        var name = [];
+        var check = [];
+        var remark = [];
+        for (var i = 0; i < rows.length; i++) {
+            puid.push(rows[i]["PUIISD"]);
+            text.push(rows[i]["Text"]);
+            var rowindex = $("#datagrid1").datagrid('getRowIndex', rows[i]);
+            var editors = $("#datagrid1").datagrid('getEditors', rowindex);
+            sort.push($(editors[0].target).textbox('getValue'));
+            name.push($(editors[1].target).textbox('getValue'));
+            if ($(editors[3].target).textbox('getValue') == "") {
+                remark.push("");
+            } else { remark.push($(editors[3].target).textbox('getValue')); }
+           
+            if ($(editors[2].target)[0].checked) {
+                check.push('1');
+            }
+            else {
+                check.push('0');
+            }
+        }
+        var data = {
+            PUIISD: puid.join(), ProductID: $("#ProductID").val(), ItemCol: text.join(), ItemSort: sort.join(), ItemName: name.join()
+            ,IsRequired:check.join(),Remark:remark.join()
+        };
+        if ($("#dataform").form('validate')) {
+            $.ajax({
+                url: '/Page/P01064/AddproductUI',
+                type: 'post',
+                data: data,
+                dataType: "json",
+                success: function (result) {
+                    if (result.HasError) {
+                        showError(result.ErrorMessage);
+                    }
+                    else {
+                      //  $('#datagrid1').datagrid('acceptChanges');
+                        cancel();
+                        $.messager.alert("提示", "界面设定成功");
+                    }
+                },
+                error: function (d, error) {
+                    showError(error);
+                }
+            });
+        }
+    }
+
+    //Array.prototype.max = function () {
+    //    var max = this[0];
+    //    var len = this.length;
+    //    for (var i = 1; i < len; i++) {
+    //        if (this[i] > max) {
+    //            max = this[i];
+    //        }
+    //    }
+    //    return max;
+    //}
+</script>
+<form method="post" id="dataform" class="form-dialog">
+    <div class="edit-dialog1" >
+        <div class="edit-panel3" style="width:840px;">
+            <div class="edit-field1">
+                <div class="edit-title1"><label class="edit-label1">产品名称：</label></div>
+                <div class="edit-content">
+                    <input class="edit-input easyui-textbox " name="Product" value="@item["Product"]" readonly="readonly" />
+                    <input readonly="readonly" type="hidden" name="ProductID" id="ProductID" value="@item["ProductID"]" />
+                </div>
+            </div>
+        </div>
+
+        <div class="edit-panel3" style="height:300px;width:775px;margin-left:70px">
+            <table id="datagrid1" style="height:300px;width:775px;" class="easyui-datagrid" data-options="fitColumns:true,fit:true,iconCls: 'icon-edit',onCheck:selectRow,onUncheck:onUncheck">
+                @*<thead>
+                <tr>
+                    <th data-options="field:'PUIISD',checkbox:true"></th>
+                    <th data-options="field:'Text',fixed:true,halign:'center'"></th>
+                    <th data-options="field:'ItemSort',fixed:true,halign:'center',align:'right',editor:{type:'numberbox',name:'sort',readonly:'readonly',options:{required:true,missingMessage:'请输入显示排序',min:0}}"></th>
+                    <th data-options="field:'ItemName',fixed:true,halign:'center',align:'center',editor:{type:'textbox',options:{required:true,missingMessage:'请输入显示项目',
+                        validType:'length[1,30]',invalidMessage:'显示项目长度不能大于30'}},width:200"></th>
+                    <th data-options="field:'IsRequired',fixed:true,halign:'center',align:'center',editor:{type:'checkbox',options:{on:'是',off:''}}"></th>
+                    <th data-options="field:'Remark',fixed:true,halign:'center',align:'center',editor:{type:'textbox',options:{
+                        validType:'length[1,200]',invalidMessage:'备注长度不能大于200'}},width:300"></th>
+                </tr>
+            </thead>*@
+            </table>
+        </div>
+        <div class="edit-panel3" style="width:750px; ">
+            <div class="edit-field">
+                <div class="showmsg">
+                    <label id="showmsg"></label>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<div class="dialog-button">
+    <a id="btn-add" class="easyui-linkbutton edit-button" data-options="iconCls:'icon-ok'" onclick="Submit()">确定 </a>
+    <a class="easyui-linkbutton edit-button" data-options="iconCls:'icon-cancel'" onclick="cancel()">取消</a>
+</div>

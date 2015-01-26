@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<LangTexts>
+  <Item ID="1001" Name="System.Welcome" Text="[{0}] , 欢迎您使用本系统！" Description="系统欢迎词" Category=""/>
+  <Item ID="2001" Name="System.InvalidUserNameOrPassword" Text="请检查您的用户名和密码是否输入正确。	"/>
+  <Item ID="2002" Name="System.PasswordChangedSuccess" Text="密码修改成功！	"/>
+  <Item ID="2003" Name="System.PasswordChangedFailure" Text="密码修改失败，请重新输入！	"/>
+  <Item ID="2004" Name="System.ActionSuccess" Text="[{0}] + 成功！	"/>
+  <Item ID="2005" Name="System.ActionFailure" Text="[{0}] + 失败！[{1}]	"/>
+  <Item ID="2006" Name="System.LoadFailure" Text="读取数据失败，请重试！	"/>
+  <Item ID="2007" Name="System.CreateObjectError" Text="创建对象失败，请检查网络并重试！ 	"/>
+  <Item ID="2008" Name="Files.UploadSuccess" Text="文档上传成功！ 	"/>
+  <Item ID="2009" Name="Files.UploadFailure" Text="文档上传时出现异常，请重试！	"/>
+  <Item ID="2010" Name="Files.DownloadFailure" Text="文档下载时出现异常，请重试！	"/>
+  <Item ID="2011" Name="Validates.InputFieldNotNull" Text="[{0}] 不能为空，请填写完整！	"/>
+  <Item ID="2012" Name="Validates.SelectFieldNotNull" Text="[{0}] 不能为空，请选择！ 	"/>
+  <Item ID="2013" Name="Validates.FieldValueError" Text="[{0}] 不能为 [{1}]	"/>
+  <Item ID="2014" Name="Validates.FieldValueMustInRange" Text="[{0}] 不能大于 [{1}] 或 [{0}] 不能小于 [{1}]	"/>
+  <Item ID="2015" Name="Validates.FieldValueOutRange" Text="[{0}], 超出业务允许范围区间！	"/>
+  <Item ID="2016" Name="Validates.DataFormatError" Text="[{0}] 输入有误 [ 应该是：[{1}] ] 请重新输入！	"/>
+  <Item ID="2017" Name="Validates.PleaseSelect" Text=" 请选择[{0}]！	"/>
+  <Item ID="2018" Name="Confirm.Action" Text="确认要 + [{0}] + 吗？	"/>
+  <Item ID="2019" Name="Confirm.Replace" Text="[{0}] 已经存在 , 确定要覆盖吗？	"/>
+  <Item ID="2020" Name="Records.NotFound" Text="- 没有查询到符合条件的记录！	"/>
+  <Item ID="2021" Name="Records.ReachMaxUserConnections" Text="- 登录用户已经达到最大连接数！	"/>
+  <Item ID="2022" Name="Records.LoginTimeout" Text="- 登录超时，请重新操作！	"/>
+  <Item ID="2023" Name="Records.NotAllowed" Text="- 对不起，您没有操作权限！	"/>
+  <Item ID="2024" Name="Records.AlreadyExists" Text="- 已经存在相同信息，无法保存！	"/>
+
+</LangTexts>

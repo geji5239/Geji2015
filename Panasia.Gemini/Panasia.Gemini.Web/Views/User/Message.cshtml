@@ -1,0 +1,37 @@
+﻿
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title></title>
+
+    <script>
+        $(function (){
+            $.ajax({
+                url: 'User/Messages',
+                type: 'post',
+                dataType: "json",
+                success: function (msg) {
+                    var list = '';
+                    for (var i = 0; i < msg.length; i++) {
+                        list += "<li><a herf="+msg[i].MsgUrl+">" + msg[i].MsgTitle +"("+msg[i].Count+")"+ "</a></li>"
+                    }
+                   // $("#ul").clear();
+                    $("#ul").append(list)
+                },
+                error: function (d, error) {
+                    showError(error);
+                }
+            });
+        })
+    </script>
+</head>
+<body>
+    <div id="list">
+    <ul id="ul">
+
+    </ul>
+    </div>
+</body>
+</html>

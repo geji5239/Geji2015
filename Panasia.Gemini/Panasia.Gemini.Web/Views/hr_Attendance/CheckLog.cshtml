@@ -1,0 +1,104 @@
+﻿@{
+    var item = Model.Parameters["Data"];
+}
+<style>
+    .edit-panel3 {
+    padding:5px 0px;
+    margin-top:5px;
+    width:530px;
+    height:20px;
+    margin-left: auto;
+    margin-right: auto;
+    }
+</style>
+
+<form method="post" id="dataform" class="form-dialog">
+
+    <div class="edit-dialog1" style="width:560px">
+
+
+        <div class="edit-panel3">
+
+            <div class="edit-field1">
+                <div class="edit-title1"><label class="edit-label1">开始时间：</label></div>
+                <div class="edit-content"> <input class="edit-input easyui-textbox " value="@item["StartDate"]" name="StartDate" readonly="readonly" /></div>
+            </div>
+
+            <div class="edit-field1">
+                <div class="edit-title1"><label class="edit-label1">结束时间：</label></div>
+                <div class="edit-content"> <input class="edit-input easyui-textbox " value="@item["EndDate"]" name="EndDate" readonly="readonly" /></div>
+            </div>
+
+        </div>
+
+        <div class="edit-panel3">
+
+            <div class="edit-field1">
+                <div class="edit-title1"><label class="edit-label1">申请时长(H)：</label></div>
+                <div class="edit-content"> <input class="edit-input easyui-textbox" value="@item["ApplicationHours"]" readonly="readonly" name="ApplicationHours" /></div>
+            </div>
+
+            <div class="edit-field1">
+                <div class="edit-title1"><label class="edit-label1">类型：</label></div>
+                <div class="edit-content"><input class="edit-input easyui-textbox" value="@item["ThrowableType"]" name="ThrowableType" readonly="readonly" /></div>
+            </div>
+        </div>
+
+        <div class="edit-panel3" style="height:60px">
+
+            <div class="edit-field1">
+                <div class="edit-title1"><label class="edit-label1">事由：</label></div>
+                <div class="edit-content-r2">
+                    <input class="edit-input easyui-textbox " name="Reason" value="@item["Reason"]" style="width:434px; height:60px" readonly="readonly" data-options="multiline:true" />
+                </div>
+            </div>
+
+        </div>
+        @*<div class="edit-panel3">
+
+            <div class="edit-field-r2" style="width:500px;height:auto;">
+                <div class="edit-title">
+                    <label class="edit-label">
+                        签核历程：
+                    </label>
+                </div>
+            </div>
+            <div class="edit-field-r2" style="width:500px;height:auto;">
+                <table class="detail">
+                    @{
+                        dynamic dataAF = Model.Parameters["AFData"];
+                        if (dataAF != null)
+                        {
+                            dynamic items = dataAF;
+
+                            for (int i = 1; i <= items.Count; i++)
+                            {
+                                <tr>
+                                    <td style="width:20px;"></td>
+                                    <td style="width:120px;">@items[i - 1].GetFieldValue("Confirm_Time", "")</td>
+                                    <td style="width:100px;">@items[i - 1].GetFieldValue("DepartmentName", "")</td>
+                                    <td style="width:80px;">@items[i - 1].GetFieldValue("JobName", "")</td>
+                                    <td style="width:60px;">@items[i - 1].GetFieldValue("EmployeeName", "")</td>
+                                    <td style="width:40px;">@items[i - 1].GetFieldValue("Confirm_Stat", "")</td>
+                                    <td>@items[i - 1].GetFieldValue("Suggestion", "")</td>
+                                </tr>
+                            }
+                        }
+                    }
+                </table>
+            </div>
+
+        </div>*@
+
+        <div class="edit-field1">
+            <div class="showmsg"><label id="showmsg"></label></div>
+        </div>
+    </div>
+    </form>
+    <div class="dialog-button">
+        <a class="easyui-linkbutton edit-button" data-options="iconCls:'icon-cancel'" onclick="cancel()">关闭</a>
+    </div>
+<iframe tb="fl_EmployeeMove" id="af" onload="DynIframeSize('af')"></iframe>
+<script type="text/javascript">
+    InitIFrame();
+</script>

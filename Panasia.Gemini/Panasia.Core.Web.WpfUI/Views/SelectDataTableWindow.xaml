@@ -1,0 +1,49 @@
+﻿<Window x:Class="Panasia.Core.Web.SelectDataTableWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mui="http://firstfloorsoftware.com/ModernUI"
+             xmlns:app="clr-namespace:Panasia.Core.App;assembly=Panasia.Core.App"
+             xmlns:af="http://www.panasia.cn/pf" 
+             xmlns:db="clr-namespace:Panasia.Core;assembly=Panasia.Core" 
+             xmlns:tk="http://schemas.telerik.com/2008/xaml/presentation"
+        ShowInTaskbar="False" 
+        Title="选择数据表" Height="130" Width="300" WindowStartupLocation="CenterScreen">
+    <Grid >
+
+        <Grid.Resources>
+            <ResourceDictionary>
+                <ResourceDictionary.MergedDictionaries>
+                    <ResourceDictionary Source="/Panasia.Core.Wpf;component/Assets/CommonStyles.xaml" />
+                </ResourceDictionary.MergedDictionaries>
+                <db:SqlData x:Key="sqlData"/>
+            </ResourceDictionary>
+        </Grid.Resources>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="20"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="180"/>
+        </Grid.ColumnDefinitions>
+
+        <TextBlock Text="模块" Grid.Column="1" Style="{StaticResource EditTextBlock}" />
+        <ComboBox x:Name="modules" Grid.Column="2"                             
+                          ItemsSource="{Binding Source={StaticResource sqlData},Path=Current.Groups}"
+                          DisplayMemberPath="Name" SelectedValuePath="Name" 
+                          Style="{StaticResource EditComboBox}"/>
+
+        <TextBlock Text="数据表" Grid.Row="1" Grid.Column="1" Style="{StaticResource EditTextBlock}" />
+        <ComboBox x:Name="tables" Grid.Row="1" Grid.Column="2"
+                              ItemsSource="{Binding ElementName=modules, Path=SelectedItem.Items}"
+                          DisplayMemberPath="Name" SelectedValuePath="Name" 
+                              Style="{StaticResource EditComboBox}"/>
+        
+        <StackPanel Grid.Row="2" Grid.Column="3" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button x:Name="btnOK" Click="btnOK_Click" Content="确定" Height="23" Width="75" />
+            <Button x:Name="btnCancel" Click="btnCancel_Click" Content="取消" Height="23" Width="75" />
+        </StackPanel>
+    </Grid>
+</Window>

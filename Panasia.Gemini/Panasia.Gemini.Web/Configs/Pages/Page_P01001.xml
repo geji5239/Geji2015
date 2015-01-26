@@ -1,0 +1,576 @@
+<?xml version="1.0"?>
+<MvcEditPage xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" PageID="P01001" Controller="User" DefaultAction="Index">
+  <Action ActionID="A01017" Name="Index" Title="列表" ActionValue="1">
+    <Command CommandID="M01761" Name="列表页面" Description="这个命令会直接返回到客户端，无需后继命令" CommandType="IndexPageActionCommand"><![CDATA[<IndexPageActionCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ContentType="text/html">
+  <Page SettingType="IndexPage">
+    <ToolBar Tag="div" ID="toolbar" Class="toolbar-panel" PageID="P01001">
+      <Buttons>
+        <UIButton ID="btn-search" Class="easyui-linkbutton normal-button" Options="iconCls:'icon-search',plain:true" Title="检索" ActionValue="2" Action="showActDlg('检索','/Page/P01001/Search',400,300)" />
+        <UIButton ID="btn-detail" Class="easyui-linkbutton toolradio normal-button" Options="iconCls:'icon-detail',plain:true" Title="查看" ActionValue="4" Action="showActDlg_DGItemActDlg('datagrid','查看','/Page/P01001/Detail',400,300)" />
+        <UIButton ID="btn-create" Class="easyui-linkbutton normal-button" Options="iconCls:'icon-add',plain:true" Title="新增" ActionValue="8" Action="showActDlg('新增','/Page/P01001/Create',400,300)" />
+        <UIButton ID="btn-edit" Class="easyui-linkbutton toolradio normal-button" Options="iconCls:'icon-edit',plain:true" Title="修改" ActionValue="16" Action="showActDlg_DGItemActDlg('datagrid','修改','/Page/P01001/Edit',400,300)" />
+        <UIButton ID="btn-delete" Class="easyui-linkbutton toolmultiple normal-button" Options="iconCls:'icon-cancel',plain:true" Title="删除" ActionValue="32" Action="showActDlg_DGItemsConfirm('datagrid','删除','确认删除选择项？','/Page/P01001/Delete',400,300)" />
+      </Buttons>
+    </ToolBar>
+    <DataGrid Tag="table" ID="datagrid" Class="easyui-datagrid" Options="url:'/Page/P01001/Query',fitColumns:true,fit:true,pagination: true,rownumbers: true,nowrap: true,striped: true,collapsible: false,resizable:true,onClickRow:oncheckstate,onSelect:oncheckstate,onCheck:oncheckstate,onCheckAll:oncheckstate,onUncheckAll:oncheckstate,onUncheck:oncheckstate,onUnselect:oncheckstate" Key="CompanyID">
+      <Column Title="CompanyID" FieldName="CompanyID" IsCheckBox="true" />
+      <Column Title="简称" FieldName="JC" />
+      <Column Title="公司名称" FieldName="Name" />
+      <Column Title="负责人" FieldName="Manager" />
+      <Column Title="简码" FieldName="JM" />
+      <Column Title="公司网址" FieldName="Url1" />
+      <Column Title="公司电话" FieldName="Tel1" />
+      <Column Title="备注" FieldName="Remark" />
+    </DataGrid>
+  </Page>
+</IndexPageActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="A01018" Name="Search" Title="检索" ActionValue="2">
+    <Command CommandID="M01762" Name="检索页面" Description="这个命令会直接返回到客户端，无需后继命令" CommandType="EditDialogActionCommand"><![CDATA[<EditDialogActionCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ContentType="text/html">
+  <Page SettingType="EditDialog">
+    <ContentHeader>&lt;script type="text/javascript"&gt;
+$(function(){
+$("#Key").combobox({
+            mode:'remote',
+            loader: function (param,success, row)
+            {
+                var q = param.q;
+                if (q == undefined) q = "";
+                $.ajax({
+                    url: "/Share/Query?name=GetCompanyNameByKey&amp;Key=" + encodeURIComponent(q),
+                    type: 'post',
+                    success: function (data) {
+                        var items = $.map(data, function (item) {
+                            return { CompanyID: item.CompanyID, JC: item.JC};
+                        });
+                        success(items)
+                    }
+                })
+            },
+            onLoadSuccess: function ()
+            {
+                $("#Key").next().children("span").remove();
+            }
+        })
+})
+
+&lt;/script&gt;</ContentHeader>
+    <Form ID="dataform" Class="form-dialog">
+      <TableLayout />
+      <Fields>
+        <Field Title="关键词" FieldType="ComboBox">
+          <ComboBox Tag="input" ID="Key" Name="Key" Class="easyui-combobox edit-input" Options="validType:'length[1,10]',invalidMessage:'关键词不能大于10',prompt:'公司名称、简码、简称，负责人'" IsRequired="false" DisplayMember="JC" ValueMember="CompanyID" DataUrl="/Share/Query?name=GetCompanyNameByKey&amp;Key=" IsAutoHeight="false" />
+        </Field>
+      </Fields>
+      <ToolBar Tag="div" ID="toolbar" Class="dialog-button" PageID="P01001">
+        <Buttons>
+          <UIButton ID="btn-query" Class="easyui-linkbutton edit-button" Options="iconCls:'icon-ok'" Title="确定" ActionValue="2" Action="submitAct_DGReplace('dataform','/Page/P01001/Query','datagrid')" />
+          <UIButton ID="btn-cancel" Class="easyui-linkbutton edit-button" Options="iconCls:'icon-cancel'" Title="取消" Action="cancel()" />
+        </Buttons>
+      </ToolBar>
+    </Form>
+  </Page>
+</EditDialogActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="A01019" Name="Query" Title="检索" ActionValue="2">
+    <Command CommandID="M01763" Name="查询总数" Description="本查询的结果值为JSON，参数路径为Results[检索分页].Json" CommandType="ScalarSqlCommand"><![CDATA[<ScalarCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" NextCommand="分页查询" GroupName="组织结构" TableName="hr_Company" CommandName="QueryCount" SqlType="Scalar">
+  <Parameter Name="Key" Path="Request[Key]" Type="Parameter" />
+  <Parameter Name="UserID" Path="CurrentUserID" Type="SystemParameter" />
+</ScalarCommand>]]></Command>
+    <Command CommandID="M01764" Name="分页查询" Description="本查询的结果值为JSON，参数路径为Results[检索分页].Json" CommandType="QuerySqlCommand"><![CDATA[<QueryCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" NextCommand="搜索结果" GroupName="组织结构" TableName="hr_Company" CommandName="QueryPage">
+  <Parameter Name="Key" Path="Request[Key]" Type="Parameter" />
+  <Parameter Name="OrderBy" Path="Request[OrderBy]" Type="Parameter" DefaultValue="M.ModifiedTime desc" />
+  <Parameter Name="Page" Path="Request[Page]" Type="Parameter" />
+  <Parameter Name="Rows" Path="Request[Rows]" Type="Parameter" />
+  <Parameter Name="UserID" Path="CurrentUserID" Type="SystemParameter" />
+</QueryCommand>]]></Command>
+    <Command CommandID="M01765" Name="搜索结果" Description="返回搜索结果" CommandType="JsonActionCommand"><![CDATA[<JsonActionCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ContentType="application/json">
+  <Parameter Name="total" Path="Results[查询总数].Value" Type="Parameter" />
+  <Parameter Name="rows" Path="Results[分页查询].Items" Type="Parameter" />
+  <Parameter Name="HasError" Path="LastResult.IsError" Type="Parameter" />
+  <Parameter Name="ErrorMessage" Path="LastResult.ErrorMessage" Type="Parameter" />
+</JsonActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="A01020" Name="Create" Title="新增" ActionValue="4">
+    <Command CommandID="M01214" Name="新增页面copy" CommandType="EditDialogActionCommand"><![CDATA[<EditDialogActionCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ContentType="text/html">
+  <Page SettingType="EditDialog">
+    <Form ID="dataform" Class="form-dialog" EditPanelClass="edit-panel-w2">
+      <TableLayout />
+      <Fields>
+        <Field ColumnSpan="2" Title="公司名称" FieldType="TextBox">
+          <Input Tag="input" Name="Name" Class="edit-input easyui-textbox" Options="missingMessage:'请输入公司名称',required:true,validType:'length[1,50]',invalidMessage:'公司名称不能大于50'" />
+        </Field>
+        <Field Title="简称" FieldType="TextBox">
+          <Input Tag="input" Name="JC" Class="edit-input easyui-textbox" Options="validType:'length[1,10]',invalidMessage:'简称不能大于10',required:true,missingMessage:'请输入简称'" />
+        </Field>
+        <Field RowIndex="1" ColumnSpan="2" Title="负责人" FieldType="ComboTree">
+          <ComboTree Tag="input" Name="ManagerID" Class="edit-input easyui-combotree" Options="editable:false" IsRequired="false" DataUrl="/Share/Query?name=GetAllEmployee&amp;resultformat=jsontree&amp;root=000000&amp;pid=PID&amp;id=DeptID&amp;text=Name" DisplayMember="text" ValueMember="id" IsAutoHeight="false" OnSelect="function(rec){&#xD;&#xA;var ID=rec.id;&#xD;&#xA;if(ID!=''&amp;&amp;ID.charAt(0)!='E'){&#xD;&#xA;$('#Manager').combotree('unselect',id);&#xD;&#xA;}&#xD;&#xA;}" />
+        </Field>
+        <Field Title="排序" FieldType="TextBox">
+          <Input Tag="input" Name="SortID" Class="edit-input easyui-numberspinner easyui-textbox" Options="min:1,max:100,required:true,missingMessage:'请输入排序'" />
+        </Field>
+        <Field Title="网址1" FieldType="TextBox">
+          <Input Tag="input" Name="Url1" Class="edit-input easyui-textbox" Options="validType:'iswebsite'" IsRequired="false" />
+        </Field>
+        <Field Title="网址2" FieldType="TextBox">
+          <Input Tag="input" Name="Url2" Class="edit-input easyui-textbox" Options="validType:'iswebsite'" IsRequired="false" />
+        </Field>
+        <Field Title="电话1" FieldType="TextBox">
+          <Input Tag="input" Name="Tel1" Class="edit-input easyui-textbox" Options="validType:'mobile'" IsRequired="false" />
+        </Field>
+        <Field Title="电话2" FieldType="TextBox">
+          <Input Tag="input" Name="Tel2" Class="edit-input easyui-textbox" Options="validType:'mobile'" IsRequired="false" />
+        </Field>
+        <Field Title="公司地址" FieldType="TextBox">
+          <Input Tag="input" Name="Address" Class="edit-input easyui-textbox" Style="width:444px;" Options="validType:'length[1,200]',invalidMessage:'公司地址不能大于200'" IsRequired="false" />
+        </Field>
+        <Field Title="公司说明" FieldClass="edit-field-w2" FieldType="TextBox">
+          <Input Tag="input" Name="Description" Class="edit-input easyui-textbox" Style="width:444px;height:90px;" Options="multiline:true,validType:'length[1,200]',invalidMessage:'公司说明不能大于200'" IsRequired="false" />
+        </Field>
+        <Field ColumnIndex="2" ColumnSpan="2" Title="备注" FieldClass="edit-field-w2" ContentClass="edit-content-r2" FieldType="TextBox">
+          <Input Tag="input" Name="Remark" Class="edit-input easyui-textbox" Style="width:444px;height:90px;" Options="multiline:true,validType:'length[1,200]',invalidMessage:'备注不能大于200'" IsRequired="false" />
+        </Field>
+      </Fields>
+      <ToolBar Tag="div" ID="toolbar" Class="dialog-button" PageID="P01001">
+        <Buttons>
+          <UIButton Tag="a" Class="edit-button easyui-linkbutton" Options="iconCls:'icon-ok'" Title="确定" Action="submitAct_DGAppend('dataform', '/Page/P01001/Add',  'datagrid')" />
+          <UIButton Tag="a" Class="edit-button easyui-linkbutton" Options="iconCls:'icon-cancel'" Title="取消" Action="cancel()" />
+        </Buttons>
+      </ToolBar>
+    </Form>
+  </Page>
+</EditDialogActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="A01021" Name="Add" Title="新增" ActionValue="4" ErrorCommand="新增返回数据">
+    <Command CommandID="M01014" Name="新增公司" CommandType="QuerySqlCommand"><![CDATA[<QueryCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" NextCommand="新增返回数据" GroupName="组织结构" TableName="hr_Company" CommandName="Add">
+  <Parameter Name="CompanyID" Path="SerialCode" Type="SystemParameter" DefaultValue="Company,C,6" />
+  <Parameter Name="Name" Path="Request[Name]" Type="Parameter" Converter="Trim" />
+  <Parameter Name="ManagerID" Path="Request[ManagerID]" Type="Parameter" Converter="Trim" />
+  <Parameter Name="Description" Path="Request[Description]" Type="Parameter" Converter="Trim" />
+  <Parameter Name="IsActive" Path="Request[IsActive]" Type="Const" DefaultValue="1" />
+  <Parameter Name="SortID" Path="Request[SortID]" Type="Parameter" />
+  <Parameter Name="CreatedUser" Path="CurrentUserID" Type="SystemParameter" />
+  <Parameter Name="CreatedTime" Path="CurrentDateTime" Type="SystemParameter" />
+  <Parameter Name="ModifiedUser" Path="CurrentUserID" Type="SystemParameter" />
+  <Parameter Name="ModifiedTime" Path="CurrentDateTime" Type="SystemParameter" />
+  <Parameter Name="JM" Path="Request[JC]" Type="Parameter" Converter="GetPYShort" />
+  <Parameter Name="JC" Path="Request[JC]" Type="Parameter" Converter="Trim" />
+  <Parameter Name="Url1" Path="Requset[Url1]" Type="Parameter" Converter="Trim" />
+  <Parameter Name="Url2" Path="Requset[Url2]" Type="Parameter" Converter="Trim" />
+  <Parameter Name="Tel1" Path="Request[Tel1]" Type="Parameter" Converter="Trim" />
+  <Parameter Name="Tel2" Path="Request[Tel2]" Type="Parameter" Converter="Trim" />
+  <Parameter Name="Address" Path="Request[Address]" Type="Parameter" Converter="Trim" />
+  <Parameter Name="Remark" Path="Request[Remark]" Type="Parameter" Converter="Trim" />
+</QueryCommand>]]></Command>
+    <Command CommandID="M01012" Name="新增返回数据" CommandType="JsonActionCommand"><![CDATA[<JsonActionCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ContentType="application/json">
+  <Parameter Name="Data" Path="Results[新增公司].Items" Type="Parameter" />
+  <Parameter Name="HasError" Path="Results[新增公司].IsError" Type="Parameter" />
+  <Parameter Name="ErrorMessage" Path="Results[新增公司].ErrorMessage" Type="Parameter" />
+</JsonActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="A01022" Name="Edit" Title="修改" ActionValue="8">
+    <Command CommandID="M01017" Name="编辑公司" CommandType="QuerySqlCommand"><![CDATA[<QueryCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" NextCommand="编辑公司copy" GroupName="组织结构" TableName="hr_Company" CommandName="GetItem">
+  <Parameter Name="CompanyID" Path="Request[ID]" Type="Parameter" />
+</QueryCommand>]]></Command>
+    <Command CommandID="M01464" Name="编辑公司copy" CommandType="EditDialogActionCommand"><![CDATA[<EditDialogActionCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ContentType="text/html">
+  <Parameter Name="Data" Path="LastResult.Items" Type="Parameter" />
+  <Page SettingType="EditDialog">
+    <ContentHeader>&lt;script type="text/javascript"&gt;
+ $(function(){
+    $("#Manager").combotree({
+    onBeforeSelect:function(re){
+    if(re.id.charAt(0)!='E')
+    {
+if(re.id==""){return true;}
+$(this).combotree('showPanel');
+    return false;
+    }
+    else
+    {return true;}
+    }
+})
+});
+&lt;/script&gt;</ContentHeader>
+    <Form ID="dataform" Class="form-dialog" DataBinding="Parameters[Data]" EditPanelClass="edit-panel-w2">
+      <TableLayout />
+      <Fields>
+        <Field FieldType="TextBox">
+          <Input Tag="input" Name="CompanyID" Class="edit-input" InputType="hidden" Binding="CompanyID" IsRequired="false" IsHidden="true" />
+        </Field>
+        <Field Title="公司名称" FieldType="TextBox">
+          <Input Tag="input" Name="Name" Class="edit-input easyui-textbox" Options="missingMessage:'请输入公司名称',required:true,validType:'length[1,50]',invalidMessage:'公司名称不能大于50'" Binding="Name" />
+        </Field>
+        <Field Title="简称" FieldType="TextBox">
+          <Input Tag="input" Name="JC" Class="edit-input easyui-textbox" Options="validType:'length[1,10]',invalidMessage:'简称不能大于10',missingMessage:'请输入简称'" Binding="JC" />
+        </Field>
+        <Field Title="负责人" FieldType="ComboTree">
+          <ComboTree Tag="input" ID="Manager" Name="ManagerID" Class="edit-input easyui-combotree" Options="editable:false" Binding="ManagerID" DataUrl="/Share/Query?name=GetAllEmployee&amp;resultformat=jsontree&amp;root=000000&amp;pid=PID&amp;id=DeptID&amp;text=Name" DisplayMember="text" ValueMember="id" IsAutoHeight="false" OnSelect="function(rec){&#xD;&#xA;var ID=rec.id;&#xD;&#xA;if(ID!=''&amp;&amp;ID.charAt(0)!='E'){&#xD;&#xA;$('#Manager').combotree('unselect',id);&#xD;&#xA;}&#xD;&#xA;}" />
+        </Field>
+        <Field Title="排序" FieldType="TextBox">
+          <Input Tag="input" Name="SortID" Class="edit-input easyui-numberspinner easyui-textbox" Options="min:1,max:100,required:true,missingMessage:'请输入排序'" Binding="SortID" />
+        </Field>
+        <Field Title="网址1" FieldType="TextBox">
+          <Input Tag="input" Name="Url1" Class="edit-input easyui-textbox" Options="validType:'iswebsite'" Binding="Url1" IsRequired="false" />
+        </Field>
+        <Field Title="网址2" FieldType="TextBox">
+          <Input Tag="input" Name="Url2" Class="edit-input easyui-textbox" Options="validType:'iswebsite'" Binding="Url2" IsRequired="false" />
+        </Field>
+        <Field Title="电话1" FieldType="TextBox">
+          <Input Tag="input" Name="Tel1" Class="edit-input easyui-textbox" Options="validType:'mobile'" Binding="Tel1" IsRequired="false" />
+        </Field>
+        <Field Title="电话2" FieldType="TextBox">
+          <Input Tag="input" Name="Tel2" Class="edit-input easyui-textbox" Options="validType:'mobile'" Binding="Tel2" IsRequired="false" />
+        </Field>
+        <Field Title="公司地址" FieldType="TextBox">
+          <Input Tag="input" Name="Address" Class="edit-input easyui-textbox" Style="width:444px;" Options="validType:'length[1,200]',invalidMessage:'公司地址不能大于200'" Binding="Address" IsRequired="false" />
+        </Field>
+        <Field Title="公司说明" FieldClass="edit-field-w2" FieldType="TextBox">
+          <Input Tag="input" Name="Description" Class="edit-input easyui-textbox" Style="width:444px;height:90px;" Options="multiline:true,validType:'length[1,200]',invalidMessage:'公司说明不能大于200'" Binding="Description" IsRequired="false" />
+        </Field>
+        <Field Title="备注" FieldClass="edit-field-w2" FieldType="TextBox">
+          <Input Tag="input" Name="Remark" Class="edit-input easyui-textbox" Style="width:444px;height:90px;" Options="multiline:true,validType:'length[1,200]',invalidMessage:'备注不能大于200'" Binding="Remark" IsRequired="false" />
+        </Field>
+      </Fields>
+      <ToolBar Tag="div" ID="toolbar" Class="dialog-button" PageID="P01001">
+        <Buttons>
+          <UIButton Tag="a" Class="edit-button easyui-linkbutton" Options="iconCls:'icon-ok'" Title="确定" Action="submitAct_DGUpdate('dataform', '/Page/P01001/Update', 'datagrid')" />
+          <UIButton Tag="a" Class="edit-button easyui-linkbutton" Options="iconCls:'icon-cancel'" Title="取消" Action="cancel()" />
+        </Buttons>
+      </ToolBar>
+    </Form>
+  </Page>
+</EditDialogActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="A01023" Name="Update" Title="修改" ActionValue="8" ErrorCommand="编辑返回数据">
+    <Command CommandID="M01019" Name="编辑公司信息" CommandType="QuerySqlCommand"><![CDATA[<QueryCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" NextCommand="编辑返回数据" GroupName="组织结构" TableName="hr_Company" CommandName="Update">
+  <Parameter Name="Name" Path="Request[Name]" Type="Parameter" Converter="Trim" />
+  <Parameter Name="Description" Path="Request[Description]" Type="Parameter" Converter="Trim" />
+  <Parameter Name="ModifiedUser" Path="CurrentUserID" Type="SystemParameter" />
+  <Parameter Name="ModifiedTime" Path="CurrentDateTime" Type="SystemParameter" />
+  <Parameter Name="CompanyID" Path="Request[CompanyID]" Type="Parameter" />
+  <Parameter Name="ManagerID" Path="Request[ManagerID]" Type="Parameter" />
+  <Parameter Name="SortID" Path="Request[SortID]" Type="Parameter" />
+  <Parameter Name="JobID" Path="Request[JobID]" Type="Parameter" />
+  <Parameter Name="JC" Path="Request[JC]" Type="Parameter" Converter="Trim" />
+  <Parameter Name="JM" Path="Request[JC]" Type="Parameter" Converter="GetPYShort" />
+  <Parameter Name="Url1" Path="Request[Url1]" Type="Parameter" Converter="Trim" />
+  <Parameter Name="Url2" Path="Request[Url2]" Type="Parameter" Converter="Trim" />
+  <Parameter Name="Tel1" Path="Request[Tel1]" Type="Parameter" Converter="Trim" />
+  <Parameter Name="Tel2" Path="Request[Tel2]" Type="Parameter" Converter="Trim" />
+  <Parameter Name="Address" Path="Request[Address]" Type="Parameter" Converter="Trim" />
+  <Parameter Name="Remark" Path="Request[Remark]" Type="Parameter" Converter="Trim" />
+</QueryCommand>]]></Command>
+    <Command CommandID="M01018" Name="编辑返回数据" CommandType="JsonActionCommand"><![CDATA[<JsonActionCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ContentType="application/json">
+  <Parameter Name="Data" Path="Results[编辑公司信息].Items" Type="Parameter" />
+  <Parameter Name="HasError" Path="Results[编辑公司信息].IsError" Type="Parameter" />
+  <Parameter Name="ErrorMessage" Path="Results[编辑公司信息].ErrorMessage" Type="Parameter" />
+</JsonActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="A01024" Name="Delete" Title="删除" ActionValue="16" ErrorCommand="删除公司返回数据">
+    <Command CommandID="M01020" Name="删除公司" CommandType="NoneQuerySqlCommand"><![CDATA[<NoneQueryCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" NextCommand="删除公司返回数据" GroupName="组织结构" TableName="hr_Company" CommandName="Delete" SqlType="Execute">
+  <Parameter Name="CompanyIDs" Path="Request[keys]" Type="Parameter" />
+  <Parameter Name="ModifiedUser" Path="CurrentUserID" Type="SystemParameter" />
+  <Parameter Name="ModifiedTime" Path="CurrentDateTime" Type="SystemParameter" />
+</NoneQueryCommand>]]></Command>
+    <Command CommandID="M01021" Name="删除公司返回数据" CommandType="JsonActionCommand"><![CDATA[<JsonActionCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ContentType="application/json">
+  <Parameter Name="HasError" Path="Results[删除公司].IsError" Type="Parameter" />
+  <Parameter Name="ErrorMessage" Path="Results[删除公司].ErrorMessage" Type="Parameter" />
+</JsonActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="A01025" Name="Import" Title="导入">
+    <Command CommandID="M01023" Name="导入界面" CommandType="ContentActionCommand"><![CDATA[<ContentActionCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ContentType="text/html">&lt;script type="text/javascript"&gt;
+    function next()
+    {
+        var tab = $('#tabs').tabs('getSelected');
+        var index = $('#tabs').tabs('getTabIndex', tab);
+        $('#tabs').tabs('select', index +1);
+    }
+    function before()
+    {
+        var tab = $('#tabs').tabs('getSelected');
+        var index = $('#tabs').tabs('getTabIndex', tab);
+        $('#tabs').tabs('select', index -1);
+    }
+
+    function upload()
+    {
+
+
+        $('#file_form').form('submit', {
+            onSubmit: function () {
+                if ($('#file').val() == "") {
+                    $.messager.alert("提示", "没有数据！",'info');
+                    return false;
+                }
+            },
+            success: function (data) {
+                var result = $.parseJSON(data);
+                if (result.HasError)
+                {
+                    $.messager.alert("提示", result.Error);
+                } else
+                {
+                    $('#tabs').tabs('select', 2);
+                    $('#importRecord').html("导入记录：" + "导入成功" + result.Data.InsertCount + "条;导入更新" + result.Data.UpdateCount + "条;导入取消" + result.Data.CancelCount + "条");
+                }
+            }    
+        });
+
+    }
+
+&lt;/script&gt;
+
+&lt;div id="tabs" class="easyui-tabs" style="width:500px;height:300px;"&gt;
+    &lt;div title="批量导入-1.下载模板" style="padding:10px;overflow:hidden"&gt;
+        &lt;div style="margin-top:-10px"&gt;
+            &lt;p&gt;批量导入客户,供应商,商品信息及初始余额&lt;/p&gt;
+            &lt;p&gt;1.下载模板&gt;2.导入Excel&gt;3.导入完毕&lt;/p&gt;
+            &lt;p&gt;温馨提示&lt;/p&gt;
+            &lt;p&gt;导入模板的格式不能修改,录入方法请参照演示模板&lt;/p&gt;
+        &lt;/div&gt;
+        &lt;div&gt;
+            &lt;ul&gt;
+                &lt;li&gt;&lt;a href="javaScript:void(0)" onclick=""&gt;下载导入模板&lt;/a&gt;&lt;/li&gt;
+            &lt;/ul&gt;
+            &lt;ul&gt;
+                &lt;li&gt;&lt;a href="javaScript:void(0)" onclick=""&gt;下载演示模板&lt;/a&gt;&lt;/li&gt;
+            &lt;/ul&gt;
+            &lt;ul&gt;
+                &lt;li&gt;&lt;a href="javaScript:void(0)" onclick=""&gt;查看导入信息&lt;/a&gt;&lt;/li&gt;
+            &lt;/ul&gt;
+        &lt;/div&gt;
+        &lt;div style="float:right"&gt;
+            &lt;a class="easyui-linkbutton" href="javaScript:void(0)" onclick="next();"&gt;下一步&lt;/a&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div title="批量导入-2.导入Excel" data-options="closable:false" style="overflow:hidden;padding:10px;"&gt;
+        &lt;div style="margin-top:-10px"&gt;
+            &lt;p&gt;批量导入客户,供应商,商品信息及初始余额&lt;/p&gt;
+            &lt;p&gt;1.下载模板&gt;2.导入Excel&gt;3.导入完毕&lt;/p&gt;
+        &lt;/div&gt;
+            &lt;div&gt;
+                &lt;form enctype="multipart/form-data" method="post" action="@Url.Action("UploadFile","User")" id="file_form"&gt;
+                    &lt;label class="label-title"&gt;文件：&lt;/label&gt;
+                    &lt;input id="file" type="file" name="file" accept="application/msexcel" /&gt;
+                    &lt;a id="file_upload" href="#" class="btn-import easyui-linkbutton"&gt;...&lt;/a&gt;
+                    &lt;br /&gt;
+                &lt;/form&gt;
+            &lt;/div&gt;
+            &lt;div style="float:right"&gt;
+                &lt;a class="easyui-linkbutton" href="javaScript:void(0)" onclick="before();"&gt;上一步&lt;/a&gt;
+                &lt;a class="easyui-linkbutton" href="javaScript:void(0)" onclick="upload()"&gt;导入&lt;/a&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;div title="批量导入-3.导入完毕" data-options="iconCls:'icon-search',closable:false" style="padding:10px;overflow:hidden"&gt;
+        &lt;div style="margin-top:-10px"&gt;
+            &lt;p&gt;批量导入客户,供应商,商品信息及初始余额&lt;/p&gt;
+            &lt;p&gt;1.下载模板&gt;2.导入Excel&gt;3.导入完毕&lt;/p&gt;
+            &lt;p id="importRecord" style="font-weight:700; color:red"&gt;......：&lt;ul&gt;&lt;li&gt;&lt;a&gt;查看导入记录&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/p&gt;
+            &lt;/div&gt;
+            &lt;div style="float:right"&gt;
+                &lt;a class="easyui-linkbutton" href="javaScript:void(0)" onclick="before()"&gt;上一步&lt;/a&gt;
+                &lt;a class="easyui-linkbutton" href="javaScript:void(0)" onclick="cancel()"&gt;完成&lt;/a&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+&lt;/div&gt;  </ContentActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="A01026" Name="ImportFile" Title="导入" />
+  <Action ActionID="A01027" Name="Export" Title="导出" />
+  <Action ActionID="A01028" Name="ExportFile" Title="导出" />
+  <Action ActionID="A01032" Name="Detail" Title="查看" ActionValue="32">
+    <Command CommandID="M01032" Name="公司详情查询" CommandType="QuerySqlCommand"><![CDATA[<QueryCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" NextCommand="公司详情copy" GroupName="组织结构" TableName="hr_Company" CommandName="GetItem">
+  <Parameter Name="CompanyID" Path="Request[ID]" Type="Parameter" />
+</QueryCommand>]]></Command>
+    <Command CommandID="M01215" Name="公司详情copy" CommandType="EditDialogActionCommand"><![CDATA[<EditDialogActionCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ContentType="text/html">
+  <Parameter Name="Data" Path="LastResult.Items" Type="Parameter" />
+  <Page SettingType="EditDialog">
+    <Form ID="dataform" Class="form-dialog" DataBinding="Parameters[Data]" EditPanelClass="edit-panel-w2">
+      <TableLayout />
+      <Fields>
+        <Field Title="公司名称" FieldType="TextBox">
+          <Input Tag="input" Name="Name" Class="edit-input easyui-textbox" Binding="Name" IsReadOnly="true" IsRequired="false" />
+        </Field>
+        <Field Title="简称" FieldType="TextBox">
+          <Input Tag="input" Name="JC" Class="edit-input easyui-textbox" Binding="JC" IsReadOnly="true" IsRequired="false" />
+        </Field>
+        <Field Title="负责人" FieldType="TextBox">
+          <Input Tag="input" Name="ManagerName" Class="edit-input easyui-textbox" Binding="ManagerName" IsReadOnly="true" IsRequired="false" />
+        </Field>
+        <Field Title="排序" FieldType="TextBox">
+          <Input Tag="input" Name="SortID" Class="edit-input easyui-textbox" Binding="SortID" IsReadOnly="true" IsRequired="false" />
+        </Field>
+        <Field Title="网址1" FieldType="TextBox">
+          <Input Tag="input" Name="Url1" Class="edit-input easyui-textbox" Binding="Url1" IsReadOnly="true" IsRequired="false" />
+        </Field>
+        <Field Title="网址2" FieldType="TextBox">
+          <Input Tag="input" Name="Url2" Class="edit-input easyui-textbox" Binding="Url2" IsReadOnly="true" IsRequired="false" />
+        </Field>
+        <Field Title="电话1" FieldType="TextBox">
+          <Input Tag="input" Name="Tel1" Class="edit-input easyui-textbox" Binding="Tel1" IsReadOnly="true" IsRequired="false" />
+        </Field>
+        <Field Title="电话2" FieldType="TextBox">
+          <Input Tag="input" Name="Tel2" Class="edit-input easyui-textbox" Binding="Tel2" IsReadOnly="true" IsRequired="false" />
+        </Field>
+        <Field Title="地址" FieldType="TextBox">
+          <Input Tag="input" Name="Address" Class="edit-input easyui-textbox" Style="width:444px;" Binding="Address" IsReadOnly="true" IsRequired="false" />
+        </Field>
+        <Field Title="公司说明" FieldClass="edit-field-w2" FieldType="TextBox">
+          <Input Tag="input" Name="Description" Class="edit-input easyui-textbox" Style="width:444px;height:90px;" Options="multiline:true" Binding="Description" IsReadOnly="true" IsRequired="false" />
+        </Field>
+        <Field Title="备注" FieldClass="edit-field-w2" FieldType="TextBox">
+          <Input Tag="input" Name="Remark" Class="edit-input easyui-textbox" Style="width:444px;height:90px;" Options="multiline:true" Binding="Remark" IsReadOnly="true" IsRequired="false" />
+        </Field>
+      </Fields>
+      <ErrorMessage ID="showmsg" Class="showmsg" />
+      <ToolBar Tag="div" ID="toolbar" Class="dialog-button" PageID="P01001">
+        <Buttons>
+          <UIButton Class="edit-button easyui-linkbutton" Options="iconCls:'icon-cancel'" Title="关闭" Action="cancel()" />
+        </Buttons>
+      </ToolBar>
+    </Form>
+  </Page>
+</EditDialogActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="f9b5bb03-e9bb-42dc-b524-b972a35a7e44" Name="ReportTest" Title="报表测试" ErrorCommand="取报表数据">
+    <Command CommandID="M01535" Name="取报表数据" CommandType="SqlCommand"><![CDATA[<SqlCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" NextCommand="部门报表" GroupName="组织结构" TableName="hr_Company" CommandName="ReportTest" SqlType="QueryTable" />]]></Command>
+    <Command CommandID="M01536" Name="部门报表" CommandType="ReportActionCommand"><![CDATA[<ReportActionCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ReportPath_x0020_="Department.rdlc">
+  <Parameter Name="reportTitle" Type="Const" DefaultValue="部门报表测试" />
+  <DataSource Name="Table1" Path="LastResult.Table" Type="Parameter" />
+</ReportActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="fc0b14c7-31dd-429d-a658-0eed6ebdcb69" Name="Report" Title="报表">
+    <Command CommandID="M01769" Name="demo" CommandType="SqlCommand"><![CDATA[<SqlCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" NextCommand="test" GroupName="组织结构" TableName="hr_Company" CommandName="Report" SqlType="QueryTable" />]]></Command>
+    <Command CommandID="M01770" Name="test" CommandType="ReportActionCommand"><![CDATA[<ReportActionCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ReportPath_x0020_="Dept.rdlc">
+  <ContentHeader>13313</ContentHeader>
+  <Parameter Name="reportTitle" Type="Const" DefaultValue="部门报表" />
+  <DataSource Name="Table2" Path="LastResult.Table" Type="Parameter" />
+</ReportActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="24753394-654a-42b2-83b3-e35912b03b84" Name="Bank" Title="账号" ActionValue="64">
+    <Command CommandID="M01774" Name="查询公司信息" CommandType="QuerySqlCommand"><![CDATA[<QueryCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" NextCommand="银行" GroupName="组织结构" TableName="hr_Company" CommandName="GetItem">
+  <Parameter Name="CompanyID" Path="Request[ID]" Type="Parameter" />
+</QueryCommand>]]></Command>
+    <Command CommandID="M01773" Name="银行" CommandType="RazorContentActionCommand"><![CDATA[<RazorContentActionCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ContentType="text/html" TemplateFile="\Bank\Bank.cshtml" SettingType="EditDialog">
+  <Parameter Name="Data" Path="LastResult.Item" Type="Parameter" />
+</RazorContentActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="76cb932f-785d-4c57-8529-f93a49b90bbb" Name="GetBank" Title="获取公司银行账号" ErrorCommand="返回">
+    <Command CommandID="M01775" Name="查询" CommandType="QueryJsonSqlCommand"><![CDATA[<QueryJsonCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" NextCommand="返回" GroupName="财务管理" TableName="bi_Bank" CommandName="GetBankByCom" SqlType="QueryJson">
+  <Parameter Name="CompanyID" Path="Request[ID]" Type="Parameter" />
+</QueryJsonCommand>]]></Command>
+    <Command CommandID="M01776" Name="返回" CommandType="ReturnActionCommand"><![CDATA[<ReturnActionCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ContentType="appplication/json">
+  <Parameter Name="json" Path="LastResult.Json" Type="Parameter" />
+</ReturnActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="82a24670-3d44-4790-9336-66c3fc6c1bc6" Name="UpdateBank" Title="更行银行账号" ErrorCommand="返回">
+    <Command CommandID="M01777" Name="更新银行账号" CommandType="QuerySqlCommand"><![CDATA[<QueryCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" NextCommand="返回" GroupName="财务管理" TableName="bi_Bank" CommandName="UpdateBank">
+  <Parameter Name="BankID" Path="Request[BankID]" Type="Parameter" />
+  <Parameter Name="Account" Path="Request[Account]" Type="Parameter" Converter="Trim" />
+  <Parameter Name="BankName" Path="Request[BankName]" Type="Parameter" Converter="Trim" />
+  <Parameter Name="Remark" Path="Request[Remark]" Type="Parameter" Converter="Trim" />
+  <Parameter Name="Remaining" Path="Request[Remaining]" Type="Parameter" Converter="Trim" />
+  <Parameter Name="ModifiedUser" Path="CurrentUserID" Type="SystemParameter" />
+  <Parameter Name="ModifiedTime" Path="CurrentDateTime" Type="SystemParameter" />
+</QueryCommand>]]></Command>
+    <Command CommandID="M01780" Name="返回" CommandType="JsonActionCommand"><![CDATA[<JsonActionCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ContentType="application/json">
+  <Parameter Name="HasError" Path="Results[更新银行账号].IsError" Type="Parameter" />
+  <Parameter Name="ErrorMessage" Path="Results[更新银行账号].ErrorMessage" Type="Parameter" />
+</JsonActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="03475cb3-debd-4f06-93b0-b7c6e298c645" Name="AddBank" Title="新增银行账号" ErrorCommand="返回">
+    <Command CommandID="M01778" Name="新增银行账号" CommandType="QuerySqlCommand"><![CDATA[<QueryCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" NextCommand="返回" GroupName="财务管理" TableName="bi_Bank" CommandName="AddBank">
+  <Parameter Name="BankID" Path="SerialCode" Type="SystemParameter" DefaultValue="Bank,B,8" />
+  <Parameter Name="Account" Path="Request[Account]" Type="Parameter" Converter="Trim" />
+  <Parameter Name="BankName" Path="Request[BankName]" Type="Parameter" Converter="Trim" />
+  <Parameter Name="Remark" Path="Request[Remark]" Type="Parameter" Converter="Trim" />
+  <Parameter Name="Remaining" Path="Request[Remaining]" Type="Parameter" Converter="Trim" />
+  <Parameter Name="ModifiedUser" Path="CurrentUserID" Type="SystemParameter" />
+  <Parameter Name="ModifiedTime" Path="CurrentDateTime" Type="SystemParameter" />
+  <Parameter Name="CompanyID" Path="Request[CompanyID]" Type="Parameter" />
+  <Parameter Name="IsActive" Path="Request[IsActive]" Type="Const" DefaultValue="1" />
+  <Parameter Name="CreatedUser" Path="CurrentUserID" Type="SystemParameter" />
+  <Parameter Name="CreatedTime" Path="CurrentDateTime" Type="SystemParameter" />
+</QueryCommand>]]></Command>
+    <Command CommandID="M01779" Name="返回" CommandType="JsonActionCommand"><![CDATA[<JsonActionCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ContentType="application/json">
+  <Parameter Name="HasError" Path="Results[新增银行账号].IsError" Type="Parameter" />
+  <Parameter Name="ErrorMessage" Path="Results[新增银行账号].ErrorMessage" Type="Parameter" />
+</JsonActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="8f0603a1-f7a9-4832-ae1e-4568c088d268" Name="DeleteBank" Title="停用银行账号" ErrorCommand="返回">
+    <Command CommandID="M01781" Name="停用银行账号" CommandType="QuerySqlCommand"><![CDATA[<QueryCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" NextCommand="返回" GroupName="财务管理" TableName="bi_Bank" CommandName="DeleteBank">
+  <Parameter Name="BankID" Path="Request[ID]" Type="Parameter" />
+</QueryCommand>]]></Command>
+    <Command CommandID="M01782" Name="返回" CommandType="JsonActionCommand"><![CDATA[<JsonActionCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ContentType="application/json">
+  <Parameter Name="HasError" Path="Results[停用银行账号].IsError" Type="Parameter" />
+  <Parameter Name="ErrorMessage" Path="Results[停用银行账号].ErrorMessage" Type="Parameter" />
+</JsonActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="73780d6e-b433-4116-8f9a-000c32e1485a" Name="BankRole" Title="银行角色" ActionValue="128">
+    <Command CommandID="M01784" Name="查询" CommandType="QuerySqlCommand"><![CDATA[<QueryCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" NextCommand="银行角色" GroupName="组织结构" TableName="hr_Company" CommandName="GetItem">
+  <Parameter Name="CompanyID" Path="Request[ID]" Type="Parameter" />
+</QueryCommand>]]></Command>
+    <Command CommandID="M01783" Name="银行角色" CommandType="RazorContentActionCommand"><![CDATA[<RazorContentActionCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ContentType="text/xml" TemplateFile="\Bank\BankRole.cshtml" SettingType="EditDialog">
+  <Parameter Name="Data" Path="LastResult.Item" Type="Parameter" />
+</RazorContentActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="70747cd1-981d-4346-8635-4ca2dca66a6f" Name="ActiveBank" Title="启用银行账号" ErrorCommand="返回">
+    <Command CommandID="M01785" Name="启用" CommandType="QuerySqlCommand"><![CDATA[<QueryCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" NextCommand="返回" GroupName="财务管理" TableName="bi_Bank" CommandName="ActiveBank">
+  <Parameter Name="BankID" Path="Request[ID]" Type="Parameter" />
+</QueryCommand>]]></Command>
+    <Command CommandID="M01786" Name="返回" CommandType="JsonActionCommand"><![CDATA[<JsonActionCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ContentType="application/json">
+  <Parameter Name="HasError" Path="Results[启用].IsError" Type="Parameter" />
+  <Parameter Name="ErrorMessage" Path="Results[启用].ErrorMessage" Type="Parameter" />
+</JsonActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="5d19f6e1-df19-4d29-bbcb-a9a2511e8b31" Name="SearchEmployeeName" Title="检索员工姓名" ErrorCommand="检索">
+    <Command CommandID="M01787" Name="检索" CommandType="QuerySqlCommand"><![CDATA[<QueryCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" NextCommand="返回" GroupName="组织结构" TableName="hr_Company" CommandName="SearchEmployeeName">
+  <Parameter Name="Name" Path="Request[Name]" Type="Parameter" />
+</QueryCommand>]]></Command>
+    <Command CommandID="M01788" Name="返回" CommandType="JsonActionCommand"><![CDATA[<JsonActionCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ContentType="application/json">
+  <Parameter Name="Data" Path="Results[检索].Items" Type="Parameter" />
+</JsonActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="01133704-2727-43eb-94cd-1fe830628fdc" Name="SearchBankName" Title="检索银行名称" ErrorCommand="检索">
+    <Command CommandID="M01789" Name="检索" CommandType="QuerySqlCommand"><![CDATA[<QueryCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" NextCommand="返回" GroupName="组织结构" TableName="hr_Company" CommandName="SearchBankName">
+  <Parameter Name="CompanyID" Path="Request[CompanyID]" Type="Parameter" />
+  <Parameter Name="Name" Path="Request[Name]" Type="Parameter" />
+</QueryCommand>]]></Command>
+    <Command CommandID="M01790" Name="返回" CommandType="JsonActionCommand"><![CDATA[<JsonActionCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ContentType="application/json">
+  <Parameter Name="Data" Path="Results[检索].Items" Type="Parameter" />
+</JsonActionCommand>]]></Command>
+  </Action>
+  <Layout EditFieldClass="edit-field" />
+  <Buttons>
+    <Button ID="btn-search" Title="检索" ActionValue="2" Action="showActDlg('检索','/Page/P01001/Search',400,300)" Class="easyui-linkbutton" Option="iconCls:'icon-search'" />
+    <Button ID="btn-query" Title="确定" ActionValue="2" Action="submitAct_DGReplace('dataform','/Page/P01001/Query','datagrid')" Class="easyui-linkbutton edit-button" Option="iconCls:'icon-ok'" ShowInToolBar="false" />
+    <Button ID="btn-detail" Title="查看" ActionValue="4" Action="showActDlg_DGItemActDlg('datagrid','查看','/Page/P01001/Detail',400,300)" Class="easyui-linkbutton toolradio" Option="iconCls:'icon-add'" />
+    <Button ID="btn-create" Title="新增" ActionValue="8" Action="showActDlg('新增','/Page/P01001/Create',400,300)" Class="easyui-linkbutton" Option="iconCls:'icon-add'" />
+    <Button ID="btn-add" Title="确定" ActionValue="8" Action="submitAct_DGAppend('dataform','/Page/P01001/Add','datagrid')" Class="easyui-linkbutton edit-button" Option="iconCls:'icon-ok'" ShowInToolBar="false" />
+    <Button ID="btn-edit" Title="修改" ActionValue="16" Action="showActDlg_DGItemActDlg('datagrid','修改','/Page/P01001/Edit',400,300)" Class="easyui-linkbutton toolradio" Option="iconCls:'icon-edit'" />
+    <Button ID="btn-update" Title="确定" ActionValue="16" Action="submitAct_DGUpdate('dataform','/Page/P01001/Update','datagrid')" Class="easyui-linkbutton edit-button" Option="iconCls:'icon-ok'" ShowInToolBar="false" />
+    <Button ID="btn-delete" Title="删除" ActionValue="32" Action="showActDlg_DGItemsConfirm('datagrid','删除','确认删除选择项？','/Page/P01001/Delete',400,300)" Class="easyui-linkbutton toolmultiple" Option="iconCls:'icon-cancel'" />
+    <Button ID="btn-import" Title="导入" ActionValue="64" Action="showActDlg('导入','/Page/P01001/Import',400,300)" Class="easyui-linkbutton" Option="iconCls:'icon-import'" />
+    <Button ID="btn-export" Title="导出" ActionValue="128" Action="showActDlg('导出','/Page/P01001/Export',400,300)" Class="easyui-linkbutton" Option="iconCls:'icon-export'" />
+    <Button ID="btn-cancel" Title="取消" Action="cancel()" Class="easyui-linkbutton edit-button" Option="iconCls:'icon-cancel'" ShowInToolBar="false" />
+    <Button ID="btn-close" Title="确定" Action="cancel()" Class="easyui-linkbutton edit-button" ShowInToolBar="false" />
+  </Buttons>
+  <EditSource GroupName="组织结构" TableName="hr_Company" Key="CompanyID" LogicDeleteFlag="IsActive=0">
+    <Fields>
+      <EditField Name="CompanyID" Title="CompanyID" DataType="varchar" Length="6" ShowInSearch="false" EditBox="Hidden" />
+      <EditField Name="Name" Title="公司名称" DataType="nvarchar" Length="20" />
+      <EditField Name="JC" Title="简称" DataType="nvarchar" Length="10" ShowInSearch="false" />
+      <EditField Name="JM" Title="简码" DataType="nvarchar" Length="10" ShowInSearch="false" />
+      <EditField Name="ManagerID" Title="ManagerID" DataType="varchar" Length="6" ShowInGrid="false" ShowInSearch="false" IsForeignKey="true" ForeignGroup="人事管理" ForeignTable="hr_Employee" DisplayMember="Name" ValueMember="EmployeeID" />
+      <EditField Name="Description" Title="备注" DataType="varchar" Length="200" ShowInSearch="false" />
+      <EditField Name="IsActive" Title="IsActive" DataType="bit" ShowInGrid="false" ShowInSearch="false" EditBox="ComboBox" ItemsSource="1:是|0:否" />
+      <EditField Name="SortID" Title="SortID" DataType="int" ShowInGrid="false" ShowInSearch="false" />
+      <EditField Name="CreatedUser" Title="CreatedUser" DataType="varchar" Length="6" ShowInGrid="false" ShowInCreate="false" ShowInEdit="false" ShowInDetail="false" ShowInSearch="false" IsRequired="false" EnableEdit="false" />
+      <EditField Name="CreatedTime" Title="CreatedTime" DataType="datetime" ShowInGrid="false" ShowInCreate="false" ShowInEdit="false" ShowInDetail="false" ShowInSearch="false" IsRequired="false" EnableEdit="false" />
+      <EditField Name="ModifiedUser" Title="ModifiedUser" DataType="varchar" Length="6" ShowInGrid="false" ShowInCreate="false" ShowInEdit="false" ShowInDetail="false" ShowInSearch="false" IsRequired="false" EnableEdit="false" />
+      <EditField Name="ModifiedTime" Title="ModifiedTime" DataType="datetime" ShowInGrid="false" ShowInCreate="false" ShowInEdit="false" ShowInDetail="false" ShowInSearch="false" IsRequired="false" EnableEdit="false" />
+      <EditField Name="AutoKey" Title="AutoKey" DataType="int" ShowInGrid="false" ShowInCreate="false" ShowInEdit="false" ShowInDetail="false" ShowInSearch="false" IsRequired="false" EnableEdit="false" />
+      <EditField Name="Manager" Title="负责人" ShowInSearch="false" IsForeignColumn="true" TargetForeignKey="ManagerID" ForeignColumnName="Name" ForeignGroup="人事管理" ForeignTable="hr_Employee" />
+    </Fields>
+    <ChildTables />
+  </EditSource>
+</MvcEditPage>

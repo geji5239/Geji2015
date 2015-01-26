@@ -1,0 +1,116 @@
+﻿@model Panasia.Core.Auth.UserAuthModel
+@using AF.Core
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script type="text/javascript">
+    function submitAct_UserRole(data,url)
+    {
+        var roles = data.Roles;
+        for(var i=0;i<roles.length;i++)
+        {
+            var roleIDs=[];
+            $("input[name='"+data.UserID+"']:checked").each(function(){
+                roleIDs.push($(this).val());
+            })
+        }
+
+        var obj={UserID:data.UserID,Roles:roleIDs};
+        $.ajax({
+            url:url,
+            type:"post",
+            data:obj,
+            success:function(msg)
+            {
+                var  data=$.parseJSON(msg);
+                if (!data.HasError) {
+                    cancel();
+                    $.messager.alert("提示", "角色修改成功");
+                }
+                else {
+                    showError(data.Error);
+                }
+            },
+            error:function(xmlhttprequest,text,error) {
+                showError(error);
+            }
+        });
+    }
+
+</script>
+    @*<form class="form-dialog" method="post" id="dataform">
+            <div class="padding-dialog">
+                <input class="input-dialog" name="RoleID" hidden />
+                <div id="userRole">
+                </div>
+
+                <div class="showMsg"><label id="showMsg"></label></div>
+                <div class="btn-dialog">
+                    <input type="button" value="确定" class="btn-padding easyui-linkbutton " onclick="submitAct_UserRole(@Html.Raw(@Model.ToJson()),'/User/UpdateUserRole')" />
+                    <input type="button" value="取消" class="btn-padding easyui-linkbutton" onclick="cancel()" />
+                </div>
+            </div>
+        </form>
+        @section scripts{
+            <script type="text/javascript">
+                $(document).ready(function () {
+                    var result=@Html.Raw(@Model.ToJson());
+                    var roles=result.Roles;
+                    var html="";
+                    for(var i=0;i<roles.length;i++)
+                    {
+                        if(roles[i].IsSelected)
+                        {
+                            html+="<input type='checkbox' checked='true' class='checkbox' value="+roles[i].RoleID+" name="+result.UserID+">";
+                        }
+                        else
+                        {
+                            html+="<input type='checkbox' class='checkbox' value="+roles[i].RoleID+" name="+result.UserID+">";
+                        }
+                        html+="<label class='margin-3'>"+roles[i].Name+"</label>";
+                    }
+                    $("#userRole").append(html);
+                });
+    </script>
+    }*@
+
+<form method="post" id="userRoleForm" style="overflow:hidden">
+    <table class="grid" >
+        <tr>
+            <th>角色:</th>
+            <td>
+                <input class="input-dialog" name="RoleID" hidden />
+                <div style="width:380px">
+                @for (var i = 0; i < @Model.Roles.Count;i++ )
+                {
+                    if (i % 3 == 0) { 
+                        <br/>
+                        <hr>
+                    }
+                    <div style="width:120px;float:left">
+                        @if (@Model.Roles[i].IsSelected)
+                        {
+                            var ischecked = "checked='checked'";
+                            <input type='checkbox' class='checkbox' value="@Model.Roles[i].RoleID" name="@Model.UserID" @ischecked />
+                        }
+                        else
+                        {
+                            <input type='checkbox' class='checkbox' value="@Model.Roles[i].RoleID" name="@Model.UserID" />
+                        }
+                        <span style="position:fixed">@Model.Roles[i].Name</span>
+                    </div>
+                }
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <div class="btn-dialog">
+                    <a class="easyui-linkbutton btn-padding" data-options="iconCls:'icon-ok'" onclick="submitAct_UserRole(@Html.Raw(@Model.ToJson()),'/User/UpdateUserRole')">确定</a>
+                    <a class="easyui-linkbutton btn-padding" data-options="iconCls:'icon-cancel'" onclick="cancel()">取消</a>
+                </div>
+            </td>
+        </tr>
+    </table>
+    @*<div class="showMsg"><label id="showMsg"></label></div>*@
+</form>

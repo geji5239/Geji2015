@@ -1,0 +1,404 @@
+<?xml version="1.0"?>
+<MvcEditPage xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Controller="" DefaultAction="">
+  <Action ActionID="A01035" Name="Index" Title="列表" ActionValue="1">
+    <Command CommandID="M01076" Name="列表页面" Description="这个命令会直接返回到客户端，无需后继命令" CommandType="FormViewActionCommand">
+          <![CDATA[<FormViewActionCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ContentType="text/html" ViewPath="~/Views/Page/Index.cshtml">
+  <Form Style="border: 0px;top:40px;margin:10px;" Options="region:'center'" IsContainer="false">
+    <Controls>
+      <ToolBar ID="toolbar" Style="margin:10px 8px;height:28px;border:0px;" Options="region:'north'">
+        <Controls>
+          <Button ID="btn-search" Class="easyui-linkbutton" Options="iconCls:'icon-reload'" Title="检索" Action="showActDlg('检索','/Page/P01002/Search',400,300)" ActionValue="2" />
+          <Button ID="btn-detail" Class="easyui-linkbutton toolradio" Options="iconCls:'icon-detail'" Title="查看" Action="showActDlg_DGItemActDlg('datagrid', '查看', '/Page/P01002/Detail', 400, 300)" ActionValue="4" />
+          <Button ID="btn-create" Class="easyui-linkbutton" Options="iconCls:'icon-add'" Title="新增" Action="showActDlg('新增', '/Page/P01002/Create', 400, 300)" ActionValue="8" />
+          <Button ID="btn-edit" Class="easyui-linkbutton toolradio" Options="iconCls:'icon-edit'" Title="编辑" Action="showActDlg_DGItemActDlg('datagrid', '编辑', '/Page/P01002/Edit', 400, 300)" ActionValue="16" />
+          <Button ID="btn-delete" Class="easyui-linkbutton toolmultiple" Options="iconCls:'icon-cancel'" Title="删除" Action="showActDlg_DGItemsConfirm('datagrid', '删除', '确认删除选择项?', '/Page/P01002/Delete', 400, 300)" ActionValue="32" />
+        </Controls>
+      </ToolBar>
+    <StackPanel ID="contian" Style="border: 0px;top:40px;padding:15px 0 0 8px;" Options="region:'center'">
+     <Controls>
+      <GridView ID="datagrid" Class="easyui-datagrid" Options="fitColumns:true,fit:true,pagination: true,rownumbers: true,nowrap: true,striped: true,collapsible: false,resizable:true" Key="DeptID">
+        <Columns>
+          <Column Title="部门名称" FieldName="DeptName" />
+          <Column Title="部门负责人" FieldName="ManagerID" />
+          <Column Title="上级部门" FieldName="ParentName" />
+          <Column Title="所属公司" FieldName="CompanyName" />
+          <Column Title="所属事业部" FieldName="BUName" />
+          <Column Title="部门说明" FieldName="Description" />
+        </Columns>
+      </GridView>
+          </Controls>
+      </StackPanel>
+    </Controls>
+  </Form>
+</FormViewActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="A01036" Name="Search" Title="检索" ActionValue="2">
+    <Command CommandID="M01091" Name="返回部门" CommandType="QuerySqlCommand"><![CDATA[<QueryCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" NextCommand="返回公司" GroupName="组织结构" TableName="hr_Department" CommandName="GetName" />]]></Command>
+    <Command CommandID="M01092" Name="返回公司" CommandType="QuerySqlCommand"><![CDATA[<QueryCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" NextCommand="返回事业部" GroupName="组织结构" TableName="hr_Company" CommandName="GetName" />]]></Command>
+    <Command CommandID="M01094" Name="返回事业部" CommandType="QuerySqlCommand"><![CDATA[<QueryCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" NextCommand="搜索页面" GroupName="组织结构" TableName="hr_BU" CommandName="GetName" />]]></Command>
+    <Command CommandID="M01077" Name="搜索页面" Description="这个命令会直接返回到客户端，无需后继命令" CommandType="FormViewActionCommand">
+            <![CDATA[<FormViewActionCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ContentType="text/html" ViewPath="~/Views/Page/Edit.cshtml">
+  <Parameter Name="ItemsSource_IsValid" Type="Const" DefaultValue="1:有效|0:无效" />
+  <Parameter Name="CompanyName" Path="Results[返回公司].Items" Type="Parameter" />
+  <Parameter Name="BUName" Path="Results[返回事业部].Items" Type="Parameter" />
+  <Parameter Name="DeptName" Path="Results[返回部门].Items" Type="Parameter" />
+  <Parameter Name="Employee" Type="Const" DefaultValue=":无|E0001:小张|E0002:小鹿" />
+  <Form>
+    <Controls>
+      <DataView ID="dataform" Class="form-dialog">
+        <Controls>           
+        <StackPanel Class="edit-panel">
+            <Controls> 
+            <StackPanel Class="showMsg">
+            <Controls>
+              <Label ID="showMsg" />
+            </Controls>
+          </StackPanel>
+          <StackPanel Class="padding-5">
+            <Controls>
+              <Label Name="Name" Class="edit-title" Title="部门名称：" />
+              <TextBox Name="Name" Class="edit-content" />
+            </Controls>
+          </StackPanel>
+          <StackPanel Class="padding-5">
+            <Controls>
+              <Label Class="edit-title" Title="部门负责人：" />
+              <ComboBox Name="ManagerID" Class=" query-state easyui-combobox" ItemsSource="Parameters[Employee]" />
+            </Controls>
+          </StackPanel>
+          <StackPanel Class="padding-5">
+            <Controls>
+              <Label Class="edit-title" Title="上级部门：" />
+              <ComboBox Name="ParentID" Class=" query-state easyui-combobox" ItemsSource="Parameters[DeptName] " DisplayMemeber="Name" ValueMember="DeptID" />
+            </Controls>
+          </StackPanel>
+          <StackPanel Class="padding-5">
+            <Controls>
+              <Label Class="edit-title" Title="所属公司：" />
+              <ComboBox Name="CompanyID" Class=" query-state easyui-combobox" ItemsSource="Parameters[CompanyName] " DisplayMemeber="Name" ValueMember="CompanyID" />
+            </Controls>
+          </StackPanel>
+          <StackPanel Class="padding-5">
+            <Controls>
+              <Label Class="edit-title" Title="所属事业部：" />
+              <ComboBox Name="BUID" Class=" query-state easyui-combobox" ItemsSource="Parameters[BUName]" DisplayMemeber="Name" ValueMember="BUID" />
+            </Controls>
+          </StackPanel>
+          <StackPanel Class="padding-5">
+            <Controls>
+              <Label Class="edit-title" Title="状态：" />
+              <ComboBox Name="IsActive" Class="query-state easyui-combobox" ItemsSource="Parameters[ItemsSource_IsValid]" />
+            </Controls>
+          </StackPanel>
+             </Controls>
+          </StackPanel>
+          
+          <StackPanel Class="btn-dialog">
+            <Controls>
+              <Button Class="btn-padding easyui-linkbutton" Title="确定" Action="submitAct_DGReplace('dataform', '/Page/P01002/Query', 'datagrid')" />
+              <Button Class="btn-padding easyui-linkbutton" Title="取消" Action="cancel()" />
+            </Controls>
+          </StackPanel>
+        </Controls>
+      </DataView>
+    </Controls>
+  </Form>
+</FormViewActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="A01037" Name="Query" Title="检索" ActionValue="2">
+    <Command CommandID="M01078" Name="执行查询" Description="本查询的结果值为JSON，参数路径为Results[执行查询].Json" CommandType="QueryJsonSqlCommand"><![CDATA[<QueryJsonCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" NextCommand="搜索结果" GroupName="组织结构" TableName="hr_Department" CommandName="Query">
+  <Parameter Name="Name" Path="Request[Name]" Type="Parameter" />
+  <Parameter Name="ManagerID" Path="Request[ManagerID]" Type="Parameter" />
+  <Parameter Name="ParentID" Path="Request[ParentID]" Type="Parameter" />
+  <Parameter Name="CompanyID" Path="Request[CompanyID]" Type="Parameter" />
+  <Parameter Name="BUID" Path="Request[BUID]" Type="Parameter" />
+  <Parameter Name="IsActive" Path="Request[IsActive]" Type="Parameter" />
+</QueryJsonCommand>]]></Command>
+    <Command CommandID="M01079" Name="搜索结果" Description="返回搜索结果" CommandType="JsonActionCommand"><![CDATA[<JsonActionCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ContentType="application/json">
+  <Parameter Name="Data" Path="Results[执行查询].Json" Type="Parameter" />
+  <Parameter Name="HasError" Path="Results[执行查询].IsError" Type="Parameter" />
+  <Parameter Name="ErrorMessage" Path="Results[执行查询].ErrorMessage" Type="Parameter" />
+</JsonActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="A01038" Name="Create" Title="新增" ActionValue="4">
+    <Command CommandID="M01088" Name="返回公司信息" CommandType="QuerySqlCommand"><![CDATA[<QueryCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" NextCommand="返回事业部信息" GroupName="组织结构" TableName="hr_Company" CommandName="GetName" />]]></Command>
+    <Command CommandID="M01089" Name="返回事业部信息" CommandType="QuerySqlCommand"><![CDATA[<QueryCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" NextCommand="返回部门信息" GroupName="组织结构" TableName="hr_BU" CommandName="GetName" />]]></Command>
+    <Command CommandID="M01090" Name="返回部门信息" CommandType="QuerySqlCommand"><![CDATA[<QueryCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" NextCommand="新增页面" GroupName="组织结构" TableName="hr_Department" CommandName="GetName" />]]></Command>
+    <Command CommandID="M01080" Name="新增页面" Description="这个命令会直接返回到客户端，无需后继命令" CommandType="FormViewActionCommand"><![CDATA[<FormViewActionCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ContentType="text/html" ViewPath="~/Views/Page/Edit.cshtml">
+  <Parameter Name="CompanyName" Path="Results[返回公司信息].Items" Type="Parameter" />
+  <Parameter Name="BUName" Path="Results[返回事业部信息].Items" Type="Parameter" />
+  <Parameter Name="DeptName" Path="Results[返回部门信息].Items" Type="Parameter" />
+  <Parameter Name="Employee" Type="Const" DefaultValue=":无|E0001:小张|E0002:小鹿" />
+  <Form>
+    <Controls>
+      <DataView ID="dataform" Class="form-dialog">
+        <Controls>
+          <StackPanel Class="padding-5">
+            <Controls>
+              <Label Class="edit-title" Title="ID:" />
+              <TextBox Name="DeptID" Class="edit-content easyui-validatebox textbox" Options="missingMessage:'请输入部门ID',required:true" />
+            </Controls>
+          </StackPanel>
+          <StackPanel Class="padding-5">
+            <Controls>
+              <Label Class="edit-title" Title="部门名称：" />
+              <TextBox Name="Name" Class="edit-content easyui-validatebox textbox" Options="missingMessage:'请输入部门名称',required:true" />
+            </Controls>
+          </StackPanel>
+          <StackPanel Class="padding-5">
+            <Controls>
+              <Label Class="edit-title" Title="上级部门：" />
+              <ComboBox Name="ParentID" Class="query-state easyui-combobox" ItemsSource="Parameters[DeptName]" DisplayMemeber="Name" ValueMember="DeptID" />
+            </Controls>
+          </StackPanel>
+          <StackPanel Class="padding-5">
+            <Controls>
+              <Label Class="edit-title" Title="所属公司：" />
+              <ComboBox Name="CompanyID" Class="query-state easyui-combobox " ItemsSource="Parameters[CompanyName]" DisplayMemeber="Name" ValueMember="CompanyID" />
+            </Controls>
+          </StackPanel>
+          <StackPanel Class="padding-5">
+            <Controls>
+              <Label Class="edit-title" Title="所属事业部：" />
+              <ComboBox Name="BUID" Class="query-state easyui-combobox" ItemsSource="Parameters[BUName]" DisplayMemeber="Name" ValueMember="BUID" />
+            </Controls>
+          </StackPanel>
+          <StackPanel Class="padding-5">
+            <Controls>
+              <Label Class="edit-title" Title="部门负责人：" />
+              <ComboBox Name="ManagerID" Class="query-state easyui-combobox" ItemsSource="/Parameters[Employee]" />
+            </Controls>
+          </StackPanel>
+          <StackPanel Class="padding-5">
+            <Controls>
+              <Label Class="edit-title" Title="部门说明：" />
+              <TextBox Name="Description" Class="edit-content" Options="height:60px;" IsMutiLine="true" />
+            </Controls>
+          </StackPanel>
+          <StackPanel Class="showMsg">
+            <Controls>
+              <Label ID="showMsg" />
+            </Controls>
+          </StackPanel>
+          <StackPanel Class="btn-dialog">
+            <Controls>
+              <Button Class="btn-padding easyui-linkbutton" Title="确定" Action="submitAct_DGAppend('dataform', '/Page/P01002/Add', 'datagrid')" />
+              <Button Class="btn-padding easyui-linkbutton" Title="取消" Action="cancel()" />
+            </Controls>
+          </StackPanel>
+        </Controls>
+      </DataView>
+    </Controls>
+  </Form>
+</FormViewActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="A01039" Name="Add" Title="新增" ActionValue="4">
+    <Command CommandID="M01081" Name="执行新增" Description="本查询的结果值为JSON，参数路径为Results[执行新增].Json" CommandType="QueryJsonSqlCommand"><![CDATA[<QueryJsonCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" NextCommand="新增结果" GroupName="组织结构" TableName="hr_Department" CommandName="Add">
+  <Parameter Name="DeptID" Path="Request[DeptID]" Type="Parameter" />
+  <Parameter Name="Name" Path="Request[Name]" Type="Parameter" />
+  <Parameter Name="ManagerID" Path="Request[ManagerID]" Type="Parameter" />
+  <Parameter Name="ParentID" Path="Request[ParentID]" Type="Parameter" />
+  <Parameter Name="CompanyID" Path="Request[CompanyID]" Type="Parameter" />
+  <Parameter Name="BUID" Path="Request[BUID]" Type="Parameter" />
+  <Parameter Name="Description" Path="Request[Description]" Type="Parameter" />
+  <Parameter Name="IsActive" Path="Request[IsActive]" Type="Const" DefaultValue="1" />
+  <Parameter Name="SortID" Path="Request[SortID]" Type="Const" DefaultValue="0" />
+  <Parameter Name="CreatedUser" Path="CurrentUserID" Type="SystemParameter" />
+  <Parameter Name="CreatedTime" Path="CurrentDateTime" Type="SystemParameter" />
+  <Parameter Name="ModifiedUser" Path="CurrentUserID" Type="SystemParameter" />
+  <Parameter Name="ModifiedTime" Path="CurrentDateTime" Type="SystemParameter" />
+</QueryJsonCommand>]]></Command>
+    <Command CommandID="M01082" Name="新增结果" Description="返回新增结果" CommandType="JsonActionCommand"><![CDATA[<JsonActionCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ContentType="application/json">
+  <Parameter Name="Data" Path="Results[执行新增].Json" Type="Parameter" />
+  <Parameter Name="HasError" Path="Results[执行新增].IsError" Type="Parameter" />
+  <Parameter Name="ErrorMessage" Path="Results[执行新增].ErrorMessage" Type="Parameter" />
+</JsonActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="A01044" Name="Edit" Title="编辑" ActionValue="8">
+    <Command CommandID="M01097" Name="返回部门" CommandType="QuerySqlCommand"><![CDATA[<QueryCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" NextCommand="返回公司" GroupName="组织结构" TableName="hr_Department" CommandName="GetName" />]]></Command>
+    <Command CommandID="M01098" Name="返回公司" CommandType="QuerySqlCommand"><![CDATA[<QueryCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" NextCommand="返回事业部" GroupName="组织结构" TableName="hr_Company" CommandName="GetName" />]]></Command>
+    <Command CommandID="M01099" Name="返回事业部" CommandType="QuerySqlCommand"><![CDATA[<QueryCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" NextCommand="部门详情查询" GroupName="组织结构" TableName="hr_BU" CommandName="GetName" />]]></Command>
+    <Command CommandID="M01095" Name="部门详情查询" CommandType="QuerySqlCommand"><![CDATA[<QueryCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" NextCommand="部门详情窗体" GroupName="组织结构" TableName="hr_Department" CommandName="GetItem">
+  <Parameter Name="DeptID" Path="Request[ID]" Type="Parameter" />
+</QueryCommand>]]></Command>
+    <Command CommandID="M01096" Name="部门详情窗体" CommandType="FormViewActionCommand"><![CDATA[<FormViewActionCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ContentType="text/html" ViewPath="~/Views/Page/Edit.cshtml">
+  <Parameter Name="Data" Path="LastResult.Items" Type="Parameter" />
+  <Parameter Name="DeptName" Path="Results[返回部门].Items" Type="Parameter" />
+  <Parameter Name="CompanyName" Path="Results[返回公司].Items" Type="Parameter" />
+  <Parameter Name="BUName" Path="Results[返回事业部].Items" Type="Parameter" />
+  <Parameter Name="Employee" Type="Const" DefaultValue=":无|E0001:小张|E0002:小鹿" />
+  <Form>
+    <Controls>
+      <DataView ID="dataform" Class="form-dialog" Binding="Parameters[Data]">
+        <Controls>
+          <StackPanel Class="padding-dialog">
+            <Controls>
+              <StackPanel Class="padding-5">
+                <Controls>
+                  <Label Class="edit-title" Title="部门名称：" />
+                  <TextBox Name="DeptName" Class="edit-content easyui-validatebox textbox" Options="missingMessage:'请输入部门名称',required:true" Binding="DeptName" />
+                </Controls>
+              </StackPanel>
+              <StackPanel Class="padding-5">
+                <Controls>
+                  <Label Class="edit-title" Title="上级部门：" />
+                  <ComboBox ID="ParentID" Name="ParentID" Class=" query-state easyui-combobox" Binding="ParentID" ItemsSource="/Parameters[DeptName]" DisplayMemeber="Name" ValueMember="DeptID" />
+                </Controls>
+              </StackPanel>
+              <StackPanel Class="padding-5">
+                <Controls>
+                  <Label Class="edit-title" Title="所属公司：" />
+                  <ComboBox ID="CompanyID" Name="CompanyID" Class=" query-state easyui-combobox" Binding="CompanyID" ItemsSource="/Parameters[CompanyName]" DisplayMemeber="Name" ValueMember="CompanyID" />
+                </Controls>
+              </StackPanel>
+              <StackPanel Class="padding-5">
+                <Controls>
+                  <Label Class="edit-title" Title="所属事业部：" />
+                  <ComboBox ID="BUID" Name="BUID" Class=" query-state easyui-combobox" Binding="BUID" ItemsSource="/Parameters[BUName]" DisplayMemeber="Name" ValueMember="BUID" />
+                </Controls>
+              </StackPanel>
+              <StackPanel Class="padding-5">
+                <Controls>
+                  <Label Class="edit-title" Title="部门负责人：" />
+                  <ComboBox Name="ManagerID" Class=" query-state easyui-combobox" Binding="ManagerID" ItemsSource="/Parameters[Employee]" />
+                </Controls>
+              </StackPanel>
+              <StackPanel Class="padding-5">
+                <Controls>
+                  <Label Class="edit-title" Title="说明：" />
+                  <TextBox Name="Description" Class="edit-content" Style="height:60px;" Binding="Description" IsMutiLine="true" />
+                </Controls>
+              </StackPanel>
+              <TextBox Name="DeptID" Binding="DeptID" IsHidden="false" />
+            </Controls>
+          </StackPanel>
+          <StackPanel Class="btn-dialog">
+            <Controls>
+              <Button Class="btn-padding easyui-linkbutton" Title="确定" Action="submitAct_DGUpdate('dataform', '/Page/P01002/Update', 'datagrid')" />
+              <Button Class="btn-padding easyui-linkbutton" Title="返回" Action="cancel()" />
+            </Controls>
+          </StackPanel>
+        </Controls>
+      </DataView>
+    </Controls>
+  </Form>
+</FormViewActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="A01041" Name="Update" Title="编辑" ActionValue="8">
+    <Command CommandID="M01084" Name="执行更新" Description="本查询的结果值为JSON，参数路径为Results[执行更新].Json" CommandType="QueryJsonSqlCommand"><![CDATA[<QueryJsonCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" NextCommand="编辑结果" GroupName="组织结构" TableName="hr_Department" CommandName="Update">
+  <Parameter Name="Name" Path="Request[DeptName]" Type="Parameter" />
+  <Parameter Name="ManagerID" Path="Request[ManagerID]" Type="Parameter" />
+  <Parameter Name="ParentID" Path="Request[ParentID]" Type="Parameter" />
+  <Parameter Name="CompanyID" Path="Request[CompanyID]" Type="Parameter" />
+  <Parameter Name="BUID" Path="Request[BUID]" Type="Parameter" />
+  <Parameter Name="Description" Path="Request[Description]" Type="Parameter" />
+  <Parameter Name="ModifiedUser" Path="CurrentUserID" Type="SystemParameter" />
+  <Parameter Name="ModifiedTime" Path="CurrentDateTime" Type="SystemParameter" />
+  <Parameter Name="DeptID" Path="Request[DeptID]" Type="Parameter" />
+</QueryJsonCommand>]]></Command>
+    <Command CommandID="M01085" Name="编辑结果" Description="返回编辑结果" CommandType="JsonActionCommand"><![CDATA[<JsonActionCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ContentType="application/json">
+  <Parameter Name="Data" Path="Results[执行更新].Json" Type="Parameter" />
+  <Parameter Name="HasError" Path="Results[执行更新].IsError" Type="Parameter" />
+  <Parameter Name="ErrorMessage" Path="Results[执行更新].ErrorMessage" Type="Parameter" />
+</JsonActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="A01042" Name="Delete" Title="删除" ActionValue="16">
+    <Command CommandID="M01086" Name="执行删除" Description="本查询的结果值为JSON，参数路径为Results[执行删除].Json" CommandType="QueryJsonSqlCommand"><![CDATA[<QueryJsonCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" NextCommand="删除结果" GroupName="组织结构" TableName="hr_Department" CommandName="Delete">
+  <Parameter Name="ModifiedUser" Path="CurrentUserID" Type="SystemParameter" />
+  <Parameter Name="ModifiedTime" Path="CurrentDateTime" Type="SystemParameter" />
+  <Parameter Name="DeptIDs" Path="Request[keys]" Type="Parameter" />
+</QueryJsonCommand>]]></Command>
+    <Command CommandID="M01087" Name="删除结果" Description="返回删除结果" CommandType="JsonActionCommand"><![CDATA[<JsonActionCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ContentType="application/json">
+  <Parameter Name="Data" Path="Results[执行删除].Json" Type="Parameter" />
+  <Parameter Name="HasError" Path="Results[执行删除].IsError" Type="Parameter" />
+  <Parameter Name="ErrorMessage" Path="Results[执行删除].ErrorMessage" Type="Parameter" />
+</JsonActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="A01043" Name="Detail" Title="查看" ActionValue="32">
+    <Command CommandID="M01095" Name="部门详情查询" CommandType="QuerySqlCommand"><![CDATA[<QueryCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" NextCommand="部门详情窗体" GroupName="组织结构" TableName="hr_Department" CommandName="GetItem">
+  <Parameter Name="DeptID" Path="Request[ID]" Type="Parameter" />
+</QueryCommand>]]></Command>
+    <Command CommandID="M01096" Name="部门详情窗体" CommandType="FormViewActionCommand"><![CDATA[<FormViewActionCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ContentType="text/html" ViewPath="~/Views/Page/Edit.cshtml">
+  <Parameter Name="Data" Path="LastResult.Items" Type="Parameter" />
+  <Form>
+    <Controls>
+      <DataView ID="dataform" Class="form-dialog" Binding="Parameters[Data]">
+        <Controls>
+          <StackPanel Class="padding-dialog">
+            <Controls>
+              <StackPanel Class="padding-5">
+                <Controls>
+                  <Label Class="edit-title" Title="部门名称：" />
+                  <TextBox Name="DeptName" Class="edit-content" Binding="DeptName" IsEnable="false" />
+                </Controls>
+              </StackPanel>
+              <StackPanel Class="padding-5">
+                <Controls>
+                  <Label Class="edit-title" Title="上级部门：" />
+                  <TextBox Name="ParentName" Class="edit-content" Binding="ParentName" IsEnable="false" />
+                </Controls>
+              </StackPanel>
+              <StackPanel Class="padding-5">
+                <Controls>
+                  <Label Class="edit-title" Title="所属公司：" />
+                  <TextBox Name="CompanyName" Class="edit-content" Binding="CompanyName" IsEnable="false" />
+                </Controls>
+              </StackPanel>
+              <StackPanel Class="padding-5">
+                <Controls>
+                  <Label Class="edit-title" Title="所属事业部：" />
+                  <TextBox Name="BUName" Class="edit-content" Binding="BUName" IsEnable="false" />
+                </Controls>
+              </StackPanel>
+              <StackPanel Class="padding-5">
+                <Controls>
+                  <Label Class="edit-title" Title="部门负责人：" />
+                  <TextBox Name="ManagerID" Class="edit-content" Binding="ManagerID" IsEnable="false" />
+                </Controls>
+              </StackPanel>
+              <StackPanel Class="padding-5">
+                <Controls>
+                  <Label Class="edit-title" Title="说明：" />
+                  <TextBox Name="Description" Class="edit-content" Style="height:60px;" Binding="Description" IsEnable="false" IsMutiLine="true" />
+                </Controls>
+              </StackPanel>
+              <StackPanel Class="padding-5">
+                <Controls>
+                  <Label Class="edit-title" Title="状态：" />
+                  <TextBox Name="IsActive" Class="edit-content" Binding="IsActive" IsEnable="false" />
+                </Controls>
+              </StackPanel>
+            </Controls>
+          </StackPanel>
+          <StackPanel Class="btn-dialog">
+            <Controls>
+              <Button Class="btn-padding easyui-linkbutton" Title="返回" Action="cancel()" />
+            </Controls>
+          </StackPanel>
+        </Controls>
+      </DataView>
+    </Controls>
+  </Form>
+</FormViewActionCommand>]]></Command>
+  </Action>
+  <Layout EditFieldClass="edit-field" EditLabelClass="edit-label" />
+  <Buttons />
+  <EditSource GroupName="组织结构" TableName="hr_Department" Key="DeptID">
+    <Fields>
+      <EditField Name="DeptID" Title="DeptID" DataType="System.String" ShowInGrid="false" ShowInCreate="false" ShowInEdit="false" ShowInDetail="false" ShowInSearch="false" IsRequired="false" EnableEdit="false" />
+      <EditField Name="Name" Title="Name" DataType="System.String" />
+      <EditField Name="ManagerID" Title="ManagerID" DataType="System.String" IsRequired="false" />
+      <EditField Name="ParentID" Title="ParentID" DataType="System.String" IsRequired="false" />
+      <EditField Name="CompanyID" Title="CompanyID" DataType="System.String" />
+      <EditField Name="BUID" Title="BUID" DataType="System.String" IsRequired="false" />
+      <EditField Name="Description" Title="Description" DataType="System.String" ShowInSearch="false" IsRequired="false" />
+      <EditField Name="IsActive" Title="IsActive" DataType="System.Boolean" ShowInGrid="false" ShowInCreate="false" ShowInEdit="false" IsRequired="false" EditBox="ComboBox" />
+      <EditField Name="SortID" Title="SortID" DataType="System.Int32" ShowInGrid="false" ShowInCreate="false" ShowInEdit="false" ShowInDetail="false" ShowInSearch="false" IsRequired="false" EnableEdit="false" />
+      <EditField Name="CreatedUser" Title="CreatedUser" DataType="System.String" ShowInGrid="false" ShowInCreate="false" ShowInEdit="false" ShowInDetail="false" ShowInSearch="false" IsRequired="false" EnableEdit="false" />
+      <EditField Name="CreatedTime" Title="CreatedTime" DataType="System.DateTime" ShowInGrid="false" ShowInCreate="false" ShowInEdit="false" ShowInDetail="false" ShowInSearch="false" IsRequired="false" EnableEdit="false" />
+      <EditField Name="ModifiedUser" Title="ModifiedUser" DataType="System.String" ShowInGrid="false" ShowInCreate="false" ShowInEdit="false" ShowInDetail="false" ShowInSearch="false" IsRequired="false" EnableEdit="false" />
+      <EditField Name="ModifiedTime" Title="ModifiedTime" DataType="System.DateTime" ShowInGrid="false" ShowInCreate="false" ShowInEdit="false" ShowInDetail="false" ShowInSearch="false" IsRequired="false" EnableEdit="false" />
+      <EditField Name="AutoKey" Title="AutoKey" DataType="System.Int32" ShowInGrid="false" ShowInCreate="false" ShowInEdit="false" ShowInDetail="false" ShowInSearch="false" IsRequired="false" EnableEdit="false" />
+    </Fields>
+  </EditSource>
+</MvcEditPage>

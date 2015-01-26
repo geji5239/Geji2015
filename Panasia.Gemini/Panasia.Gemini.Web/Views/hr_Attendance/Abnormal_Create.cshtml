@@ -1,0 +1,107 @@
+﻿@{
+    var item = Model.Parameters["Data"];
+}
+<style>
+    .edit-panel3 {
+    padding:5px 0px;
+    margin-top:5px;
+    width:530px;
+    height:20px;
+    margin-left: auto;
+    margin-right: auto;
+    }
+</style>
+
+<form method="post" id="dataform" class="form-dialog">
+
+    <div class="edit-dialog1" style="width:560px">
+
+        <div class="edit-panel3">
+
+            <div class="edit-field1">
+                <div class="edit-title1"><label class="edit-label1">部门：</label></div>
+                <div class="edit-content">
+                    <input class="edit-input easyui-textbox " value="@item["Dname"]" readonly="readonly" name="Dname" />
+                    <input value="@item["DeptID"]" readonly="readonly" type="hidden" name="DeptID" />
+                </div>
+            </div>
+
+            <div class="edit-field1">
+                <div class="edit-title1"><label class="edit-label1">申请日期：</label></div>
+                <div class="edit-content"> <input class="edit-input easyui-textbox " value="@item["ApplicationDate"]" readonly="readonly" name="ApplicationDate" /></div>
+            </div>
+
+        </div>
+
+        <div class="edit-panel3">
+
+            <div class="edit-field1">
+                <div class="edit-title1"><label class="edit-label1">姓名：</label></div>
+                <div class="edit-content">
+                    <input class="edit-input easyui-textbox " value="@item["Ename"]" readonly="readonly" name="Ename" />
+                    <input value="@item["EmployeeID"]" readonly="readonly" type="hidden" name="EmployeeID" />
+                </div>
+            </div>
+
+            <div class="edit-field1">
+                <div class="edit-title1"><label class="edit-label1">职位：</label></div>
+                <div class="edit-content">
+                    <input class="edit-input easyui-textbox " value="@item["Jname"]" readonly="readonly" name="Jname" />
+                    <input value="@item["JobID"]" readonly="readonly" type="hidden" name="JobID" />
+                </div>
+            </div>
+
+        </div>
+
+        <div class="edit-panel3">
+
+            <div class="edit-field1">
+                <div class="edit-title1"><label class="edit-label1">开始时间：</label></div>
+                <div class="edit-content"> <input class="edit-input easyui-datetimebox " id="StartDate" name="StartDate" data-options="missingMessage:'请选择开始时间',validType:'dateCompareNow[\'<\']',invalidMessage:'开始时间不得超过当天',required:true,showSeconds:false" /></div>
+            </div>
+            <div class="edit-field1">
+                <div class="edit-title1"><label class="edit-label1">结束时间：</label></div>
+                <div class="edit-content"> <input class="edit-input easyui-datetimebox " name="EndDate" data-options="missingMessage:'请选择结束时间',validType:'timeCompare[\'#StartDate\']',invalidMessage:'结束时间必须大于开始时间',required:true,showSeconds:false" /></div>
+            </div>
+
+        </div>
+
+        <div class="edit-panel3">
+
+            <div class="edit-field1">
+                <div class="edit-title1"><label class="edit-label1">申请时长(H)：</label></div>
+                <div class="edit-content">
+                    <input class="edit-input easyui-numberspinner" data-options="min:0,max:8,precision:1,increment:0.5,required:true,missingMessage:'请设定申请时长',editable:false" name="ApplicationHours" />
+                </div>
+            </div>
+
+            <div class="edit-field1">
+                <div class="edit-title1"><label class="edit-label1">类型：</label></div>
+                <div class="edit-content">
+                    <input class="edit-input easyui-combobox" name="ThrowableType" panelheight="auto" data-options="required:true,missingMessage:'请选择类型',editable:false,url:'/Share/GetSystemCodes?code=C014',valueField:'Name',textField:'Name'" />
+                </div>
+
+            </div>
+        </div>
+
+        <div class="edit-panel3" style="height:60px">
+
+            <div class="edit-field1">
+                <div class="edit-title1"><label class="edit-label1">事由：</label></div>
+                <div class="edit-content-r2">
+                    <input class="edit-input easyui-textbox " name="Reason" style="width:434px; height:60px" data-options="multiline:true,validType:'length[0,200]',invalidMessage:'事由不得超过200个字符'" />
+                </div>
+            </div>
+
+        </div>
+
+        <div class="edit-field1">
+            <div class="showmsg"><label id="showmsg"></label></div>
+        </div>
+    </div>
+</form>
+<div class="dialog-button">
+    <a class="easyui-linkbutton edit-button" data-options="iconCls:'icon-ok'" onclick="submitAct_DGAppend('dataform','/Page/P01032/Add','datagrid')">确定</a>
+    <a class="easyui-linkbutton edit-button" data-options="iconCls:'icon-cancel'" onclick="cancel()">取消</a>
+</div>
+

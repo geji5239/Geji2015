@@ -1,0 +1,137 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{E06A969A-9CCC-4484-B76E-77E622135E26}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Documents</RootNamespace>
+    <AssemblyName>Documents</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Excel.4.5">
+      <HintPath>Dll\Excel.4.5.dll</HintPath>
+    </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib">
+      <HintPath>Dll\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Dll\EntityFramework.dll" />
+    <Content Include="Dll\EntityFramework.SqlServer.dll" />
+    <Content Include="Dll\EntityFramework.SqlServer.xml" />
+    <Content Include="Dll\EntityFramework.xml" />
+    <Content Include="Dll\Excel.4.5.dll" />
+    <Content Include="Dll\ICSharpCode.SharpZipLib.dll" />
+    <Content Include="Dll\LinqToExcel.dll" />
+    <Content Include="Dll\LinqToExcel.xml" />
+    <Content Include="Dll\log4net.dll" />
+    <Content Include="Dll\Maticsoft.DBUtility.dll" />
+    <Content Include="Dll\Microsoft.ReportViewer.WebForms.DLL" />
+    <Content Include="Dll\MVC4\Antlr3.Runtime.dll" />
+    <Content Include="Dll\MVC4\Microsoft.Web.Infrastructure.dll" />
+    <Content Include="Dll\MVC4\Microsoft.Web.Mvc.FixedDisplayModes.dll" />
+    <Content Include="Dll\MVC4\System.Net.Http.Formatting.dll" />
+    <Content Include="Dll\MVC4\System.Web.Helpers.dll" />
+    <Content Include="Dll\MVC4\System.Web.Helpers.xml" />
+    <Content Include="Dll\MVC4\System.Web.Http.dll" />
+    <Content Include="Dll\MVC4\System.Web.Http.WebHost.dll" />
+    <Content Include="Dll\MVC4\System.Web.Mvc.dll" />
+    <Content Include="Dll\MVC4\System.Web.Mvc.xml" />
+    <Content Include="Dll\MVC4\System.Web.Optimization.dll" />
+    <Content Include="Dll\MVC4\System.Web.Providers.dll" />
+    <Content Include="Dll\MVC4\System.Web.WebPages.Deployment.dll" />
+    <Content Include="Dll\MVC4\System.Web.WebPages.Deployment.xml" />
+    <Content Include="Dll\MVC4\System.Web.WebPages.dll" />
+    <Content Include="Dll\MVC4\System.Web.WebPages.Razor.dll" />
+    <Content Include="Dll\MVC4\System.Web.WebPages.Razor.xml" />
+    <Content Include="Dll\MVC4\System.Web.WebPages.xml" />
+    <Content Include="Dll\MVC4\WebGrease.dll" />
+    <Content Include="Dll\Newtonsoft.Json.dll" />
+    <Content Include="Dll\Panasia.Core.App.dll" />
+    <Content Include="Dll\Panasia.Core.Commands.dll" />
+    <Content Include="Dll\Panasia.Core.dll" />
+    <Content Include="Dll\RazorEngine.dll" />
+    <Content Include="Dll\Remotion.Data.Linq.dll" />
+    <Content Include="Dll\Remotion.dll" />
+    <Content Include="Dll\Remotion.Interfaces.dll" />
+    <Content Include="Dll\ReportViewerForMvc.dll" />
+    <Content Include="Dll\ReportViewer\Microsoft.ReportViewer.Common.dll" />
+    <Content Include="Dll\ReportViewer\Microsoft.ReportViewer.DataVisualization.DLL" />
+    <Content Include="Dll\ReportViewer\Microsoft.ReportViewer.Design.DLL" />
+    <Content Include="Dll\ReportViewer\Microsoft.ReportViewer.ProcessingObjectModel.DLL" />
+    <Content Include="Dll\ReportViewer\Microsoft.ReportViewer.WebDesign.DLL" />
+    <Content Include="Dll\ReportViewer\Microsoft.ReportViewer.WebForms.DLL" />
+    <Content Include="Dll\ReportViewer\Microsoft.ReportViewer.WinForms.DLL" />
+    <Content Include="Dll\ReportViewer\Microsoft.SqlServer.Types.dll" />
+    <Content Include="Dll\ReportViewer\Microsoft.Web.Infrastructure.dll" />
+    <Content Include="Dll\ReportViewer\System.Web.Helpers.dll" />
+    <Content Include="Dll\ReportViewer\System.Web.Mvc.dll" />
+    <Content Include="Dll\ReportViewer\System.Web.Razor.dll" />
+    <Content Include="Dll\ReportViewer\System.Web.WebPages.Deployment.dll" />
+    <Content Include="Dll\ReportViewer\System.Web.WebPages.dll" />
+    <Content Include="Dll\ReportViewer\System.Web.WebPages.Razor.dll" />
+    <Content Include="Dll\ReportViewer\WebMatrix.Data.dll" />
+    <Content Include="Dll\ReportViewer\x64\msvcr100.dll" />
+    <Content Include="Dll\ReportViewer\x64\SqlServerSpatial110.dll" />
+    <Content Include="Dll\ReportViewer\x86\msvcr100.dll" />
+    <Content Include="Dll\ReportViewer\x86\SqlServerSpatial110.dll" />
+    <Content Include="Dll\Scripting.SSharp.dll" />
+    <Content Include="Dll\System.Web.Razor.dll" />
+    <Content Include="人事送签到OA的使用说明.txt" />
+    <Content Include="常用参数路径.txt" />
+    <Content Include="项目说明.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Panasia.Gemini.FL.Data\Panasia.Gemini.FL.Data.csproj">
+      <Project>{2d45faa4-3dd7-4be3-bba9-92068d83e46c}</Project>
+      <Name>Panasia.Gemini.FL.Data</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

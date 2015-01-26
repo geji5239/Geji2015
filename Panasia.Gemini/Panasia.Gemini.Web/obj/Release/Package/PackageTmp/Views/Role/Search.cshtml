@@ -1,0 +1,35 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<form class="form-dialog" method="post" id="roleSearchForm">
+    <div class="edit-panel">
+        <div class="showMsg"><label id="showMsg"></label></div>
+        <div class="padding-5">
+            <label class="edit-title">角色名：</label>
+            <input class="edit-content easyui-validatebox" name="name" id="name" />
+        </div>
+    </div>
+    <div class="btn-dialog">
+        <a class="easyui-linkbutton btn-padding" data-options="iconCls:'icon-ok'" onclick="submitAct_DGReplace('roleSearchForm', '/Role/Query', 'datagrid')">确定</a>
+        <a class="easyui-linkbutton btn-padding" data-options="iconCls:'icon-cancel'" onclick="cancel()">取消</a>
+    </div>
+</form>
+
+@*<form method="post" id="roleSearchForm">
+    <table class="grid">
+        <tr>
+            <th>角色名:</th>
+            <td><input class="input-dialog" name="name" id="roleName" /></td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <div class="btn-dialog">
+                    <a class="btn-padding easyui-linkbutton " data-options="iconCls:'icon-ok'" onclick="submitAct_DGReplace('roleSearchForm', '/Role/Query', 'datagrid')">确定</a>
+                    <a class="btn-padding easyui-linkbutton" data-options="iconCls:'icon-cancel'" onclick="cancel()">取消</a>
+                </div>
+            </td>
+        </tr>
+    </table>
+    <div class="showMsg"><label id="showMsg"></label></div>
+</form>*@

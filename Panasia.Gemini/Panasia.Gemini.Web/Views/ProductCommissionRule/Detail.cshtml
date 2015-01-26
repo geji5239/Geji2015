@@ -1,0 +1,123 @@
+﻿@{
+    var item = Model.Parameters["Data"];
+}
+<style>
+    .edit-panel3 {
+        padding: 5px 0px;
+        margin-top: 5px;
+        width: 530px;
+        height: 20px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+</style>
+<script type="text/javascript">
+    function onClickRow(rowIndex, rowData) {
+        $("#RuleID").val(rowData["CommissionRuleID"]);
+        $('#ReceiveCommission').numberbox('setValue', rowData['ReceiveCommissionValue']);
+        $('#CommissionDept').textbox('setValue', rowData['Dept']);
+        $('#CommissionType').textbox('setValue', rowData['CommissionType']);
+        $('#OrderCommission').numberbox('setValue', rowData['OrderCommissionValue']);
+        $('#OCUnit').combobox('setValue', rowData['OCUnit']);
+        $('#RCUnit').combobox('setValue', rowData['RCUnit']);
+        $("#Remark").textbox('setValue', rowData["Remark"]);
+    }
+    function cancleClickRow(rowIndex, rowData) {
+        $('#ReceiveCommission,#Remark,#OrderCommission').textbox('setValue', '');
+        $('#CommissionDeptID').combotree('clear');
+        $('#CommissionTypeID,#OCUnit,#RCUnit').combobox('setValue', '');
+    }
+</script>
+<form method="post" id="dataform" class="form-dialog">
+
+    <div class="edit-dialog1" style="width:530px">
+        <div class="edit-panel3">
+            <div class="edit-field1">
+                <div class="edit-title1"><label class="edit-label1">产品名称：</label></div>
+                <div class="edit-content">
+                    <input class="edit-input easyui-textbox " name="Product" value="@item["Product"]" readonly="readonly" />
+                    <input readonly="readonly" type="hidden" name="ProductID" id="ProductID" value="@item["ProductID"]" />
+                </div>
+            </div>
+        </div>
+
+        <div class="edit-panel3" style="height:110px;width:434px;margin-left:70px">
+            <table id="datagrid1" style="height:110px;width:434px;" class="easyui-datagrid" data-options="url:'/Page/P01067/GetCommission?ProductID=@item["ProductID"]',fitColumns:true,fit:true,rownumbers:true,nowrap: true,singleSelect:true,striped: true,collapsible: false,resizable:true, onSelect: onClickRow,onUnselect: cancleClickRow">
+                <thead>
+                    <tr>
+                        <th data-options="field:'CommissionRuleID',hidden:true,checkbox:true"></th>
+                        <th data-options="field:'Dept',fixed:true,halign:'center'">提成部门</th>
+                        <th data-options="field:'CommissionType',fixed:true,halign:'center'">提成类别</th>
+                        <th data-options="field:'OrderCommission',fixed:true,halign:'center',align:'right'">下单提成</th>
+                        <th data-options="field:'ReceiveCommission',fixed:true,halign:'center',align:'right'">结单提成</th>
+                        <th data-options="field:'Remark',fixed:true,halign:'center'">备注</th>
+                        <th data-options="field:'DeptID',fixed:true,hidden:true,halign:'center'"></th>
+                        <th data-options="field:'CommissionTypeID',fixed:true,hidden:true,halign:'center'"></th>
+                        <th data-options="field:'OrderCommissionValue',fixed:true,hidden:true,halign:'center'"></th>
+                        <th data-options="field:'ReceiveCommissionValue',fixed:true,hidden:true,halign:'center'"></th>
+                        <th data-options="field:'OCUnit',fixed:true,hidden:true"></th>
+                        <th data-options="field:'RCUnit',fixed:true,hidden:true"></th>
+                    </tr>
+                </thead>
+            </table>
+
+        </div>
+        @*<div class="edit-panel3">
+
+            <div class="edit-field1">
+                <div class="edit-title1"><label class="edit-label1">提成部门：</label></div>
+                <div class="edit-content">
+                    <input id="RuleID" name="RuleID" class="edit-input" type="hidden">
+                    <input id="CommissionDept" class="edit-input easyui-textbox" name="CommissionDept" readonly="readonly" />
+                </div>
+            </div>
+
+            <div class="edit-field1">
+                <div class="edit-title1"><label class="edit-label1">提成类别：</label></div>
+                <div class="edit-content">
+                    <input id="CommissionType" class="edit-input easyui-textbox" name="CommissionTypeID" readonly="readonly" />
+                </div>
+            </div>
+        </div>
+
+        <div class="edit-panel3">
+
+            <div class="edit-field1">
+                <div class="edit-title1"><label class="edit-label1">下单提成：</label></div>
+                <div class="edit-content">
+                    <input id="OrderCommission" class="edit-input easyui-numberbox" style="width:132px;" name="OrderCommission" readonly="readonly" />
+                    <input name="OCUnit" id="OCUnit" class="edit-input easyui-combobox" style="width:47px;" value="%" readonly="readonly" data-options="required:true,missingMessage:'请选择单位',editable:false,url:'/Share/GetSystemCodes?code=C048',method:'get',valueField:'Code',textField:'Name',panelHeight:'auto'"></input>
+                </div>
+            </div>
+
+            <div class="edit-field1">
+                <div class="edit-title1"><label class="edit-label1">结单提成：</label></div>
+                <div class="edit-content">
+                    <input id="ReceiveCommission" class="edit-input easyui-numberbox " name="ReceiveCommission" style="width:132px;" readonly="readonly" />
+                    <input name="RCUnit" id="RCUnit" class="edit-input easyui-combobox" style="width:47px;" readonly="readonly" value="%" data-options="required:true,missingMessage:'请选择单位',editable:false,url:'/Share/GetSystemCodes?code=C048',method:'get',valueField:'Code',textField:'Name',panelHeight:'auto'"></input>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="edit-panel3">
+
+            <div class="edit-field1">
+                <div class="edit-title1"><label class="edit-label1">备注：</label></div>
+                <div class="edit-content">
+                    <input id="Remark" class="edit-input easyui-textbox" readonly="readonly" name="Remark" style="width:434px;height:60px" data-options="validType:'length[1,200]',invalidMessage:'备注不得超过200个字符',multiline:true" />
+                </div>
+            </div>
+        </div>
+        <div class="edit-panel3">
+            <div class="edit-field1" style="margin-top:30px;">
+                <div class="showmsg"><label id="showmsg"></label></div>
+            </div>
+        </div>*@
+    </div>
+</form>
+<div class="dialog-button">
+    <a class="easyui-linkbutton edit-button" data-options="iconCls:'icon-cancel'" onclick="cancel()">关闭</a>
+</div>
+
+

@@ -1,0 +1,197 @@
+﻿@{
+    var item = Model.Parameters["Data"];
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title></title>
+
+    <script type="text/javascript">
+        var flag = [0, 0, 0, 0];
+        $(function () {
+            $('#tabs').tabs({
+                onSelect: function (title, index) {
+                    switch (title) {
+                        case '入库记录':
+                            if (flag[0] == 0) {
+                                $('#datagridRK').datagrid({ url: '/Page/P01110/GetRK?ProductID=' + $('#ProductID').val() });
+                            }
+                            flag[0] = 1;
+                            break;
+                        case '领用记录':
+                            if (flag[1] == 0) {
+                                $('#datagridLY').datagrid({ url: '/Page/P01110/GetLY?ProductID=' + $('#ProductID').val() });
+                            }
+                            flag[1] = 1;
+                            break;
+                        case '借用记录':
+                            if (flag[2] == 0) {
+                                $('#datagridJY').datagrid({ url: '/Page/P01110/GetJY?ProductID=' + $('#ProductID').val() });
+                            }
+                            flag[2] = 1;
+                            break;
+                        case '归还记录':
+                            if (flag[3] == 0) {
+                                $('#datagridGH').datagrid({ url: '/Page/P01110/GetGH?ProductID=' + $('#ProductID').val() });
+                            }
+                            flag[3] = 1;
+                            break;                            
+                        default: break;
+                    }
+                }
+            });
+        });
+    </script>
+</head>
+<body>
+    <form id="dataform" class="form-dialog" method="post">
+        <div id="tabs" class="easyui-tabs" style="width:650px;height:360px;">
+            <div title="基本信息" style="padding:10px;overflow:hidden">
+                <div class="edit-panel-w2">
+                    <input name="ProductID" id="ProductID" class="edit-input" type="hidden" value="@item["ProductID"]"></input>
+                    <div class="edit-field">
+                        <div class="edit-title">
+                            <label class="edit-label">所属公司：</label>
+                        </div>
+                        <div class="edit-content">
+                            <input name="Name" class="edit-input easyui-textbox" readonly="readonly" data-options="editable:false" value="@item["Name"]"></input>
+                        </div>
+                    </div>
+                    <div class="edit-field">
+                        <div class="edit-title">
+                            <label class="edit-label">耗品名称：</label>
+                        </div>
+                        <div class="edit-content">
+                            <input name="Product" class="edit-input easyui-textbox" readonly="readonly" value="@item["Product"]"></input>
+                        </div>
+                    </div>
+                    @*<div class="edit-field">
+                        <div class="edit-title">
+                            <label class="edit-label">购买日期：</label>
+                        </div>
+                        <div class="edit-content">
+                            <input name="BuyDate" class="edit-input easyui-textbox" readonly="readonly" value="@item["BuyDate"]"></input>
+                        </div>
+                    </div>
+                    <div class="edit-field">
+                        <div class="edit-title">
+                            <label class="edit-label">单价（元）：</label>
+                        </div>
+                        <div class="edit-content">
+                            <input name="Amount" class="edit-input easyui-textbox" readonly="readonly" data-options="precision:2,groupSeparator:',',decimalSeparator:'.',min:0,max:99999999.99" value="@item["Amount"]"></input>
+                        </div>
+                    </div>
+                    <div class="edit-field">
+                        <div class="edit-title">
+                            <label class="edit-label">供应商：</label>
+                        </div>
+                        <div class="edit-content">
+                            <input name="SupplierName" class="edit-input easyui-textbox" readonly="readonly" data-options="editable:false" value="@item["SupplierName"]"></input>
+                        </div>
+                    </div>
+                    <div class="edit-field">
+                        <div class="edit-title">
+                            <label class="edit-label">存放仓库：</label>
+                        </div>
+                        <div class="edit-content">
+                            <input name="WHName" class="edit-input easyui-textbox" readonly="readonly" data-options="editable:false" value="@item["WHName"]"></input>
+                        </div>
+                    </div>*@
+                    <div class="edit-field-w2">
+                        <div class="edit-title">
+                            <label class="edit-label">备注：</label>
+                        </div>
+                        <div class="edit-content">
+                            <input name="Remark" class="edit-input-w2 easyui-textbox" readonly="readonly" data-options="multiline:true" style="height:90px" value="@item["Remark"]"></input>
+                        </div>
+                    </div>
+                </div>
+                <table id="datagridKC" class="easyui-datagrid edg" data-options="fitColumns:true,fit:true,rownumbers:true,nowrap: true,striped: true,collapsible: false,resizable:true">
+                    <thead>
+                        <tr>
+                            <th data-options="field:'PAID',fixed:true">仓库</th>
+                            <th data-options="field:'PADATE',fixed:true">库存</th>
+                            <th data-options="field:'WHName',fixed:true">存放仓库</th>
+                            <th data-options="field:'Qty',fixed:true">数量</th>
+                            <th data-options="field:'Remark',fixed:true">备注</th>
+                        </tr>
+                    </thead>
+                </table>
+
+            </div>
+            <div title="入库记录" data-options="closable:false" style="overflow:hidden;padding:10px;">
+                <table id="datagridRK" class="easyui-datagrid edg" data-options="fitColumns:true,fit:true,rownumbers:true,nowrap: true,striped: true,collapsible: false,resizable:true">
+                    <thead>
+                        <tr>
+                            <th data-options="field:'PAID',fixed:true">入库编号</th>
+                            <th data-options="field:'PADATE',fixed:true">入库时间</th>
+                            <th data-options="field:'WHName',fixed:true">存放仓库</th>
+                            <th data-options="field:'Qty',fixed:true">数量</th>
+                            <th data-options="field:'Remark',fixed:true">备注</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+            <div title="领用记录" data-options="closable:false" style="overflow:hidden;padding:10px;">
+                <table id="datagridLY" class="easyui-datagrid edg" data-options="fitColumns:true,fit:true,rownumbers:true,nowrap: true,striped: true,collapsible: false,resizable:true">
+                    <thead>
+                        <tr>
+                            <th data-options="field:'PAID',fixed:true">领用编号</th>
+                            <th data-options="field:'PADATE',fixed:true">领用时间</th>
+                            <th data-options="field:'WHName',fixed:true">存放仓库</th>
+                            <th data-options="field:'Qty',fixed:true">数量</th>
+                            <th data-options="field:'DeptName',fixed:true">领用部门</th>
+                            <th data-options="field:'EName',fixed:true">领用人</th>
+                            <th data-options="field:'Remark',fixed:true">备注</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+            <div title="借用记录" data-options="closable:false" style="overflow:hidden;padding:10px;">
+                <table id="datagridJY" class="easyui-datagrid edg" data-options="fitColumns:true,fit:true,rownumbers:true,nowrap: true,striped: true,collapsible: false,resizable:true">
+                    <thead>
+                        <tr>
+                            <th data-options="field:'YHStatus',fixed:true">借用状态</th>
+                            <th data-options="field:'PAID',fixed:true">借用编号</th>
+                            <th data-options="field:'PADATE',fixed:true">借用时间</th>
+                            <th data-options="field:'WHName',fixed:true">存放仓库</th>
+                            <th data-options="field:'Qty',fixed:true">数量</th>
+                            <th data-options="field:'DeptName',fixed:true">借用部门</th>
+                            <th data-options="field:'EName',fixed:true">借用人</th>
+                            <th data-options="field:'Remark',fixed:true">备注</th>
+
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+            <div title="归还记录" data-options="closable:false" style="overflow:hidden;padding:10px;">
+                <table id="datagridGH" class="easyui-datagrid edg" data-options="fitColumns:true,fit:true,rownumbers:true,nowrap: true,striped: true,collapsible: false,resizable:true">
+                    <thead>
+                        <tr>
+                            <th data-options="field:'YPAID',fixed:true">归还编号</th>
+                            <th data-options="field:'YPADATE',fixed:true">归还时间</th>
+                            <th data-options="field:'PAID',fixed:true">借用编号</th>
+                            <th data-options="field:'PADATE',fixed:true">借用时间</th>
+                            <th data-options="field:'WHName',fixed:true">存放仓库</th>
+                            <th data-options="field:'Qty',fixed:true">数量</th>
+                            <th data-options="field:'DeptName',fixed:true">借用部门</th>
+                            <th data-options="field:'EName',fixed:true">借用人</th>
+                            <th data-options="field:'Remark',fixed:true">备注</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+</form>
+    <div id="toolbar" class="dialog-button">
+        <a id="btn-close" class="easyui-linkbutton edit-button" data-options="iconCls:'icon-cancel'" onclick="cancel()">关闭 </a>
+    </div>
+
+</body>
+</html>
+
+
+

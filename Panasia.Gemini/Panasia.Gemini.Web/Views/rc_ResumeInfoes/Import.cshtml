@@ -1,0 +1,102 @@
+﻿
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#file').filebox({
+            onChange: function () {
+                $('#ok').linkbutton({ disabled: false });
+            }
+        })
+    });
+    function importExcel() {
+        $('#myForm').form('submit', {
+            url: "/rc_ResumeInfoes/Import",
+            onSubmit: function () {
+                if ($('#file').filebox('getValue') == "") {
+                    $.messager.alert("提示", "请选择文件！");
+                    return false;
+                }
+                var isValid = $(this).form('validate');//验证不通过
+                if (!isValid) {
+                    return isValid;
+                }
+                $.messager.progress({
+                    title: '提示',
+                    msg: '正在导入...',
+                    interval: 250
+                });
+                $('#ok').linkbutton({ disabled: true });
+            },
+            success: function (data) {
+                $.messager.progress('close');
+                var result = $.parseJSON(data);
+                if (result.HasError) {
+                    $("#hiddendiv1").hide();
+                    $("#hiddendiv2").show();
+                    $("#showErrorMsg").empty();
+                    showError(result.ErrorMessage);
+                    $('#ok').linkbutton({ disabled: false });
+                }
+                else {
+                    var errorMsg = ""
+                    var cancelCount = parseInt(result.Data[2]) + parseInt(result.Data[3]) + parseInt(result.Data[4]) + parseInt(result.Data[5]);
+                    if (result.Data[2] > 0) errorMsg += "无姓名" + result.Data[2] + "条";
+                    if (errorMsg != "") errorMsg += "; ";
+                    if (result.Data[3] > 0) errorMsg += "无应聘职位" + result.Data[3] + "条";
+                    if (errorMsg != "") errorMsg += "; ";
+                    if (result.Data[4] > 0) errorMsg += "无联系电话" + result.Data[4] + "条";
+                    if (errorMsg != "") errorMsg += "; ";
+                    if (result.Data[5] > 0) errorMsg += "无邮箱" + result.Data[5] + "条";
+                    if (errorMsg != "") errorMsg = "(取消明细：" + errorMsg + ")";
+                    $("#hiddendiv2").hide();
+                    $("#hiddendiv1").show();
+                    $("#showErrorMsg").empty();
+                    $("#showErrorMsg").append("导入记录：" + "导入成功" + result.Data[0] + "条; 导入更新" + result.Data[1] + "条;导入取消" + cancelCount + "条<br>" + errorMsg);
+                }
+
+            }
+        });
+    }
+</script>
+
+
+<form method="post" enctype="multipart/form-data" id="myForm" >
+
+    <div class="edit-dialog" style="width:324px">
+        <div class="edit-panel">
+            <div class="edit-field">
+                <div class="edit-title"><label class="edit-label">选择文件：</label></div>
+                <div class="edit-content">
+                    <input id="file" class="easyui-filebox" name="File" data-options="validType:'onlyExcel',buttonText:'选择'" style="width:184px" />
+                    @* <input type="file" name="file1" value="" />      <input class="easyui-filebox edit-input" name="filePath" id="filePath" />*@
+                </div>
+            </div>
+
+            <div class="edit-field">
+                <div class="edit-title"><label class="edit-label">文件来源：</label></div>
+                <div class="edit-content">
+                    <select class="edit-dropdownlist easyui-combobox" name="Source" panelheight="auto" data-options="editable:false">
+                        <option value="51job">51job</option>
+                        <option value="智联招聘">智联招聘</option>
+                        <option value="通用">通用模板</option>
+                    </select>
+                </div>
+            </div>
+
+
+        </div>
+
+        <div class="edit-field" id="hiddendiv1" hidden="hidden" style="height:30px">
+            <div class="showmsg"><label id="showErrorMsg" style="margin-left:20px"></label></div>
+        </div>
+        <div class="edit-field" id="hiddendiv2">
+            <div class="showmsg"><label id="showmsg" style="margin-left:20px"></label></div>
+        </div>
+
+    </div>
+</form>
+
+<div class="dialog-button">
+    <a href='~/DownLoad/简历通用模板.xls' style="margin-right:140px">下载简历通用模板</a>
+    <a id="ok" class="easyui-linkbutton edit-button" data-options="iconCls:'icon-ok'" onclick="importExcel()">确定</a>
+    <a class="easyui-linkbutton edit-button" data-options="iconCls:'icon-cancel'" onclick="cancel()">取消</a>
+</div>

@@ -1,0 +1,122 @@
+﻿
+
+<!DOCTYPE html>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("input[name='IsDie']").combobox({
+            onSelect: function (rec) {
+                if (rec.Name == '存') { $('#dd1,#dd2,#dd3,#dd4').show(); }
+                else {
+                    $('#dd1,#dd2,#dd3,#dd4').hide();
+                    $("input[name='Age']").val("");
+                    $("input[name='WordUnit']").val("");
+                    $("input[name='MobiPhone']").val("");
+                    $("input[name='IsMaster']").val("");
+                }
+
+            }
+        })
+        if ($("input[name='IsDie']").val() == "1") {
+            $("#dd1,#dd2,#dd3,#dd4").show();
+        }
+        else {
+            $("#dd1,#dd2,#dd3,#dd4").hide();
+            
+        }
+    });
+    function checkClick(checkbox) {
+        if (checkbox.checked == true) {
+            $("#IsMaster").val('True')
+            $("#MobiPhone").textbox({
+                required: true
+            })
+        }
+        else {
+            $("#IsMaster").val('False')
+            $("#MobiPhone").textbox({
+                required: false
+            })
+        }
+    }
+</script>
+    <div>
+        <form id="dataform" class="form-dialog" method="post">
+            <div id="dataform" class="form-dialog">
+                <div class="edit-dialog">
+                    <div class="edit-panel">
+                        <div class="edit-field">
+                            <div class="edit-title">
+                                <label class="edit-label">
+                                    关系：
+                                </label>
+                            </div>
+                            <div class="edit-content">
+                                <input name="Title" class="edit-input easyui-textbox" data-options="missingMessage:'请输入关系',required:true,validType:'length[1,20]',invalidMessage:'关系字数不得超过20个字符'" />
+                            </div>
+                        </div>
+                        <div class="edit-field">
+                            <div class="edit-title">
+                                <label class="edit-label">
+                                    姓名：
+                                </label>
+                            </div>
+                            <div class="edit-content">
+                                <input name="Name" class="edit-input easyui-textbox" data-options="missingMessage:'请输入姓名',required:true,validType:'length[1,20]',invalidMessage:'姓名字数不得超过20个字符'" />
+                            </div>
+                        </div>
+                        <div class="edit-field">
+                            <div class="edit-title"><label class="edit-label">存/殆：</label></div>
+                            <div class="edit-content">
+                                <input name="IsDie" panelheight="auto" data-options="missingMessage:'请选择存/殆',required:true,editable:false,url:'/Share/GetSystemCodes?code=C030',valueField:'Name',textField:'Name'" class=" edit-input easyui-combobox" />
+                            </div>
+                        </div>
+                        <div class="edit-field" id="dd1">
+                            <div class="edit-title">
+                                <label class="edit-label">
+                                    年龄：
+                                </label>
+                            </div>
+                            <div class="edit-content">
+                                <input name="Age" class="edit-input easyui-textbox" data-options="validType:'length[1,3]',invalidMessage:'年龄不超过3位数'" />
+                            </div>
+                        </div>
+                        <div class="edit-field" id="dd2">
+                            <div class="edit-title">
+                                <label class="edit-label">
+                                    职业：
+                                </label>
+                            </div>
+                            <div class="edit-content">
+                                <input name="WordUnit" class="edit-input easyui-textbox" data-options="validType:'length[1,200]',invalidMessage:'职业字数不得超过200个字符'" />
+                            </div>
+                        </div>
+                        <div class="edit-field" id="dd3">
+                            <div class="edit-title">
+                                <label class="edit-label">
+                                    联系电话：
+                                </label>
+                            </div>
+                            <div class="edit-content">
+                                <input name="MobiPhone" id="MobiPhone" class="edit-input easyui-textbox" data-options="missingMessage:'请输入联系电话',validType:'mobile',invalidMessage:'联系电话为8位或11位'" />
+                            </div>
+                        </div>
+                        <div class="edit-field" id="dd4" style="text-align:center;margin-left:auto;margin-right:auto;">
+                            <input name="IsMaster" class="textbox" value="true" type="checkbox" onclick="checkClick(this)" />
+                            <span style="font-size:12px;font-family: 宋体;">紧急联系人否</span>
+                        </div>
+                        <div class="edit-field">
+                            <div class="showmsg">
+                                <label id="showmsg">
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </div>
+        </form>
+        <div class="dialog-button">
+            <a id="btn-add" class="easyui-linkbutton edit-button" href="#" onclick="submitAct_DGAppend('dataform','/Page/P01022/Add','datagrid')" data-options="iconCls:'icon-ok'">确定</a>
+            <a id="btn-cancel" class="easyui-linkbutton edit-button" href="#" onclick="cancel()" data-options="iconCls:'icon-cancel'">取消</a>
+        </div>
+    </div>
+

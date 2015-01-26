@@ -1,0 +1,47 @@
+﻿table.main td.label {
+    text-align: center;
+    width: 100px;
+    }
+
+table.main {
+    border: 1px solid black;
+    width: 600px;
+}
+
+    table.main td {
+        border: 1px solid black;
+        padding: 3px 0 3px 0;
+    }
+
+    table.main span {
+        margin-left: 5px;
+    }
+
+table.cbContent {
+    width: 100%;
+    border: 0;
+}
+
+    table.cbContent td {
+        text-align: center;
+        border: 0;
+    }
+
+input[type='text'] {
+    height: 20px;
+}
+input[type='text'],textarea {
+    background:#FAFFBD;
+}
+
+.hidden {
+    display: none;
+}
+
+table.noborder {
+    border: 0;
+}
+
+    table.noborder td {
+        border: 0;
+    }

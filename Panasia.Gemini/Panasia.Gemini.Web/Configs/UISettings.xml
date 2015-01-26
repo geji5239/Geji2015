@@ -1,0 +1,352 @@
+<?xml version="1.0"?>
+<UISettings xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Item TargetType="IndexPage">
+    <ContentHeader>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"/&gt;
+    &lt;meta http-equiv="Page-Enter" content="revealtrans(duration=2,transition=23)" /&gt;
+    &lt;meta http-equiv="pragma" content="no-cache"/&gt;
+    &lt;meta http-equiv="Cache-Control" content="no-cache, must-revalidate"/&gt;
+    &lt;meta http-equiv="expires" content="0"/&gt;
+    &lt;title&gt;双子星系统&lt;/title&gt;
+    &lt;link rel="shortcut icon" href="/Content/Images/logo.ico" /&gt;
+    &lt;script type="text/javascript" src="/jquery-easyui-1.4/jquery.min.js"&gt;&lt;/script&gt;
+    &lt;script type="text/javascript" src="/jquery-easyui-1.4/jquery.easyui.min.js"&gt;&lt;/script&gt;
+    &lt;!-- easyUI相关 --&gt;
+    &lt;link id="swicth-style" rel="stylesheet" type="text/css" href="/jquery-easyui-1.4/themes/bootstrap/easyui.css"&gt;
+   
+    &lt;link rel="stylesheet" type="text/css" href="/jquery-easyui-1.4/themes/icon.css"/&gt;
+    &lt;link rel="stylesheet" type="text/css" href="/Content/oldSite.css"/&gt; 
+    &lt;link rel="stylesheet" type="text/css" href="/Content/Site.css"/&gt;
+      &lt;!---------富文本编辑--&gt;
+      &lt;script type="text/javascript" src="/Scripts/ueditor/ueditor.config.js"&gt;&lt;/script&gt;
+      &lt;script type="text/javascript" src="/Scripts/ueditor/ueditor.all.min.js"&gt;&lt;/script&gt;
+      &lt;script type="text/javascript" src="/Scripts/ueditor/zh-cn.js"&gt;&lt;/script&gt;
+    &lt;!--通用和扩展--&gt; 
+    &lt;script src="/Scripts/extendPanel.js" type="text/javascript"&gt;&lt;/script&gt;
+	&lt;script src="/Scripts/common.js" type="text/javascript"&gt;&lt;/script&gt;
+	&lt;script src="/Scripts/interview.js" type="text/javascript"&gt;&lt;/script&gt;
+    &lt;script src="/Scripts/download.js" type="text/javascript"&gt;&lt;/script&gt;
+	&lt;!--样式相关--&gt;
+	&lt;script src="/Scripts/commonValidator.js" type="text/javascript"&gt;&lt;/script&gt;
+	&lt;!--本地化--&gt;
+    &lt;script src="/jquery-easyui-1.4/locale/easyui-lang-zh_CN.js"&gt;&lt;/script&gt;
+    &lt;script type="text/javascript" src="/Scripts/OrgTree.js"&gt;&lt;/script&gt;
+    &lt;script type="text/javascript" src="/Scripts/PaymentTree.js"&gt;&lt;/script&gt;
+ &lt;/head&gt;
+ &lt;body class="easyui-layout"&gt;
+ &lt;img id="progresImage" class="progress hide" src="/Content/Images/loading.gif" /&gt;
+ &lt;div id="maskOfProgressImage" class="mask hide"&gt;&lt;/div&gt;
+    </ContentHeader>
+    <ContentFooter>
+      &lt;div id="dialog" style="height:100%" &gt;&lt;/div&gt;
+      &lt;/body&gt;
+      &lt;/html&gt;
+    </ContentFooter>
+  </Item>
+  <Item TargetType="EditDialog">
+    <ContentHeader />
+    <ContentFooter />
+  </Item>
+  <Item TargetType="IndexPagePreview">
+    <ContentHeader>
+      &lt;!DOCTYPE html&gt;
+      &lt;html&gt;
+      &lt;head&gt;
+      &lt;meta charset="UTF-8"/&gt;
+      &lt;meta http-equiv="Page-Enter" content="revealtrans(duration=2,transition=23)" /&gt;
+      &lt;meta http-equiv="pragma" content="no-cache"/&gt;
+      &lt;meta http-equiv="Cache-Control" content="no-cache, must-revalidate"/&gt;
+      &lt;meta http-equiv="expires" content="0"/&gt;
+      &lt;title&gt;双子星系统&lt;/title&gt;
+      &lt;link rel="shortcut icon" href="d:\GeminiTest\Content\Images\logo.ico" /&gt;
+      &lt;script type="text/javascript" src="d:\GeminiTest\jquery-easyui-1.4\jquery.min.js"&gt;&lt;/script&gt;
+      &lt;script type="text/javascript" src="d:\GeminiTest\jquery-easyui-1.4\jquery.easyui.min.js"&gt;&lt;/script&gt;
+      &lt;!-- easyUI相关 --&gt;
+      &lt;link id="swicth-style" rel="stylesheet" type="text/css" href="d:\GeminiTest\jquery-easyui-1.4\themes\default\easyui.css"/&gt;
+
+      &lt;link rel="stylesheet" type="text/css" href="d:\GeminiTest\jquery-easyui-1.4\themes/icon.css"/&gt;
+      &lt;link rel="stylesheet" type="text/css" href="d:\GeminiTest\Content\oldSite.css"/&gt;
+      &lt;link rel="stylesheet" type="text/css" href="d:\GeminiTest\Content\Site.css"/&gt;
+
+      &lt;!---------富文本编辑--&gt;
+      &lt;script type="text/javascript" src="~/Scripts/ueditor/ueditor.config.js"&gt;&lt;/script&gt;
+      &lt;script type="text/javascript" src="~/Scripts/ueditor/ueditor.all.min.js"&gt;&lt;/script&gt;
+      &lt;script type="text/javascript" src="~/Scripts/ueditor/zh-cn.js"&gt;&lt;/script&gt;
+      &lt;!--通用和扩展--&gt;
+      &lt;script src="d:\GeminiTest\Scripts\extendPanel.js" type="text/javascript"&gt;&lt;/script&gt;
+      &lt;script src="d:\GeminiTest\Scripts\common.js" type="text/javascript"&gt;&lt;/script&gt;
+      &lt;script src="d:\GeminiTest\Scripts\download.js" type="text/javascript"&gt;&lt;/script&gt;
+      &lt;!--样式相关--&gt;
+      &lt;script src="d:\GeminiTest\Scripts\commonValidator.js" type="text/javascript"&gt;&lt;/script&gt;
+      &lt;!--本地化--&gt;
+      &lt;script src="d:\GeminiTest\jquery-easyui-1.4\locale\easyui-lang-zh_CN.js"&gt;&lt;/script&gt;
+      &lt;script type="text/javascript" src="d:\GeminiTest\Scripts\OrgTree.js"&gt;&lt;/script&gt;
+      &lt;script type="text/javascript" src="d:\GeminiTest\Scripts\PaymentTree.js"&gt;&lt;/script&gt;
+
+      &lt;script type="text/javascript"&gt;
+      (function () {
+      $.extend($.fn.tabs.methods, {
+      //显示遮罩
+      loading: function (jq, msg) {
+      return jq.each(function () {
+      var panel = $(this).tabs("getSelected");
+      if (msg == undefined) {
+      msg = "正在加载数据，请稍候...";
+      }
+      $("&lt;div class=\"datagrid-mask\"&gt;&lt;/div&gt;").css({ display: "block", width: panel.width(), height: panel.height() }).appendTo(panel);
+      $("&lt;div class=\"datagrid-mask-msg\"&gt;&lt;/div&gt;").html(msg).appendTo(panel).css({ display: "block", left: (panel.width() - $("div.datagrid-mask-msg", panel).outerWidth()) / 2, top: (panel.height() - $("div.datagrid-mask-msg", panel).outerHeight()) / 2 });
+      });
+      }
+      ,
+      //隐藏遮罩
+      loaded: function (jq) {
+      return jq.each(function () {
+      var panel = $(this).tabs("getSelected");
+      panel.find("div.datagrid-mask-msg").remove();
+      panel.find("div.datagrid-mask").remove();
+      });
+      }
+      });
+      })(jQuery);
+      function addTab(title, url) {
+
+      if ($('#tabs').tabs('exists', title)) {
+      $('#tabs').tabs('select', title);//选中并刷新
+      var currTab = $('#tabs').tabs('getSelected');
+      var url = $(currTab.panel('options').content).attr('src');
+      if (url != undefined &amp;&amp; currTab.panel('options').title != 'Home') {
+      $('#tabs').tabs('update', {
+      tab: currTab,
+      options: {
+      content: createFrame(url)
+      }
+      })
+      }
+      } else {
+      var content = createFrame(url);
+      $('#tabs').tabs('add', {
+      title: title,
+      content: content,
+      closable: true
+      });
+      }
+      //$("#tabs").tabs("loading");
+
+      //$("#tabs").tabs("loaded")
+      tabClose();
+
+      }
+      function createFrame(url) {
+      var s = '&lt;iframe scrolling="auto" frameborder="0"  src="' + url + '" style="width:100%;height:99%;"&gt;&lt;/iframe&gt;';
+      return s;
+      }
+
+      function tabClose() {
+      /*双击关闭TAB选项卡*/
+      $(".tabs-inner").dblclick(function () {
+      var subtitle = $(this).children(".tabs-closable").text();
+      $('#tabs').tabs('close', subtitle);
+      })
+      /*为选项卡绑定右键*/
+      $(".tabs-inner").bind('contextmenu', function (e) {
+      $('#mm').menu('show', {
+      left: e.pageX,
+      top: e.pageY
+      });
+
+      var subtitle = $(this).children(".tabs-closable").text();
+
+      $('#mm').data("currtab", subtitle);
+      $('#tabs').tabs('select', subtitle);
+      return false;
+      });
+      }
+      //绑定右键菜单事件
+      function tabCloseEven() {
+      //刷新
+      $('#mm-tabupdate').click(function () {
+      var currTab = $('#tabs').tabs('getSelected');
+      var url = $(currTab.panel('options').content).attr('src');
+      if (url != undefined &amp;&amp; currTab.panel('options').title != 'Home') {
+      $('#tabs').tabs('update', {
+      tab: currTab,
+      options: {
+      content: createFrame(url)
+      }
+      })
+      }
+      })
+      //关闭当前
+      $('#mm-tabclose').click(function () {
+      var currtab_title = $('#mm').data("currtab");
+      $('#tabs').tabs('close', currtab_title);
+      })
+      //全部关闭
+      $('#mm-tabcloseall').click(function () {
+      $('.tabs-inner span').each(function (i, n) {
+      var t = $(n).text();
+      if (t != 'Home') {
+      $('#tabs').tabs('close', t);
+      }
+      });
+      });
+      //关闭除当前之外的TAB
+      $('#mm-tabcloseother').click(function () {
+      var prevall = $('.tabs-selected').prevAll();
+      var nextall = $('.tabs-selected').nextAll();
+      if (prevall.length &gt; 0) {
+      prevall.each(function (i, n) {
+      var t = $('a:eq(0) span', $(n)).text();
+      if (t != 'Home') {
+      $('#tabs').tabs('close', t);
+      }
+      });
+      }
+      if (nextall.length &gt; 0) {
+      nextall.each(function (i, n) {
+      var t = $('a:eq(0) span', $(n)).text();
+      if (t != 'Home') {
+      $('#tabs').tabs('close', t);
+      }
+      });
+      }
+      return false;
+      });
+      //关闭当前右侧的TAB
+      $('#mm-tabcloseright').click(function () {
+      var nextall = $('.tabs-selected').nextAll();
+      if (nextall.length == 0) {
+      //msgShow('系统提示','后边没有啦~~','error');
+      alert('后边没有啦~~');
+      return false;
+      }
+      nextall.each(function (i, n) {
+      var t = $('a:eq(0) span', $(n)).text();
+      $('#tabs').tabs('close', t);
+      });
+      return false;
+      });
+      //关闭当前左侧的TAB
+      $('#mm-tabcloseleft').click(function () {
+      var prevall = $('.tabs-selected').prevAll();
+      if (prevall.length == 0) {
+      alert('到头了，前边没有啦~~');
+      return false;
+      }
+      prevall.each(function (i, n) {
+      var t = $('a:eq(0) span', $(n)).text();
+      $('#tabs').tabs('close', t);
+      });
+      return false;
+      });
+
+      //退出
+      $("#mm-exit").click(function () {
+      $('#mm').menu('hide');
+      })
+      }
+
+      $(document).ready(function () {
+      tabCloseEven();
+      var iframe = $("iframe")[0];
+      $('.cs-navi-tab').click(function () {
+      var $this = $(this);
+      var href = $this.attr('src');
+      var title = $this.text();
+      addTab(title, href);
+      iframe.src = href;
+      });
+      //$(":input:eq(0)")[0].focus();
+      if (iframe == undefined) {
+      return;
+      }
+      if (iframe.attachEvent) {
+      iframe.attachEvent("onload", function () {
+      $("#tabs").tabs("loaded");
+      });
+      } else {
+      iframe.onload = function () {
+      $("#tabs").tabs("loaded")
+      };
+      }
+      });
+
+      &lt;/script&gt;
+      &lt;/head&gt;
+
+      &lt;body class="easyui-layout"&gt;
+    </ContentHeader>
+    <ContentFooter>
+      &lt;div id="dialog" style="height:80%" &gt;&lt;/div&gt;
+      &lt;/body&gt;
+      &lt;/html&gt;
+    </ContentFooter>
+  </Item>
+  <Item TargetType="ApprovedLog">
+    <ContentHeader>
+      &lt;!DOCTYPE html&gt;
+      &lt;html&gt;
+      &lt;head&gt;
+      &lt;meta charset="UTF-8"/&gt;
+      &lt;meta http-equiv="Page-Enter" content="revealtrans(duration=2,transition=23)" /&gt;
+      &lt;meta http-equiv="pragma" content="no-cache"/&gt;
+      &lt;meta http-equiv="Cache-Control" content="no-cache, must-revalidate"/&gt;
+      &lt;meta http-equiv="expires" content="0"/&gt;
+      &lt;title&gt;双子星系统&lt;/title&gt;
+      &lt;link rel="shortcut icon" href="/Content/Images/logo.ico" /&gt;
+      &lt;script type="text/javascript" src="/jquery-easyui-1.4/jquery.min.js"&gt;&lt;/script&gt;
+      &lt;script type="text/javascript" src="/jquery-easyui-1.4/jquery.easyui.min.js"&gt;&lt;/script&gt;
+      &lt;!-- easyUI相关 --&gt;
+      &lt;link id="swicth-style" rel="stylesheet" type="text/css" href="/jquery-easyui-1.4/themes/default/easyui.css"&gt;
+
+      &lt;link rel="stylesheet" type="text/css" href="/jquery-easyui-1.4/themes/icon.css"/&gt;
+      &lt;link rel="stylesheet" type="text/css" href="/Content/oldSite.css"/&gt;
+      &lt;link rel="stylesheet" type="text/css" href="/Content/Site.css"/&gt;
+      &lt;!--通用和扩展--&gt;
+      &lt;script src="/Scripts/extendPanel.js" type="text/javascript"&gt;&lt;/script&gt;
+      &lt;script src="/Scripts/common.js" type="text/javascript"&gt;&lt;/script&gt;
+      &lt;script src="/Scripts/download.js" type="text/javascript"&gt;&lt;/script&gt;
+      &lt;!--样式相关--&gt;
+      &lt;script src="/Scripts/commonValidator.js" type="text/javascript"&gt;&lt;/script&gt;
+      &lt;!--本地化--&gt;
+      &lt;script src="/jquery-easyui-1.4/locale/easyui-lang-zh_CN.js"&gt;&lt;/script&gt;
+      &lt;script type="text/javascript" src="/Scripts/OrgTree.js"&gt;&lt;/script&gt;
+      &lt;script type="text/javascript" src="/Scripts/PaymentTree.js"&gt;&lt;/script&gt;
+      &lt;/head&gt;
+      &lt;body class="easyui-layout"&gt;
+      &lt;img id="progresImage" class="progress hide" src="/Content/Images/loading.gif" /&gt;
+      &lt;div id="maskOfProgressImage" class="mask hide"&gt;&lt;/div&gt;
+    </ContentHeader>
+    <ContentFooter>
+      &lt;div id="dialog"&gt;&lt;/div&gt;
+      &lt;script type="text/javascript"&gt;
+      $(function () {
+      $.ajax({
+      url: '/Page/P01038/GetAllLog?ID='+$('#DFID').val(),
+      type: 'get',
+      dataType: "json",
+      success: function (result) {
+      var log="";
+      $.each(result,function(index,content){
+      log += content.LogText;
+      });
+      $('#LogText').textbox('setValue',log);
+      }
+      });
+      });
+      &lt;/script&gt;
+      &lt;/body&gt;
+      &lt;/html&gt;
+    </ContentFooter>
+  </Item>
+  <Select TargetType="Button.Action" Description="按钮的执行方法">
+    <Option Name="cancel()" />
+  </Select>
+  <Select TargetType="PageType" Description="页面类型">
+    <Option Name="IndexPage" Description="列表页面" />
+    <Option Name="EditDialog" Description="编辑页面" />
+    <Option Name="ApprovedLog" Description="签核记录页面" />
+  </Select>
+</UISettings>

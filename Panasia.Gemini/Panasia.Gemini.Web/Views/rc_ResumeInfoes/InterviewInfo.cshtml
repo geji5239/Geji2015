@@ -1,0 +1,235 @@
+﻿@{
+    var item = Model.Parameters["Data"];
+}
+<style>
+    .lablefontweightbold {
+        font-weight: bold;
+        height: 20px;
+        /*background-color:lightgray;**/
+    }
+</style>
+    <div class="form-dialog">
+        <form method="post" id="dataform" class="">
+            <div class="edit-dialog1" style="display: block;width: 1100px;">
+                <div class="panel panel-1" title="应聘者信息" style="display: block;width: 1018px;">
+                    <div class="panel-header" style="width: auto;">
+                        <div class="panel-title">
+                            应聘者信息
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <div class="edit-panel2">
+                            <div class="edit-field1">
+                                <div class="edit-title1"><label class="edit-label1 lablefontweightbold">应聘者：</label></div>
+                                <div class="edit-content">
+                                    @item["Name"]@*<input class="edit-input easyui-textbox" value="@item["Name"]" name="Name" readonly="readonly">*@
+                                </div>
+                            </div>
+                            <div class="edit-field1">
+                                <div class="edit-title1"><label class="edit-label1 lablefontweightbold">性别：</label></div>
+                                <div class="edit-content">
+                                    @item["Sex"]@*<input class="edit-input easyui-textbox" value="@item["Sex"]" name="Sex" readonly="readonly">*@
+                                </div>
+                            </div>
+                            <div class="edit-field1">
+                                <div class="edit-title1"><label class="edit-label1 lablefontweightbold">应聘职位：</label></div>
+                                <div class="edit-content">
+                                    @item["Position"]@*<input class="edit-input easyui-textbox" value="@item["Position"]" name="Position" readonly="readonly">*@
+                                </div>
+                            </div>
+                            <div class="edit-field1">
+                                <div class="edit-title1"><label class="edit-label1 lablefontweightbold">工作年限：</label></div>
+                                <div class="edit-content">
+                                   @item["YearsOfWorking"]@*<input class="edit-input easyui-textbox" value="@item["YearsOfWorking"]" name="YearsOfWorking" readonly="readonly">*@
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="panel panel-2" title="预约信息" style="display: block;width: 1018px;">
+                    <div class="panel-header" style="width: auto;">
+                        <div class="panel-title">
+                            预约信息
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <div class="edit-panel2">
+                            <div class="edit-field1">
+                                <div class="edit-title1"><label class="edit-label1 lablefontweightbold">预约创建人：</label></div>
+                                <div class="edit-content">
+                                    @item["AppointmentSponsor"]@*<input class="edit-input easyui-textbox" value="@item["AppointmentSponsor"]" name="AppointmentSponsor" readonly="readonly">*@
+                                </div>
+                            </div>
+                            <div class="edit-field1">
+                                <div class="edit-title1"><label class="edit-label1 lablefontweightbold">创建时间：</label></div>
+                                <div class="edit-content">
+                                    @item["AppointmentTime"]@*<input class="edit-input easyui-textbox" value="@item["AppointmentTime"]" name="AppointmentTime" readonly="readonly">*@
+                                </div>
+                            </div>
+                            <div class="edit-field1">
+                                <div class="edit-title1"><label class="edit-label1 lablefontweightbold">预约面试：</label></div>
+                                <div class="edit-content">
+                                    @item["AppointmentRresult"]@*<input class="edit-input easyui-textbox" value="@item["AppointmentRresult"]" name="AppointmentRresult" readonly="readonly">*@
+                                </div>
+                            </div>
+                            <div class="edit-field1">
+                                <div class="edit-title1"><label class="edit-label1 lablefontweightbold">面试时间：</label></div>
+                                <div class="edit-content">
+                                    @item["AuditionTime"]@*<input class="edit-input easyui-textbox" value="@item["AuditionTime"]" name="AuditionTime" readonly="readonly">*@
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="edit-panel2">
+                            <div class="edit-field1">
+                                <div class="edit-title1"><label class="edit-label1 lablefontweightbold">邮件通知：</label></div>
+                                <div class="edit-content">
+                                    @item["AuditionEmail"]@*<input class="edit-input easyui-textbox" value="@item["AuditionEmail"]" name="AuditionEmail" readonly="readonly">*@
+                                </div>
+                            </div>
+                            <div class="edit-field1">
+                                <div class="edit-title1"><label class="edit-label1 lablefontweightbold">预约人：</label></div>
+                                <div class="edit-content">
+                                    @item["AppointmentReservation"]@*<input class="edit-input easyui-textbox" value="@item["AppointmentReservation"]" name="AppointmentReservation" readonly="readonly">*@
+                                </div>
+                            </div>
+                            <div class="edit-field1">
+                                <div class="edit-title1"><label class="edit-label1 lablefontweightbold">预约备注：</label></div>
+                                <div class="edit-content">
+                                    @item["AppointmentRemark"]@*<input class="edit-input easyui-textbox" value="@item["AppointmentRemark"]" name="AppointmentRemark" readonly="readonly" style="width:434px;">*@
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="panel panel-2" title="面试信息" style="display: block;width: 1018px;">
+                    <div class="panel-header" style="width: auto;">
+                        <div class="panel-title">
+                            面试信息
+                        </div>
+                    </div>
+                    <div class="panel-body">
+
+                        <div class="edit-panel2">
+                            <div class="edit-field1">
+                                <div class="edit-title1"><label class="edit-label1 lablefontweightbold">面试结果：</label></div>
+                                <div class="edit-content">
+                                    @item["AuditionRresult"]@*<input class="edit-input easyui-textbox" value="@item["AuditionRresult"]" name="AuditionRresult" readonly="readonly">*@
+                                </div>
+                            </div>
+                            <div class="edit-field1">
+                                <div class="edit-title1"><label class="edit-label1 lablefontweightbold">薪资范围：</label></div>
+                                <div class="edit-content">
+                                    @item["SalaryRange"]@*<input class="edit-input easyui-textbox" value="@item["SalaryRange"]" name="SalaryRange" readonly="readonly">*@
+                                </div>
+                            </div>
+                            <div class="edit-field1">
+                                <div class="edit-title1"><label class="edit-label1 lablefontweightbold">报到时间：</label></div>
+                                <div class="edit-content">
+                                    @item["CanReport"]@*<input class="edit-input easyui-textbox" value="@item["CanReport"]" name="CanReport" readonly="readonly">*@
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="edit-panel2">
+                            <div class="edit-field1">
+                                <div class="edit-title1"><label class="edit-label1 lablefontweightbold">面试备注：</label></div>
+                                <div class="edit-content">
+                                    @item["AuditionRemark"]@*<input class="edit-input easyui-textbox" value="@item["AuditionRemark"]" name="AuditionRemark" readonly="readonly" style="width:934px;">*@
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="panel panel-2" title="审核信息" style="display: block;width: 1018px;">
+                    <div class="panel-header" style="width: auto;">
+                        <div class="panel-title">
+                            审核信息
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <div class="edit-panel2">
+                            <div class="edit-field1">
+                                <div class="edit-title1"><label class="edit-label1 lablefontweightbold">审核结果：</label></div>
+                                <div class="edit-content">
+                                    @item["AuditRresult"]@*<input class="edit-input easyui-textbox" value="@item["AuditRresult"]" name="AuditRresult" readonly="readonly">*@
+                                </div>
+                            </div>
+                            <div class="edit-field1">
+                                <div class="edit-title1"><label class="edit-label1 lablefontweightbold">审核人：</label></div>
+                                <div class="edit-content">
+                                    @item["Audit"]@*<input class="edit-input easyui-textbox" value="@item["Audit"]" name="Audit" readonly="readonly">*@
+                                </div>
+                            </div>
+                            <div class="edit-field1">
+                                <div class="edit-title1"><label class="edit-label1 lablefontweightbold">审核意见：</label></div>
+                                <div class="edit-content">
+                                   @item["AuditOpinion"]@* <input class="edit-input easyui-textbox" value="@item["AuditOpinion"]" name="AuditOpinion" readonly="readonly" style="width:434px;">*@
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="panel panel-2" title="报到信息" style="display: block;width: 1018px;">
+                    <div class="panel-header" style="width: auto;">
+                        <div class="panel-title">
+                            报到信息
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <div class="edit-panel2">
+                            <div class="edit-field1">
+                                <div class="edit-title1"><label class="edit-label1 lablefontweightbold">通知报到：</label></div>
+                                <div class="edit-content">
+                                    @item["Noticed"]@*<input class="edit-input easyui-textbox" value="@item["Noticed"]" name="Noticed" readonly="readonly">*@
+                                </div>
+                            </div>
+                            <div class="edit-field1">
+                                <div class="edit-title1"><label class="edit-label1 lablefontweightbold">报到时间：</label></div>
+                                <div class="edit-content">
+                                    @item["ReportTime"]@*<input class="edit-input easyui-textbox" value="@item["ReportTime"]" name="ReportTime" readonly="readonly">*@
+                                </div>
+                            </div>
+                            <div class="edit-field1">
+                                <div class="edit-title1"><label class="edit-label1 lablefontweightbold">邮件通知：</label></div>
+                                <div class="edit-content">
+                                    @item["ReportEmail"]@*<input class="edit-input easyui-textbox" value="@item["ReportEmail"]" name="reportemail" readonly="readonly">*@
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="edit-panel2">
+                            <div class="edit-field1">
+                                <div class="edit-title1"><label class="edit-label1 lablefontweightbold">通知备注：</label></div>
+                                <div class="edit-content">
+                                    @item["ReportRemark"]@*<input class="edit-input easyui-textbox" value="@item["ReportRemark"]" name="ReportRemark" readonly="readonly" style="width:934px;">*@
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="edit-panel2">
+                    <div class="edit-field1">
+                        <div class="edit-title1"><label class="edit-label1 lablefontweightbold">转员工：</label></div>
+                        <div class="edit-content">
+                           @item["IsToEmployee"]@*<input class="edit-input easyui-textbox" value="@item["IsToEmployee"]" name="IsToEmployee" readonly="readonly">*@
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </form>
+    </div>
+
+    <div class="dialog-button">
+        <a class="easyui-linkbutton edit-button" data-options="iconCls:'icon-cancel'" onclick="cancel()">关闭</a>
+    </div>

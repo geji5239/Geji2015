@@ -1,0 +1,103 @@
+﻿@model Panasia.Gemini.Web.Models.org_Employees
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<fieldset>
+    <legend>org_Employees</legend>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Company_ID)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Company_ID)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Department_ID)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Department_ID)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Employees_Name)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Employees_Name)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Employees_LoginName)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Employees_LoginName)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Employees_PWD)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Employees_PWD)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Position_ID)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Position_ID)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Roles)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Roles)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Employees_Email)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Employees_Email)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Employees_Mobile)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Employees_Mobile)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Employees_Tel)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Employees_Tel)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Employees_OtherContact)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Employees_OtherContact)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Is_Active)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Is_Active)
+    </div>
+</fieldset>
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    <p>
+        <input type="submit" value="Delete" /> |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+}

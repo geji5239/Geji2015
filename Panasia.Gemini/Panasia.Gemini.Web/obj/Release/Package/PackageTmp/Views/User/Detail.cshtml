@@ -1,0 +1,58 @@
+﻿@model Panasia.Core.Sys.UserModel
+@using AF.Core
+@{
+    ViewBag.Title = "Detail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<form class="form-dialog" method="post" id="userDetailForm">
+    <div class="edit-panel">
+        <div class="padding-5">
+            <label class="edit-title">用户名：</label>
+            <input class="edit-content easyui-validatebox" name="UserName" value="@Model.UserName" disabled="disabled" />
+        </div>
+        <div class="padding-5">
+            <label class="edit-title">邮箱：</label>
+            <input class="edit-content easyui-validatebox" name="Email" value="@Model.Email" disabled="disabled" />
+        </div>
+        <div class="padding-5">
+            <label class="edit-title">姓名：</label>
+            <input class="edit-content easyui-validatebox name=" fullname" value="@Model.FullName" disabled="disabled" />
+        </div>
+    </div>
+    <div class="btn-dialog">
+        <a class="easyui-linkbutton btn-padding" data-options="iconCls:'icon-cancel'" onclick="cancel()">取消</a>
+    </div>
+</form>
+
+@*<form method="post" id="userDetailForm">
+    <table class="grid">
+        <tr>
+            <th>用户名:</th>
+            <td><input class="input-dialog" name="UserName" value="@Model.UserName" disabled="disabled" /></td>
+        </tr>
+        <tr>
+            <th>邮箱:</th>
+            <td>
+                <input class="input-dialog" name="Email" value="@Model.Email" disabled="disabled" />
+            </td>
+        </tr>
+        <tr>
+            <th>姓名:</th>
+            <td><input class="input-dialog" name="FullName" value="@Model.FullName" disabled="disabled" /></td>
+        </tr>
+        <tr>
+            <th>角色:</th>
+            <td>
+                <input class="input-dialog" name="Roles" value="@Model.Roles" disabled="disabled" />
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <div class="btn-dialog">
+                    <a class="easyui-linkbutton btn-padding" data-options="iconCls:'icon-cancel'" onclick="cancel()">取消</a>
+                </div>
+            </td>
+        </tr>
+    </table>
+</form>*@

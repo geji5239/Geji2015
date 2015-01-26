@@ -1,0 +1,123 @@
+﻿@{
+    var item = Model.Parameters["Data"];
+}
+<style>
+    .edit-panel3 {
+        padding: 5px 0px;
+        margin-top: 5px;
+        width: 780px;
+        height: 20px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+</style>
+
+<form method="post" id="dataform" class="form-dialog">
+
+    <div class="edit-dialog1">
+
+
+        <div class="edit-panel3">
+
+            <div class="edit-field1">
+                <div class="edit-title1"><label class="edit-label1">部门：</label></div>
+                <div class="edit-content">
+                    <input class="edit-input easyui-textbox " value="@item["Dname"]"  readonly="readonly" name="Dname" />
+                </div>
+            </div>
+
+
+            <div class="edit-field1">
+                <div class="edit-title1"><label class="edit-label1">申请日期：</label></div>
+                <div class="edit-content">
+                <input class="edit-input easyui-textbox " value="@item["ApplicationDate"]"  readonly="readonly" name="ApplicationDate" /></div>
+            </div>
+
+            <div class="edit-field1">
+                <div class="edit-title1"><label class="edit-label1">入职日期：</label></div>
+                <div class="edit-content">
+                    <input class="edit-input easyui-textbox " value="@item["HireDate"]"  readonly="readonly" name="HireDate" />
+                </div>
+            </div>
+
+        </div>
+        <div class="edit-panel3">
+
+            <div class="edit-field1">
+                <div class="edit-title1"><label class="edit-label1">姓名：</label></div>
+                <div class="edit-content">
+                    <input class="edit-input easyui-textbox " value="@item["Ename"]"  readonly="readonly" name="Ename" />
+                </div>
+            </div>
+
+            <div class="edit-field1">
+                <div class="edit-title1"><label class="edit-label1">职位：</label></div>
+                <div class="edit-content">
+                    <input class="edit-input easyui-textbox " value="@item["Jname"]"  readonly="readonly" name="Jname" />
+                </div>
+            </div>
+        </div>
+
+
+        <div class="edit-panel3">
+
+            <div class="edit-field1">
+                <div class="edit-title1"><label class="edit-label1">毕业院校：</label></div>
+                <div class="edit-content">
+                    <input class="edit-input easyui-textbox " value="@item["EduName"]"  readonly="readonly" name="EduName" />
+                </div>
+            </div>
+
+            <div class="edit-field1">
+                <div class="edit-title1"><label class="edit-label1">学历：</label></div>
+                <div class="edit-content">
+                    <input class="edit-input easyui-textbox " value="@item["Education"]"  readonly="readonly" name="Education" />
+                </div>
+            </div>
+
+        </div>
+
+        <div class="edit-panel3">
+
+            <div class="edit-field1">
+                <div class="edit-title1"><label class="edit-label1">试用期：</label></div>
+                <div class="edit-content">
+                    <input class="edit-input easyui-textbox " value="@item["StartDate"]"  readonly="readonly" name="StartDate" />
+                </div>
+            </div>
+            <div class="edit-field1">
+                <div class="edit-title1"><label class="edit-label1">至：</label></div>
+                <div class="edit-content">
+                    <input class="edit-input easyui-textbox " value="@item["EndDate"]"  readonly="readonly" name="EndDate" />
+                </div>
+            </div>
+
+            <div class="edit-field1">
+                <div class="edit-title1"><label class="edit-label1">时长(月)：</label></div>
+                <div class="edit-content">
+                    <input class="edit-input  easyui-textbox" value="@item["SXMonths"]"  readonly="readonly" name=" SXMonths" />
+                </div>
+            </div>
+        </div>
+
+        <div class="edit-panel3" style="height:100px">
+
+                <div class="edit-field1">
+                    <div class="edit-title1"><label class="edit-label1">自评：</label></div>
+                    <div class="edit-content-r2">
+                        <input class="edit-input easyui-textbox " value="@item["Summary"]" name=" Summary"  readonly="readonly" style="width:684px; height:100px" data-options="multiline:true" />
+                    </div>
+                </div>
+
+            </div>
+
+        <div class="edit-field1">
+            <div class="showmsg"><label id="showmsg"></label></div>
+        </div>
+
+    </div>
+</form>
+
+<div class="dialog-button">
+    <a class="easyui-linkbutton edit-button" data-options="iconCls:'icon-cancel'" onclick="cancel()">关闭</a>
+</div>

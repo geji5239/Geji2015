@@ -1,0 +1,593 @@
+<?xml version="1.0"?>
+<SystemCodes xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <!-- ************************************************** 人事状态值清单 fgh 2015-01-15 add *************************************************** -->
+  <Item Code="C003" Name="State" Description="员工状态" >
+    <Item Code="C00301" Name="在职" Description="在职" />
+    <Item Code="C00302" Name="离职" Description="离职" />
+    <Item Code="C00303" Name="休假" Description="休假" />
+    <Item Code="C00304" Name="实习期" Description="实习期" />
+    <Item Code="C00305" Name="试用期" Description="试用期" />
+    <Item Code="C00306" Name="停职留薪" Description="停职留薪"/>
+  </Item>
+  <Item Code="C009" Name="Reason" Description="申请理由" >
+    <Item Code="C00901" Name="扩大编制" Description="扩大编制" />
+    <Item Code="C00902" Name="储备人才" Description="储备人才" />
+    <Item Code="C00903" Name="辞职补充" Description="辞职补充" />
+    <Item Code="C00904" Name="短期需要" Description="短期需要" />
+  </Item>
+  <Item Code="C010" Name="Range" Description="薪资范围" >
+    <Item Code="C01001" Name="1000元以下" Description="1000元以下" />
+    <Item Code="C01002" Name="1000~2000元" Description="1000~2000元" />
+    <Item Code="C01003" Name="2000~4000元" Description="2000~4000元" />
+    <Item Code="C01004" Name="4000~6000元" Description="4000~6000元" />
+    <Item Code="C01005" Name="6000~8000元" Description="6000~8000元" />
+    <Item Code="C01006" Name="8000元以上" Description="8000元以上" />
+    <Item Code="C01007" Name="面议" Description="面议" />
+  </Item>
+  <Item Code="C011" Name="Import" Description="简历导入" >
+    <Item Code="C01101" Name="51Job" Description="51Job" />
+    <Item Code="C01102" Name="智联" Description="智联" />
+  </Item>
+  <Item Code="C014" Name="ErrorType" Description="考勤异常" >
+    <Item Code="C01401" Name="未带卡" Description="未带卡" />
+    <Item Code="C01402" Name="漏打卡" Description="漏打卡" />
+    <Item Code="C01403" Name="外出" Description="外出" />
+    <Item Code="C01404" Name="出差" Description="出差" />
+    <Item Code="C01405" Name="其他" Description="其他" />
+  </Item>
+  <Item Code="C022" Name="WorkYear" Description="工作经验">
+    <Item Code="C02201" Name="不限" Description="不限"></Item>
+    <Item Code="C02202" Name="一年以上" Description="一年以上"></Item>
+    <Item Code="C02203" Name="两年以上" Description="两年以上"></Item>
+    <Item Code="C02204" Name="三年以上" Description="三年以上"></Item>
+    <Item Code="C02205" Name="五年以上" Description="五年以上"></Item>
+    <Item Code="C02206" Name="十年以上" Description="十年以上"></Item>
+  </Item>
+  <Item Code="C023" Name="Result" Description="招聘结果">
+    <Item Code="C02301" Name="全部" Description="全部"></Item>
+    <Item Code="C02302" Name="草稿" Description="草稿"></Item>
+    <Item Code="C02303" Name="申请中" Description="申请中"></Item>
+    <Item Code="C02304" Name="招聘中" Description="招聘中"></Item>
+    <Item Code="C02305" Name="已结束" Description="已结束"></Item>
+  </Item>
+  <Item Code="C024" Name="Accept" Description="预约结果">
+    <Item Code="C02401" Name="接受" Description="接受"></Item>
+    <Item Code="C02402" Name="不接受" Description="不接受"></Item>
+  </Item>
+  <Item Code="C026" Name="Time" Description="报道时间">
+    <Item Code="C02601" Name="立即上岗" Description="立即上岗"/>
+    <Item Code="C02602" Name="半月内" Description="半月内"/>
+    <Item Code="C02603" Name="一月内" Description="一月内"/>
+  </Item>
+  <Item Code="C027" Name="Result" Description="审核结果">
+    <Item Code="C02701" Name="同意" Description="同意"/>
+    <Item Code="C02702" Name="不同意" Description="不同意"/>
+  </Item>
+  <Item Code="C028" Name="JobState" Description="任职状态">
+    <Item Code="C02801" Name="在职" Description="在职"/>
+    <Item Code="C02802" Name="新进" Description="新进"/>
+    <Item Code="C02804" Name="离职" Description="离职"/>
+    <Item Code="C02803" Name="新进离职" Description="新进离职"/>
+  </Item>
+  <Item Code="C029" Name="skill" Description="病史">
+    <Item Code="C02901"  Name="无" Description="无"/>
+    <Item Code="C02902" Name="乙肝" Description="乙肝"/>
+    <Item Code="C02903" Name="肺结核" Description="肺结核"/>
+    <Item Code="C02904" Name="心脏病" Description="心脏病"/>
+    <Item Code="C02905" Name="高血压" Description="高血压"/>
+    <Item Code="C02906" Name="糖尿病" Description="糖尿病"/>
+    <Item Code="C02907" Name="其他" Description="其他"/>
+  </Item>
+  <Item Code="C030" Name="IsDie" Description="存/殆">
+    <Item Code="True" Name="存" Description="存"/>
+    <Item Code="False" Name="殆" Description="殆"/>
+  </Item>
+  <Item Code="C031" Name="CheckState" Description="送签单子状态">
+    <Item Code="-2" Name="全部" Description="全部"/>
+    <Item Code="-1" Name="草稿" Description="草稿"/>
+    <Item Code="1" Name="申请中" Description="申请中"/>
+    <Item Code="0" Name="已驳回" Description="已驳回"/>
+    <Item Code="2" Name="已核准" Description="已核准"/>
+  </Item>
+  <Item Code="C032" Name="LeaveType" Description="离职类型">
+    <Item Code="C03201"  Name="辞职" Description="辞职"/>
+    <Item Code="C03202" Name="辞退" Description="辞退"/>
+    <Item Code="C03203" Name="除名" Description="除名"/>
+    <Item Code="C03204" Name="试用结束" Description="试用结束"/>
+    <Item Code="C03205" Name="调动" Description="调动"/>
+    <Item Code="C03206" Name="实习结束" Description="实习结束"/>
+    <Item Code="C03207" Name="劳动终止" Description="劳动终止"/>
+  </Item>
+  <Item Code="C034" Name="Type" Description="工资设定类别">
+    <Item Code="C03401"  Name="全部" Description="全部"/>
+    <Item Code="C03402" Name="社保" Description="社保"/>
+    <Item Code="C03403" Name="公积金" Description="公积金"/>
+    <Item Code="C03404" Name="团费" Description="团费"/>
+  </Item>
+  <Item Code="C035" Name="leaveType" Description="离职类型">
+    <Item Code="C03501"  Name="开除" Description="开除"/>
+    <Item Code="C03502" Name="辞退" Description="辞退"/>
+    <Item Code="C03503" Name="除名" Description="除名"/>
+    <Item Code="C03504" Name="停薪留职" Description="停薪留职"/>
+    <Item Code="C03505" Name="外调" Description="外调"/>
+    <Item Code="C03506" Name="自动离职" Description="自动离职"/>
+    <Item Code="C03507" Name="离职" Description="离职"/>
+    <Item Code="C03508" Name="退休" Description="退休"/>
+    <Item Code="C03509" Name="离休" Description="离休"/>
+    <Item Code="C035010" Name="内退" Description="内退"/>
+  </Item>
+  <Item Code="C036" Name="SolSate" Description="办理申请状态">
+    <Item Code=""  Name="全部" Description="全部"/>
+    <Item Code="1" Name="未办理" Description="未办理"/>
+    <Item Code="0" Name="已办理" Description="已办理"/>
+  </Item>
+  <Item Code="C037" Name="RewardsPunishments" Description="奖惩类型">
+    <Item Code="C03701"  Name="奖励" Description="奖励"/>
+    <Item Code="C03702" Name="惩罚" Description="惩罚"/>
+  </Item>
+  <Item Code="C038" Name="MoveTyoe" Description="调动类别">
+    <Item Code="C03801"  Name="部门调动" Description="部门调动"/>
+    <Item Code="C03802" Name="职位调整" Description="职位调整"/>
+    <Item Code="C03803" Name="晋升" Description="晋升"/>
+    <Item Code="C03804" Name="降级" Description="降级"/>
+    <Item Code="C03805" Name="轮岗" Description="轮岗"/>
+    <Item Code="C03806" Name="工伤" Description="工伤"/>
+    <Item Code="C03807" Name="休假" Description="休假"/>
+    <Item Code="C03808" Name="待岗" Description="待岗"/>
+  </Item>
+  <Item Code="C040" Name="IsWork" Description="是否上班">
+    <Item Code="1" Name="是" Description="是"></Item>
+    <Item Code="0" Name="否" Description="否"></Item>
+  </Item>
+  <Item Code="C041" Name="RewardsPunishments" Description="奖惩类型">
+    <Item Code=""  Name="全部" Description="全部"/>
+    <Item Code="奖励"  Name="奖励" Description="奖励"/>
+    <Item Code="惩罚" Name="惩罚" Description="惩罚"/>
+  </Item>
+  <Item Code="C042" Name="hr_Result" Description="招聘结果（人事）">
+    <Item Code="C02301" Name="全部" Description="全部"></Item>
+    <Item Code="C02304" Name="招聘中" Description="招聘中"></Item>
+    <Item Code="C02305" Name="已结束" Description="已结束"></Item>
+  </Item>
+  <Item Code="C043" Name="TimeUnit" Description="休假时长类型">
+    <Item Code="D"  Name="天" Description="天"/>
+    <Item Code="H" Name="小时" Description="小时"/>
+  </Item>
+  <Item Code="C071" Name="AttendanceState" Description="考勤状态">
+    <Item Code="C07101"  Name="全部" Description="全部"/>
+    <Item Code="C07202" Name="迟到早退" Description="迟到早退"/>
+    <Item Code="C07303" Name="旷工" Description="旷工"/>
+  </Item>
+  <Item Code="C045" Name="UserType" Description="账户状态">
+    <Item Code="1" Name="启用" Description="启用"/>
+    <Item Code="0" Name="停用" Description="停用"/>
+  </Item>
+  <Item Code="C067" Name="SType" Description="社保变更类别">
+    <Item Code="C06701"  Name="转正" Description="转正"/>
+    <Item Code="C06702" Name="离职" Description="离职"/>
+    <Item Code="C06703" Name="挂靠" Description="挂靠"/>
+  </Item>
+  
+  <!-- ************************************************** 通用状态值清单 fgh 2015-01-15 add *************************************************** -->
+  <Item Code="C001" Name="Sex" Description="性别" >
+    <Item Code="C00101" Name="男" Description="男" />
+    <Item Code="C00102" Name="女" Description="女" />
+  </Item>
+  <Item Code="C002" Name="Nation" Description="民族">
+    <Item Code="C00201" Name="汉族" Description="汉族" />
+    <Item Code="C00202" Name="壮族" Description="壮族" />
+    <Item Code="C00203" Name="满族" Description="满族" />
+    <Item Code="C00204" Name="回族" Description="回族" />
+    <Item Code="C00205" Name="维吾尔族" Description="维吾尔族" />
+    <Item Code="C00206" Name="苗族" Description="苗族" />
+    <Item Code="C00207" Name="蒙古族" Description="蒙古族" />
+    <Item Code="C00208" Name="藏族" Description="藏族" />
+    <Item Code="C00209" Name="土家族" Description="土家族" />
+    <Item Code="C00210" Name="彝族" Description="彝族" />
+    <Item Code="C00211" Name="朝鲜族" Description="朝鲜族" />
+    <Item Code="C00212" Name="瑶族" Description="瑶族" />
+    <Item Code="C00213" Name="傣族" Description="傣族" />
+    <Item Code="C00214" Name="鄂伦春族" Description="鄂伦春族" />
+    <Item Code="C00215" Name="侗族" Description="侗族" />
+    <Item Code="C00216" Name="纳西族" Description="纳西族" />
+    <Item Code="C00217" Name="高山族" Description="高山族" />
+    <Item Code="C00218" Name="景颇族" Description="景颇族" />
+    <Item Code="C00219" Name="羌族" Description="羌族" />
+    <Item Code="C00220" Name="锡伯族" Description="锡伯族" />
+    <Item Code="C00221" Name="乌孜别克族" Description="乌孜别克族" />
+    <Item Code="C00222" Name="裕固族" Description="裕固族" />
+    <Item Code="C00223" Name="赫哲族" Description="赫哲族" />
+    <Item Code="C00224" Name="仫佬族" Description="仫佬族" />
+    <Item Code="C00225" Name="布依族" Description="布依族" />
+    <Item Code="C00226" Name="白族" Description="白族" />
+    <Item Code="C00227" Name="黎族" Description="黎族" />
+    <Item Code="C00228" Name="拉祜族" Description="拉祜族" />
+    <Item Code="C00229" Name="柯尔克孜族" Description="柯尔克孜族" />
+    <Item Code="C00230" Name="布朗族" Description="布朗族" />
+    <Item Code="C00231" Name="阿昌族" Description="阿昌族" />
+    <Item Code="C00232" Name="俄罗斯族" Description="俄罗斯族" />
+    <Item Code="C00233" Name="京族" Description="京族" />
+    <Item Code="C00234" Name="门巴族" Description="门巴族" />
+    <Item Code="C00235" Name="哈萨克族" Description="哈萨克族" />
+    <Item Code="C00236" Name="保安族" Description="保安族" />
+    <Item Code="C00237" Name="仡佬族" Description="仡佬族" />
+    <Item Code="C00238" Name="傈僳族" Description="傈僳族" />
+    <Item Code="C00239" Name="水族" Description="水族" />
+    <Item Code="C00240" Name="土族" Description="土族" />
+    <Item Code="C00241" Name="撒拉族" Description="撒拉族" />
+    <Item Code="C00242" Name="普米族" Description="普米族" />
+    <Item Code="C00243" Name="鄂温克族" Description="鄂温克族" />
+    <Item Code="C00244" Name="塔塔尔族" Description="塔塔尔族" />
+    <Item Code="C00245" Name="珞巴族" Description="珞巴族" />
+    <Item Code="C00246" Name="畲族" Description="畲族" />
+    <Item Code="C00247" Name="怒族" Description="怒族" />
+    <Item Code="C00248" Name="哈尼族" Description="哈尼族" />
+    <Item Code="C00249" Name="佤族" Description="佤族" />
+    <Item Code="C00250" Name="东乡族" Description="东乡族" />
+    <Item Code="C00251" Name="达斡尔族" Description="达斡尔族" />
+    <Item Code="C00252" Name="毛南族" Description="毛南族" />
+    <Item Code="C00253" Name="塔吉克族" Description="塔吉克族" />
+    <Item Code="C00254" Name="德昂族" Description="德昂族" />
+    <Item Code="C00255" Name="独龙族" Description="独龙族" />
+    <Item Code="C00256" Name="基诺族" Description="基诺族" />
+  </Item>
+  <Item Code="C033" Name="Week" Description="一周">
+    <Item Code="C03301"  Name="周一" Description="周一"/>
+    <Item Code="C03302" Name="周二" Description="周二"/>
+    <Item Code="C03303" Name="周三" Description="周三"/>
+    <Item Code="C03304" Name="周四" Description="周四"/>
+    <Item Code="C03305" Name="周五" Description="周五"/>
+    <Item Code="C03306" Name="周六" Description="周六"/>
+    <Item Code="C03307" Name="周日" Description="周日"/>
+  </Item>
+  <Item Code="C039" Name="SexWithNo" Description="性别不限">
+    <Item Code="" Name="不限" Description="不限"></Item>
+    <Item Code="男" Name="男" Description="男"></Item>
+    <Item Code="女" Name="女" Description="女"></Item>
+  </Item>
+  <Item Code="C004" Name="Politics" Description="政治面貌" >
+    <Item Code="C00401" Name="中共党员" Description="中共党员" />
+    <Item Code="C00402" Name="团员" Description="团员" />
+    <Item Code="C00403" Name="其他" Description="其他" />
+  </Item>
+  <Item Code="C005" Name="Health" Description="健康状况" >
+    <Item Code="C00501" Name="健康" Description="健康" />
+    <Item Code="C00502" Name="其他" Description="其他" />
+  </Item>
+  <Item Code="C006" Name="Education" Description="文化程度" >
+    <Item Code="C00607" Name="不限" Description="不限" />
+    <Item Code="C00601" Name="博士" Description="博士及以上" />
+    <Item Code="C00602" Name="硕士" Description="硕士" />
+    <Item Code="C00603" Name="学士" Description="本科" />
+    <Item Code="C00604" Name="专科" Description="大专" />
+    <Item Code="C00605" Name="中专" Description="中专" />
+    <Item Code="C00606" Name="高中及以下" Description="高中及以下" />
+  </Item>
+	<Item Code="C085" Name="Education" Description="文化程度" >
+		<Item Code="C00601" Name="博士" Description="博士及以上" />
+		<Item Code="C00602" Name="硕士" Description="硕士" />
+		<Item Code="C00603" Name="学士" Description="本科" />
+		<Item Code="C00604" Name="专科" Description="大专" />
+		<Item Code="C00605" Name="中专" Description="中专" />
+	</Item>
+  <Item Code="C007" Name="EduType" Description="学历性质" >
+    <Item Code="C00701" Name="统招" Description="统招" />
+    <Item Code="C00702" Name="自考" Description="自考" />
+    <Item Code="C00703" Name="成教" Description="成教" />
+    <Item Code="C00704" Name="电大" Description="电大" />
+    <Item Code="C00705" Name="函授" Description="函授" />
+    <Item Code="C00706" Name="进修" Description="进修" />
+    <Item Code="C00707" Name="其它" Description="其它" />
+  </Item>
+  <Item Code="C008" Name="IsDie" Description="存/殆" >
+    <Item Code="C00801" Name="存" Description="存" />
+    <Item Code="C00802" Name="殆" Description="殆" />
+  </Item>
+  <Item Code="C025" Name="Marrge" Description="婚姻状况">
+    <Item Code="C02501" Name="未婚" Description="未婚"></Item>
+    <Item Code="C02502" Name="已婚" Description="已婚"></Item>
+    <Item Code="C02503" Name="离异" Description="离异"></Item>
+    <Item Code="C02504" Name="丧偶" Description="丧偶"></Item>
+  </Item>
+
+  <!-- ************************************************** 业务状态值清单 fgh 2015-01-15 add *************************************************** -->
+  <Item Code="C017" Name="CState" Description="客户状态" >
+    <Item Code="10"  Name="潜在客户" Description="潜在客户"/>
+    <Item Code="20" Name="意向客户" Description="意向客户"/>
+    <Item Code="30" Name="准客户" Description="准客户"/>
+    <Item Code="40" Name="成单客户" Description="成单客户"/>
+  </Item>
+  <Item Code="C044" Name="CType" Description="客户类型">
+    <Item Code="10"  Name="大客户" Description="大客户"/>
+    <Item Code="20" Name="普通客户" Description="普通客户"/>
+    <Item Code="30" Name="代理商" Description="代理商"/>
+    <Item Code="40" Name="代理商客户" Description="代理商客户"/>
+  </Item>
+  <Item Code="C056" Name="CNature" Description="客户性质">
+    <Item Code="10"  Name="个人" Description="个人"/>
+    <Item Code="20" Name="企业" Description="企业"/>
+  </Item>
+  <Item Code="C015" Name="CustomerType_NAME" Description="客户类别" >
+    <Item Code="C01501" Name="大客户" Description="大客户" />
+    <Item Code="C01502" Name="普通客户" Description="普通客户" />
+    <Item Code="C01503" Name="代理商" Description="代理商" />
+    <Item Code="C01504" Name="代理商客户" Description="代理商客户" />
+  </Item>
+  <Item Code="C016" Name="MainSaleType" Description="主营业务" >
+    <Item Code="C01601" Name="空" Description="空" />
+    <Item Code="C01602" Name="机械及行业设备" Description="机械及行业设备" />
+    <Item Code="C01603" Name="电子元器件" Description="电子元器件" />
+    <Item Code="C01604" Name="家居用品" Description="家居用品" />
+    <Item Code="C01605" Name="电工电气" Description="电工电气" />
+    <Item Code="C01606" Name="建筑建材" Description="建筑建材" />
+  </Item>
+  <Item Code="C018" Name="EmployeeCount" Description="人员规模" >
+    <Item Code="C01801" Name="1-50人" Description="1-50人" />
+    <Item Code="C01802" Name="51-100人" Description="51-100人" />
+    <Item Code="C01803" Name="101-300人" Description="101-300人" />
+    <Item Code="C01804" Name="301-1000人" Description="301-1000人" />
+    <Item Code="C01805" Name="1000人以上" Description="1000人以上" />
+  </Item>
+  <Item Code="C019" Name="CustomerFrom" Description="客户来源" >
+    <Item Code="C01901" Name="注册会员" Description="注册会员" />
+    <Item Code="C01902" Name="朋友介绍" Description="朋友介绍" />
+    <Item Code="C01903" Name="手工录入" Description="手工录入" />
+    <Item Code="C01904" Name="行业展会" Description="行业展会" />
+    <Item Code="C01905" Name="客户介绍" Description="客户介绍" />
+    <Item Code="C01906" Name="合作伙伴" Description="合作伙伴" />
+    <Item Code="C01907" Name="电子商务" Description="电子商务" />
+    <Item Code="C01908" Name="广告" Description="广告" />
+    <Item Code="C01909" Name="职员引介" Description="职员引介" />
+    <Item Code="C01910" Name="市场活动" Description="市场活动" />
+    <Item Code="C01911" Name="公共关系" Description="公共关系" />
+    <Item Code="C01912" Name="其他" Description="其他" />
+  </Item>
+  <Item Code="C020" Name="level" Description="客户成熟度" >
+    <Item Code="C02001" Name="A+:明确成交意向" Description="A+:明确成交意向" />
+    <Item Code="C02002" Name="A-:有初步成交意向" Description="A-:有初步成交意向" />
+    <Item Code="C02003" Name="B+:关键人有成交意向" Description="B+:关键人有成交意向" />
+    <Item Code="C02004" Name="B-:关键人成交意向不确定" Description="B-:关键人成交意向不确定" />
+    <Item Code="C02005" Name="C+:处不联系,有意向" Description="C+:处不联系,有意向" />
+    <Item Code="C02006" Name="C-:处不联系,意向不确定" Description="C-:处不联系,意向不确定" />
+    <Item Code="C02007" Name="D:新建客户" Description="D:新建客户" />
+    <Item Code="C02008" Name="E:明显拒绝" Description="E:明显拒绝" />
+    <Item Code="C02009" Name="F:无效客户" Description="F:无效客户" />
+  </Item>
+  <Item Code="C021" Name="Use" Description="结算方式用途">
+    <Item Code="C02101" Name="收入" Description="收入" />
+    <Item Code="C02102" Name="支出" Description="支出" />
+  </Item>
+  <Item Code="C046" Name="ProductType" Description="产品状态">
+    <Item Code="C04601"  Name="待定" Description="待定"/>
+    <Item Code="C04602" Name="启用" Description="启用"/>
+    <Item Code="C04603" Name="暂停" Description="暂停"/>
+  </Item>
+  <Item Code="C047" Name="ProductTip" Description="产品单价单位">
+    <Item Code="T"  Name="次" Description="次"/>
+    <Item Code="E" Name="个" Description="个"/>
+    <Item Code="Y" Name="年" Description="年"/>
+    <Item Code="S" Name="套" Description="套"/>
+    <Item Code="I" Name="条" Description="条"/>
+  </Item>
+  <Item Code="C048" Name="CommissionTip" Description="提成比例单位">
+    <Item Code="%"  Name="%" Description="%"/>
+    <Item Code="￥" Name="￥" Description="元"/>
+  </Item>
+  <Item Code="C049" Name="OtherOrderType" Description="其他订单类型">
+    <Item Code="xk"  Name="新开" Description="新开"/>
+    <Item Code="xf" Name="续费" Description="续费"/>
+  </Item>
+  <Item Code="C050" Name="EmailOrderType" Description="空间邮箱订单类型">
+    <Item Code="xk"  Name="新开" Description="新开"/>
+    <Item Code="xf" Name="续费" Description="续费"/>
+    <Item Code="kr" Name="扩容" Description="扩容"/>
+  </Item>
+  <Item Code="C051" Name="WebSiteOrderType" Description="网建订单类型">
+    <Item Code="xzz"  Name="新制作" Description="新制作"/>
+    <Item Code="wzxg" Name="网站修改" Description="网站修改"/>
+    <Item Code="xf" Name="续费" Description="续费"/>
+  </Item>
+  <Item Code="C052" Name="DomOrderType" Description="域名订单类型">
+    <Item Code="xk"  Name="新开" Description="新开"/>
+    <Item Code="xf" Name="续费" Description="续费"/>
+    <Item Code="gh" Name="过户" Description="过户"/>
+  </Item>
+  <Item Code="C053" Name="polyphonic" Description="彩铃录制">
+    <Item Code="C05301"  Name="是" Description="是"/>
+    <Item Code="C05302" Name="否" Description="否"/>
+  </Item>
+  <Item Code="C054" Name="Record Type" Description="备案类型">
+    <Item Code="C05401"  Name="欧维" Description="欧维"/>
+    <Item Code="C05402" Name="万网" Description="万网"/>
+    <Item Code="C05403" Name="厦门" Description="厦门"/>
+    <Item Code="C05404" Name="商派" Description="商派"/>
+  </Item>
+  <Item Code="C055" Name="ServiceCharge" Description="服务费年限">
+    <Item Code="C05501"  Name="1年" Description="1年"/>
+    <Item Code="C05502"  Name="2年" Description="2年"/>
+    <Item Code="C05503" Name="3年" Description="3年"/>
+    <Item Code="C05504" Name="4年" Description="4年"/>
+    <Item Code="C05505" Name="5年" Description="5年"/>
+    <Item Code="C05506" Name="6年" Description="6年"/>
+    <Item Code="C05507" Name="7年" Description="7年"/>
+    <Item Code="C05508" Name="8年" Description="8年"/>
+    <Item Code="C05509" Name="9年" Description="9年"/>
+    <Item Code="C05510" Name="10年" Description="10年"/>
+    <Item Code="C05511" Name="长期免费" Description="长期免费"/>
+  </Item>
+  <Item Code="C057" Name="RegisterYear" Description="注册年限">
+    <Item Code="C05701"  Name="1年" Description="1年"/>
+    <Item Code="C05702"  Name="2年" Description="2年"/>
+    <Item Code="C05703" Name="3年" Description="3年"/>
+    <Item Code="C05704" Name="4年" Description="4年"/>
+    <Item Code="C05705" Name="5年" Description="5年"/>
+    <Item Code="C05706" Name="6年" Description="6年"/>
+    <Item Code="C05707" Name="7年" Description="7年"/>
+    <Item Code="C05708" Name="8年" Description="8年"/>
+    <Item Code="C05709" Name="9年" Description="9年"/>
+    <Item Code="C05710" Name="10年" Description="10年"/>
+  </Item>
+  <Item Code="C058" Name="EmailFuc" Description="邮箱功能">
+    <Item Code="C05801"  Name="海外转发" Description="海外转发"/>
+    <Item Code="C05802" Name="监控" Description="监控"/>
+  </Item>
+  <Item Code="C059" Name="AccessoryType" Description="附件类型">
+    <Item Code="C05901"  Name="客户信息附件" Description="客户信息附件"/>
+    <Item Code="C05902" Name="合同信息附件" Description="合同信息附件"/>
+    <Item Code="C05903" Name="财务信息附件" Description="财务信息附件"/>
+    <Item Code="C05904" Name="其他信息附件" Description="其他信息附件"/>
+  </Item>
+  <Item Code="C060" Name="CustomerState" Description="客户状态">
+    <Item Code="01"  Name="潜在客户" Description="潜在客户"/>
+    <Item Code="02" Name="意向客户" Description="意向客户"/>
+  </Item>
+  <Item Code="C061" Name="CustomerState2" Description="客户状态2">
+    <Item Code="01"  Name="潜在客户" Description="潜在客户"/>
+    <Item Code="02" Name="意向客户" Description="意向客户"/>
+    <Item Code="03"  Name="准客户" Description="准客户"/>
+    <Item Code="04" Name="成单客户" Description="成单客户"/>
+  </Item>
+  <Item Code="C062" Name="Month" Description="月份">
+    <Item Code="01"  Name="1月" Description="1月"/>
+    <Item Code="02" Name="2月" Description="2月"/>
+    <Item Code="03" Name="3月" Description="3月"/>
+    <Item Code="04"  Name="4月" Description="4月"/>
+    <Item Code="05" Name="5月" Description="5月"/>
+    <Item Code="06" Name="6月" Description="6月"/>
+    <Item Code="07"  Name="7月" Description="7月"/>
+    <Item Code="08" Name="8月" Description="8月"/>
+    <Item Code="09" Name="9月" Description="9月"/>
+    <Item Code="10"  Name="10月" Description="10月"/>
+    <Item Code="11" Name="11月" Description="11月"/>
+    <Item Code="12" Name="12月" Description="12月"/>
+  </Item>
+  <Item Code="C065" Name="ProductSate" Description="产品状态">
+    <Item Code="10"  Name="待定" Description="待定"/>
+    <Item Code="20" Name="启用" Description="启用"/>
+    <Item Code="30" Name="暂停" Description="暂停"/>
+  </Item>
+  <Item Code="C066" Name="OrderAttachType" Description="订单附件类型">
+    <Item Code="C06601"  Name="客户信息附件" Description="客户信息附件"/>
+    <Item Code="C06602" Name="合同信息附件" Description="合同信息附件"/>
+    <Item Code="C06603" Name="财务信息附件" Description="财务信息附件"/>
+    <Item Code="C06604" Name="其他信息附件" Description="其他信息附件"/>
+  </Item>
+  <Item Code="C079" Name="OrderState" Description="订单状态">
+    <Item Code="C07901" Name="草稿" Description="草稿"/>
+    <Item Code="C07902" Name="申请中" Description="申请中"/>
+    <Item Code="C07903" Name="退单" Description="退单"/>
+    <Item Code="C07904" Name="结案" Description="结案"/>
+  </Item>
+  <Item Code="C012" Name="State" Description="报销状态" >
+    <Item Code="C01201" Name="全部" Description="全部" />
+    <Item Code="C01202" Name="已提交" Description="已提交" />
+    <Item Code="C01203" Name="审批中" Description="审批中" />
+  </Item>
+  <Item Code="C013" Name="PayType" Description="付款类型" >
+    <Item Code="C01301" Name="业务付款" Description="业务付款" />
+  </Item>
+
+  <!-- ************************************************** 财务状态值清单 fgh 2015-01-15 add *************************************************** -->
+  <Item Code="C068" Name="ReceivableType" Description="收款确认类型">
+    <Item Code="C06801"  Name="业务收款" Description="业务收款"/>
+    <Item Code="C06802" Name="贷款" Description="贷款"/>
+    <Item Code="C06803" Name="其他" Description="其他"/>
+  </Item>
+  <Item Code="C069" Name="LoanType" Description="还款方式">
+    <Item Code="C06901"  Name="现金" Description="现金"/>
+    <Item Code="C06902" Name="报销" Description="报销"/>
+    <Item Code="C06903" Name="工资" Description="工资"/>
+    <Item Code="C06904" Name="其他" Description="其他"/>
+  </Item>
+  <Item Code="C070" Name="LoanFQ" Description="还款单位">
+    <Item Code="C07001"  Name="一次" Description="一次"/>
+    <Item Code="C07002" Name="每月" Description="每月"/>
+    <Item Code="C07003" Name="每年" Description="每年"/>
+  </Item>
+  <Item Code="C072" Name="ExpenditurePayment" Description="付款类型">
+    <Item Code="C07201" Name="业务付款" Description="业务付款"/>
+    <Item Code="C07202" Name="费用支出" Description="费用支出"/>
+    <Item Code="C07203" Name="退款" Description="退款"/>
+    <Item Code="C07204" Name="内部往来" Description="内部往来"/>
+    <Item Code="C07205" Name="返佣业务代付款" Description="返佣业务代付款"/>
+    <Item Code="C07206" Name="扣缴税费" Description="扣缴税费"/>
+    <Item Code="C07207" Name="还贷款" Description="还贷款"/>
+    <Item Code="C07208" Name="其他" Description="其他"/>
+  </Item>
+  <Item Code="C073" Name="Taxes" Description="税种">
+    <Item Code="C07301" Name="增值税" Description="增值税"/>
+    <Item Code="C07302" Name="增值税附加" Description="增值税附加"/>
+    <Item Code="C07303" Name="营业税" Description="营业税"/>
+    <Item Code="C07304" Name="营业税附加" Description="营业税附加"/>
+  </Item>
+  <Item Code="C080" Name="ExpenditureStatus" Description="排款状态">
+    <Item Code="1" Name="未排款" Description="未排款"/>
+    <Item Code="2" Name="已排款" Description="已排款"/>
+    <Item Code="3" Name="已作废" Description="已作废"/>
+  </Item>
+  <Item Code="C083" Name="InvoiceType" Description="开票申请类型">
+    <Item Code="A" Name="预开票申请" Description="预开票申请"/>
+    <Item Code="B" Name="开票申请" Description="开票申请"/>
+  </Item>
+  <Item Code="C084" Name="InvoiceRealType" Description="开票类型">
+    <Item Code="10" Name="增值税专用发票" Description="增值税专用发票"/>
+    <Item Code="20" Name="增值税普通发票" Description="开票申请"/>
+    <Item Code="30" Name="营业税发票" Description="营业税发票"/>
+  </Item>
+  <Item Code="C085" Name="InvoiceType" Description="操作类型">
+    <Item Code="C" Name="发票退回" Description="发票退回"/>
+    <Item Code="D" Name="发票作废" Description="发票作废"/>
+  </Item>
+  <Item Code="C086" Name="InvoiceType" Description="操作类型">
+    <Item Code="E" Name="发票红冲" Description="发票红冲"/>
+  </Item>
+  <!-- ************************************************* 固定资产状态值清单 fgh 2015-01-15 add ************************************************* -->
+  <Item Code="C074" Name="AddType" Description="固定资产增加方式">
+    <Item Code="10" Name="购买" Description="购买"/>
+    <Item Code="20" Name="借用" Description="借用"/>
+    <!--<Item Code="3" Name="租赁" Description="租赁"/>
+    <Item Code="4" Name="赠送" Description="赠送"/>-->
+    <Item Code="90" Name="其它" Description="其它"/>
+  </Item>
+  <Item Code="C075" Name="UseCondition" Description="固定资产使用情况">
+    <Item Code="DB" Name="调拨(转移)" Description="调拨(转移)"/>
+    <Item Code="LY" Name="领用" Description="领用"/>
+    <Item Code="JY" Name="借用" Description="借用"/>
+    <Item Code="GH" Name="归还" Description="归还"/>
+    <Item Code="BY" Name="保养" Description="保养"/>
+    <Item Code="BX" Name="保修" Description="保修"/>
+    <Item Code="BF" Name="报废" Description="报废"/>
+    <Item Code="QL" Name="清理" Description="清理"/>
+    <Item Code="QT" Name="其他" Description="其他"/>
+    <Item Code="RK" Name="入库" Description="入库"/>
+  </Item>
+  <Item Code="C076" Name="DepreciationMethod" Description="固定资产折旧方法">
+    <Item Code="10" Name="不计提折旧" Description="不计提折旧"/>
+    <Item Code="20" Name="平均年限法" Description="平均年限法"/>
+    <Item Code="30" Name="年数总和法" Description="年数总和法"/>
+    <Item Code="40" Name="双倍余额递减法" Description="双倍余额递减法"/>
+  </Item>
+  <Item Code="C077" Name="ScrapType" Description="固定资产清理类型">
+    <Item Code="10" Name="出售" Description="出售"/>
+    <!--<Item Code="20" Name="报废" Description="报废"/>-->
+    <Item Code="30" Name="清理残值" Description="清理残值"/>
+    <Item Code="40" Name="盘亏" Description="盘亏"/>
+  </Item>
+  <Item Code="C078" Name="RepairType" Description="固定资产维修类型">
+    <Item Code="10" Name="保养" Description="保养"/>
+    <Item Code="20" Name="定期维修" Description="定期维修"/>
+    <Item Code="30" Name="故障维修" Description="故障维修"/>
+  </Item>
+  <Item Code="C081" Name="YHStatus" Description="易耗品异动状态">
+    <Item Code="RK" Name="入库" Description="入库"/>
+    <Item Code="LY" Name="领用" Description="已领用"/>
+    <Item Code="JY" Name="借用" Description="已借出"/>
+    <Item Code="GH" Name="归还" Description="已借出"/>
+    <Item Code="QT" Name="借出（已还）" Description="其他"/>
+  </Item>
+  <Item Code="C082" Name="AAType" Description="固定资产借还">
+    <Item Code="JY" Name="借用" Description="已借出"/>
+    <Item Code="GH" Name="归还" Description="已借出"/>
+  </Item>
+	<!-- ************************************************* 下一个： C086 ************************************************* -->
+</SystemCodes>

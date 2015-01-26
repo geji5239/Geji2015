@@ -1,0 +1,372 @@
+﻿
+
+@{
+    var item = Model.Parameters["Data"];
+    
+    }
+<script type="text/javascript">
+
+    function addClick() {
+        cancleClickRow();
+        $('#EDelBtn').linkbutton('disable');//删除按钮不可用
+        $("#datagrid1").datagrid("unselectAll");
+    }
+    function delClick() {
+        $.extend($.messager.defaults, {
+            ok: "确定", cancel: "取消"
+        })
+        $.messager.confirm("提示","确认删除选择项？", function (r) {
+            if (r) {
+                $("#DeleteCheck").val('on');//删除checkbox选中
+                $('#EDelBtn').linkbutton('disable');//删除不按钮可用
+                Submit();//执行
+            }
+        })
+    }
+    function onClickRow(rowIndex, rowData) {
+        $('#AutoKey').textbox('setValue', rowData['AutoKey']);
+        var money = eval(rowData['LoanMoney']);
+        money = eval($("#ExpenditureMoney").textbox('getValue')) - money;
+        if (money < 0)
+        {
+            $("#ActualPaymentAmount").textbox('setValue', '0')
+        }
+        $('#LoanMoney').val(rowData['LoanMoney']);
+        //$('#EDelBtn').linkbutton('enable');//删除按钮可用
+        //$('.edit-field1:eq(11)').show();
+    }
+    function cancleClickRow(rowIndex, rowData) {
+        $('#JCName').textbox('setValue', '');
+        $('#Remark').textbox('setValue', '');
+        $("#DeleteCheck").val('');//删除checkbox取消选中
+        $('#EDelBtn').linkbutton('disable');//删除不按钮可用
+        //$('.edit-field1:eq(11)').hide();
+    }
+    function IsSingleClick(checkbox) {
+        if (checkbox.checked == true) {
+            $(this).val('True')
+            $("#DeductionLimit").textbox({
+                required: true
+            });
+           
+        } else {
+            $(this).val('False')
+           
+            $("#DeductionLimit").textbox({
+                required: false
+            });
+            $("#DeductionLimit").textbox('setValue', "");
+         
+        }
+    }
+
+    function Submit() {
+        if ($("#dataform").form('validate')) {
+            $.ajax({
+                url: "/Page/P01076/TiaoliUpdate",
+                type: "post",
+                data: $("#dataform").serialize(),
+                dataType: "json",
+                success: function (result) {
+                    if (result.HasError) {
+                        showError(result.ErrorMessage);
+                        if (result.ErrorMessage == '新增成功！' || result.ErrorMessage == '更新成功！' || result.ErrorMessage == '删除成功！') {
+                            $('#datagrid1').datagrid('reload');
+                            cancleClickRow();
+                        }
+                    }
+                    else {
+                    }
+                },
+                error: function (d, error) {
+                    showError(error);
+                }
+            });
+        }
+    }
+
+    function showdvDialog1(url, title, width, height) {
+        var boarddiv = "<div id=dvMain_org1></div>";
+        $(document.body).append(boarddiv);
+        $("#dvMain_org1").dialog({
+            title: title,
+            shadow: false,
+            closed: false,
+            cache: false,
+            href: url,
+            modal: true,
+            width: width,
+            height: height,
+            onLoadSuccess: function (data) {
+                $(":input:eq(0)").focus();
+            },
+            onLoad: function () {
+                
+                //$(".datebox :text").attr("readonly", "readonly");
+                $("#dvMain_org1").dialog('center');//居中
+                //$('.easyui-textbox:first').combobox().next('span').find('input').focus()//通用设置第一个input焦点
+                //$(".easyui-filebox[readonly!='readonly']:first").next('span').find('input').focus()//.combobox()会把第一个变成combobox，是失误还是有特别的用意？加入只读过滤  --杨磊 2014-9-18
+            }
+        });
+    }
+
+    function dvcancel1() {
+        $("#dvMain_org1").dialog('close');
+        $("#dvMain_org1").children().remove();
+       
+        //$(".combo-panel").hide();
+    }
+    function parent() {
+        //alert($('#ParentID').combobox('getValue'));
+        $('#PaymentID').combobox({
+            url: '/Share/Query?name=GetPaymentbyParentID&ParentID=' + $('#ParentID').combobox('getValue')
+        });
+    }
+    function Bank() {
+        var url = '/Share/Query?name=GetBankByCompanyID&CompanyID=' + $("#CompanyID").combobox("getValue");
+        $('#PayerBank').combobox({ url: url });
+    }
+    function Bank1() {
+        var url = '/Share/Query?name=GetBankByCompanyID&CompanyID=' + $("#CompanyID1").combobox("getValue");;
+        $('#ReceiverBank').combobox({ url: url });
+    }
+    function Account() {
+        //alert($('#BankID').combobox("getValue"));
+        var url = '/Share/Query?name=GetAccountByBankID&BankID=' + $('#PayerBank').combobox("getValue");
+        $('#PayerAccount').combobox({ url: url });
+    }
+    function Account1() {
+        //alert($('#BankID').combobox("getValue"));
+        var url = '/Share/Query?name=GetAccountByBankID&BankID=' + $('#ReceiverBank').combobox("getValue");
+        $('#ReceiverAccount').combobox({ url: url });
+    }
+
+
+    @*$(document).ready(function () {
+        
+        var paymentid = '@item["PaymentID"]';
+        
+        if (paymentid == "业务付款") {
+            $("#Receiver").val('@item["SupplierNAME"]');
+
+        }
+        else if (paymentid == "内部往来") {
+            $("#Receiver").val('@item["SupplierNAME"]');
+
+        }
+        else if (paymentid == "费用支出") {
+           
+            $("#Receiver").val('@item["EmployeeName"]');
+        }
+        else if (paymentid == "扣缴税费") {
+            $("#Receiver").val('');
+            $("#Receiver").val({ required: false });
+        }
+        else if (paymentid == "返佣业务代付款") {
+            $("#Receiver").val('@item["SupplierNAME"]');
+
+        }
+        else if (paymentid == "退款") {
+            $("#Receiver").val('@item["CustomerName"]');
+
+        }
+        else if (paymentid == "还贷款") {
+            $("#Receiver").val('@item["Bank"]');
+        }
+        else if (paymentid == "其他") {
+            $("#Receiver").val('@item["Company"]');
+
+        }
+    });*@
+</script>
+
+<style>
+    .edit-panel3 {
+    padding:5px 0px;
+    margin-top:5px;
+    width:530px;
+    height:20px;
+    margin-left: auto;
+    margin-right: auto;
+    }
+</style>
+
+<form method="post" id="dataform" class="form-dialog">
+
+    <div class="edit-dialog1" style="width:530px;margin-left:0px;">
+
+        <div class="edit-panel3">
+
+            <div class="edit-field1">
+                <div class="edit-title1"><label class="edit-label1">申请日期：</label></div>
+                <div class="edit-content">
+                    <input class="edit-input easyui-datebox " value="@item["ExpenditureDate"]" id="ExpenditureDate" name="ExpenditureDate" data-options="required:true,missingMessage:'请输入规则名称'" readonly="readonly" />
+                    <input value="@item["ExpenditureID"]" reado readonly="readonly" type="hidden" name="ExpenditureID" id="ExpenditureID" />
+                </div>
+            </div>
+
+            <div class="edit-field1">
+                <div class="edit-title1"><label class="edit-label1">计划付款日期：</label></div>
+                <div class="edit-content">
+                    <input id="PayPlanDate" class="edit-input easyui-datebox" name="PayPlanDate" value="@item["PayPlanDate"]" panelheight="auto" readonly="readonly" />
+                    
+                </div>
+            </div>
+        </div>
+        <div class="edit-panel3">
+
+            <div class="edit-field1">
+                <div class="edit-title1"><label class="edit-label1">申请部门：</label></div>
+                <div class="edit-content">
+                    <input class="edit-input easyui-textbox " id="DeptName" name="DeptName" value="@item["CompanyName"]-@item["DeptName"]" readonly="readonly" />
+                </div>
+            </div>
+
+            <div class="edit-field1">
+                <div class="edit-title1"><label class="edit-label1">申请人：</label></div>
+                <div class="edit-content">
+                    <input class="edit-input easyui-textbox " id="ApplyEmployeeID" name="ApplyEmployeeID" value="@item["EmployeeName"]"  readonly="readonly" />
+                </div>
+            </div>
+
+        </div>
+
+        <div class="edit-panel3">
+
+            <div class="edit-field1">
+                <div class="edit-title1"><label class="edit-label1">付款类型：</label></div>
+                <div class="edit-content">
+                    <input class="edit-input easyui-textbox " id="PaymentID" name="PaymentID" value="@item["PaymentID"]" readonly="readonly" />
+                </div>
+            </div>
+
+            <div class="edit-field1">
+                <div class="edit-title1"><label class="edit-label1">申请付款金额：</label></div>
+                <div class="edit-content">
+                    <input class="edit-input easyui-textbox " id="ExpenditureMoney" name="ExpenditureMoney" value="@item["ExpenditureMoney"]"  readonly="readonly" />
+                </div>
+            </div>
+
+        </div>
+        <div class="edit-panel3" style="height:110px;width:434px; margin-top:-14px;text-align:left;">
+            <table id="datagrid1" style=" text-align:left; height:110px;width:434px;" class="easyui-datagrid" data-options="url:'/Page/P01111/GetLoan?EmployeeID=@item["ApplyEmployeeID"]',fitColumns:true,fit:true,rownumbers:true,nowrap: true,singleSelect:true,striped: true,collapsible: false,resizable:true, onSelect: onClickRow,onUnselect: cancleClickRow">
+                <thead>
+                    <tr>
+                        <th data-options="field:'AutoKey',checkbox:true,hidden:true"></th>
+                        <th data-options="field:'LoanDate',fixed:true,">申请日期</th>
+                        <th data-options="field:'PaymentName',fixed:true,">借款用途</th>
+                        <th data-options="field:'LoanMoney',fixed:true,">借款金额</th>
+                        <th data-options="field:'Method',fixed:true,">还款方式</th>
+                        <th data-options="field:'Remark',fixed:true,">备注</th>
+                    </tr>
+                </thead>
+            </table>
+
+            <input readonly="readonly" type="hidden" name="LoanMoney" id="LoanMoney"  />
+        </div>
+
+
+        <div class="edit-panel3">
+
+            <div class="edit-field1">
+                <div class="edit-title1"><label class="edit-label1">实际付款日期：</label></div>
+                <div class="edit-content">
+                    <input id="PaiKuanDATE" class="edit-input easyui-datebox" name="PaiKuanDATE" value="@item["PaiKuanDATE"]" data-options="required:true,missingMessage:'请选择实际付款日期'" value="@DateTime.Now.ToString()" readonly="readonly" />
+                </div>
+            </div>
+            <div class="edit-field1">
+                <div class="edit-title1"><label class="edit-label1">实际付款金额：</label></div>
+                <div class="edit-content">
+                    <input id="ActualPaymentAmount" class="edit-input easyui-numberbox" name="ActualPaymentAmount" value="@item["ActualPaymentAmount"]" data-options="required:true,missingMessage:'请输入实际付款金额'" value="@item["ExpenditureMoney"]" readonly="readonly" />
+                </div>
+            </div>
+        </div>
+        <div class="edit-panel3">
+
+            <div class="edit-field1">
+                <div class="edit-title1"><label class="edit-label1">付款方：</label></div>
+                <div class="edit-content">
+                    <input id="Payer" class="edit-input easyui-textbox" name="Payer" panelheight="auto" value="@item["PaymentName"]"  readonly="readonly" />
+                </div>
+            </div>
+            <div class="edit-field1">
+                <div class="edit-title1"><label class="edit-label1">收款方：</label></div>
+                <div class="edit-content">
+                    <input id="Receiver" class="edit-input easyui-textbox" name="Receiver" value="@item["Receiver"]" data-options="required:true,missingMessage:'请选输入收款方'" readonly="readonly" />
+                </div>
+            </div>
+        </div>
+        <div class="edit-panel3">
+
+            <div class="edit-field1">
+                <div class="edit-title1"><label class="edit-label1">付款方式：</label></div>
+                <div class="edit-content">
+                    <input id="PayMethod" class="edit-input easyui-combobox" name="PayMethod" value="@item["PayMethod"]" panelheight="auto" data-options="required:true,missingMessage:'请选择付款方式',editable:false,url:'/Share/GetSystemCodes?code=C069',valueField:'Name',textField:'Name' " readonly="readonly" />
+                </div>
+            </div>
+            <div class="edit-field1">
+                <div class="edit-title1"><label class="edit-label1">收款方式：</label></div>
+                <div class="edit-content">
+                    <input id="ReceiveMethod" class="edit-input easyui-combobox" name="ReceiveMethod" value="@item["ReceiveMethod"]" panelheight="auto" data-options="required:true,missingMessage:'请选择收款方式',editable:false,url:'/Share/GetSystemCodes?code=C069',valueField:'Name',textField:'Name'" readonly="readonly" />
+                </div>
+            </div>
+        </div>
+        <div class="edit-panel3">
+
+            <div class="edit-field1">
+                <div class="edit-title1"><label class="edit-label1">付款银行：</label></div>
+                <div class="edit-content">
+                    <input id="PayerBank" class="edit-input easyui-combobox" name="PayerBank" value="@item["PayerBankName"]" data-options="required:true,missingMessage:'请选择付款银行',editable:false,valueField:'ID',textField:'BankName',onSelect:Account " readonly="readonly" />
+                </div>
+            </div>
+            <div class="edit-field1">
+                <div class="edit-title1"><label class="edit-label1">银行账号：</label></div>
+                <div class="edit-content">
+                    <input id="PayerAccount" class="edit-input easyui-combobox" name="PayerAccount" value="@item["PayerAccount"]" panelheight="auto" data-options="required:true,missingMessage:'请选择银行账号',editable:false,valueField:'Account',textField:'Account'" readonly="readonly" />
+                </div>
+            </div>
+        </div>
+        <div class="edit-panel3">
+
+            <div class="edit-field1">
+                <div class="edit-title1"><label class="edit-label1">收款银行：</label></div>
+                <div class="edit-content">
+                    <input id="ReceiverBank" class="edit-input easyui-combobox" name="ReceiverBank" value="@item["ReceiverBankName"]" panelheight="auto" data-options="required:true,missingMessage:'请选择收款银行',editable:false,valueField:'ID',textField:'BankName',onSelect:Account1 " readonly="readonly" />
+                </div>
+            </div>
+            <div class="edit-field1">
+                <div class="edit-title1"><label class="edit-label1">银行账号：</label></div>
+                <div class="edit-content">
+                    <input id="ReceiverAccount" class="edit-input easyui-combobox" name="ReceiverAccount" value="@item["ReceiverAccount"]" panelheight="auto" data-options="required:true,missingMessage:'请选择银行账号',editable:false,valueField:'Account',textField:'Account'" readonly="readonly" />
+                </div>
+            </div>
+        </div>
+
+        <div class="edit-panel3">
+            <div class="edit-field1">
+                <div class="edit-title"><label class="edit-label"></label></div>
+                <div class="edit-content">
+                </div>
+            </div>
+            <div class="edit-panel3">
+                <div class="edit-field1">
+                    <div class="edit-content">
+                        <input class="edit-input" name="DeleteCheck" id="DeleteCheck" type="hidden" />
+                    </div>
+                </div>
+                <div class="edit-field1" style="margin-top:30px;">
+                    <div class="showmsg"><label id="showmsg"></label></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</form>
+<div class="dialog-button">
+    <a class="easyui-linkbutton edit-button" data-options="iconCls:'icon-cancel'" onclick="cancel()">取消</a>
+</div>
+
+
+
+
+

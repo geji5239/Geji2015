@@ -1,0 +1,35 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>@ViewBag.Title</title>
+
+    @*<link id="swicth-style" rel="stylesheet" type="text/css" href="~/Content/themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/themes/icon.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/Site.css">
+    <script type="text/javascript" src="~/Scripts/jquery.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/jquery.easyui.min.js"></script> 
+    <script type="text/javascript" src="~/Scripts/jquery.easyui.patch.js"></script>
+    <script type="text/javascript" src="~/Scripts/common.js"></script>*@
+    @*<script type="text/javascript" src="~/Scripts/jquery.validate.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>*@
+
+    <script type="text/javascript" src="~/jquery-easyui-1.4/jquery.min.js"></script>
+    <script type="text/javascript" src="~/jquery-easyui-1.4/jquery.easyui.min.js"></script>
+    <!-- easyUI相关 -->
+    <link id="swicth-style" rel="stylesheet" type="text/css" href="~/jquery-easyui-1.4/themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="~/jquery-easyui-1.4/themes/icon.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/oldSite.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/Site.css">
+    <!--通用和扩展-->
+    <script src="~/Scripts/common.js" type="text/javascript"></script>
+   
+</head>
+<body class="easyui-layout"> 
+    <section>
+        @RenderBody()
+    </section>
+    @*@Scripts.Render("~/bundles/jquery")*@
+    @RenderSection("scripts", required: false)
+</body>
+</html>

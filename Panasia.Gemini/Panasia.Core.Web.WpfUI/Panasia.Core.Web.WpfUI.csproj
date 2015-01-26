@@ -1,0 +1,506 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{9FD3208D-3154-4AB6-BBD7-C7CAF3C4BEF8}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Panasia.Core.Web</RootNamespace>
+    <AssemblyName>Panasia.Core.Web.WpfUI</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Panasia.Core.App">
+      <HintPath>..\ConfigTools\Panasia.Core.App.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Panasia.Core">
+      <HintPath>..\ConfigTools\Panasia.Core.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Panasia.Core.Commands, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\ConfigTools\Panasia.Core.Commands.dll</HintPath>
+    </Reference>
+    <Reference Include="Panasia.Core.Commands.UI">
+      <HintPath>..\ConfigTools\Panasia.Core.Commands.UI.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Panasia.Core.Wpf">
+      <HintPath>..\ConfigTools\Panasia.Core.Wpf.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="FirstFloor.ModernUI">
+      <HintPath>..\ConfigTools\FirstFloor.ModernUI.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls">
+      <HintPath>..\ConfigTools\Telerik.Windows.Controls.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.Data">
+      <HintPath>..\ConfigTools\Telerik.Windows.Controls.Data.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.GridView">
+      <HintPath>..\ConfigTools\Telerik.Windows.Controls.GridView.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.Input">
+      <HintPath>..\ConfigTools\Telerik.Windows.Controls.Input.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.Navigation">
+      <HintPath>..\ConfigTools\Telerik.Windows.Controls.Navigation.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Telerik.Windows.Data">
+      <HintPath>..\ConfigTools\Telerik.Windows.Data.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Telerik.Windows.Themes.Office2013">
+      <HintPath>..\ConfigTools\Telerik.Windows.Themes.Office2013.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BaseControls\ListBox.cs" />
+    <Compile Include="Controls\CommandMenu.cs" />
+    <Compile Include="Controls\ExportToHtmlExcelCommandControl.xaml.cs">
+      <DependentUpon>ExportToHtmlExcelCommandControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ContentActionCommandControl.xaml.cs">
+      <DependentUpon>ContentActionCommandControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ControlTypeNameConverter.cs" />
+    <Compile Include="Controls\EditPageCommands.cs" />
+    <Compile Include="Controls\EditPageSetting.xaml.cs">
+      <DependentUpon>EditPageSetting.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\FormControls\FormUICommands.cs" />
+    <Compile Include="Controls\FormControls\Form_ButtonControl.xaml.cs">
+      <DependentUpon>Form_ButtonControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\FormControls\Form_LabelControl.xaml.cs">
+      <DependentUpon>Form_LabelControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\FormControls\Form_Layout.xaml.cs">
+      <DependentUpon>Form_Layout.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\EditDialogActionCommandControl.xaml.cs">
+      <DependentUpon>EditDialogActionCommandControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ReportActionCommandControl.xaml.cs">
+      <DependentUpon>ReportActionCommandControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\IndexPageActionCommandControl.xaml.cs">
+      <DependentUpon>IndexPageActionCommandControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Inputs\Input.xaml.cs">
+      <DependentUpon>Input.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Inputs\InputComboTree.xaml.cs">
+      <DependentUpon>InputComboTree.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Inputs\InputControls.cs" />
+    <Compile Include="Controls\Inputs\InputControlSettings.cs" />
+    <Compile Include="Controls\Inputs\InputPickBox.xaml.cs">
+      <DependentUpon>InputPickBox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Inputs\InputComboBox.xaml.cs">
+      <DependentUpon>InputComboBox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\MailActionCommandControl.xaml.cs">
+      <DependentUpon>MailActionCommandControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ExtendedActionCommandControl.xaml.cs">
+      <DependentUpon>ExtendedActionCommandControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\RazorContentActionCommandControl.xaml.cs">
+      <DependentUpon>RazorContentActionCommandControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Razors\ContentFileControl.xaml.cs">
+      <DependentUpon>ContentFileControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Razors\ContentFolderControl.xaml.cs">
+      <DependentUpon>ContentFolderControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ReturnActionCommandControl.xaml.cs">
+      <DependentUpon>ReturnActionCommandControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\JsonActionCommandControl.xaml.cs">
+      <DependentUpon>JsonActionCommandControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\MvcEditPageControl.xaml.cs">
+      <DependentUpon>MvcEditPageControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\MvcPageControl.xaml.cs">
+      <DependentUpon>MvcPageControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\FormControls\FormDesignControl.xaml.cs">
+      <DependentUpon>FormDesignControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\FormViewActionCommandControl.xaml.cs">
+      <DependentUpon>FormViewActionCommandControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\PageContentSetting.xaml.cs">
+      <DependentUpon>PageContentSetting.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\RadGridViewContextMenu.cs" />
+    <Compile Include="Controls\SelectOptionSetting.xaml.cs">
+      <DependentUpon>SelectOptionSetting.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\UISelectSettingControl.xaml.cs">
+      <DependentUpon>UISelectSettingControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ViewActionCommandControl.xaml.cs">
+      <DependentUpon>ViewActionCommandControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ViewFileControl.xaml.cs">
+      <DependentUpon>ViewFileControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ViewFolderControl.xaml.cs">
+      <DependentUpon>ViewFolderControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\WebTestCommandControl.xaml.cs">
+      <DependentUpon>WebTestCommandControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="Settings\ControlSetting.cs" />
+    <Compile Include="ViewModels\ContentLibViewModel.cs" />
+    <Compile Include="ViewModels\ControlSettingViewModel.cs" />
+    <Compile Include="ViewModels\GetSettingViewModel.cs" />
+    <Compile Include="ViewModels\SqlReportsViewModel.cs" />
+    <Compile Include="ViewModels\ViewFile.cs" />
+    <Compile Include="ViewModels\WebViewsViewModel.cs" />
+    <Compile Include="Views\SqlReportsPage.xaml.cs">
+      <DependentUpon>SqlReportsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ControlSettingView.xaml.cs">
+      <DependentUpon>ControlSettingView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SystemCodesPage.xaml.cs">
+      <DependentUpon>SystemCodesPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SelectActionTypeWindow.xaml.cs">
+      <DependentUpon>SelectActionTypeWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SelectDataTableWindow.xaml.cs">
+      <DependentUpon>SelectDataTableWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SettingSelectWindow.xaml.cs">
+      <DependentUpon>SettingSelectWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\LangTextsPage.xaml.cs">
+      <DependentUpon>LangTextsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UISettingsPage.xaml.cs">
+      <DependentUpon>UISettingsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ContentLibPage.xaml.cs">
+      <DependentUpon>ContentLibPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\WebViewsPage.xaml.cs">
+      <DependentUpon>WebViewsPage.xaml</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <AppDesigner Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\form.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="Controls\ExportToHtmlExcelCommandControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\ContentActionCommandControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\EditPageSetting.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\FormControls\Form_ButtonControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\FormControls\Form_LabelControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\FormControls\Form_Layout.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\EditDialogActionCommandControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\ReportActionCommandControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\IndexPageActionCommandControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\Inputs\Input.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\Inputs\InputComboTree.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\Inputs\InputPickBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\Inputs\InputComboBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\MailActionCommandControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\ExtendedActionCommandControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\RazorContentActionCommandControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\Razors\ContentFileControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\Razors\ContentFolderControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\ReturnActionCommandControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\JsonActionCommandControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\MvcEditPageControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\MvcPageControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\FormControls\FormDesignControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\FormViewActionCommandControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\PageContentSetting.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\SelectOptionSetting.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\UISelectSettingControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\ViewActionCommandControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\ViewFileControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\ViewFolderControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\WebTestCommandControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Generic.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\SqlReportsPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ControlSettingView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SystemCodesPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\SelectActionTypeWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\SelectDataTableWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SettingSelectWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\LangTextsPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\UISettingsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ContentLibPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\WebViewsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\table.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\panel.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\groupbox.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\label.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\button.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\combobox.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\date.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\textbox.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\checkbox.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\image.png" />
+    <Content Include="Images\pickbox.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Panasia.Core.Contents\Panasia.Core.Contents.csproj">
+      <Project>{de331d77-5ee0-4560-ae1b-da046c5218a6}</Project>
+      <Name>Panasia.Core.Contents</Name>
+      <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\Panasia.Core.Sys\Panasia.Core.Sys.csproj">
+      <Project>{7ab5d907-1667-4d26-9a29-2ee2fb3e4c20}</Project>
+      <Name>Panasia.Core.Sys</Name>
+      <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\Panasia.Core.Web\Panasia.Core.Web.csproj">
+      <Project>{1f6515e3-2027-40e9-a847-3ee045df93e1}</Project>
+      <Name>Panasia.Core.Web</Name>
+      <Private>False</Private>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

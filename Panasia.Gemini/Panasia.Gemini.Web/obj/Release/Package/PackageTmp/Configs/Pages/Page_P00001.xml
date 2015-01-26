@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<MvcPage xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Controller="User" DefaultAction="Index" IsRedirect="true">
+  <Action ActionID="A01001" Name="Index" Title="列表" ActionValue="1" />
+  <Action ActionID="A01002" Name="Search" Title="检索" ActionValue="2" />
+  <Action ActionID="A01003" Name="Query" Title="检索" ActionValue="2" />
+  <Action ActionID="A01004" Name="Create" Title="新增" ActionValue="4" />
+  <Action ActionID="A01005" Name="Add" Title="新增" ActionValue="4" />
+  <Action ActionID="A01006" Name="Edit" Title="修改" ActionValue="8" />
+  <Action ActionID="A01007" Name="Update" Title="修改" ActionValue="8" />
+  <Action ActionID="A01008" Name="Delete" Title="删除" ActionValue="16" />
+  <Action ActionID="A01009" Name="ChangePassword" Title="修改密码" ActionValue="32" />
+  <Action ActionID="A01010" Name="UpdatePassword" Title="修改密码" ActionValue="32" />
+  <Action ActionID="A01011" Name="EditRoles" Title="修改角色" ActionValue="64" />
+  <Action ActionID="A01012" Name="UpdateRoles" Title="修改角色" ActionValue="64" />
+  <Action ActionID="A01013" Name="Import" Title="导入" ActionValue="128" />
+  <Action ActionID="A01014" Name="ImportPost" Title="导入" ActionValue="128" />
+  <Action ActionID="A01015" Name="Export" Title="导出" ActionValue="256" />
+  <Action ActionID="A01016" Name="ExportPost" Title="导出" ActionValue="256" />
+</MvcPage>

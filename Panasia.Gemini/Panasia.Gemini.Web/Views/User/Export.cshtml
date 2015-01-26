@@ -1,0 +1,33 @@
+﻿@{
+    ViewBag.Title = "Export";
+}
+
+<form class="form-dialog" method="post" id="dataform">
+    <div class="edit-dialog">
+        <div class="edit-panel">
+            <div class="edit-field">
+                <div class="edit-title">所属公司：</div>
+                <div class="edit-content">
+                    <input class="edit-input easyui-textbox easyui-validatebox" name="UserName" value="" />
+                </div>
+            </div>
+            <div class="edit-field">
+                <div class="edit-title">状态：</div>
+                <div class="edit-content">
+                    <select id="IsValidate" class="edit-dropdownlist easyui-combobox" name="IsValidate" panelheight="auto">
+                        <option value="false">无效</option>
+                        <option value="true">有效</option>
+                    </select>
+                </div>
+            </div>
+            <div class="edit-field">
+                <div class="showMsg"><label id="showMsg"></label></div>
+            </div>
+        </div>
+    </div>
+</form>
+<div class="dialog-button">
+    <a class="easyui-linkbutton edit-button" data-options="iconCls:'icon-ok'" onclick="downLoad('/User/ExportUser', 'dataform')">确定</a>
+    <a class="easyui-linkbutton edit-button" data-options="iconCls:'icon-cancel'" onclick="cancel()">取消</a>
+</div>
+

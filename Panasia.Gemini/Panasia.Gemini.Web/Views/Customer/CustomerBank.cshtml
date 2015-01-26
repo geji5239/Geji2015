@@ -1,0 +1,156 @@
+﻿@{
+    var item = Model.Parameters["Data"];
+}
+<script type="text/javascript">
+
+    function addClick() {
+        cancleClickRow();
+        //$('#EDelBtn').linkbutton('disable');//删除按钮不可用
+        $("#datagrid1").datagrid("unselectAll");
+    }
+    function delClick() {
+        $.extend($.messager.defaults, {
+            ok: "确定", cancel: "取消"
+        })
+        $.messager.confirm("提示","确认停用当前账号？", function (r) {
+            if (r) {
+                $("#DeleteCheck").val('on');//删除checkbox选中
+                //$('#EDelBtn').linkbutton('disable');//删除不按钮可用
+                Submit();//执行
+            }
+        })
+    }
+    function onClickRow(rowIndex, rowData) {
+        $('#Bank').textbox('setValue', rowData['Bank']);
+        $('#Account').textbox('setValue', rowData['Account']);
+        $('#Remark').textbox('setValue', rowData['Remark']);
+        $('#State').combobox('setValue', rowData['State']);
+        //$('#EDelBtn').linkbutton('enable');//删除按钮可用
+       
+    }
+    function cancleClickRow(rowIndex, rowData) {
+        $('#Bank').textbox('setValue', '');
+        $('#Account').textbox('setValue', '');
+        $('#Remark').textbox('setValue', '');
+        $("#State").combobox('setValue', '');
+        //$('#EDelBtn').linkbutton('disable');//删除不按钮可用
+        $("#DeleteCheck").val('');//删除checkbox取消选中
+    }
+    function Submit() {
+        if ($("#dataform").form('validate')) {
+            $.ajax({
+                url: "/Page/P01071/BankUpdate",
+                type: "post",
+                data: $("#dataform").serialize(),
+                dataType: "json",
+                success: function (result) {
+                    if (result.HasError) {
+                        showError(result.ErrorMessage);
+                        if (result.ErrorMessage == '新增成功！' || result.ErrorMessage == '更新成功！' || result.ErrorMessage == '操作成功！') {
+                            $('#datagrid1').datagrid('reload');
+                            cancleClickRow();
+                        }
+                    }
+                    else {
+                    }
+                },
+                error: function (d, error) {
+                    showError(error);
+                }
+            });
+        }
+    }
+</script>
+
+<style>
+    .edit-panel3 {
+        padding: 5px 0px;
+        margin-top: 5px;
+        width: 530px;
+        height: 20px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+</style>
+
+<form method="post" id="dataform" class="form-dialog">
+    <div class="edit-dialog1" style="width:530px">
+
+        <div class=" edit-panel3">
+        <div class="edit-field1">
+            <div class="edit-title1"><label class="edit-label1">客户全称：</label></div>
+            <div class="edit-content">
+                <input class="edit-input easyui-textbox " value="@item["CustomerName"]" readonly="readonly" />
+                <input value="@item["CustomerID"]" name="CustomerID" type="hidden" />
+            </div>
+        </div>
+    </div>
+        <div class="edit-panel3" style="height:110px;width:434px;margin-left:70px">
+            <table id="datagrid1" style="height:110px;width:434px;" class="easyui-datagrid" data-options="url:'/Page/P01071/GetBankData?ID=@item["CustomerID"]',fitColumns:true,fit:true,rownumbers:true,nowrap: true,singleSelect:true,striped: true,collapsible: false,resizable:true, onSelect: onClickRow,onUnselect: cancleClickRow">
+                <thead>
+                    <tr>
+                        <th data-options="field:'AutoKey',checkbox:true,hidden:true"></th>
+                        <th data-options="field:'Bank',fixed:true,">开户行名称</th>
+                        <th data-options="field:'Account',fixed:true,">卡号</th>
+                        <th data-options="field:'State',fixed:true,">状态</th>
+                        <th data-options="field:'Remark',fixed:true,">备注</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+        <a class="easyui-linkbutton edit-button" style="margin-left:70px" data-options="iconCls:'icon-add'" href="javascript:void(0)" onclick="addClick()">新增</a>
+        @*<a class="easyui-linkbutton edit-button" data-options="iconCls:'icon-cancel',disabled:true" onclick="delClick()" id="EDelBtn">停用</a>*@
+
+
+        <div class="edit-panel3">
+            <div class="edit-field1">
+                <div class="edit-title"><label class="edit-label">开户行：</label></div>
+                <div class="edit-content">
+                    <input id="Bank" class="edit-input easyui-textbox" name="Bank" style="width:434px" data-options="missingMessage:'请输入开户行名称',required:true,validType:'length[1,50]',invalidMessage:'开户行名称不得超过50个字符'" />
+                </div>
+            </div>
+        </div>
+
+        <div class="edit-panel3">
+            <div class="edit-field1">
+                <div class="edit-title"><label class="edit-label">卡号：</label></div>
+                <div class="edit-content">
+                    <input id="Account" class="edit-input easyui-textbox" name="Account" data-options="missingMessage:'请输入卡号',required:true,validType:'bankInt[16,19]',invalidMessage:'卡号位数不正确，请重新输入'" />
+                </div>
+            </div>
+
+
+
+            <div class="edit-field1">
+                <div class="edit-title"><label class="edit-label">状态：</label></div>
+                <div class="edit-content">
+                    <input id="State" class="edit-input easyui-combobox" name="State" panelheight="auto" data-options="missingMessage:'请选择状态',required:true,url:'/Share/GetSystemCodes?code=C065',valueField:'Name',textField:'Name',editable:false" />
+                </div>
+            </div>
+        </div>
+
+        <div class="edit-panel3">
+            <div class="edit-field1">
+                <div class="edit-title"><label class="edit-label">备注：</label></div>
+                <div class="edit-content">
+                    <input id="Remark" class="edit-input easyui-textbox" name="Remark" style="width:434px;height:60px" data-options="validType:'length[1,200]',invalidMessage:'备注不得超过200个字符',multiline:true" />
+                </div>
+            </div>
+            <div class="edit-panel3">
+                <div class="edit-field1">
+                    <div class="edit-content">
+                        <input class="edit-input" name="DeleteCheck" id="DeleteCheck" type="hidden" />
+                    </div>
+                </div>
+                <div class="edit-field1" style="margin-top:30px;">
+                    <div class="showmsg"><label id="showmsg"></label></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<div class="dialog-button">
+    <a class="easyui-linkbutton edit-button" data-options="iconCls:'icon-ok'" href="javascript:void(0)" onclick="Submit()">确定</a>
+    <a class="easyui-linkbutton edit-button" data-options="iconCls:'icon-cancel'" onclick="cancel()">取消</a>
+</div>
+

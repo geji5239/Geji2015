@@ -1,0 +1,290 @@
+<?xml version="1.0"?>
+<MvcEditPage xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" PageID="P00004" Controller="" DefaultAction="Index">
+  <Action ActionID="A01151" Name="Index" Title="列表" ActionValue="1">
+    <Command CommandID="M01513" Name="列表页面" Description="这个命令会直接返回到客户端，无需后继命令" CommandType="IndexPageActionCommand"><![CDATA[<IndexPageActionCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ContentType="text/html">
+  <Page SettingType="IndexPage">
+    <ToolBar Tag="div" ID="toolbar" Class="toolbar-panel" PageID="P00004">
+      <Buttons>
+        <UIButton ID="btn-search" Class="easyui-linkbutton normal-button" Options="iconCls:'icon-search',plain:true" Title="检索" ActionValue="2" Action="showActDlg('检索','/Page/P00004/Search',400,300)" />
+        <UIButton ID="btn-detail" Class="easyui-linkbutton toolradio normal-button" Options="iconCls:'icon-detail',plain:true" Title="查看" ActionValue="4" Action="showActDlg_DGItemActDlg('datagrid','查看','/Page/P00004/Detail',400,300)" />
+        <UIButton ID="btn-create" Class="easyui-linkbutton normal-button" Options="iconCls:'icon-add',plain:true" Title="新增" ActionValue="8" Action="showActDlg('新增','/Page/P00004/Create',400,300)" />
+        <UIButton ID="btn-edit" Class="easyui-linkbutton toolradio normal-button" Options="iconCls:'icon-edit',plain:true" Title="修改" ActionValue="16" Action="showActDlg_DGItemActDlg('datagrid','修改','/Page/P00004/Edit',400,300)" />
+        <UIButton ID="btn-delete" Class="easyui-linkbutton toolmultiple normal-button" Options="iconCls:'icon-cancel',plain:true" Title="删除" ActionValue="32" Action="showActDlg_DGItemsConfirm('datagrid','删除','确认删除选择项？','/Page/P00004/Delete',400,300)" />
+      </Buttons>
+    </ToolBar>
+    <DataGrid Tag="table" ID="datagrid" Class="easyui-datagrid" Options="fitColumns:true,fit:true,pagination: true,rownumbers: true,nowrap: true,striped: true,collapsible: false,resizable:true" Key="ServerID">
+      <Column Title="ServerID" FieldName="ServerID" IsCheckBox="true" />
+      <Column Options="halign:'left'" HAlign="Center" Title="服务名称" FieldName="ServerName" />
+      <Column HAlign="Center" Title="域名" FieldName="DomainName" />
+      <Column Options="halign:'center'" Title="服务地址" FieldName="ServerAddress" />
+      <Column Title="服务端口" FieldName="ServerPort" />
+      <Column Title="启用SSL" FieldName="EnableSSL" />
+      <Column Title="默认用户" FieldName="DefaultUser" />
+      <Column Title="密码" FieldName="DefaultPassword" />
+      <Column Title="说明" FieldName="Description" />
+    </DataGrid>
+  </Page>
+</IndexPageActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="A01152" Name="Search" Title="检索" ActionValue="2">
+    <Command CommandID="M01514" Name="检索页面" Description="这个命令会直接返回到客户端，无需后继命令" CommandType="EditDialogActionCommand"><![CDATA[<EditDialogActionCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ContentType="text/html">
+  <Parameter Name="Date" Path="CurrentUserName" Type="Const" DefaultValue="取拼音首字母" Converter="GetPYShort" />
+  <Page SettingType="EditDialog">
+    <Form ID="dataform" Class="form-dialog">
+      <TableLayout />
+      <Fields>
+        <Field Title="服务名称" FieldType="TextBox">
+          <Input Tag="input" Name="ServerName" Class="edit-input" Binding="ServerName" Length="50" />
+        </Field>
+        <Field Title="域名" FieldType="TextBox">
+          <Input Tag="input" Name="DomainName" Class="edit-input" Binding="Parameters[Date]" Length="50" />
+        </Field>
+        <Field Title="启用SSL" FieldType="ComboBox">
+          <ComboBox Tag="select" Name="EnableSSL" Class="edit-input" Binding="EnableSSL" ItemsSource="1:是|0:否" />
+        </Field>
+      </Fields>
+      <ToolBar Tag="div" ID="toolbar" Class="dialog-button" PageID="P00004">
+        <Buttons>
+          <UIButton ID="btn-query" Class="easyui-linkbutton edit-button" Options="iconCls:'icon-ok'" Title="确定" ActionValue="2" Action="submitAct_DGReplace('dataform','/Page/P00004/Query','datagrid')" />
+          <UIButton Tag="a" ID="btn-cancel" Class="easyui-linkbutton edit-button" Options="iconCls:'icon-cancel'" Title="取消" Action="cancel()" />
+        </Buttons>
+      </ToolBar>
+    </Form>
+  </Page>
+</EditDialogActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="A01153" Name="Query" Title="检索" ActionValue="2" ErrorCommand="搜索结果">
+    <Command CommandID="M01515" Name="执行查询" Description="本查询的结果值为JSON，参数路径为Results[执行查询].Json" CommandType="QueryJsonSqlCommand"><![CDATA[<QueryJsonCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" NextCommand="搜索结果" GroupName="系统安全" TableName="sys_MailServer" CommandName="Query" SqlType="QueryJson">
+  <Parameter Name="ServerName" Path="Request[ServerName]" Type="Parameter" Converter="CreateSearchField" ConverterParameter="ServerName,0" />
+  <Parameter Name="DomainName" Path="Request[DomainName]" Type="Parameter" Converter="CreateSearchField" ConverterParameter="DomainName,0" />
+  <Parameter Name="EnableSSL" Path="Request[EnableSSL]" Type="Parameter" Converter="CreateSearchField" ConverterParameter="EnableSSL,0" />
+</QueryJsonCommand>]]></Command>
+    <Command CommandID="M01516" Name="搜索结果" Description="返回搜索结果" CommandType="JsonActionCommand"><![CDATA[<JsonActionCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ContentType="application/json">
+  <Parameter Name="Data" Path="Results[执行查询].Json" Type="Parameter" />
+  <Parameter Name="HasError" Path="Results[执行查询].IsError" Type="Parameter" />
+  <Parameter Name="ErrorMessage" Path="Results[执行查询].ErrorMessage" Type="Parameter" Converter="CreateSystemText" />
+</JsonActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="A01154" Name="Detail" Title="查看" ActionValue="4">
+    <Command CommandID="M01517" Name="查询明细" Description="查询明细" CommandType="QuerySqlCommand"><![CDATA[<QueryCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" NextCommand="查看页面" GroupName="系统安全" TableName="sys_MailServer" CommandName="GetDetail">
+  <Parameter Name="ServerID" Path="Request[ID]" Type="Parameter" />
+</QueryCommand>]]></Command>
+    <Command CommandID="M01518" Name="查看页面" Description="这个命令会直接返回到客户端，无需后继命令" CommandType="EditDialogActionCommand"><![CDATA[<EditDialogActionCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ContentType="text/html">
+  <Parameter Name="Data" Path="LastResult.Items" Type="Parameter" />
+  <Page SettingType="EditDialog">
+    <Form ID="dataform" Class="form-dialog" DataBinding="Parameters[Data]">
+      <TableLayout />
+      <Fields>
+        <Field Title="服务名称" FieldType="TextBox">
+          <Input Tag="input" Name="ServerName" Class="edit-input" Binding="ServerName" IsReadOnly="true" Length="50" />
+        </Field>
+        <Field Title="域名" FieldType="TextBox">
+          <Input Tag="input" Name="DomainName" Class="edit-input" Binding="DomainName" IsReadOnly="true" Length="50" />
+        </Field>
+        <Field Title="服务地址" FieldType="TextBox">
+          <Input Tag="input" Name="ServerAddress" Class="edit-input" Binding="ServerAddress" IsReadOnly="true" Length="100" />
+        </Field>
+        <Field Title="服务端口" FieldType="TextBox">
+          <Input Tag="input" Name="ServerPort" Class="edit-input" Binding="ServerPort" IsReadOnly="true" />
+        </Field>
+        <Field Title="启用SSL" FieldType="ComboBox">
+          <ComboBox Tag="select" Name="EnableSSL" Class="edit-input" Binding="EnableSSL" IsReadOnly="true" ItemsSource="1:是|0:否" />
+        </Field>
+        <Field Title="默认用户" FieldType="TextBox">
+          <Input Tag="input" Name="DefaultUser" Class="edit-input" Binding="DefaultUser" IsReadOnly="true" Length="100" />
+        </Field>
+        <Field Title="说明" FieldType="TextBox">
+          <Input Tag="input" Name="Description" Class="edit-input" Binding="Description" IsReadOnly="true" Length="200" />
+        </Field>
+      </Fields>
+      <ToolBar Tag="div" ID="toolbar" Class="dialog-button" PageID="P00004">
+        <Buttons>
+          <UIButton ID="btn-close" Class="easyui-linkbutton edit-button" Title="确定" Action="cancel()" />
+        </Buttons>
+      </ToolBar>
+    </Form>
+  </Page>
+</EditDialogActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="A01155" Name="Create" Title="新增" ActionValue="8">
+    <Command CommandID="M01519" Name="新增页面" Description="这个命令会直接返回到客户端，无需后继命令" CommandType="EditDialogActionCommand"><![CDATA[<EditDialogActionCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ContentType="text/html">
+  <Page SettingType="EditDialog">
+    <Form ID="dataform" Class="form-dialog">
+      <TableLayout />
+      <Fields>
+        <Field Title="服务名称" FieldType="TextBox">
+          <Input Tag="input" Name="ServerName" Class="edit-input" Binding="ServerName" Length="50" />
+        </Field>
+        <Field Title="域名" FieldType="TextBox">
+          <Input Tag="input" Name="DomainName" Class="edit-input" Binding="DomainName" Length="50" />
+        </Field>
+        <Field Title="服务地址" FieldType="TextBox">
+          <Input Tag="input" Name="ServerAddress" Class="edit-input" Binding="ServerAddress" Length="100" />
+        </Field>
+        <Field Title="服务端口" FieldType="NumberBox">
+          <NumericBox Tag="input" Name="ServerPort" Class="easyui-numberbox" Options="precision:2,groupSeparator:',',decimalSeparator:'.',prefix:'￥'" Binding="ServerPort" IsRequired="false" />
+        </Field>
+        <Field Title="启用SSL" FieldType="ComboBox">
+          <ComboBox Tag="select" Name="EnableSSL" Class="edit-input" Binding="EnableSSL" ItemsSource="1:是|0:否" />
+        </Field>
+        <Field Title="默认用户" FieldType="TextBox">
+          <Input Tag="input" Name="DefaultUser" Class="edit-input" Binding="DefaultUser" Length="100" />
+        </Field>
+        <Field Title="密码" FieldType="PasswordBox">
+          <Input Tag="input" Name="DefaultPassword" Class="edit-input" InputType="password" Binding="DefaultPassword" Length="128" />
+        </Field>
+        <Field Title="说明" FieldType="TextBox">
+          <Input Tag="input" Name="Description" Class="edit-input" Binding="Description" Length="200" />
+        </Field>
+      </Fields>
+      <ToolBar Tag="div" ID="toolbar" Class="dialog-button" PageID="P00004">
+        <Buttons>
+          <UIButton ID="btn-add" Class="easyui-linkbutton edit-button" Options="iconCls:'icon-ok'" Title="确定" ActionValue="8" Action="submitAct_DGAppend('dataform','/Page/P00004/Add','datagrid')" />
+          <UIButton Tag="a" ID="btn-cancel" Class="easyui-linkbutton edit-button" Options="iconCls:'icon-cancel'" Title="取消" Action="cancel()" />
+        </Buttons>
+      </ToolBar>
+    </Form>
+  </Page>
+</EditDialogActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="A01156" Name="Add" Title="新增" ActionValue="8">
+    <Command CommandID="M01520" Name="执行新增" Description="本查询的结果值为JSON，参数路径为Results[执行新增].Json" CommandType="QueryJsonSqlCommand"><![CDATA[<QueryJsonCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" NextCommand="新增结果" GroupName="系统安全" TableName="sys_MailServer" CommandName="Add" SqlType="QueryJson">
+  <Parameter Name="ServerName" Path="Request[ServerName]" Type="Parameter" />
+  <Parameter Name="DomainName" Path="Request[DomainName]" Type="Parameter" />
+  <Parameter Name="ServerAddress" Path="Request[ServerAddress]" Type="Parameter" />
+  <Parameter Name="ServerPort" Path="Request[ServerPort]" Type="Parameter" DefaultValue="0" />
+  <Parameter Name="EnableSSL" Path="Request[EnableSSL]" Type="Parameter" />
+  <Parameter Name="DefaultUser" Path="Request[DefaultUser]" Type="Parameter" />
+  <Parameter Name="DefaultPassword" Path="Request[DefaultPassword]" Type="Parameter" />
+  <Parameter Name="Description" Path="Request[Description]" Type="Parameter" />
+  <Parameter Name="CreatedUser" Path="CurrentUserID" Type="SystemParameter" />
+  <Parameter Name="CreatedTime" Path="CurrentDateTime" Type="SystemParameter" />
+  <Parameter Name="ModifiedUser" Path="CurrentUserID" Type="SystemParameter" />
+  <Parameter Name="ModifiedTime" Path="CurrentDateTime" Type="SystemParameter" />
+</QueryJsonCommand>]]></Command>
+    <Command CommandID="M01521" Name="新增结果" Description="返回新增结果" CommandType="JsonActionCommand"><![CDATA[<JsonActionCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ContentType="application/json">
+  <Parameter Name="Data" Path="Results[执行新增].Json" Type="Parameter" />
+  <Parameter Name="HasError" Path="Results[执行新增].IsError" Type="Parameter" />
+  <Parameter Name="ErrorMessage" Path="Results[执行新增].ErrorMessage" Type="Parameter" />
+</JsonActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="A01157" Name="Edit" Title="编辑" ActionValue="16">
+    <Command CommandID="M01522" Name="查询编辑" Description="查询编辑" CommandType="QuerySqlCommand"><![CDATA[<QueryCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" NextCommand="编辑页面" GroupName="系统安全" TableName="sys_MailServer" CommandName="GetEdit">
+  <Parameter Name="ServerID" Path="Request[ID]" Type="Parameter" />
+</QueryCommand>]]></Command>
+    <Command CommandID="M01523" Name="编辑页面" Description="这个命令会直接返回到客户端，无需后继命令" CommandType="EditDialogActionCommand"><![CDATA[<EditDialogActionCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ContentType="text/html">
+  <Parameter Name="Data" Path="LastResult.Items" Type="Parameter" />
+  <Page SettingType="EditDialog">
+    <Form ID="dataform" Class="form-dialog" DataBinding="Parameters[Data]">
+      <TableLayout />
+      <Fields>
+        <Field Title="ServerID" FieldType="Hidden">
+          <Input Tag="input" Name="ServerID" Class="edit-input" InputType="hidden" Binding="ServerID" IsRequired="false" Length="10" IsHidden="true" />
+        </Field>
+        <Field Title="服务名称" FieldType="TextBox">
+          <Input Tag="input" Name="ServerName" Class="edit-input" Binding="ServerName" Length="50" />
+        </Field>
+        <Field Title="域名" FieldType="TextBox">
+          <Input Tag="input" Name="DomainName" Class="edit-input" Binding="DomainName" Length="50" />
+        </Field>
+        <Field Title="服务地址" FieldType="TextBox">
+          <Input Tag="input" Name="ServerAddress" Class="edit-input" Binding="ServerAddress" Length="100" />
+        </Field>
+        <Field Title="服务端口" FieldType="TextBox">
+          <Input Tag="input" Name="ServerPort" Class="edit-input" Binding="ServerPort" />
+        </Field>
+        <Field Title="启用SSL" FieldType="ComboBox">
+          <ComboBox Tag="select" Name="EnableSSL" Class="edit-input" Binding="EnableSSL" ItemsSource="1:是|0:否" />
+        </Field>
+        <Field Title="默认用户" FieldType="TextBox">
+          <Input Tag="input" Name="DefaultUser" Class="edit-input" Binding="DefaultUser" Length="100" />
+        </Field>
+        <Field Title="密码" FieldType="PasswordBox">
+          <Input Tag="input" Name="DefaultPassword" Class="edit-input" InputType="password" Binding="DefaultPassword" Length="128" />
+        </Field>
+        <Field Title="说明" FieldType="TextBox">
+          <Input Tag="input" Name="Description" Class="edit-input" Binding="Description" Length="200" />
+        </Field>
+      </Fields>
+      <ToolBar Tag="div" ID="toolbar" Class="dialog-button" PageID="P00004">
+        <Buttons>
+          <UIButton ID="btn-update" Class="easyui-linkbutton edit-button" Options="iconCls:'icon-ok'" Title="确定" ActionValue="16" Action="submitAct_DGUpdate('dataform','/Page/P00004/Update','datagrid')" />
+          <UIButton ID="btn-cancel" Class="easyui-linkbutton edit-button" Options="iconCls:'icon-cancel'" Title="取消" Action="cancel()" />
+        </Buttons>
+      </ToolBar>
+    </Form>
+  </Page>
+</EditDialogActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="A01158" Name="Update" Title="编辑" ActionValue="16">
+    <Command CommandID="M01524" Name="执行更新" Description="本查询的结果值为JSON，参数路径为Results[执行更新].Json" CommandType="QueryJsonSqlCommand"><![CDATA[<QueryJsonCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" NextCommand="编辑结果" GroupName="系统安全" TableName="sys_MailServer" CommandName="Update" SqlType="QueryJson">
+  <Parameter Name="ServerName" Path="Request[ServerName]" Type="Parameter" />
+  <Parameter Name="DomainName" Path="Request[DomainName]" Type="Parameter" />
+  <Parameter Name="ServerAddress" Path="Request[ServerAddress]" Type="Parameter" />
+  <Parameter Name="ServerPort" Path="Request[ServerPort]" Type="Parameter" DefaultValue="0" />
+  <Parameter Name="EnableSSL" Path="Request[EnableSSL]" Type="Parameter" />
+  <Parameter Name="DefaultUser" Path="Request[DefaultUser]" Type="Parameter" />
+  <Parameter Name="DefaultPassword" Path="Request[DefaultPassword]" Type="Parameter" />
+  <Parameter Name="Description" Path="Request[Description]" Type="Parameter" />
+  <Parameter Name="ModifiedUser" Path="CurrentUserID" Type="SystemParameter" />
+  <Parameter Name="ModifiedTime" Path="CurrentDateTime" Type="SystemParameter" />
+  <Parameter Name="ServerID" Path="Request[ServerID]" Type="Parameter" />
+</QueryJsonCommand>]]></Command>
+    <Command CommandID="M01525" Name="编辑结果" Description="返回编辑结果" CommandType="JsonActionCommand"><![CDATA[<JsonActionCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ContentType="application/json">
+  <Parameter Name="Data" Path="Results[执行更新].Json" Type="Parameter" />
+  <Parameter Name="HasError" Path="Results[执行更新].IsError" Type="Parameter" />
+  <Parameter Name="ErrorMessage" Path="Results[执行更新].ErrorMessage" Type="Parameter" Converter="CreateSystemText" />
+</JsonActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="A01159" Name="Delete" Title="删除" ActionValue="32">
+    <Command CommandID="M01526" Name="执行删除" Description="本查询的结果值为JSON，参数路径为Results[执行删除].Json" CommandType="QueryJsonSqlCommand"><![CDATA[<QueryJsonCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" NextCommand="删除结果" GroupName="系统安全" TableName="sys_MailServer" CommandName="Delete" SqlType="QueryJson">
+  <Parameter Name="Keys" Path="Request[Keys]" Type="Parameter" />
+</QueryJsonCommand>]]></Command>
+    <Command CommandID="M01527" Name="删除结果" Description="返回删除结果" CommandType="JsonActionCommand"><![CDATA[<JsonActionCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ContentType="application/json">
+  <Parameter Name="Data" Path="Results[执行删除].Json" Type="Parameter" />
+  <Parameter Name="HasError" Path="Results[执行删除].IsError" Type="Parameter" />
+  <Parameter Name="ErrorMessage" Path="Results[执行删除].ErrorMessage" Type="Parameter" />
+</JsonActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="f93711c9-41ac-402b-8dcb-e5cb0dc32b46" Name="Report" Title="报表">
+    <Command CommandID="M01499" Name="查询报表" CommandType="QuerySqlCommand"><![CDATA[<QueryCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" NextCommand="测试" GroupName="系统安全" TableName="sys_MailServer" CommandName="Report" SqlType="QueryTable" />]]></Command>
+    <Command CommandID="M01500" Name="测试" CommandType="ReportActionCommand"><![CDATA[<ReportActionCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ReportPath_x0020_="SampleReport.rdlc">
+  <Parameter Name="P1" Type="Const" DefaultValue="这是参数P1" />
+  <DataSource Name="DataSet1" Path="LastResult.Table" Type="Parameter" />
+</ReportActionCommand>]]></Command>
+  </Action>
+  <Layout EditFieldClass="edit-field" />
+  <Buttons>
+    <Button ID="btn-search" Title="检索" ActionValue="2" Action="showActDlg('检索','/Page/P00004/Search',400,300)" Class="easyui-linkbutton" Option="iconCls:'icon-reload'" />
+    <Button ID="btn-query" Title="确定" ActionValue="2" Action="submitAct_DGReplace('dataform','/Page/P00004/Query','datagrid')" Class="easyui-linkbutton edit-button" Option="iconCls:'icon-ok'" ShowInToolBar="false" />
+    <Button ID="btn-detail" Title="查看" ActionValue="4" Action="showActDlg_DGItemActDlg('datagrid','查看','/Page/P00004/Detail',400,300)" Class="easyui-linkbutton toolradio" Option="iconCls:'icon-add'" />
+    <Button ID="btn-create" Title="新增" ActionValue="8" Action="showActDlg('新增','/Page/P00004/Create',400,300)" Class="easyui-linkbutton" Option="iconCls:'icon-add'" />
+    <Button ID="btn-add" Title="确定" ActionValue="8" Action="submitAct_DGAppend('dataform','/Page/P00004/Add','datagrid')" Class="easyui-linkbutton edit-button" Option="iconCls:'icon-ok'" ShowInToolBar="false" />
+    <Button ID="btn-edit" Title="修改" ActionValue="16" Action="showActDlg_DGItemActDlg('datagrid','修改','/Page/P00004/Edit',400,300)" Class="easyui-linkbutton toolradio" Option="iconCls:'icon-edit'" />
+    <Button ID="btn-update" Title="确定" ActionValue="16" Action="submitAct_DGUpdate('dataform','/Page/P00004/Update','datagrid')" Class="easyui-linkbutton edit-button" Option="iconCls:'icon-ok'" ShowInToolBar="false" />
+    <Button ID="btn-delete" Title="删除" ActionValue="32" Action="showActDlg_DGItemsConfirm('datagrid','删除','确认删除选择项？','/Page/P00004/Delete',400,300)" Class="easyui-linkbutton toolmultiple" Option="iconCls:'icon-cancel'" />
+    <Button ID="btn-import" Title="导入" ActionValue="64" Action="showActDlg('导入','/Page/P00004/Import',400,300)" Class="easyui-linkbutton" Option="iconCls:'icon-import'" />
+    <Button ID="btn-export" Title="导出" ActionValue="128" Action="showActDlg('导出','/Page/P00004/Export',400,300)" Class="easyui-linkbutton" Option="iconCls:'icon-export'" />
+    <Button ID="btn-cancel" Title="取消" Action="cancel()" Class="easyui-linkbutton edit-button" Option="iconCls:'icon-cancel'" ShowInToolBar="false" />
+    <Button ID="btn-close" Title="确定" Action="cancel()" Class="easyui-linkbutton edit-button" ShowInToolBar="false" />
+  </Buttons>
+  <EditSource GroupName="系统安全" TableName="sys_MailServer" Key="ServerID">
+    <Fields>
+      <EditField Name="ServerID" Title="ServerID" DataType="varchar" Length="10" ShowInGrid="false" ShowInCreate="false" ShowInEdit="false" ShowInDetail="false" ShowInSearch="false" IsRequired="false" EnableEdit="false" EditBox="Hidden" IsSerialCode="true" SerialRule="MailServer,MS,6" />
+      <EditField Name="ServerName" Title="服务名称" DataType="nvarchar" Length="50" />
+      <EditField Name="DomainName" Title="域名" DataType="varchar" Length="50" />
+      <EditField Name="ServerAddress" Title="服务地址" DataType="nvarchar" Length="100" ShowInSearch="false" />
+      <EditField Name="ServerPort" Title="服务端口" DataType="int" ShowInSearch="false" />
+      <EditField Name="EnableSSL" Title="启用SSL" DataType="bit" EditBox="ComboBox" ItemsSource="1:是|0:否" />
+      <EditField Name="DefaultUser" Title="默认用户" DataType="nvarchar" Length="100" ShowInSearch="false" />
+      <EditField Name="DefaultPassword" Title="密码" DataType="varchar" Length="128" ShowInDetail="false" ShowInSearch="false" EditBox="PasswordBox" />
+      <EditField Name="Description" Title="说明" DataType="nvarchar" Length="200" ShowInSearch="false" />
+      <EditField Name="CreatedUser" Title="CreatedUser" DataType="varchar" Length="6" ShowInGrid="false" ShowInCreate="false" ShowInEdit="false" ShowInDetail="false" ShowInSearch="false" IsRequired="false" EnableEdit="false" />
+      <EditField Name="CreatedTime" Title="CreatedTime" DataType="datetime" ShowInGrid="false" ShowInCreate="false" ShowInEdit="false" ShowInDetail="false" ShowInSearch="false" IsRequired="false" EnableEdit="false" />
+      <EditField Name="ModifiedUser" Title="ModifiedUser" DataType="varchar" Length="6" ShowInGrid="false" ShowInCreate="false" ShowInEdit="false" ShowInDetail="false" ShowInSearch="false" IsRequired="false" EnableEdit="false" />
+      <EditField Name="ModifiedTime" Title="ModifiedTime" DataType="datetime" ShowInGrid="false" ShowInCreate="false" ShowInEdit="false" ShowInDetail="false" ShowInSearch="false" IsRequired="false" EnableEdit="false" />
+      <EditField Name="AutoKey" Title="AutoKey" DataType="int" ShowInGrid="false" ShowInCreate="false" ShowInEdit="false" ShowInDetail="false" ShowInSearch="false" IsRequired="false" EnableEdit="false" />
+    </Fields>
+    <ChildTables />
+  </EditSource>
+</MvcEditPage>

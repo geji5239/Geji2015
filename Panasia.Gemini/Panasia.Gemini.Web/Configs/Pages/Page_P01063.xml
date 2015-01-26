@@ -1,0 +1,260 @@
+<?xml version="1.0"?>
+<MvcEditPage xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" PageID="P01063" Controller="" DefaultAction="Index">
+  <Action ActionID="76d234ba-6c42-4b32-92ed-67ed782f9708" Name="Index" Title="列表" ActionValue="1">
+    <Command CommandID="M01636" Name="列表页面" Description="这个命令会直接返回到客户端，无需后继命令" CommandType="IndexPageActionCommand"><![CDATA[<IndexPageActionCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ContentType="text/html">
+  <Page SettingType="IndexPage">
+    <ToolBar Tag="div" ID="toolbar" Class="toolbar-panel" PageID="P01063">
+      <Buttons>
+        <UIButton ID="btn-search" Class="easyui-linkbutton normal-button" Options="iconCls:'icon-search',plain:true" Title="检索" ActionValue="2" Action="showActDlg('检索','/Page/P01063/Search',400,300)" />
+        <UIButton ID="btn-detail" Class="easyui-linkbutton normal-button toolradio" Options="iconCls:'icon-detail',plain:true" Title="查看" ActionValue="4" Action="showActDlg_DGItemActDlg('datagrid','查看','/Page/P01063/Detail',400,300)" />
+        <UIButton ID="btn-create" Class="easyui-linkbutton normal-button" Options="iconCls:'icon-add',plain:true" Title="新增" ActionValue="8" Action="showActDlg('新增','/Page/P01063/Create',400,300)" />
+        <UIButton ID="btn-edit" Class="easyui-linkbutton normal-button toolradio" Options="iconCls:'icon-edit',plain:true" Title="修改" ActionValue="16" Action="showActDlg_DGItemActDlg('datagrid','修改','/Page/P01063/Edit',400,300)" />
+        <UIButton ID="btn-delete" Class="easyui-linkbutton normal-button toolmultiple" Options="iconCls:'icon-cancel',plain:true" Title="删除" ActionValue="32" Action="showActDlg_DGItemsConfirm('datagrid','删除','确认删除选择项？','/Page/P01063/Delete',400,300)" />
+        <UIButton />
+      </Buttons>
+    </ToolBar>
+    <DataGrid Tag="table" ID="datagrid" Class="easyui-datagrid" Options="url:'/Page/P01063/Query',fitColumns:true,fit:true,pagination: true,rownumbers: true,nowrap: true,striped: true,collapsible: false,resizable:true,onClickRow:oncheckstate,onSelect:oncheckstate,onCheck:oncheckstate,onCheckAll:oncheckstate,onUncheckAll:oncheckstate,onUncheck:oncheckstate,onUnselect:oncheckstate" Key="ProductTypeID">
+      <Column Title="ProductTypeID" FieldName="ProductTypeID" IsCheckBox="true" />
+      <Column Title="产品类型" FieldName="ProductType" />
+      <Column Title="备注" FieldName="Remark" />
+    </DataGrid>
+  </Page>
+</IndexPageActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="2d9cf8dd-e1d8-49d1-af9f-d0476a583131" Name="Search" Title="检索" ActionValue="2" ErrorCommand="检索页面">
+    <Command CommandID="M01637" Name="检索页面" Description="这个命令会直接返回到客户端，无需后继命令" CommandType="EditDialogActionCommand"><![CDATA[<EditDialogActionCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ContentType="text/html">
+  <Page SettingType="EditDialog">
+    <Form ID="dataform" Class="form-dialog">
+      <TableLayout />
+      <Fields>
+        <Field Title="ProductTypeID" FieldType="Hidden">
+          <Input Tag="input" Name="ProductTypeID" Class="edit-input" InputType="hidden" Binding="ProductTypeID" Length="4" IsHidden="true" />
+        </Field>
+        <Field Title="产品类型" FieldType="TextBox">
+          <Input Tag="input" Name="ProductType" Class="edit-input easyui-textbox" Options="invalidMessage:'产品类型不得超过50个字符',validType:'length[0,50]'" Binding="ProductType" IsRequired="false" Length="50" />
+        </Field>
+        <Field Title="上级类型" FieldType="ComboTree">
+          <ComboTree Tag="input" Name="ParentID" Class="easyui-combotree" Style="width:185px" Options="editable:false" Binding="ParentID" IsRequired="false" DataUrl="/Share/Query?name=GetProductTypeParentID&amp;resultformat=jsontree&amp;root=0000&amp;pid=ParentID&amp;id=ProductTypeID&amp;text=ProductType&amp;ProductTypeID=xxxx" DisplayMember="ProductType" ValueMember="ProductTypeID" />
+        </Field>
+        <Field Title="备注" FieldType="TextBox">
+          <TextArea Tag="input" Name="Remark" Class="edit-input easyui-textbox" Options="invalidMessage:'备注不得超过200个字符',validType:'length[0,200]'" Binding="Remark" IsRequired="false" Length="200" />
+        </Field>
+      </Fields>
+      <ToolBar Tag="div" ID="toolbar" Class="dialog-button" PageID="P01063">
+        <Buttons>
+          <UIButton ID="btn-query" Class="easyui-linkbutton edit-button" Options="iconCls:'icon-ok'" Title="确定" ActionValue="2" Action="submitAct_DGReplace('dataform','/Page/P01063/Query','datagrid')" />
+          <UIButton ID="btn-cancel" Class="easyui-linkbutton edit-button" Options="iconCls:'icon-cancel'" Title="取消" Action="cancel()" />
+        </Buttons>
+      </ToolBar>
+    </Form>
+  </Page>
+</EditDialogActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="23bf09ac-b908-498a-97bd-bab3adfafc02" Name="Query" Title="检索" ActionValue="2" ErrorCommand="搜索结果">
+    <Command CommandID="M01788" Name="查询总数" CommandType="ScalarSqlCommand"><![CDATA[<ScalarCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" NextCommand="执行查询" GroupName="业务模块" TableName="bi_ProductType" CommandName="QueryCount" SqlType="Scalar">
+  <Parameter Name="ProductType" Path="Request[ProductType]" Type="Parameter" Converter="Trim" />
+  <Parameter Name="ParentID" Path="Request[ParentID]" Type="Parameter" Converter="Trim" />
+  <Parameter Name="Remark" Path="Request[Remark]" Type="Parameter" Converter="Trim" />
+</ScalarCommand>]]></Command>
+    <Command CommandID="M01638" Name="执行查询" Description="本查询的结果值为JSON，参数路径为Results[执行查询].Json" CommandType="QueryJsonSqlCommand"><![CDATA[<QueryJsonCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" NextCommand="搜索结果" GroupName="业务模块" TableName="bi_ProductType" CommandName="QueryPage" SqlType="QueryJson">
+  <Parameter Name="ProductType" Path="Request[ProductType]" Type="Parameter" Converter="Trim" />
+  <Parameter Name="Remark" Path="Request[Remark]" Type="Parameter" Converter="Trim" />
+  <Parameter Name="ParentID" Path="Request[ParentID]" Type="Parameter" Converter="Trim" />
+  <Parameter Name="Page" Path="Request[Page]" Type="Parameter" />
+  <Parameter Name="Rows" Path="Request[Rows]" Type="Parameter" />
+</QueryJsonCommand>]]></Command>
+    <Command CommandID="M01639" Name="搜索结果" Description="返回搜索结果" CommandType="JsonActionCommand"><![CDATA[<JsonActionCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ContentType="application/json">
+  <Parameter Name="rows" Path="Results[执行查询].Json" Type="Parameter" />
+  <Parameter Name="HasError" Path="Results[执行查询].IsError" Type="Parameter" />
+  <Parameter Name="ErrorMessage" Path="Results[执行查询].ErrorMessage" Type="Parameter" />
+  <Parameter Name="total" Path="Results[查询总数].Value" Type="Parameter" />
+</JsonActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="aa78acba-d6ed-43e3-abaf-8d227fdbf9d4" Name="Detail" Title="查看" ActionValue="4" ErrorCommand="查看页面">
+    <Command CommandID="M01640" Name="查询明细" Description="查询明细" CommandType="QuerySqlCommand"><![CDATA[<QueryCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" NextCommand="查看页面" GroupName="业务模块" TableName="bi_ProductType" CommandName="GetDetail">
+  <Parameter Name="ProductTypeID" Path="Request[ID]" Type="Parameter" />
+</QueryCommand>]]></Command>
+    <Command CommandID="M01641" Name="查看页面" Description="这个命令会直接返回到客户端，无需后继命令" CommandType="EditDialogActionCommand"><![CDATA[<EditDialogActionCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ContentType="text/html">
+  <Parameter Name="Data" Path="LastResult.Items" Type="Parameter" />
+  <Page SettingType="EditDialog">
+    <Form ID="dataform" Class="form-dialog" DataBinding="Parameters[Data]">
+      <TableLayout />
+      <Fields>
+        <Field Title="ProductTypeID" FieldType="Hidden">
+          <Input Tag="input" Name="ProductTypeID" Class="edit-input" InputType="hidden" Binding="ProductTypeID" Length="4" IsHidden="true" />
+        </Field>
+        <Field Title="产品类型" FieldType="TextBox">
+          <Input Tag="input" Name="ProductType" Class="edit-input easyui-textbox" Options="missingMessage:'请输入产品类型',invalidMessage:'产品类型不得超过50个字符',validType:'length[1,50]'" Binding="ProductType" IsReadOnly="true" IsRequired="false" Length="50" />
+        </Field>
+        <Field Title="上级类型" FieldType="TextBox">
+          <ComboTree Tag="input" Name="PProductype" Class="edit-input easyui-textbox" Options="missingMessage:'请选择上级类型',editable:false" Binding="PProductype" IsReadOnly="true" IsRequired="false" DataUrl="/Share/Query?name=GetProductTypeParentID&amp;resultformat=jsontree&amp;root=0000&amp;pid=ParentID&amp;id=ProductTypeID&amp;text=ProductType&amp;ProductTypeID=xxxx" DisplayMember="ProductType" ValueMember="ParentID" />
+        </Field>
+        <Field Title="显示排序" FieldType="TextBox">
+          <Input Tag="input" Name="SortID" Class="edit-input easyui-textbox" Options="missingMessage:'请输入显示排序',min:0,max:20" Binding="SortID" IsReadOnly="true" IsRequired="false" />
+        </Field>
+        <Field Title="备注" FieldClass="edit-field-w2" FieldType="TextArea">
+          <TextArea Tag="input" Name="Remark" Class="edit-input easyui-textbox" Style="height:90px" Options="invalidMessage:'备注不得超过200个字符',validType:'length[0,200]',multiline:true" Binding="Remark" IsReadOnly="true" IsRequired="false" Length="200" />
+        </Field>
+      </Fields>
+      <ToolBar Tag="div" ID="toolbar" Class="dialog-button" PageID="P01063">
+        <Buttons>
+          <UIButton ID="btn-close" Class="easyui-linkbutton edit-button" Options="iconCls:'icon-cancel'" Title="关闭" Action="cancel()" />
+        </Buttons>
+      </ToolBar>
+    </Form>
+  </Page>
+</EditDialogActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="51d2b69d-bf5f-405d-a1cd-42876f4d6dd5" Name="Create" Title="新增" ActionValue="8" ErrorCommand="新增页面">
+    <Command CommandID="M01642" Name="新增页面" Description="这个命令会直接返回到客户端，无需后继命令" CommandType="EditDialogActionCommand"><![CDATA[<EditDialogActionCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ContentType="text/html">
+  <Page SettingType="EditDialog">
+    <Form ID="dataform" Class="form-dialog">
+      <TableLayout />
+      <Fields>
+        <Field Title="ProductTypeID" FieldType="Hidden">
+          <Input Tag="input" Name="ProductTypeID" Class="edit-input" InputType="hidden" Binding="ProductTypeID" Length="4" IsHidden="true" />
+        </Field>
+        <Field Title="产品类型" FieldType="TextBox">
+          <Input Tag="input" Name="ProductType" Class="edit-input easyui-textbox" Options="missingMessage:'请输入产品类型',invalidMessage:'产品类型不得超过50个字符',validType:'length[1,50]'" Binding="ProductType" Length="50" />
+        </Field>
+        <Field Title="上级类型" FieldType="ComboTree">
+          <ComboTree Tag="input" Name="ParentID" Class="easyui-combotree" Style="width:185px" Options="missingMessage:'请选择上级类型',editable:false" Binding="ParentID" DataUrl="/Share/Query?name=GetProductTypeParentID&amp;resultformat=jsontree&amp;root=0000&amp;pid=ParentID&amp;id=ProductTypeID&amp;text=ProductType&amp;ProductTypeID=xxxx" DisplayMember="ProductType" ValueMember="ProductTypeID" />
+        </Field>
+        <Field Title="显示排序" FieldType="NumberBox">
+          <Input Tag="input" Name="SortID" Class="edit-input easyui-numberspinner" Options="missingMessage:'请输入显示排序',min:0,max:20" Binding="SortID" />
+        </Field>
+        <Field Title="备注" FieldClass="edit-field-w2" FieldType="TextArea">
+          <TextArea Tag="input" Name="Remark" Class="edit-input easyui-textbox" Style="height:90px" Options="prompt:'不得超过200个字符',invalidMessage:'备注不得超过200个字符',validType:'length[0,200]',multiline:true" Binding="Remark" IsRequired="false" Length="200" />
+        </Field>
+      </Fields>
+      <ToolBar Tag="div" ID="toolbar" Class="dialog-button" PageID="P01063">
+        <Buttons>
+          <UIButton ID="btn-add" Class="easyui-linkbutton edit-button" Options="iconCls:'icon-ok'" Title="确定" ActionValue="8" Action="submitAct_DGAppend('dataform','/Page/P01063/Add','datagrid')" />
+          <UIButton ID="btn-cancel" Class="easyui-linkbutton edit-button" Options="iconCls:'icon-cancel'" Title="取消" Action="cancel()" />
+        </Buttons>
+      </ToolBar>
+    </Form>
+  </Page>
+</EditDialogActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="a33a6247-979e-4e03-bf21-6382b131ec00" Name="Add" Title="新增" ActionValue="8" ErrorCommand="新增结果">
+    <Command CommandID="M01643" Name="执行新增" Description="本查询的结果值为JSON，参数路径为Results[执行新增].Json" CommandType="QueryJsonSqlCommand"><![CDATA[<QueryJsonCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" NextCommand="新增结果" GroupName="业务模块" TableName="bi_ProductType" CommandName="Add" SqlType="QueryJson">
+  <Parameter Name="ProductTypeID" Path="SerialCode" Type="SystemParameter" DefaultValue="ProductType,P,4" />
+  <Parameter Name="ProductType" Path="Request[ProductType]" Type="Parameter" />
+  <Parameter Name="Remark" Path="Request[Remark]" Type="Parameter" />
+  <Parameter Name="IsActive" Path="Request[IsActive]" Type="Const" DefaultValue="1" />
+  <Parameter Name="CreatedUser" Path="CurrentUserID" Type="SystemParameter" />
+  <Parameter Name="CreatedTime" Path="CurrentDateTime" Type="SystemParameter" />
+  <Parameter Name="ModifiedUser" Path="CurrentUserID" Type="SystemParameter" />
+  <Parameter Name="ModifiedTime" Path="CurrentDateTime" Type="SystemParameter" />
+  <Parameter Name="ParentID" Path="Request[ParentID]" Type="Parameter">
+    <Validator />
+  </Parameter>
+  <Parameter Name="SortID" Path="Request[SortID]" Type="Parameter" />
+</QueryJsonCommand>]]></Command>
+    <Command CommandID="M01644" Name="新增结果" Description="返回新增结果" CommandType="JsonActionCommand"><![CDATA[<JsonActionCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ContentType="application/json">
+  <Parameter Name="Data" Path="Results[执行新增].Json" Type="Parameter" />
+  <Parameter Name="HasError" Path="Results[执行新增].IsError" Type="Parameter" />
+  <Parameter Name="ErrorMessage" Path="Results[执行新增].ErrorMessage" Type="Parameter" />
+</JsonActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="1682d506-1c7b-4d19-a2b2-85213988c17f" Name="Edit" Title="编辑" ActionValue="16" ErrorCommand="编辑页面">
+    <Command CommandID="M01645" Name="查询编辑" Description="查询编辑" CommandType="QuerySqlCommand"><![CDATA[<QueryCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" NextCommand="编辑页面" GroupName="业务模块" TableName="bi_ProductType" CommandName="GetEdit">
+  <Parameter Name="ProductTypeID" Path="Request[ID]" Type="Parameter" />
+</QueryCommand>]]></Command>
+    <Command CommandID="M01646" Name="编辑页面" Description="这个命令会直接返回到客户端，无需后继命令" CommandType="EditDialogActionCommand"><![CDATA[<EditDialogActionCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ContentType="text/html">
+  <Parameter Name="Data" Path="LastResult.Items" Type="Parameter" />
+  <Page SettingType="EditDialog">
+    <Form ID="dataform" Class="form-dialog" DataBinding="Parameters[Data]">
+      <TableLayout />
+      <Fields>
+        <Field Title="ProductTypeID" FieldType="Hidden">
+          <Input Tag="input" Name="ProductTypeID" Class="edit-input" InputType="hidden" Binding="ProductTypeID" Length="4" IsHidden="true" />
+        </Field>
+        <Field Title="产品类型" FieldType="TextBox">
+          <Input Tag="input" Name="ProductType" Class="edit-input easyui-textbox" Options="missingMessage:'请输入产品类型',invalidMessage:'产品类型不得超过50个字符',validType:'length[1,50]'" Binding="ProductType" Length="50" />
+        </Field>
+        <Field Title="上级类型" FieldType="ComboTree">
+          <ComboTree Tag="input" Name="ParentID" Class="easyui-combotree" Style="width:185px" Options="missingMessage:'请选择上级类型',editable:false" Binding="ParentID" DataUrl="/Share/Query?name=GetProductTypeParentID&amp;resultformat=jsontree&amp;root=0000&amp;pid=ParentID&amp;id=ProductTypeID&amp;text=ProductType&amp;ProductTypeID=xxxx" DisplayMember="ProductType" ValueMember="ProductTypeID" />
+        </Field>
+        <Field Title="显示排序" FieldType="NumberBox">
+          <Input Tag="input" Name="SortID" Class="edit-input easyui-numberspinner" Options="missingMessage:'请输入显示排序',min:0,max:20" Binding="SortID" />
+        </Field>
+        <Field Title="备注" FieldClass="edit-field-w2" FieldType="TextArea">
+          <TextArea Tag="input" Name="Remark" Class="edit-input easyui-textbox" Style="height:90px" Options="prompt:'不得超过200个字符',invalidMessage:'备注不得超过200个字符',validType:'length[0,200]',multiline:true" Binding="Remark" IsRequired="false" Length="200" />
+        </Field>
+      </Fields>
+      <ToolBar Tag="div" ID="toolbar" Class="dialog-button" PageID="P01063">
+        <Buttons>
+          <UIButton ID="btn-update" Class="easyui-linkbutton edit-button" Options="iconCls:'icon-ok'" Title="确定" ActionValue="16" Action="submitAct_DGUpdate('dataform','/Page/P01063/Update','datagrid')" />
+          <UIButton ID="btn-cancel" Class="easyui-linkbutton edit-button" Options="iconCls:'icon-cancel'" Title="取消" Action="cancel()" />
+        </Buttons>
+      </ToolBar>
+    </Form>
+  </Page>
+</EditDialogActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="ebc4b8e8-c278-46d8-b3ea-94881a25981b" Name="Update" Title="编辑" ActionValue="16" ErrorCommand="编辑结果">
+    <Command CommandID="M01647" Name="执行更新" Description="本查询的结果值为JSON，参数路径为Results[执行更新].Json" CommandType="QueryJsonSqlCommand"><![CDATA[<QueryJsonCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" NextCommand="编辑结果" GroupName="业务模块" TableName="bi_ProductType" CommandName="Update" SqlType="QueryJson">
+  <Parameter Name="ProductTypeID" Path="Request[ProductTypeID]" Type="Parameter" />
+  <Parameter Name="ProductType" Path="Request[ProductType]" Type="Parameter" />
+  <Parameter Name="Remark" Path="Request[Remark]" Type="Parameter" />
+  <Parameter Name="IsActive" Path="Request[IsActive]" Type="Const" DefaultValue="1" />
+  <Parameter Name="CreatedUser" Path="CurrentUserID" Type="SystemParameter" />
+  <Parameter Name="CreatedTime" Path="CurrentDateTime" Type="SystemParameter" />
+  <Parameter Name="ModifiedUser" Path="CurrentUserID" Type="SystemParameter" />
+  <Parameter Name="ModifiedTime" Path="CurrentDateTime" Type="SystemParameter" />
+  <Parameter Name="ParentID" Path="Request[ParentID]" Type="Parameter">
+    <Validator />
+    <Validator />
+  </Parameter>
+  <Parameter Name="SortID" Path="Request[SortID]" Type="Parameter" />
+</QueryJsonCommand>]]></Command>
+    <Command CommandID="M01648" Name="编辑结果" Description="返回编辑结果" CommandType="JsonActionCommand"><![CDATA[<JsonActionCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ContentType="application/json">
+  <Parameter Name="Data" Path="Results[执行更新].Json" Type="Parameter" />
+  <Parameter Name="HasError" Path="Results[执行更新].IsError" Type="Parameter" />
+  <Parameter Name="ErrorMessage" Path="Results[执行更新].ErrorMessage" Type="Parameter" />
+</JsonActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="55721bc8-faae-4600-8f50-45240cf0c0e1" Name="Delete" Title="删除" ActionValue="32" ErrorCommand="删除结果">
+    <Command CommandID="M01649" Name="执行删除" Description="本查询的结果值为JSON，参数路径为Results[执行删除].Json" CommandType="QueryJsonSqlCommand"><![CDATA[<QueryJsonCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" NextCommand="删除结果" GroupName="业务模块" TableName="bi_ProductType" CommandName="Delete" SqlType="QueryJson">
+  <Parameter Name="ModifiedUser" Path="CurrentUserID" Type="SystemParameter" />
+  <Parameter Name="ModifiedTime" Path="CurrentDateTime" Type="SystemParameter" />
+  <Parameter Name="ProductTypeID" Path="Request[keys]" Type="Parameter" />
+</QueryJsonCommand>]]></Command>
+    <Command CommandID="M01650" Name="删除结果" Description="返回删除结果" CommandType="JsonActionCommand"><![CDATA[<JsonActionCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ContentType="application/json">
+  <Parameter Name="Data" Path="Results[执行删除].Json" Type="Parameter" />
+  <Parameter Name="HasError" Path="Results[执行删除].IsError" Type="Parameter" />
+  <Parameter Name="ErrorMessage" Path="Results[执行删除].ErrorMessage" Type="Parameter" />
+</JsonActionCommand>]]></Command>
+  </Action>
+  <Layout EditFieldClass="edit-field" />
+  <Buttons>
+    <Button ID="btn-search" Title="检索" ActionValue="2" Action="showActDlg('检索','/Page/P01063/Search',400,300)" Class="easyui-linkbutton" Option="iconCls:'icon-reload'" />
+    <Button ID="btn-query" Title="确定" ActionValue="2" Action="submitAct_DGReplace('dataform','/Page/P01063/Query','datagrid')" Class="easyui-linkbutton edit-button" Option="iconCls:'icon-ok'" ShowInToolBar="false" />
+    <Button ID="btn-detail" Title="查看" ActionValue="4" Action="showActDlg_DGItemActDlg('datagrid','查看','/Page/P01063/Detail',400,300)" Class="easyui-linkbutton toolradio" Option="iconCls:'icon-add'" />
+    <Button ID="btn-create" Title="新增" ActionValue="8" Action="showActDlg('新增','/Page/P01063/Create',400,300)" Class="easyui-linkbutton" Option="iconCls:'icon-add'" />
+    <Button ID="btn-add" Title="确定" ActionValue="8" Action="submitAct_DGAppend('dataform','/Page/P01063/Add','datagrid')" Class="easyui-linkbutton edit-button" Option="iconCls:'icon-ok'" ShowInToolBar="false" />
+    <Button ID="btn-edit" Title="修改" ActionValue="16" Action="showActDlg_DGItemActDlg('datagrid','修改','/Page/P01063/Edit',400,300)" Class="easyui-linkbutton toolradio" Option="iconCls:'icon-edit'" />
+    <Button ID="btn-update" Title="确定" ActionValue="16" Action="submitAct_DGUpdate('dataform','/Page/P01063/Update','datagrid')" Class="easyui-linkbutton edit-button" Option="iconCls:'icon-ok'" ShowInToolBar="false" />
+    <Button ID="btn-delete" Title="删除" ActionValue="32" Action="showActDlg_DGItemsConfirm('datagrid','删除','确认删除选择项？','/Page/P01063/Delete',400,300)" Class="easyui-linkbutton toolmultiple" Option="iconCls:'icon-cancel'" />
+    <Button ID="btn-import" Title="导入" ActionValue="64" Action="showActDlg('导入','/Page/P01063/Import',400,300)" Class="easyui-linkbutton" Option="iconCls:'icon-import'" />
+    <Button ID="btn-export" Title="导出" ActionValue="128" Action="showActDlg('导出','/Page/P01063/Export',400,300)" Class="easyui-linkbutton" Option="iconCls:'icon-export'" />
+    <Button ID="btn-cancel" Title="取消" Action="cancel()" Class="easyui-linkbutton edit-button" Option="iconCls:'icon-cancel'" ShowInToolBar="false" />
+    <Button ID="btn-close" Title="确定" Action="cancel()" Class="easyui-linkbutton edit-button" ShowInToolBar="false" />
+  </Buttons>
+  <EditSource GroupName="业务模块" TableName="bi_ProductType" Key="ProductTypeID">
+    <Fields>
+      <EditField Name="ProductTypeID" Title="ProductTypeID" DataType="varchar" Length="4" EditBox="Hidden" />
+      <EditField Name="ProductType" Title="ProductType" DataType="nvarchar" Length="50" />
+      <EditField Name="Remark" Title="Remark" DataType="nvarchar" Length="200" />
+      <EditField Name="IsActive" Title="IsActive" DataType="bit" EditBox="ComboBox" ItemsSource="1:是|0:否" />
+      <EditField Name="CreatedUser" Title="CreatedUser" DataType="varchar" Length="6" ShowInGrid="false" ShowInCreate="false" ShowInEdit="false" ShowInDetail="false" ShowInSearch="false" IsRequired="false" EnableEdit="false" />
+      <EditField Name="CreatedTime" Title="CreatedTime" DataType="datetime" ShowInGrid="false" ShowInCreate="false" ShowInEdit="false" ShowInDetail="false" ShowInSearch="false" IsRequired="false" EnableEdit="false" />
+      <EditField Name="ModifiedUser" Title="ModifiedUser" DataType="varchar" Length="6" ShowInGrid="false" ShowInCreate="false" ShowInEdit="false" ShowInDetail="false" ShowInSearch="false" IsRequired="false" EnableEdit="false" />
+      <EditField Name="ModifiedTime" Title="ModifiedTime" DataType="datetime" ShowInGrid="false" ShowInCreate="false" ShowInEdit="false" ShowInDetail="false" ShowInSearch="false" IsRequired="false" EnableEdit="false" />
+      <EditField Name="AutoKey" Title="AutoKey" DataType="int" ShowInGrid="false" ShowInCreate="false" ShowInEdit="false" ShowInDetail="false" ShowInSearch="false" IsRequired="false" EnableEdit="false" />
+    </Fields>
+    <ChildTables />
+  </EditSource>
+</MvcEditPage>

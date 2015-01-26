@@ -1,0 +1,45 @@
+﻿@{
+    Layout = "~/Views/Shared/_PageLayout.cshtml";
+}
+
+
+<div id="toolbar" style="margin:5px 0;">
+    <a id="btn-search" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-reload'">检索</a>
+    <a id="btn-detail" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-cancel'">查看</a>
+    <a id="btn-create" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-add'">新增</a>
+    <a id="btn-edit" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-edit'">编辑</a>
+    <a id="btn-delete" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-cancel'">删除</a>
+    <a id="btn-import" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-cancel'">导入</a> 
+    <a id="btn-export" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-cancel'">导出</a> 
+</div>
+
+<div class="easyui-panel" title="">
+    <div >
+        <table id="datagrid" class="easyui-datagrid">
+            <thead>
+                <tr>
+                    <th>用户名</th>
+                    <th>姓名</th>
+                    <th>邮件地址</th>
+                    <th>是否有效</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>ddd</td>
+                    <td>ddd</td>
+                    <td>ddd</td>
+                    <td>ddd</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div id="dialog"></div>
+
+<!--
+新增按钮：获取新增的Html——>对话框显示；  showDialog(url,title,width,height)=>先从服务端取，成功后显示对话框
+保存按钮：提交某个窗体内容——>如果成功——>关闭对话框 postForm(formID,url)
+取消按钮：关闭对话框 
+-->

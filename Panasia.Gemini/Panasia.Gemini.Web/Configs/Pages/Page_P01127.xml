@@ -1,0 +1,250 @@
+<?xml version="1.0"?>
+<MvcEditPage xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" PageID="P01127" Controller="" DefaultAction="Index">
+  <Action ActionID="269dee72-f239-492e-987c-3b9d0346f638" Name="Index" Title="列表" ActionValue="1">
+    <Command CommandID="M01689" Name="列表页面" Description="这个命令会直接返回到客户端，无需后继命令" CommandType="IndexPageActionCommand">
+        <![CDATA[<IndexPageActionCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ContentType="text/html">
+  <Page SettingType="IndexPage">
+    <ToolBar Tag="div" ID="toolbar" Class="toolbar-panel" PageID="P01127">
+      <Buttons>
+        <UIButton ID="btn-search" Class="easyui-linkbutton normal-button" Options="iconCls:'icon-search',plain:true" Title="检索" ActionValue="2" Action="showActDlg('检索','/Page/P01127/Search',400,300)" />
+        <UIButton ID="btn-detail" Class="easyui-linkbutton toolradio normal-button" Options="iconCls:'icon-detail',plain:true" Title="查看" ActionValue="4" Action="showActDlg_DGItemActDlg('datagrid','查看','/Page/P01127/Detail',400,300)" />
+        <UIButton ID="btn-delete" Class="easyui-linkbutton toolmultiple" Options="iconCls:'icon-export',plain:true" Title="回归公海" ActionValue="32" Action="showActDlg_DGItemsConfirm('datagrid','回归公海','确认把选择项回归公海？','/Page/P01127/ReturnPublic',400,300)" />
+        <UIButton />
+      </Buttons>
+    </ToolBar>
+    <DataGrid Tag="table" ID="datagrid" Class="easyui-datagrid" Options="url:'/Page/P01127/Query',fitColumns:true,fit:true,pagination: true,rownumbers: true,nowrap: true,striped: true,collapsible: false,resizable:true,onClickRow:oncheckstate,onSelect:oncheckstate,onCheck:oncheckstate,onCheckAll:oncheckstate,onUncheckAll:oncheckstate,onUncheck:oncheckstate,onUnselect:oncheckstate" Key="CustomerID">
+    <Column Title="CustomerID" FieldName="CustomerID" IsCheckBox="true" />
+      <Column Title="客户名称" FieldName="CustomerName" />
+      <Column Title="区域" FieldName="Area" />
+      <Column HAlign="Center" Title="联系人" FieldName="Contact" />
+      <Column HAlign="Center" Title="手机" FieldName="ContactMobiPhone" />
+      <Column Title="备注" FieldName="Remark" />
+    </DataGrid>
+  </Page>
+</IndexPageActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="3c1fb567-5422-4d9f-aab2-e14077509742" Name="Search" Title="检索" ActionValue="2" ErrorCommand="检索页面">
+    <Command CommandID="M01690" Name="检索页面" Description="这个命令会直接返回到客户端，无需后继命令" CommandType="EditDialogActionCommand">
+        <![CDATA[<EditDialogActionCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ContentType="text/html">
+  <Parameter Name="CompanyID" Path="CurrentUserProfiles" Type="SystemParameter" DefaultValue="CompanyID" />
+  <Page SettingType="EditDialog">
+    <Form ID="dataform" Class="form-dialog">
+      <TableLayout />
+      <Fields>
+        <Field Title="客户全称" FieldType="TextBox">
+          <Input Tag="input" Name="CustomerName" Class="edit-input easyui-textbox" IsRequired="false" Length="50" />
+        </Field>
+        <Field Title="客户简称" FieldType="TextBox">
+          <Input Tag="input" Name="CustomerJC" Class="edit-input easyui-textbox" IsRequired="false" Length="10" />
+        </Field>
+        <Field Title="联系人" FieldType="TextBox">
+          <Input Tag="input" Name="Contact" Class="edit-input easyui-textbox" IsRequired="false" Length="50" />
+        </Field>
+        <Field Title="手机" FieldType="TextBox">
+          <Input Tag="input" Name="ContactMobiPhone" Class="edit-input easyui-textbox" IsRequired="false" Length="20" />
+        </Field>
+        <Field Title="所属客服" FieldType="ComboBox">
+          <ComboTree Tag="input" ID="BID" Name="BID" Class="edit-input easyui-combotree" Options="editable:false" IsRequired="false" DataUrl="/Share/Query?name=GetAllEmployeeWithoutNone&amp;resultformat=jsontree&amp;root=000000&amp;pid=PID&amp;id=DeptID&amp;text=Name" DisplayMember="text" ValueMember="id" IsAutoHeight="false" OnSelect="function(rec){&#xD;&#xA;var ID=rec.id;&#xD;&#xA;if(ID!=''&amp;&amp;ID.charAt(0)!='E'){&#xD;&#xA;$('#BID').combotree('unselect',id);&#xD;&#xA;}&#xD;&#xA;}" />
+        </Field>
+      </Fields>
+      <ToolBar Tag="div" ID="toolbar" Class="dialog-button" PageID="P01127">
+        <Buttons>
+          <UIButton ID="btn-query" Class="easyui-linkbutton edit-button" Options="iconCls:'icon-ok'" Title="确定" ActionValue="2" Action="submitAct_DGReplace('dataform','/Page/P01127/Query','datagrid')" />
+          <UIButton ID="btn-cancel" Class="easyui-linkbutton edit-button" Options="iconCls:'icon-cancel'" Title="取消" Action="cancel()" />
+        </Buttons>
+      </ToolBar>
+    </Form>
+  </Page>
+</EditDialogActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="6516019c-4541-4eb0-943c-9259896b8f3a" Name="Query" Title="检索" ActionValue="2" ErrorCommand="搜索结果">
+    <Command CommandID="M01785" Name="查询总数" CommandType="ScalarSqlCommand">
+      <![CDATA[<ScalarCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" NextCommand="执行查询" GroupName="业务模块" TableName="bi_Customer" CommandName="QueryCount" SqlType="Scalar">
+  <Parameter Name="CustomerName" Path="Request[CustomerName]" Type="Parameter" Converter="Trim" />
+  <Parameter Name="CustomerJC" Path="Request[CustomerJC]" Type="Parameter" Converter="Trim" />
+  <Parameter Name="CNature" Path="Request[CNature]" Type="Parameter" Converter="Trim" />
+  <Parameter Name="CType" Path="Request[CType]" Type="Parameter" Converter="Trim" />
+  <Parameter Name="Contact" Path="Request[Contact]" Type="Parameter" Converter="Trim" />
+  <Parameter Name="ContactMobiPhone" Path="Request[ContactMobiPhone]" Type="Parameter" Converter="Trim" />
+  <Parameter Name="Area" Path="Request[Area]" Type="Parameter" Converter="Trim" />
+  <Parameter Name="IsPublic" Type="Const" DefaultValue="0" />
+  <Parameter Name="BID" Path="Request[BID]" Type="Parameter" Converter="Trim" />
+  <Parameter Name="Type" Type="Const" DefaultValue="s" />
+</ScalarCommand>]]></Command>
+    <Command CommandID="M01691" Name="执行查询" Description="本查询的结果值为JSON，参数路径为Results[执行查询].Json" CommandType="QueryJsonSqlCommand"><![CDATA[<QueryJsonCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" NextCommand="搜索结果" GroupName="业务模块" TableName="bi_Customer" CommandName="QueryPage" SqlType="QueryJson">
+  <Parameter Name="CustomerName" Path="Request[CustomerName]" Type="Parameter" Converter="Trim" />
+  <Parameter Name="CustomerJC" Path="Request[CustomerJC]" Type="Parameter" Converter="Trim" />
+  <Parameter Name="CNature" Path="Request[CNature]" Type="Parameter" Converter="Trim" />
+  <Parameter Name="CType" Path="Request[CType]" Type="Parameter" Converter="Trim" />
+  <Parameter Name="Contact" Path="Request[Contact]" Type="Parameter" Converter="Trim" />
+  <Parameter Name="ContactMobiPhone" Path="Request[ContactMobiPhone]" Type="Parameter" Converter="Trim" />
+  <Parameter Name="Area" Path="Request[Area]" Type="Parameter" Converter="Trim" />
+  <Parameter Name="IsPublic" Type="Const" DefaultValue="0" />
+  <Parameter Name="Type" Type="Const" DefaultValue="s" />
+  <Parameter Name="BID" Path="Request[BID]" Type="Parameter" />
+  <Parameter Name="Page" Path="Request[Page]" Type="Parameter" />
+  <Parameter Name="Rows" Path="Request[Rows]" Type="Parameter" />
+</QueryJsonCommand>]]></Command>
+    <Command CommandID="M01692" Name="搜索结果" Description="返回搜索结果" CommandType="JsonActionCommand"><![CDATA[<JsonActionCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ContentType="application/json">
+  <Parameter Name="rows" Path="Results[执行查询].Json" Type="Parameter" />
+  <Parameter Name="HasError" Path="Results[执行查询].IsError" Type="Parameter" />
+  <Parameter Name="ErrorMessage" Path="Results[执行查询].ErrorMessage" Type="Parameter" />
+  <Parameter Name="total" Path="Results[查询总数].Value" Type="Parameter" />
+</JsonActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="0717263b-1834-4fc1-9712-5af717e86b57" Name="Detail" Title="查看" ActionValue="4" ErrorCommand="查看页面">
+    <Command CommandID="M01693" Name="查询明细" Description="查询明细" CommandType="QuerySqlCommand"><![CDATA[<QueryCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" NextCommand="查看页面" GroupName="业务模块" TableName="bi_Customer" CommandName="GetDetail">
+  <Parameter Name="CustomerID" Path="Request[ID]" Type="Parameter" />
+</QueryCommand>]]></Command>
+    <Command CommandID="M01694" Name="查看页面" Description="这个命令会直接返回到客户端，无需后继命令" CommandType="EditDialogActionCommand">
+        <![CDATA[<EditDialogActionCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ContentType="text/html">
+  <Parameter Name="Data" Path="LastResult.Items" Type="Parameter" />
+  <Page SettingType="EditDialog">
+    <Form ID="dataform" Class="form-dialog" DataBinding="Parameters[Data]" EditPanelClass="edit-panel-w2">
+      <TableLayout />
+      <Fields>
+        <Field Title="全称" FieldType="TextBox">
+          <Input Tag="input" Name="CustomerName" Class="edit-input easyui-textbox" Binding="CustomerName" IsReadOnly="true" IsRequired="false" Length="50" />
+        </Field>
+        <Field Title="简称" FieldType="TextBox">
+          <Input Tag="input" Name="CustomerJC" Class="edit-input easyui-textbox" Binding="CustomerJC" IsReadOnly="true" IsRequired="false" Length="10" />
+        </Field>
+        <Field Title="客户性质" FieldType="TextBox">
+          <Input Tag="input" Name="CNature" Class="edit-input easyui-textbox" Binding="CNature" IsReadOnly="true" IsRequired="false" />
+        </Field>
+        <Field Title="状态" FieldType="TextBox">
+          <Input Tag="input" Name="CState" Class="edit-input easyui-textbox" Binding="CState" IsReadOnly="true" IsRequired="false" Length="4" />
+        </Field>
+        <Field Title="类型" FieldType="TextBox">
+          <Input Tag="input" Name="CType" Class="edit-input easyui-textbox" Binding="CType" IsReadOnly="true" IsRequired="false" Length="6" />
+        </Field>
+        <Field Title="代理商" FieldType="TextBox">
+          <Input Tag="input" Name="AgentID" Class="edit-input easyui-textbox" Binding="AgentID" IsReadOnly="true" IsRequired="false" Length="8" />
+        </Field>
+        <Field Title="联系人" FieldType="TextBox">
+          <Input Tag="input" Name="Contact" Class="edit-input easyui-textbox" Binding="Contact" IsReadOnly="true" IsRequired="false" Length="50" />
+        </Field>
+        <Field Title="性别" FieldType="TextBox">
+          <Input Tag="input" Name="ContactSex" Class="edit-input easyui-textbox" Binding="ContactSex" IsReadOnly="true" IsRequired="false" Length="2" />
+        </Field>
+        <Field Title="手机" FieldType="TextBox">
+          <Input Tag="input" Name="ContactMobiPhone" Class="edit-input easyui-textbox" Binding="ContactMobiPhone" IsReadOnly="true" IsRequired="false" Length="20" />
+        </Field>
+        <Field Title="座机" FieldType="TextBox">
+          <Input Tag="input" Name="ContactTel" Class="edit-input easyui-textbox" Binding="ContactTel" IsReadOnly="true" IsRequired="false" Length="20" />
+        </Field>
+        <Field Title="传真" FieldType="TextBox">
+          <Input Tag="input" Name="ContactTax" Class="edit-input easyui-textbox" Binding="ContactTax" IsReadOnly="true" IsRequired="false" Length="20" />
+        </Field>
+        <Field Title="身份证" FieldType="TextBox">
+          <Input Tag="input" Name="ContactCardNo" Class="edit-input easyui-textbox" Binding="ContactCardNo" IsReadOnly="true" IsRequired="false" Length="20" />
+        </Field>
+        <Field Title="Email" FieldType="TextBox">
+          <Input Tag="input" Name="ContactEmail" Class="edit-input easyui-textbox" Binding="ContactEmail" IsReadOnly="true" IsRequired="false" Length="20" />
+        </Field>
+        <Field Title="QQ" FieldType="TextBox">
+          <Input Tag="input" Name="QQ" Class="edit-input easyui-textbox" Binding="QQ" IsReadOnly="true" IsRequired="false" Length="12" />
+        </Field>
+        <Field Title="区域" FieldType="TextBox">
+          <Input Tag="input" Name="Area" Class="edit-input easyui-textbox" Binding="Area" IsReadOnly="true" IsRequired="false" Length="30" />
+        </Field>
+        <Field Title="网址" FieldType="TextBox">
+          <Input Tag="input" Name="Site" Class="edit-input easyui-textbox" Binding="Site" IsReadOnly="true" IsRequired="false" Length="50" />
+        </Field>
+        <Field Title="邮编" FieldType="TextBox">
+          <Input Tag="input" Name="ZipCode" Class="edit-input easyui-textbox" Binding="ZipCode" IsReadOnly="true" IsRequired="false" Length="10" />
+        </Field>
+        <Field Title="地址" FieldType="TextBox">
+          <Input Tag="input" Name="Address" Class="edit-input easyui-textbox" Binding="Address" IsReadOnly="true" IsRequired="false" Length="200" />
+        </Field>
+        <Field Title="营业执照" FieldType="TextBox">
+          <Input Tag="input" Name="BusinessLicenseCode" Class="edit-input easyui-textbox" Binding="BusinessLicenseCode" IsReadOnly="true" IsRequired="false" Length="20" />
+        </Field>
+        <Field Title="组织机构" FieldType="TextBox">
+          <Input Tag="input" Name="OrganizationCode" Class="edit-input easyui-textbox" Binding="OrganizationCode" IsReadOnly="true" IsRequired="false" Length="20" />
+        </Field>
+        <Field Title="税务登记" FieldType="TextBox">
+          <Input Tag="input" Name="TaxRegistrationNum" Class="edit-input easyui-textbox" Binding="TaxRegistrationNum" IsReadOnly="true" IsRequired="false" Length="20" />
+        </Field>
+        <Field Title="开票地址" FieldType="TextBox">
+          <Input Tag="input" Name="InvoiceAddress" Class="edit-input easyui-textbox" Binding="InvoiceAddress" IsReadOnly="true" IsRequired="false" Length="100" />
+        </Field>
+        <Field Title="备注" FieldClass="edit-field-w2" ContentClass="edit-content-w2" FieldType="TextArea">
+          <TextArea Tag="input" Name="Remark" Class="edit-input easyui-textbox" Style="height:90px;width:444px" Binding="Remark" IsReadOnly="true" IsRequired="false" Length="200" />
+        </Field>
+      </Fields>
+      <ToolBar Tag="div" ID="toolbar" Class="dialog-button" PageID="P01127">
+        <Buttons>
+          <UIButton ID="btn-close" Class="easyui-linkbutton edit-button" Options="iconCls:'icon-cancel'" Title="关闭" Action="cancel()" />
+        </Buttons>
+      </ToolBar>
+    </Form>
+  </Page>
+</EditDialogActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="d242970b-57b6-4764-abe5-90e582945461" Name="ReturnPublic" Title="回归公海" ActionValue="32" ErrorCommand="结果">
+    <Command CommandID="M01695" Name="回归公海" Description="本查询的结果值为JSON，参数路径为Results[执行删除].Json" CommandType="QueryJsonSqlCommand"><![CDATA[<QueryJsonCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" NextCommand="结果" GroupName="业务模块" TableName="bi_Customer" CommandName="ReturnPublic" SqlType="QueryJson">
+  <Parameter Name="Keys" Path="Request[Keys]" Type="Parameter" />
+  <Parameter Name="TableName" Type="Const" DefaultValue="bi_CustomerBi" />
+  <Parameter Name="EmployeeID" Type="Const" DefaultValue="" />
+  <Parameter Name="ModifiedUser" Path="CurrentUserID" Type="SystemParameter" />
+  <Parameter Name="ModifiedTime" Path="CurrentDateTime" Type="SystemParameter" />
+</QueryJsonCommand>]]></Command>
+    <Command CommandID="M01696" Name="结果" Description="返回结果" CommandType="JsonActionCommand"><![CDATA[<JsonActionCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ContentType="application/json">
+  <Parameter Name="Data" Path="Results[回归公海].Json" Type="Parameter" />
+  <Parameter Name="HasError" Path="Results[回归公海].IsError" Type="Parameter" />
+  <Parameter Name="ErrorMessage" Path="Results[回归公海].ErrorMessage" Type="Parameter" />
+</JsonActionCommand>]]></Command>
+  </Action>
+  <Layout EditFieldClass="edit-field" />
+  <Buttons>
+    <Button ID="btn-search" Title="检索" ActionValue="2" Action="showActDlg('检索','/Page/P01127/Search',400,300)" Class="easyui-linkbutton" Option="iconCls:'icon-search'" />
+    <Button ID="btn-query" Title="确定" ActionValue="2" Action="submitAct_DGReplace('dataform','/Page/P01127/Query','datagrid')" Class="easyui-linkbutton edit-button" Option="iconCls:'icon-ok'" ShowInToolBar="false" />
+    <Button ID="btn-detail" Title="查看" ActionValue="4" Action="showActDlg_DGItemActDlg('datagrid','查看','/Page/P01127/Detail',400,300)" Class="easyui-linkbutton toolradio" Option="iconCls:'icon-add'" />
+    <Button ID="btn-create" Title="新增" ActionValue="8" Action="showActDlg('新增','/Page/P01127/Create',400,300)" Class="easyui-linkbutton" Option="iconCls:'icon-add'" />
+    <Button ID="btn-add" Title="确定" ActionValue="8" Action="submitAct_DGAppend('dataform','/Page/P01127/Add','datagrid')" Class="easyui-linkbutton edit-button" Option="iconCls:'icon-ok'" ShowInToolBar="false" />
+    <Button ID="btn-edit" Title="修改" ActionValue="16" Action="showActDlg_DGItemActDlg('datagrid','修改','/Page/P01127/Edit',400,300)" Class="easyui-linkbutton toolradio" Option="iconCls:'icon-edit'" />
+    <Button ID="btn-update" Title="确定" ActionValue="16" Action="submitAct_DGUpdate('dataform','/Page/P01127/Update','datagrid')" Class="easyui-linkbutton edit-button" Option="iconCls:'icon-ok'" ShowInToolBar="false" />
+    <Button ID="btn-delete" Title="删除" ActionValue="32" Action="showActDlg_DGItemsConfirm('datagrid','删除','确认删除选择项？','/Page/P01127/Delete',400,300)" Class="easyui-linkbutton toolmultiple" Option="iconCls:'icon-cancel'" />
+    <Button ID="btn-import" Title="导入" ActionValue="64" Action="showActDlg('导入','/Page/P01127/Import',400,300)" Class="easyui-linkbutton" Option="iconCls:'icon-import'" />
+    <Button ID="btn-export" Title="导出" ActionValue="128" Action="showActDlg('导出','/Page/P01127/Export',400,300)" Class="easyui-linkbutton" Option="iconCls:'icon-export'" />
+    <Button ID="btn-cancel" Title="取消" Action="cancel()" Class="easyui-linkbutton edit-button" Option="iconCls:'icon-cancel'" ShowInToolBar="false" />
+    <Button ID="btn-close" Title="确定" Action="cancel()" Class="easyui-linkbutton edit-button" ShowInToolBar="false" />
+  </Buttons>
+  <EditSource GroupName="业务模块" TableName="bi_Customer" Key="CustomerID" LogicDeleteFlag="IsActive=0">
+    <Fields>
+      <EditField Name="CustomerID" Title="CustomerID" DataType="varchar" Length="8" ShowInSearch="false" EditBox="Hidden" />
+      <EditField Name="CustomerName" Title="全称" DataType="nvarchar" Length="50" />
+      <EditField Name="CustomerJC" Title="简称" DataType="nvarchar" Length="10" />
+      <EditField Name="CustomerJM" Title="简码" DataType="nvarchar" Length="10" />
+      <EditField Name="CustomerStateID" Title="状态" DataType="varchar" Length="4" ShowInSearch="false" />
+      <EditField Name="BID" Title="所属商务" DataType="varchar" Length="8" ShowInSearch="false" />
+      <EditField Name="CustomerTypeID" Title="类型" DataType="varchar" Length="6" />
+      <EditField Name="AgentID" Title="代理商" DataType="varchar" Length="8" ShowInSearch="false" />
+      <EditField Name="Contact" Title="联系人" DataType="nvarchar" Length="50" />
+      <EditField Name="ContactSex" Title="性别" DataType="nvarchar" Length="2" ShowInSearch="false" />
+      <EditField Name="ContactMobiPhone" Title="手机" DataType="nvarchar" Length="20" />
+      <EditField Name="ContactTel" Title="座机" DataType="nvarchar" Length="20" />
+      <EditField Name="ContactTax" Title="传真" DataType="nvarchar" Length="20" ShowInSearch="false" />
+      <EditField Name="ContactCardNo" Title="身份证" DataType="nvarchar" Length="20" ShowInSearch="false" />
+      <EditField Name="ContactEmail" Title="Email" DataType="nvarchar" Length="20" ShowInSearch="false" />
+      <EditField Name="QQ" Title="QQ" DataType="nvarchar" Length="12" ShowInSearch="false" />
+      <EditField Name="Area" Title="区域" DataType="nvarchar" Length="30" ShowInSearch="false" />
+      <EditField Name="Site" Title="网址" DataType="nvarchar" Length="50" ShowInSearch="false" />
+      <EditField Name="ZipCode" Title="邮编" DataType="nvarchar" Length="10" ShowInSearch="false" />
+      <EditField Name="Address" Title="地址" DataType="nvarchar" Length="200" ShowInSearch="false" />
+      <EditField Name="BusinessLicenseCode" Title="营业执照代码" DataType="nvarchar" Length="20" ShowInSearch="false" />
+      <EditField Name="OrganizationCode" Title="组织机构代码" DataType="nvarchar" Length="20" ShowInSearch="false" />
+      <EditField Name="TaxRegistrationNum" Title="税务登记代码" DataType="nvarchar" Length="20" ShowInSearch="false" />
+      <EditField Name="InvoiceAddress" Title="开票地址" DataType="nvarchar" Length="100" ShowInSearch="false" />
+      <EditField Name="Remark" Title="备注" DataType="nvarchar" Length="200" ShowInSearch="false" />
+      <EditField Name="IsPublic" Title="公海否" DataType="bit" ShowInSearch="false" EditBox="ComboBox" ItemsSource="1:是|0:否" />
+      <EditField Name="CreatedUser" Title="CreatedUser" DataType="varchar" Length="6" ShowInGrid="false" ShowInCreate="false" ShowInEdit="false" ShowInDetail="false" ShowInSearch="false" IsRequired="false" EnableEdit="false" />
+      <EditField Name="CreatedTime" Title="CreatedTime" DataType="datetime" ShowInGrid="false" ShowInCreate="false" ShowInEdit="false" ShowInDetail="false" ShowInSearch="false" IsRequired="false" EnableEdit="false" />
+      <EditField Name="ModifiedUser" Title="ModifiedUser" DataType="varchar" Length="6" ShowInGrid="false" ShowInCreate="false" ShowInEdit="false" ShowInDetail="false" ShowInSearch="false" IsRequired="false" EnableEdit="false" />
+      <EditField Name="ModifiedTime" Title="ModifiedTime" DataType="datetime" ShowInGrid="false" ShowInCreate="false" ShowInEdit="false" ShowInDetail="false" ShowInSearch="false" IsRequired="false" EnableEdit="false" />
+      <EditField Name="AutoKey" Title="AutoKey" DataType="int" ShowInGrid="false" ShowInCreate="false" ShowInEdit="false" ShowInDetail="false" ShowInSearch="false" IsRequired="false" EnableEdit="false" />
+    </Fields>
+    <ChildTables />
+  </EditSource>
+</MvcEditPage>

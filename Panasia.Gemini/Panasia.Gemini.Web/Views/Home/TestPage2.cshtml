@@ -1,0 +1,68 @@
+﻿@{
+    ViewBag.Title = "产品管理";
+    Layout = "~/Views/Shared/_Page.cshtml";
+}
+@model IEnumerable<Panasia.Gemini.Web.Models.org_Company>
+
+    <div style="margin:5px 0;">
+        <a href="#" class="easyui-linkbutton" iconcls="icon-reload" plain="true">刷新</a>
+        <a href="#" class="easyui-linkbutton" iconcls="icon-add" plain="true">新增</a>
+        <a href="#" class="easyui-linkbutton" iconcls="icon-edit" plain="true">编辑</a>
+        <a href="#" class="easyui-linkbutton" iconcls="icon-redo" plain="true">导出</a>
+    </div>
+<div class="easyui-panel" title="">
+    <div style="padding:10px 60px 20px 60px">
+        <form id="ff" method="post">
+            <table cellpadding="5">
+                <tr>
+                    <td>领料单号</td>
+                    <td><input class="textbox" type="text" name="name" data-options="required:true"></input></td>
+                    <td>领料单号</td>
+                    <td><input class="textbox" type="text" name="email" data-options="required:true"></input></td>
+                    <td>经办人</td>
+                    <td><input class="textbox" type="text" name="subject" data-options="required:true"></input></td>
+                </tr>
+                <tr>
+                    <td>仓库</td>
+                    <td>
+                        <select class="easyui-combobox" name="language"><option value="ar">Arabic</option><option value="ar">453</option></select>
+                    </td>
+                    <td>计价方式</td>
+                    <td>
+                        <select class="easyui-combobox" name="language"><option value="ar">Arabic</option><option value="ar">453</option></select>
+                    </td>
+                    <td>领料日期</td>
+                    <td><input class="textbox" type="text" name="subject" data-options="required:true"></input></td>
+                </tr>
+            </table>
+        </form>
+        <div style="text-align:right;padding:5px;float:left;padding:20px 0px 10px 20px;">
+            <a href="javascript:void(0)" class="easyui-linkbutton" onclick="submitForm()">查询</a>
+            <a href="javascript:void(0)" class="easyui-linkbutton" onclick="clearForm()">清空</a>
+        </div>
+    </div>
+</div>
+    <table class="easyui-datagrid" 
+           data-options="singleSelect:true,collapsible:true,url:'#',method:'get'">
+        <thead>
+            <tr>
+                <th data-options="field:'itemid',width:80">  </th>
+                <th data-options="field:'productid',width:100">公司名称</th>
+                <th data-options="field:'listprice',width:80,align:'right'">是否active</th>
+                <th data-options="field:'unitcost',width:80,align:'right'">Unit Cost</th>
+                <th data-options="field:'attr1',width:250">Attribute</th>
+                <th data-options="field:'status',width:60,align:'center'">Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+            </tr>
+        </tbody>
+    </table>
+<input class="easyui-searchbox" data-options="prompt:'Please Input Value',searcher:doSearch" style="width:300px"></input><!--searcher后面的js函数必须存在-->
+<script>
+    function doSearch(value) {
+
+    }
+</script>

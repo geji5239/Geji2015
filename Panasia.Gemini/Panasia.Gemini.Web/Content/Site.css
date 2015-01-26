@@ -1,0 +1,291 @@
+﻿/**************提示信息div开始*******************/
+.showmsg {
+    text-align: center;
+    color: red;
+    overflow:inherit;
+    white-space:nowrap;
+    margin-left: auto;
+    margin-right: auto;
+    visibility:inherit;
+}
+/**************提示信息div结束*******************/
+
+.content-padding /*div左内间距*/
+{
+    /*padding-left:8px;*/
+    overflow:hidden;
+}
+
+/*普通界面button工具栏开始*/
+.toolbar-panel {
+    padding-left:8px;
+    margin-top:4px;
+    margin-bottom:4px;
+    padding:0px;
+    float:left;
+}
+/*button*/
+.toolbutton{
+    float:left;
+}
+.normal-button /*普通按钮*/
+{
+    width:76px;
+    height:24px;
+    float:right;
+}
+/*普通界面button工具栏结束*/
+
+
+/****************************************** 单行单列模板 开始 ************************************************/
+/*编辑部分开始*/
+
+.edit-table-panel/*布局框panel,可扩展*/
+{
+    padding:10px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+/*编辑对话框一行两个字段的情况*/
+.edit-panel-w2/*布局框panel,可扩展*/
+{
+    padding:10px;
+    width:560px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/*编辑对话框一行三个字段的情况*/
+.edit-panel-w3/*布局框panel,可扩展*/
+{
+    padding:10px;
+    width:820px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/*编辑类窗体容器
+    */
+.edit-dialog
+{
+    padding:10px 20px;
+    overflow-y:auto;
+    overflow-x:hidden;
+    height:100%;
+    max-height:400px;/**设置默认最大值，当超过最大值时y滚动**/
+}
+.edit-panel/*布局框panel,可扩展*/
+{
+    padding:10px;
+    width:300px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.edit-field/*输入字段*/
+{
+    width: 260px; 
+    height:20px;
+    float: left;
+    padding:0px 0px;
+    margin-top:10px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.edit-title/*标题*/
+{
+    width:70px; 
+    float: left;  
+    text-align:right;
+    line-height:20px;
+    vertical-align:middle; 
+    white-space:nowrap;
+    height:20px;
+}
+.edit-label /*标题label*/
+{
+    width: 70px; 
+    float: left;
+    height:20px !important;
+    white-space:nowrap;
+    font: 12px "宋体", helvetica, sans-serif;
+    font-weight:500;
+    padding:0px;
+    margin:0px;
+     line-height:20px;
+}
+/** 文本框 **/
+/* 一行单列 */
+.edit-content /*内容*/
+{
+    width: 180px;
+    float: left;
+    height:20px !important;
+    white-space:nowrap;
+}
+
+.edit-input/*普通输入控件*/
+{
+    width: 180px; 
+    float:left;
+    white-space:nowrap;
+    height:20px;
+} 
+
+/****************************************** 单行单列模板 结束 ************************************************/
+/****************************************** 单行单列标题加宽模板 开始 ************************************************/
+.edit-panel-w/*布局框panel,可扩展*/
+{
+    padding:10px;
+    width:320px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.edit-field-w/*输入字段*/
+{
+    width: 300px; 
+    height:20px;
+    float: left;
+    padding:0px 0px;
+    margin-top:10px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.edit-field-w2-r1/*输入字段占多行两列*/
+{
+    width: 520px; 
+    float: left;
+    padding:0px 0px;
+    margin-top:10px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.edit-title-w/*标题*/
+{
+    width:110px; 
+    float: left;  
+    text-align:right;
+    line-height:20px;
+    vertical-align:middle; 
+    white-space:nowrap;
+    height:20px;
+}
+
+.edit-title-w .edit-label /*标题label*/
+{
+    width: 110px; 
+    float: left;
+    height:20px !important;
+    white-space:nowrap;
+    font: 12px "宋体", helvetica, sans-serif;
+    font-weight:500;
+    padding-top:2px;
+}
+/** 文本框 **/
+/* 一行单列 */
+.edit-content-w /*内容*/
+{
+    width: 180px;
+    float: left;
+    height:20px !important;
+    white-space:nowrap;
+}
+
+.edit-input-w/*普通输入控件*/
+{
+    width: 180px; 
+    float:left;
+    white-space:nowrap;
+    height:20px;
+} 
+/****************************************** 单行单列标题加宽模板 结束 ************************************************/
+
+/****************************************** 多行单列模板 开始 ************************************************/
+.edit-field-r2/*输入字段*/
+{
+    width: 260px; 
+    height:90px;
+    float: left;
+    padding:0px 0px;
+    margin-top:10px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/** 文本框 **/
+/* 一行单列 */
+.edit-content-r2 /*内容*/
+{
+    width: 180px;
+    float: left;
+    height:90px !important;
+    white-space:nowrap;
+}
+
+.edit-input-r2/*普通输入控件*/
+{
+    width: 180px; 
+    float:left;
+    white-space:nowrap;
+    height:90px;
+} 
+
+/****************************************** 多行单列模板 结束 ************************************************/
+
+.edit-dropdownlist /*下拉框输入*/
+{
+    width:184px !important;
+    -webkit-width:184px !important;
+    -moz-width:186px !important;
+    height:20px;
+    display:inline;
+}
+.edit-combotree /*下拉树输入*/
+{
+    width: 180px; 
+    float:left;
+    white-space:nowrap;
+    height:20px;
+}
+
+/*编辑部分结束*/
+/** 编辑Button样式(edit-button)开始 */
+.edit-button
+{
+    margin-right:2px;
+    margin-left:5px;
+    width:56px;
+    height:24px;
+    padding-top:1px;
+} 
+/** 编辑Button样式(edit-button)结束 */
+
+/**处理边框颜色问题*****************/
+.dialog-button {
+    border-width:0px !important;
+}
+
+/* fgh 2014-10-10 Add input readonly style ***/
+
+input[readonly]{
+	/*background-color: #efefef;*/ 
+    color:#808080;
+    
+}
+/* fgh 2014-10-11 Add textarea readonly style ***/
+textarea[readonly]{
+	/*background-color: #efefef;*/ 
+    color:#808080;
+    
+}
+/* fgh 2014-10-28 Add table th  center style ***/
+.datagrid-header-row {
+  /*text-align:center;*/
+  /*font-weight:bold;*/
+}
+
+.hidden {
+    display:none;
+}

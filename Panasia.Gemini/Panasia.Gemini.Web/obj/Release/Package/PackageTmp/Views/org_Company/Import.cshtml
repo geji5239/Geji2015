@@ -1,0 +1,15 @@
+﻿@{
+    ViewBag.Title = "Import";
+    Layout = "~/Views/Shared/_Page.cshtml";
+}
+
+<div id="importForm" class="form-dialog">
+    <label class="label-title">文件：</label>
+    <input class="f1 easyui-filebox" />
+    <a id="btn" href="#" class="btn-import easyui-linkbutton">...</a>
+    <br />
+</div>
+<div class="btn-add">
+    <input type="submit" value="确定" class="btn-padding easyui-linkbutton " />
+    <input type="button" value="取消" class="btn-padding easyui-linkbutton" onclick="cancel()" />
+</div>

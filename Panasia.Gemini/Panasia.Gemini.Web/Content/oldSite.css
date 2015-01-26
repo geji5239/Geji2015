@@ -1,0 +1,481 @@
+﻿body {
+    font: 12px/20px "微软雅黑", "宋体", Arial, sans-serif, Verdana, Tahoma;
+    padding: 0;
+    margin: 0;
+    width:100%;
+    height:100%;
+}
+a:link {
+ text-decoration: none;
+}
+a:visited {
+ text-decoration: none;
+}
+a:hover {
+ text-decoration: underline;
+}
+a:active {
+ text-decoration: none;
+}
+.cs-north {
+    height:60px;
+}
+.cs-north-bg {
+    width: 100%;
+    height: 100%;
+    background: url(themes/gray/images/header_bg.png) repeat-x;
+}
+.cs-north-logo { 
+    margin: 15px 0 0 5px;
+    display: inline-block; 
+}
+.cs-north-title{  
+    display: inline-block; 
+    color:#000000;font-size:22px;font-weight:bold;text-decoration:none
+}
+.cs-west {
+    width:200px;padding:0;
+}
+.cs-south {
+    height:25px;background:url('themes/pepper-grinder/images/ui-bg_fine-grain_15_ffffff_60x60.png') repeat-x;padding:0;text-align:center;
+}
+.cs-navi-tab {
+    display:block;
+    margin-top:10px;
+    text-align:left !important;
+    padding-left:20px;
+    border-radius:0 !important;
+    
+}
+.cs-navi-tab:hover{
+    display:block;
+    text-align:left !important;
+    padding-left:20px !important;
+    border-radius:0 !important;
+}
+.active{   /*菜单被选中后的样式*/
+    display:block;
+    text-align:left !important;
+    padding-left:20px !important;
+    border-radius:0 !important;
+    background: #eaf2ff;
+}
+.cs-tab-menu {
+    width:120px;
+}
+.cs-home-remark {
+    padding: 10px;
+}
+.wrapper {
+    float: right;
+    height: 30px;
+    margin-left: 10px;
+}
+.ui-skin-nav {
+    float: right;
+    padding: 0; 
+    margin:5px 10px 0 0;
+    list-style: none outside none; 
+}
+
+.ui-skin-nav .li-skinitem {
+    float: left;
+    font-size: 12px;
+    line-height: 30px;
+    margin-left: 10px;
+    text-align: center;
+}
+.ui-skin-nav .li-skinitem span {
+    cursor: pointer;
+    width:10px;
+    height:10px;
+    display:inline-block;
+}
+.ui-skin-nav .li-skinitem span.cs-skin-on{
+    border: 1px solid #FFFFFF;
+}
+
+.ui-skin-nav .li-skinitem span.gray{background-color:gray;}
+.ui-skin-nav .li-skinitem span.pepper-grinder{background-color:#BC3604;}
+.ui-skin-nav .li-skinitem span.blue{background-color:blue;}
+.ui-skin-nav .li-skinitem span.cupertino{background-color:#D7EBF9;}
+.ui-skin-nav .li-skinitem span.dark-hive{background-color:black;}
+.ui-skin-nav .li-skinitem span.sunny{background-color:#FFE57E;}
+#ff{ float:left;}
+.container .panel {
+    overflow:initial;
+}
+.clear {clear:both;}
+
+.forme {
+    float:left;
+    padding: 5px 0px 0px 10px;
+}
+.left-nav{
+    float:left;
+}
+.main-nav {
+    float:left;
+}
+#loginForm {
+    margin:30px;
+    text-align:center;
+}
+.label-title {
+    width:60px;
+    float:left;
+    padding-left:20px;
+    margin-right:20px;
+    margin-top:5px;
+}
+
+/* searching page*/
+.btn-dialog {
+    float:right;
+    text-align:right;
+    padding:2px 12px 5px 5px;
+    margin-top:10px;
+}
+.form-dialog{
+    padding:0px;
+    overflow:hidden;
+}
+.window .window-header {
+    width:auto !important;
+}
+.window, .window .window-body {
+    width:auto !important;
+    height:auto !important;
+}
+.btn-padding {
+    margin-right:0px;
+    margin-left:5px;
+}
+.select {
+    float:left;
+}
+
+/* searching page*/
+.btn-import {
+    padding: 0px 5px;
+}
+
+.big-size-icon>a>span {  
+    line-height: 48px;  
+    padding-right: 10px;  
+    font-size: 24px;  
+    font-weight: bold;  
+}  
+  
+.big-size-icon>a>span>span.l-btn-text {  
+    width: 48px;  
+    line-height: 48px;  
+}  
+  
+.big-size-icon>a>span>span.l-btn-icon {  
+    width: 48px;  
+    height: 48px;  
+    line-height: 48px;  
+    top: 0;  
+    margin-top: 2px;  
+}  
+  
+.big-size-icon>a[iconcls="icon-add-3"]>span:after {  
+    font-size: 28px;  
+    font-weight: bold;  
+}  
+.big-size-icon>a[iconcls="icon-edit-3"]>span:after {  
+    font-size: 28px;  
+    font-weight: bold;  
+}  
+.big-size-icon>a[iconcls="icon-delete-3"]>span:after {  
+    font-size: 28px;  
+    font-weight: bold;  
+}
+.padding-5 {
+    padding:5px 0px;
+    margin-top:5px;
+    width:250px;
+    height:18px;
+    margin-left: auto;
+    margin-right: auto;
+}      
+.padding-2 {
+    padding:2px 0px;
+}  
+.hide {display:none;}
+.progress {z-index:2000}
+.mask{position:fixed;top:0;right:0;bottom:0;left:0;z-index:1000;background-color:#303030}
+.checkbox {vertical-align:middle;margin-top:0;}
+.margin-3{margin-right:5px;}
+
+.grid /*表格布局*/
+{ 
+    font: 12px arial, helvetica, sans-serif;
+    border:1px solid #8DB2E3;
+    width: 100%; 
+    border-collapse: collapse;
+    height:100%;
+    text-align:left;
+}
+.grid th /*表格头*/
+{ 
+    height:24px;
+    width:60px; 
+    line-height:20px;
+    border:1px solid #8DB2E3;
+    padding-left:4px;
+    letter-spacing:1px; 
+    white-space:nowrap;
+    text-align:right;
+}
+.grid td /*表格内容*/
+{ 
+    font:100% arial, helvetica, sans-serif;
+    height:24px;padding:5px;
+    border:1px solid #8DB2E3;
+    padding-left:8px;
+}
+
+.margin-table {
+    margin-left:40px;
+    margin-top:4px;
+}
+
+/*多种样式切换*/
+.bs { height: 11px; margin-top:10px; }
+.bs a{ width:10px; height:9px; margin-right:10px; float:left; }
+.bs .a1{ background:url(../../Content/Images/cupertino.gif) no-repeat;float:left;margin-left:55px;display:inline;margin-top:8px;}
+.bs .a2{ background:url(../../Content/Images/dark-hive.gif) no-repeat;margin-top:8px;}
+.bs .a3{ background:url(../../Content/Images/pepper-grinder.gif) no-repeat;margin-top:8px;}
+.bs .a4{ background:url(../../Content/Images/sunny.gif) no-repeat;margin-top:8px;}
+.bs .a5{ background:url(../../Content/Images/gray.gif) no-repeat;margin-top:8px;}
+.bs .a6{ background:url(../../Content/Images/default.gif) no-repeat;margin-top:8px;}
+
+/*********员工录入界面的样式开始****************/
+.edit-dialog1 {
+    max-width:1000px;
+float: left;
+    overflow-x:hidden;
+   padding:10px 35px 10px 20px;
+    overflow-y:auto;
+    height:100%;
+    max-height:400px;
+}
+.edit-panel2 {
+    padding:5px 0px;
+    margin-top:5px;
+    width:1000px;
+    height:20px;
+    max-height:400px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.edit-field1 {
+     width: 250px; 
+     float: left;
+     padding:5px 0px;
+     margin-top:5px;
+     height:20px;
+     margin-left: auto;
+     margin-right: auto;
+}
+
+.margin-left {
+    margin-left:250px;
+}
+.edit-title1 {
+    width:70px;
+    float: left;  
+    text-align:right;
+    line-height:24px;
+    vertical-align:middle; 
+    white-space:nowrap;
+    height:17px;
+}
+.edit-label1 {
+    width: 70px; 
+    float: left;
+    height:17px !important;
+    white-space:nowrap;
+    font: 12px arial, helvetica, sans-serif;
+    font-weight:500;
+    padding-top:2px;
+}
+.margin-left1 {
+    margin-left:-100px;
+}
+.margin-left1-2 {
+    margin-left:-50px;
+}
+/**********员工录入界面的样式结束***************/
+
+.edit-panel1/*布局框，存在textarea*/
+{
+    padding:5px 0px;
+    margin-top:5px;
+    width:250px;
+    height:54px;
+    margin-left: auto;
+    margin-right: auto;
+}
+/** 编辑工具栏样式(edit-tool)开始 */
+/** 当出现多列,名称从edit-tool1到edit-tooln */
+/** 内容右对齐，用padding来控制右边空出的部分 */
+.edit-tool
+{
+    float:right;
+    text-align:right;
+    padding:2px 5px 5px 5px;
+    margin-top:25px;
+    height:24px;
+    background:#f5f5f5;
+    width:120%;/*一行多列调整宽度*/
+    margin-right:-20px;
+    margin-bottom:-10px;
+}
+
+.edit-field-w2/*输入字段占多行两列*/
+{
+    width: 520px; 
+    height:90px;
+    float: left;
+    padding:0px 0px;
+    margin-top:10px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.edit-content-w2 /*多行两列内容*/
+{
+    width: 440px;
+    float: left;
+    height:90px !important;
+    white-space:nowrap;
+}
+.edit-input-w2/*多行两列*/
+{
+    width: 440px; 
+    float:left;
+    white-space:nowrap;
+} 
+.edit-field-year/*输入字段*/
+{
+    width: 130px; 
+    height:20px;
+    float: left;
+    padding:0px 0px;
+    margin-top:10px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.edit-content-year /*内容*/
+{
+    width: 60px;
+    float: left;
+    height:20px !important;
+    white-space:nowrap;
+}
+.edit-input-year/*普通输入控件*/
+{
+    width: 50px; 
+    float:left;
+    white-space:nowrap;
+    height:20px;
+} 
+.edit-field-c2/*输入字段占单行两列*/
+{
+    width: 520px; 
+    height:20px;
+    float: left;
+    padding:0px 0px;
+    margin-top:10px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.edit-content-c2 /*单行两列内容*/
+{
+    width: 440px;
+    float: left;
+    height:20px !important;
+    white-space:nowrap;
+}
+
+.edit-field-autoWidth/*自动宽度*/
+{
+    height:20px;
+    float: left;
+    padding:0px 0px;
+    margin-top:10px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.edit-content-autoWidth /*内容自动宽度*/
+{
+    float: left;
+    height:20px !important;
+    white-space:nowrap;
+}
+/************角色页面样式开始****************/
+    .edit-field-r3,.edit-field-r4 {
+    float: left;
+    padding:0px 0px;
+    margin-top:5px;
+    margin-left: auto;
+    margin-right: auto;
+    }
+    .edit-field-r3 {
+    width:700px;
+    height:20px;
+
+    }
+    .edit-field-r4 {
+        width:650px;
+    }
+    .edit-input-r3 {
+    width: 600px; 
+    float:left;
+    white-space:nowrap;
+    height:20px;
+    }
+    .edit-content-r3 {
+    width: 600px;
+
+    }
+    .edit-content-r4 {
+        width:500px;
+    }
+    .edit-content-r3, .edit-content-r4 {
+    float: left;
+    height:20px !important;
+    white-space:nowrap;
+    }
+    .edit-dialog-r3 {
+            padding:10px 20px;
+    overflow-y:auto;
+    overflow-x:hidden;
+    height:100%;
+    max-height:600px;
+    }
+    .checkbox-span {
+        width:auto;
+        float:left;
+        padding-right:5px;
+    }
+    .tab-contain {
+         height:170px;
+        max-height:190px;
+        overflow-y:scroll;
+    }
+/************角色页面样式结束****************/
+
+/********一行多个label，第2个label样式****************/
+.edit-label2 /*标题label*/
+{
+    width: 70px; 
+    height:20px !important;
+    white-space:nowrap;
+    font: 12px "宋体", helvetica, sans-serif;
+    font-weight:500;
+    padding-top:2px;
+    padding-left:8px;
+}

@@ -1,0 +1,146 @@
+<?xml version="1.0"?>
+<MvcEditPage xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" PageID="P01029" Controller="" DefaultAction="Index">
+  <Action ActionID="e3a1fe79-59d8-4ce2-8801-003c889a5aa8" Name="Index" Title="列表" ActionValue="1">
+    <Command CommandID="M01704" Name="列表页面" CommandType="IndexPageActionCommand"><![CDATA[<IndexPageActionCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ContentType="text/html">
+  <Page SettingType="IndexPage">
+    <ToolBar Tag="div" ID="toolbar" Class="toolbar-panel" PageID="P01029">
+      <Buttons>
+        <UIButton ID="btn-search" Class="easyui-linkbutton  normal-button" Options="iconCls:'icon-search',plain:true" Title="检索" ActionValue="2" Action="showActDlg('检索','/Page/P01029/Search',400,300)" />
+        <UIButton />
+      </Buttons>
+    </ToolBar>
+    <DataGrid Tag="table" ID="datagrid" Class="easyui-datagrid" Options="fitColumns:true,fit:true,pagination: true,rownumbers: true,nowrap: true,striped: true,collapsible: false,resizable:true,onClickRow:oncheckstate,onSelect:oncheckstate,onCheck:oncheckstate,onCheckAll:oncheckstate,onUncheckAll:oncheckstate,onUncheck:oncheckstate,onUnselect:oncheckstate" Key="AutoKey">
+      <Column Title="AutoKey" FieldName="AutoKey" IsCheckBox="true" />
+      <Column HAlign="Center" Title="打卡日期" FieldName="Dates" />
+      <Column HAlign="Center" Title="星期" FieldName="Weekday" />
+      <Column HAlign="Center" Title="上班打卡时间" FieldName="StartTime" />
+      <Column HAlign="Center" Title="下班打卡时间" FieldName="EndTime" />
+      <Column HAlign="Right" Title="加班时数(H)" FieldName="Overtime" />
+      <Column HAlign="Right" Title="迟到分钟数(m)" FieldName="MinutesLate" />
+      <Column HAlign="Right" Title="早退分钟数(m)" FieldName="LeaveEarlyMinutes" />
+      <Column HAlign="Right" Title="旷工时数(H)" FieldName="AbsenteeismHours" />
+      <Column Title="备注" FieldName="Remark" />
+    </DataGrid>
+  </Page>
+</IndexPageActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="A01068" Name="Search" Title="检索" ActionValue="2">
+    <Command CommandID="M01810" Name="检索界面" CommandType="EditDialogActionCommand"><![CDATA[<EditDialogActionCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ContentType="text/html">
+  <Page SettingType="EditDialog">
+    <Form ID="dataform" Class="form-dialog">
+      <TableLayout />
+      <Fields>
+        <Field Title="起始日期" FieldType="DateBox">
+          <DateBox Tag="input" ID="StartDate" Name="StartDate" Class="edit-input easyui-datebox" Options="missingMessage:'请选择起始日期',required:true" />
+        </Field>
+        <Field Title="结束日期" FieldType="DateBox">
+          <DateBox Tag="input" ID="EndDate" Name="EndDate" Class="edit-input easyui-datebox" Options="missingMessage:'请选择结束日期',validType:'dateCompare[\'#StartDate\']',invalidMessage:'结束日期必须大于开始日期',required:true" />
+        </Field>
+        <Field Title="考勤状态" FieldType="ComboBox">
+          <ComboBox Tag="input" ID="State" Name="State" Class="easyui-combobox edit-input" IsRequired="false" DisplayMember="Name" ValueMember="Name" DataUrl="/Share/GetSystemCodes?code=C071" />
+        </Field>
+      </Fields>
+      <ToolBar Tag="div" ID="toolbar" Class="dialog-button" PageID="P01029">
+        <Buttons>
+          <UIButton ID="btn-query" Class="easyui-linkbutton edit-button" Options="iconCls:'icon-ok'" Title="确定" ActionValue="2" Action="submitAct_DGReplace('dataform','/Page/P01029/Query','datagrid')" />
+          <UIButton Tag="a" ID="btn-cancel" Class="easyui-linkbutton edit-button" Options="iconCls:'icon-cancel'" Title="取消" Action="cancel()" />
+        </Buttons>
+      </ToolBar>
+    </Form>
+  </Page>
+</EditDialogActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="A01069" Name="Query" Title="检索" ActionValue="2" ErrorCommand="执行查询">
+    <Command CommandID="M01791" Name="查询总数" CommandType="ScalarSqlCommand"><![CDATA[<ScalarCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" NextCommand="执行查询" GroupName="人事管理" TableName="hr_Attendance" CommandName="QueryCount" SqlType="Scalar">
+  <Parameter Name="StartDate" Path="Request[StartDate]" Type="Parameter" />
+  <Parameter Name="EndDate" Path="Request[EndDate]" Type="Parameter" />
+  <Parameter Name="EmployeeID" Path="CurrentUserProfiles" Type="SystemParameter" DefaultValue="EmployeeID" />
+  <Parameter Name="CompanyID" Path="CurrentUserProfiles" Type="SystemParameter" DefaultValue="CompanyID" />
+  <Parameter Name="State" Path="Request[State]" Type="Parameter" />
+</ScalarCommand>]]></Command>
+    <Command CommandID="M01182" Name="执行查询" Description="本查询的结果值为JSON，参数路径为Results[执行查询].Json" CommandType="QueryJsonSqlCommand"><![CDATA[<QueryJsonCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" NextCommand="搜索结果" GroupName="人事管理" TableName="hr_Attendance" CommandName="QueryPage" SqlType="QueryJson">
+  <Parameter Name="CompanyID" Path="CurrentUserProfiles" Type="SystemParameter" DefaultValue="CompanyID" />
+  <Parameter Name="EmployeeID" Path="CurrentUserProfiles" Type="SystemParameter" DefaultValue="EmployeeID" />
+  <Parameter Name="Startdate" Path="Request[Startdate]" Type="Parameter" />
+  <Parameter Name="Enddate" Path="Request[Enddate]" Type="Parameter" />
+  <Parameter Name="Page" Path="Request[Page]" Type="Parameter" />
+  <Parameter Name="Rows" Path="Request[Rows]" Type="Parameter" />
+  <Parameter Name="State" Path="Request[State]" Type="Parameter" />
+</QueryJsonCommand>]]></Command>
+    <Command CommandID="M01183" Name="搜索结果" Description="返回搜索结果" CommandType="JsonActionCommand"><![CDATA[<JsonActionCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ContentType="application/json">
+  <Parameter Name="rows" Path="Results[执行查询].Json" Type="Parameter" />
+  <Parameter Name="HasError" Path="Results[执行查询].IsError" Type="Parameter" />
+  <Parameter Name="ErrorMessage" Path="Results[执行查询].ErrorMessage" Type="Parameter" />
+  <Parameter Name="total" Path="Results[查询总数].Value" Type="Parameter" />
+</JsonActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="A01070" Name="Detail" Title="查看" ActionValue="4" ErrorCommand="查看页面（新）">
+    <Command CommandID="M01184" Name="查询明细" Description="查询明细" CommandType="QuerySqlCommand"><![CDATA[<QueryCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" NextCommand="查看页面（新）" GroupName="人事管理" TableName="hr_Attendance" CommandName="GetItem">
+  <Parameter Name="AutoKey" Path="Request[ID]" Type="Parameter" />
+</QueryCommand>]]></Command>
+    <Command CommandID="M01705" Name="查看页面（新）" CommandType="EditDialogActionCommand"><![CDATA[<EditDialogActionCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ContentType="text/html">
+  <Parameter Name="Data" Path="LastResult.Items" Type="Parameter" />
+  <Page SettingType="EditDialog">
+    <Form ID="dataform" Class="form-dialog" DataBinding="Parameters[Data]" EditPanelClass="edit-panel-w">
+      <TableLayout />
+      <Fields>
+        <Field Title="打卡日期" TitleClass="edit-title-w" FieldClass="edit-field-w" ContentClass="edit-content-w" FieldType="TextBox">
+          <Input Tag="input" ID="Dates" Name="Dates" Class="edit-input easyui-textbox" Binding="Dates" IsReadOnly="true" IsRequired="false" />
+        </Field>
+        <Field Title="星期" TitleClass="edit-title-w" FieldClass="edit-field-w" ContentClass="edit-content-w" FieldType="TextBox">
+          <Input Tag="input" ID="Weekday" Name="Weekday" Class="edit-input easyui-textbox" Binding="Weekday" IsReadOnly="true" IsRequired="false" />
+        </Field>
+        <Field Title="上班打卡时间" TitleClass="edit-title-w" FieldClass="edit-field-w" ContentClass="edit-content-w" FieldType="TextBox">
+          <Input Tag="input" ID="StartTime" Name="StartTime" Class="edit-input easyui-textbox" Binding="StartTime" IsReadOnly="true" IsRequired="false" />
+        </Field>
+        <Field Title="下班打卡时间" TitleClass="edit-title-w" FieldClass="edit-field-w" ContentClass="edit-content-w" FieldType="TextBox">
+          <Input Tag="input" ID="EndTime" Name="EndTime" Class="edit-input easyui-textbox" Binding="EndTime" IsReadOnly="true" IsRequired="false" />
+        </Field>
+        <Field Title="加班时数(H)" TitleClass="edit-title-w" FieldClass="edit-field-w" ContentClass="edit-content-w" FieldType="TextBox">
+          <Input Tag="input" ID="Overtime" Name="Overtime" Class="edit-input easyui-textbox" Binding="Overtime" IsReadOnly="true" IsRequired="false" />
+        </Field>
+        <Field Title="迟到分钟数(m)" TitleClass="edit-title-w" FieldClass="edit-field-w" ContentClass="edit-content-w" FieldType="TextBox">
+          <Input Tag="input" ID="MinutesLate" Name="MinutesLate" Class="edit-input easyui-textbox" Binding="MinutesLate" IsReadOnly="true" IsRequired="false" />
+        </Field>
+        <Field Title="早退分钟数(m)" TitleClass="edit-title-w" FieldClass="edit-field-w" ContentClass="edit-content-w" FieldType="TextBox">
+          <Input Tag="input" ID="LeaveEarlyMinutes" Name="LeaveEarlyMinutes" Class="edit-input easyui-textbox" Binding="LeaveEarlyMinutes" IsReadOnly="true" IsRequired="false" />
+        </Field>
+        <Field Title="旷工时数(H)" TitleClass="edit-title-w" FieldClass="edit-field-w" ContentClass="edit-content-w" FieldType="TextBox">
+          <Input Tag="input" ID="AbsenteeismHours" Name="AbsenteeismHours" Class="edit-input easyui-textbox" Binding="AbsenteeismHours" IsReadOnly="true" IsRequired="false" />
+        </Field>
+        <Field Title="备注" TitleClass="edit-title-w" FieldClass="edit-field-w" ContentClass="edit-content-w" FieldType="TextBox">
+          <Input Tag="input" ID="Remark" Name="Remark" Class="edit-input easyui-textbox" Binding="Remark" IsReadOnly="true" IsRequired="false" />
+        </Field>
+        <Field Title="Autokey">
+          <Input Tag="input" ID="Autokey" Name="Autokey" Class="edit-input" InputType="hidden" Binding="Autokey" IsReadOnly="true" IsRequired="false" IsHidden="true" />
+        </Field>
+      </Fields>
+      <ToolBar Tag="div" ID="toolbar" Class="dialog-button" PageID="P01029">
+        <Buttons>
+          <UIButton ID="btn-close" Class="easyui-linkbutton edit-button" Options="iconCls:'icon-cancel'" Title="关闭" Action="cancel()" />
+        </Buttons>
+      </ToolBar>
+    </Form>
+  </Page>
+</EditDialogActionCommand>]]></Command>
+  </Action>
+  <Layout EditFieldClass="edit-field" />
+  <Buttons>
+    <Button ID="btn-search" Title="检索" ActionValue="2" Action="showActDlg('检索','/Page/P01026/Search',400,300)" Class="easyui-linkbutton" Option="iconCls:'icon-search'" />
+    <Button ID="btn-query" Title="确定" ActionValue="2" Action="submitAct_DGReplace('dataform','/Page/P01026/Query','datagrid')" Class="easyui-linkbutton edit-button" Option="iconCls:'icon-ok'" ShowInToolBar="false" />
+    <Button ID="btn-detail" Title="查看" ActionValue="4" Action="showActDlg('datagrid','查看','/Page/P01026/Detail',400,300)" Class="easyui-linkbutton toolradio" Option="iconCls:'icon-add'" />
+    <Button ID="btn-create" Title="新增" ActionValue="8" Action="showActDlg('新增','/Page/P01026/Create',400,300)" Class="easyui-linkbutton" Option="iconCls:'icon-add'" />
+    <Button ID="btn-add" Title="确定" ActionValue="8" Action="submitAct_DGAppend('dataform','/Page/P01026/Add','datagrid')" Class="easyui-linkbutton edit-button" Option="iconCls:'icon-ok'" ShowInToolBar="false" />
+    <Button ID="btn-edit" Title="修改" ActionValue="16" Action="showActDlg_DGItemActDlg('datagrid','修改','/Page/P01026/Edit',400,300)" Class="easyui-linkbutton toolradio" Option="iconCls:'icon-edit'" />
+    <Button ID="btn-update" Title="确定" ActionValue="16" Action="submitAct_DGUpdate('dataform','/Page/P01026/Update','datagrid')" Class="easyui-linkbutton edit-button" Option="iconCls:'icon-ok'" ShowInToolBar="false" />
+    <Button ID="btn-delete" Title="删除" ActionValue="32" Action="showActDlg_DGItemsConfirm('datagrid','删除','确认删除选择项？','/Page/P01026/Delete',400,300)" Class="easyui-linkbutton toolmultiple" Option="iconCls:'icon-cancel'" />
+    <Button ID="btn-import" Title="导入" ActionValue="64" Action="showActDlg('导入','/Page/P01026/Import',400,300)" Class="easyui-linkbutton" Option="iconCls:'icon-import'" />
+    <Button ID="btn-export" Title="导出" ActionValue="128" Action="showActDlg('导出','/Page/P01026/Export',400,300)" Class="easyui-linkbutton" Option="iconCls:'icon-export'" />
+    <Button ID="btn-cancel" Title="取消" Action="cancel()" Class="easyui-linkbutton edit-button" ShowInToolBar="false" />
+    <Button ID="btn-close" Title="确定" Action="cancel()" Class="easyui-linkbutton edit-button" ShowInToolBar="false" />
+  </Buttons>
+  <EditSource LogicDeleteFlag="IsActive:0">
+    <Fields />
+    <ChildTables />
+  </EditSource>
+</MvcEditPage>

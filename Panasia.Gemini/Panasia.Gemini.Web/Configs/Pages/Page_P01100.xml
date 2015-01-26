@@ -1,0 +1,245 @@
+<?xml version="1.0"?>
+<MvcEditPage xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" PageID="P01100" Controller="" DefaultAction="Index">
+  <Action ActionID="d1f45e46-b718-4b45-81b1-e9c9558c846b" Name="Index" Title="列表" ActionValue="1" ErrorCommand="列表页面">
+    <Command CommandID="M01841" Name="列表页面" Description="这个命令会直接返回到客户端，无需后继命令" CommandType="IndexPageActionCommand"><![CDATA[<IndexPageActionCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ContentType="text/html">
+  <Page SettingType="IndexPage">
+    <ToolBar Tag="div" ID="toolbar" Class="toolbar-panel" PageID="P01100">
+      <Buttons>
+        <UIButton ID="btn-search" Class="easyui-linkbutton normal-button" Options="iconCls:'icon-search',plain:true" Title="检索" ActionValue="2" Action="showActDlg('检索','/Page/P01100/Search',400,300)" />
+        <UIButton ID="btn-detail" Class="easyui-linkbutton toolradio normal-button" Options="iconCls:'icon-detail',plain:true" Title="查看" ActionValue="4" Action="showActDlg_DGItemActDlg('datagrid','查看','/Page/P01100/Detail',400,300)" />
+        <UIButton ID="btn-create" Class="easyui-linkbutton normal-button" Options="iconCls:'icon-add',plain:true" Title="新增" ActionValue="8" Action="showActDlg('新增','/Page/P01100/Create',400,300)" />
+        <UIButton ID="btn-edit" Class="easyui-linkbutton toolradio normal-button" Options="iconCls:'icon-edit',plain:true" Title="修改" ActionValue="16" Action="showActDlg_DGItemActDlg('datagrid','修改','/Page/P01100/Edit',400,300)" />
+        <UIButton ID="btn-delete" Class="easyui-linkbutton toolmultiple normal-button" Options="iconCls:'icon-cancel',plain:true" Title="删除" ActionValue="32" Action="showActDlg_DGItemsConfirm('datagrid','删除','确认删除选择项？','/Page/P01100/Delete',400,300)" />
+      </Buttons>
+    </ToolBar>
+    <DataGrid Tag="table" ID="datagrid" Class="easyui-datagrid" Options="url:'/Page/P01100/Query',fitColumns:true,fit:true,pagination: true,rownumbers: true,nowrap: true,striped: true,collapsible: false,resizable:true,onClickRow:oncheckstate,onSelect:oncheckstate,onCheck:oncheckstate,onCheckAll:oncheckstate,onUncheckAll:oncheckstate,onUncheck:oncheckstate,onUnselect:oncheckstate" Key="WhCd,LOCNO">
+      <Column Title="AutoKey" FieldName="AutoKey" IsCheckBox="true" />
+      <Column Title="仓库" FieldName="WhName" />
+      <Column Title="储位编号" FieldName="LOCNO" />
+      <Column Title="储位管理员" FieldName="LOCUserName" />
+      <Column Title="储位说明" FieldName="LOCDesc" />
+    </DataGrid>
+  </Page>
+</IndexPageActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="466acd0c-bbde-4599-b541-e9394589ec9c" Name="Search" Title="检索" ActionValue="2">
+    <Command CommandID="M01857" Name="检索页面" Description="这个命令会直接返回到客户端，无需后继命令" CommandType="EditDialogActionCommand"><![CDATA[<EditDialogActionCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ContentType="text/html">
+  <Page SettingType="EditDialog">
+    <Form ID="dataform" Class="form-dialog">
+      <TableLayout />
+      <Fields>
+        <Field Title="仓库" FieldType="ComboBox">
+          <ComboBox Tag="input" Name="WhCd" Class="easyui-combobox edit-input" Binding="WhCd" IsRequired="false" Length="4" DisplayMember="Name" ValueMember="ID" DataUrl="/Share/Query?name=GetAllWH" IsAutoHeight="false" OnSelect="function(rec){&#xD;&#xA;var url='/Share/Query?name=GetEmpByWH&amp;resultformat=jsontree&amp;root=000000&amp;pid=PID&amp;id=ID&amp;text=Name&amp;WHCd='+rec.ID;&#xD;&#xA;$('#LOCUser').combotree({url:url});&#xD;&#xA;}" />
+        </Field>
+        <Field Title="储位编号" FieldType="TextBox">
+          <Input Tag="input" Name="LOCNO" Class="edit-input easyui-textbox" Binding="LOCNO" IsRequired="false" Length="6" />
+        </Field>
+      </Fields>
+      <ToolBar Tag="div" ID="toolbar" Class="dialog-button" PageID="P01100">
+        <Buttons>
+          <UIButton ID="btn-query" Class="easyui-linkbutton edit-button" Options="iconCls:'icon-ok'" Title="确定" ActionValue="2" Action="submitAct_DGReplace('dataform','/Page/P01100/Query','datagrid')" />
+          <UIButton ID="btn-cancel" Class="easyui-linkbutton edit-button" Options="iconCls:'icon-cancel'" Title="取消" Action="cancel()" />
+        </Buttons>
+      </ToolBar>
+    </Form>
+  </Page>
+</EditDialogActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="89eb2082-b2a6-4a6e-b5bc-117b5fafe961" Name="Query" Title="检索" ActionValue="2">
+    <Command CommandID="M01858" Name="查询总数" Description="本查询的结果值为JSON，参数路径为Results[检索分页].Json" CommandType="ScalarSqlCommand"><![CDATA[<ScalarCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" NextCommand="分页查询" GroupName="固定资产" TableName="zc_INVWhLoc" CommandName="QueryCount" SqlType="Scalar">
+  <Parameter Name="WhCd" Path="Request[WhCd]" Type="Parameter" Converter="Trim" />
+  <Parameter Name="LOCNO" Path="Request[LOCNO]" Type="Parameter" Converter="Trim" />
+  <Parameter Name="UserID" Path="CurrentUserID" Type="SystemParameter" />
+</ScalarCommand>]]></Command>
+    <Command CommandID="M01859" Name="分页查询" Description="本查询的结果值为JSON，参数路径为Results[检索分页].Json" CommandType="QuerySqlCommand"><![CDATA[<QueryCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" NextCommand="搜索结果" GroupName="固定资产" TableName="zc_INVWhLoc" CommandName="QueryPage">
+  <Parameter Name="WhCd" Path="Request[WhCd]" Type="Parameter" Converter="Trim" />
+  <Parameter Name="LOCNO" Path="Request[LOCNO]" Type="Parameter" Converter="Trim" />
+  <Parameter Name="UserID" Path="CurrentUserID" Type="SystemParameter" Converter="Trim" />
+  <Parameter Name="Page" Path="Request[Page]" Type="Parameter" />
+  <Parameter Name="Rows" Path="Request[Rows]" Type="Parameter" />
+</QueryCommand>]]></Command>
+    <Command CommandID="M01860" Name="搜索结果" Description="返回搜索结果" CommandType="JsonActionCommand"><![CDATA[<JsonActionCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ContentType="application/json">
+  <Parameter Name="total" Path="Results[查询总数].Value" Type="Parameter" />
+  <Parameter Name="rows" Path="Results[分页查询].Items" Type="Parameter" />
+  <Parameter Name="HasError" Path="LastResult.IsError" Type="Parameter" />
+  <Parameter Name="ErrorMessage" Path="LastResult.ErrorMessage" Type="Parameter" />
+</JsonActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="91e7e427-74ed-4ae9-b9f3-fa1ccf9caf70" Name="Detail" Title="查看" ActionValue="4" ErrorCommand="查看页面">
+    <Command CommandID="M01861" Name="查询明细" Description="查询明细" CommandType="QuerySqlCommand"><![CDATA[<QueryCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" NextCommand="查看页面" GroupName="固定资产" TableName="zc_INVWhLoc" CommandName="GetDetail">
+  <Parameter Name="AutoKey" Path="Request[ID]" Type="Parameter" />
+</QueryCommand>]]></Command>
+    <Command CommandID="M01862" Name="查看页面" Description="这个命令会直接返回到客户端，无需后继命令" CommandType="EditDialogActionCommand"><![CDATA[<EditDialogActionCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ContentType="text/html">
+  <Parameter Name="Data" Path="LastResult.Items" Type="Parameter" />
+  <Page SettingType="EditDialog">
+    <Form ID="dataform" Class="form-dialog" DataBinding="Parameters[Data]">
+      <TableLayout />
+      <Fields>
+        <Field Title="仓库" FieldType="TextBox">
+          <Input Tag="input" Name="WhCd" Class="edit-input easyui-textbox" Binding="WHName" IsReadOnly="true" IsRequired="false" Length="4" />
+        </Field>
+        <Field Title="储位编号" FieldType="TextBox">
+          <Input Tag="input" Name="LOCNO" Class="edit-input easyui-textbox" Binding="LOCNO" IsReadOnly="true" IsRequired="false" Length="6" />
+        </Field>
+        <Field Title="储位管理员" FieldType="TextBox">
+          <Input Tag="input" Name="LOCUser" Class="edit-input easyui-textbox" Binding="LOCUserName" IsReadOnly="true" IsRequired="false" Length="6" />
+        </Field>
+        <Field Title="储位说明" FieldClass="edit-field-r2" ContentClass="edit-content-r2" FieldType="TextArea">
+          <TextArea Tag="input" Name="LOCDesc" Class="edit-input easyui-textbox" Style="height:90px" Binding="LOCDesc" IsReadOnly="true" IsRequired="false" Length="50" />
+        </Field>
+      </Fields>
+      <ToolBar Tag="div" ID="toolbar" Class="dialog-button" PageID="P01100">
+        <Buttons>
+          <UIButton ID="btn-close" Class="easyui-linkbutton edit-button" Options="iconCls:'icon-cancel'" Title="关闭" Action="cancel()" />
+        </Buttons>
+      </ToolBar>
+    </Form>
+  </Page>
+</EditDialogActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="afed8fbe-d3e5-43b0-8f3d-8c4b54187f94" Name="Create" Title="新增" ActionValue="8" ErrorCommand="新增页面">
+    <Command CommandID="M01863" Name="新增页面" Description="这个命令会直接返回到客户端，无需后继命令" CommandType="EditDialogActionCommand"><![CDATA[<EditDialogActionCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ContentType="text/html">
+  <Page SettingType="EditDialog">
+    <Form ID="dataform" Class="form-dialog">
+      <TableLayout />
+      <Fields>
+        <Field Title="仓库" FieldType="ComboBox">
+          <ComboBox Tag="input" Name="WhCd" Class="easyui-combobox edit-input" Options="editable:false,missingMessage:'请选择仓库'" Binding="WhCd" Length="4" DisplayMember="Name" ValueMember="ID" DataUrl="/Share/Query?name=GetAllWH" IsAutoHeight="false" OnSelect="function(rec){&#xD;&#xA;var url='/Share/Query?name=GetEmpByWH&amp;resultformat=jsontree&amp;root=000000&amp;pid=PID&amp;id=ID&amp;text=Name&amp;WHCd='+rec.ID;&#xD;&#xA;$('#LOCUser').combotree({url:url});&#xD;&#xA;}" />
+        </Field>
+        <Field Title="储位编号" FieldType="TextBox">
+          <Input Tag="input" Name="LOCNO" Class="edit-input easyui-textbox" Options="missingMessage:'请输入储位编号',validType:'CharAndMaxNum[2,6]'" Binding="LOCNO" Length="6" />
+        </Field>
+        <Field Title="储位管理员" FieldType="ComboTree">
+          <ComboTree Tag="input" ID="LOCUser" Name="LOCUser" Class="easyui-combotree edit-input" Binding="LOCUser" IsRequired="false" Length="6" DataUrl="/Share/Query?name=GetManager&amp;resultformat=jsontree&amp;root=000000&amp;pid=PID&amp;id=ID&amp;text=Name&amp;CompanyID=XXXXXX" DisplayMember="text" ValueMember="id" IsAutoHeight="false" OnSelect="function(rec){&#xD;&#xA;var ID=rec.id;&#xD;&#xA;if(ID!=''){&#xD;&#xA;if(ID.charAt(0)!='E'){$('#LOCUser').combotree('unselect',id);}&#xD;&#xA;}&#xD;&#xA;}" />
+        </Field>
+        <Field Title="储位说明" FieldClass="edit-field-r2" ContentClass="edit-content-r2" FieldType="TextArea">
+          <TextArea Tag="input" Name="LOCDesc" Class="edit-input easyui-textbox" Style="height:90px" Options="validType:'length[1,50]',invalidMessage:'储位说明不得超过50字符'" Binding="LOCDesc" IsRequired="false" Length="50" />
+        </Field>
+      </Fields>
+      <ToolBar Tag="div" ID="toolbar" Class="dialog-button" PageID="P01100">
+        <Buttons>
+          <UIButton ID="btn-add" Class="easyui-linkbutton edit-button" Options="iconCls:'icon-ok'" Title="确定" ActionValue="8" Action="submitAct_DGAppend('dataform','/Page/P01100/Add','datagrid')" />
+          <UIButton ID="btn-cancel" Class="easyui-linkbutton edit-button" Options="iconCls:'icon-cancel'" Title="取消" Action="cancel()" />
+        </Buttons>
+      </ToolBar>
+    </Form>
+  </Page>
+</EditDialogActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="b85771a6-c39c-4266-9c5f-d484bfec68d6" Name="Add" Title="新增" ActionValue="8" ErrorCommand="新增结果">
+    <Command CommandID="M01864" Name="执行新增" Description="本查询的结果值为JSON，参数路径为Results[执行新增].Json" CommandType="QueryJsonSqlCommand"><![CDATA[<QueryJsonCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" NextCommand="新增结果" GroupName="固定资产" TableName="zc_INVWhLoc" CommandName="Add" SqlType="QueryJson">
+  <Parameter Name="WhCd" Path="Request[WhCd]" Type="Parameter" />
+  <Parameter Name="LOCNO" Path="Request[LOCNO]" Type="Parameter" />
+  <Parameter Name="LOCDesc" Path="Request[LOCDesc]" Type="Parameter" />
+  <Parameter Name="LOCUser" Path="Request[LOCUser]" Type="Parameter" />
+  <Parameter Name="CreatedUser" Path="CurrentUserID" Type="SystemParameter" />
+  <Parameter Name="CreatedTime" Path="CurrentDateTime" Type="SystemParameter" />
+  <Parameter Name="ModifiedUser" Path="CurrentUserID" Type="SystemParameter" />
+  <Parameter Name="ModifiedTime" Path="CurrentDateTime" Type="SystemParameter" />
+</QueryJsonCommand>]]></Command>
+    <Command CommandID="M01865" Name="新增结果" Description="返回新增结果" CommandType="JsonActionCommand"><![CDATA[<JsonActionCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ContentType="application/json">
+  <Parameter Name="Data" Path="Results[执行新增].Json" Type="Parameter" />
+  <Parameter Name="HasError" Path="Results[执行新增].IsError" Type="Parameter" />
+  <Parameter Name="ErrorMessage" Path="Results[执行新增].ErrorMessage" Type="Parameter" />
+</JsonActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="61181a89-eb09-4a10-a8e2-7ac13fd4185f" Name="Edit" Title="编辑" ActionValue="16" ErrorCommand="编辑页面">
+    <Command CommandID="M01866" Name="查询编辑" Description="查询编辑" CommandType="QuerySqlCommand"><![CDATA[<QueryCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" NextCommand="获取公司" GroupName="固定资产" TableName="zc_INVWhLoc" CommandName="GetEdit">
+  <Parameter Name="AutoKey" Path="Request[ID]" Type="Parameter" />
+</QueryCommand>]]></Command>
+    <Command CommandID="M01873" Name="获取公司" CommandType="ScalarSqlCommand"><![CDATA[<ScalarCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" NextCommand="编辑页面" GroupName="固定资产" TableName="zc_INVWhLoc" CommandName="GetCompanyID" SqlType="Scalar">
+  <Parameter Name="AutoKey" Path="Request[ID]" Type="Parameter" />
+</ScalarCommand>]]></Command>
+    <Command CommandID="M01867" Name="编辑页面" Description="这个命令会直接返回到客户端，无需后继命令" CommandType="EditDialogActionCommand"><![CDATA[<EditDialogActionCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ContentType="text/html">
+  <Parameter Name="Data" Path="Results[查询编辑].Items" Type="Parameter" />
+  <Parameter Name="CompanyID" Path="Results[获取公司].Value" Type="Parameter" />
+  <Page SettingType="EditDialog">
+    <Form ID="dataform" Class="form-dialog" DataBinding="Parameters[Data]">
+      <TableLayout />
+      <Fields>
+        <Field Title="仓库" FieldType="TextBox">
+          <Input Tag="input" Name="WHName" Class="edit-input easyui-textbox" Binding="WHName" IsReadOnly="true" IsRequired="false" Length="4" />
+        </Field>
+        <Field Title="储位编号" FieldType="TextBox">
+          <Input Tag="input" Name="LOCNO" Class="edit-input easyui-textbox" Options="missingMessage:'请输入储位编号',validType:'CharAndMaxNum[2,6]'" Binding="LOCNO" Length="6" />
+        </Field>
+        <Field Title="储位管理员" FieldType="ComboTree">
+          <ComboTree Tag="input" ID="LOCUser" Name="LOCUser" Class="easyui-combotree edit-input" Binding="LOCUser" IsRequired="false" Length="6" DataUrl="/Share/Query?name=GetManager&amp;resultformat=jsontree&amp;root=000000&amp;pid=PID&amp;id=ID&amp;text=Name&amp;CompanyID={@/Parameters[CompanyID]}" DisplayMember="text" ValueMember="id" IsAutoHeight="false" OnSelect="function(rec){&#xD;&#xA;var ID=rec.id;&#xD;&#xA;if(ID!=''){&#xD;&#xA;if(ID.charAt(0)!='E'){$('#LOCUser').combotree('unselect',id);}&#xD;&#xA;}&#xD;&#xA;}" />
+        </Field>
+        <Field Title="储位说明" FieldClass="edit-field-r2" ContentClass="edit-content-r2" FieldType="TextArea">
+          <TextArea Tag="input" Name="LOCDesc" Class="edit-input easyui-textbox" Style="height:90px" Options="validType:'length[1,50]',invalidMessage:'储位说明不得超过50字符'" Binding="LOCDesc" IsRequired="false" Length="50" />
+        </Field>
+        <Field FieldType="Hidden">
+          <Input Tag="input" Name="AutoKey" Class="edit-input" InputType="hidden" Binding="AutoKey" IsRequired="false" IsHidden="true" />
+        </Field>
+        <Field FieldType="Hidden">
+          <Input Tag="input" Name="WhCd" Class="edit-input" InputType="hidden" Binding="WhCd" IsHidden="true" />
+        </Field>
+      </Fields>
+      <ToolBar Tag="div" ID="toolbar" Class="dialog-button" PageID="P01100">
+        <Buttons>
+          <UIButton ID="btn-update" Class="easyui-linkbutton edit-button" Options="iconCls:'icon-ok'" Title="确定" ActionValue="16" Action="submitAct_DGUpdate('dataform','/Page/P01100/Update','datagrid')" />
+          <UIButton ID="btn-cancel" Class="easyui-linkbutton edit-button" Options="iconCls:'icon-cancel'" Title="取消" Action="cancel()" />
+        </Buttons>
+      </ToolBar>
+    </Form>
+  </Page>
+</EditDialogActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="5353583b-b709-45a2-bc07-69199fdbeaca" Name="Update" Title="编辑" ActionValue="16" ErrorCommand="编辑结果">
+    <Command CommandID="M01868" Name="执行更新" Description="本查询的结果值为JSON，参数路径为Results[执行更新].Json" CommandType="QueryJsonSqlCommand"><![CDATA[<QueryJsonCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" NextCommand="编辑结果" GroupName="固定资产" TableName="zc_INVWhLoc" CommandName="Update" SqlType="QueryJson">
+  <Parameter Name="WhCd" Path="Request[WhCd]" Type="Parameter" />
+  <Parameter Name="LOCNO" Path="Request[LOCNO]" Type="Parameter" />
+  <Parameter Name="LOCDesc" Path="Request[LOCDesc]" Type="Parameter" />
+  <Parameter Name="LOCUser" Path="Request[LOCUser]" Type="Parameter" />
+  <Parameter Name="AutoKey" Path="Request[AutoKey]" Type="Parameter" />
+  <Parameter Name="ModifiedUser" Path="CurrentUserID" Type="SystemParameter" />
+  <Parameter Name="ModifiedTime" Path="CurrentDateTime" Type="SystemParameter" />
+</QueryJsonCommand>]]></Command>
+    <Command CommandID="M01869" Name="编辑结果" Description="返回编辑结果" CommandType="JsonActionCommand"><![CDATA[<JsonActionCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ContentType="application/json">
+  <Parameter Name="Data" Path="Results[执行更新].Json" Type="Parameter" />
+  <Parameter Name="HasError" Path="Results[执行更新].IsError" Type="Parameter" />
+  <Parameter Name="ErrorMessage" Path="Results[执行更新].ErrorMessage" Type="Parameter" />
+</JsonActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="ddd4acb6-59be-432b-ac70-ad5aab33bc0d" Name="Delete" Title="删除" ActionValue="32" ErrorCommand="删除结果">
+    <Command CommandID="M01870" Name="执行删除" Description="本查询的结果值为JSON，参数路径为Results[执行删除].Json" CommandType="QueryJsonSqlCommand"><![CDATA[<QueryJsonCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" NextCommand="删除结果" GroupName="固定资产" TableName="zc_INVWhLoc" CommandName="Delete" SqlType="QueryJson">
+  <Parameter Name="Keys" Path="Request[Keys]" Type="Parameter" />
+</QueryJsonCommand>]]></Command>
+    <Command CommandID="M01871" Name="删除结果" Description="返回删除结果" CommandType="JsonActionCommand"><![CDATA[<JsonActionCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ContentType="application/json">
+  <Parameter Name="Data" Path="Results[执行删除].Json" Type="Parameter" />
+  <Parameter Name="HasError" Path="Results[执行删除].IsError" Type="Parameter" />
+  <Parameter Name="ErrorMessage" Path="Results[执行删除].ErrorMessage" Type="Parameter" />
+</JsonActionCommand>]]></Command>
+  </Action>
+  <Layout EditFieldClass="edit-field" />
+  <Buttons>
+    <Button ID="btn-search" Title="检索" ActionValue="2" Action="showActDlg('检索','/Page/P01100/Search',400,300)" Class="easyui-linkbutton" Option="iconCls:'icon-search'" />
+    <Button ID="btn-query" Title="确定" ActionValue="2" Action="submitAct_DGReplace('dataform','/Page/P01100/Query','datagrid')" Class="easyui-linkbutton edit-button" Option="iconCls:'icon-ok'" ShowInToolBar="false" />
+    <Button ID="btn-detail" Title="查看" ActionValue="4" Action="showActDlg_DGItemActDlg('datagrid','查看','/Page/P01100/Detail',400,300)" Class="easyui-linkbutton toolradio" Option="iconCls:'icon-add'" />
+    <Button ID="btn-create" Title="新增" ActionValue="8" Action="showActDlg('新增','/Page/P01100/Create',400,300)" Class="easyui-linkbutton" Option="iconCls:'icon-add'" />
+    <Button ID="btn-add" Title="确定" ActionValue="8" Action="submitAct_DGAppend('dataform','/Page/P01100/Add','datagrid')" Class="easyui-linkbutton edit-button" Option="iconCls:'icon-ok'" ShowInToolBar="false" />
+    <Button ID="btn-edit" Title="修改" ActionValue="16" Action="showActDlg_DGItemActDlg('datagrid','修改','/Page/P01100/Edit',400,300)" Class="easyui-linkbutton toolradio" Option="iconCls:'icon-edit'" />
+    <Button ID="btn-update" Title="确定" ActionValue="16" Action="submitAct_DGUpdate('dataform','/Page/P01100/Update','datagrid')" Class="easyui-linkbutton edit-button" Option="iconCls:'icon-ok'" ShowInToolBar="false" />
+    <Button ID="btn-delete" Title="删除" ActionValue="32" Action="showActDlg_DGItemsConfirm('datagrid','删除','确认删除选择项？','/Page/P01100/Delete',400,300)" Class="easyui-linkbutton toolmultiple" Option="iconCls:'icon-cancel'" />
+    <Button ID="btn-import" Title="导入" ActionValue="64" Action="showActDlg('导入','/Page/P01100/Import',400,300)" Class="easyui-linkbutton" Option="iconCls:'icon-import'" />
+    <Button ID="btn-export" Title="导出" ActionValue="128" Action="showActDlg('导出','/Page/P01100/Export',400,300)" Class="easyui-linkbutton" Option="iconCls:'icon-export'" />
+    <Button ID="btn-cancel" Title="取消" Action="cancel()" Class="easyui-linkbutton edit-button" Option="iconCls:'icon-cancel'" ShowInToolBar="false" />
+    <Button ID="btn-close" Title="确定" Action="cancel()" Class="easyui-linkbutton edit-button" ShowInToolBar="false" />
+  </Buttons>
+  <EditSource GroupName="固定资产" TableName="zc_INVWhLoc" Key="WhCd,LOCNO" LogicDeleteFlag="IsActive=0">
+    <Fields>
+      <EditField Name="WhCd" Title="仓库" DataType="varchar" Length="4" />
+      <EditField Name="LOCNO" Title="储位编号" DataType="varchar" Length="6" />
+      <EditField Name="LOCDesc" Title="储位说明" DataType="nvarchar" Length="50" />
+      <EditField Name="LOCUser" Title="储位管理员" DataType="varchar" Length="6" />
+      <EditField Name="IsActive" Title="IsActive" DataType="bit" ShowInDetail="false" ShowInSearch="false" EditBox="ComboBox" ItemsSource="1:是|0:否" />
+      <EditField Name="CreatedUser" Title="CreatedUser" DataType="varchar" Length="6" ShowInGrid="false" ShowInCreate="false" ShowInEdit="false" ShowInDetail="false" ShowInSearch="false" IsRequired="false" EnableEdit="false" />
+      <EditField Name="CreatedTime" Title="CreatedTime" DataType="datetime" ShowInGrid="false" ShowInCreate="false" ShowInEdit="false" ShowInDetail="false" ShowInSearch="false" IsRequired="false" EnableEdit="false" />
+      <EditField Name="ModifiedUser" Title="ModifiedUser" DataType="varchar" Length="6" ShowInGrid="false" ShowInCreate="false" ShowInEdit="false" ShowInDetail="false" ShowInSearch="false" IsRequired="false" EnableEdit="false" />
+      <EditField Name="ModifiedTime" Title="ModifiedTime" DataType="datetime" ShowInGrid="false" ShowInCreate="false" ShowInEdit="false" ShowInDetail="false" ShowInSearch="false" IsRequired="false" EnableEdit="false" />
+      <EditField Name="AutoKey" Title="AutoKey" DataType="int" ShowInGrid="false" ShowInCreate="false" ShowInEdit="false" ShowInDetail="false" ShowInSearch="false" IsRequired="false" EnableEdit="false" />
+    </Fields>
+    <ChildTables />
+  </EditSource>
+</MvcEditPage>

@@ -1,0 +1,184 @@
+<?xml version="1.0"?>
+<MvcEditPage xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" PageID="P01031" Controller="" DefaultAction="Index">
+  <Action ActionID="a11d2f40-0d78-46ab-8af7-a0da8c5ebf09" Name="Index" Title="列表" ActionValue="1">
+    <Command CommandID="M01499" Name="列表页面" Description="这个命令会直接返回到客户端，无需后继命令" CommandType="IndexPageActionCommand"><![CDATA[<IndexPageActionCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ContentType="text/html">
+  <Page SettingType="IndexPage">
+    <ToolBar Tag="div" ID="toolbar" Class="toolbar-panel" PageID="P01031">
+      <Buttons>
+        <UIButton ID="btn-search" Class="easyui-linkbutton  normal-button" Options="iconCls:'icon-search',plain:true" Title="检索" ActionValue="2" Action="showActDlg('检索','/Page/P01031/Search',400,300)" />
+        <UIButton ID="btn-detail" Class="easyui-linkbutton toolradio  normal-button" Options="iconCls:'icon-detail',plain:true" Title="查看" ActionValue="4" Action="showActDlg_DGItemActDlg('datagrid','查看','/Page/P01031/Detail',400,300)" />
+        <UIButton />
+      </Buttons>
+    </ToolBar>
+    <DataGrid Tag="table" ID="datagrid" Class="easyui-datagrid" Options="url:'/Page/P01031/Query',fitColumns:true,fit:true,pagination: true,rownumbers: true,nowrap: true,striped: true,collapsible: false,resizable:true,onClickRow:oncheckstate,onSelect:oncheckstate,onCheck:oncheckstate,onCheckAll:oncheckstate,onUncheckAll:oncheckstate,onUncheck:oncheckstate,onUnselect:oncheckstate" Key="EmployeeID">
+      <Column Title="EmployeeID" FieldName="EmployeeID" IsCheckBox="true" />
+      <Column HAlign="Center" Title="日期" FieldName="YearMonth" />
+      <Column Title="公司" FieldName="CompanyName" />
+      <Column Title="部门" FieldName="DeptName" />
+      <Column Title="姓名" FieldName="EName" />
+      <Column Title="职位" FieldName="JobName" />
+      <Column HAlign="Right" Title="出勤天数" FieldName="AttendanceDays" />
+      <Column HAlign="Right" Title="实际出勤天数" FieldName="RealAttendanceDays" />
+      <Column HAlign="Right" Title="带薪假天数" FieldName="PaidHolidays" />
+      <Column HAlign="Right" Title="迟到次数" FieldName="LaterTimes" />
+      <Column HAlign="Right" Title="早退次数" FieldName="LeaveEarlyTimes" />
+      <Column HAlign="Right" Title="病假天数" FieldName="SickDays" />
+      <Column HAlign="Right" Title="事假天数" FieldName="LeaveDays" />
+      <Column HAlign="Right" Title="旷工天数" FieldName="AbsenteeismDays" />
+      <Column HAlign="Right" Title="缺勤数" FieldName="AbsenceDays" />
+      <Column HAlign="Right" Title="满勤天数" FieldName="FullDays" />
+      <Column HAlign="Right" Title="加班时数" FieldName="Overtime" />
+      <Column Title="备注" FieldName="Remark" />
+    </DataGrid>
+  </Page>
+</IndexPageActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="141e7b9f-faaa-4ade-ad95-462435247a42" Name="Search" Title="检索" ActionValue="2">
+    <Command CommandID="M01500" Name="检索页面" Description="这个命令会直接返回到客户端，无需后继命令" CommandType="EditDialogActionCommand"><![CDATA[<EditDialogActionCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ContentType="text/html">
+  <Page SettingType="EditDialog">
+    <Form ID="dataform" Class="form-dialog">
+      <TableLayout />
+      <Fields>
+        <Field Title="年" FieldType="TextBox">
+          <Input Tag="input" ID="Year" Name="Year" Class="edit-input easyui-numberbox" Options="min:2000,max:2099,prompt:'年范围在2000-2099之间',invalidMessage:'年范围在2000-2099之间'" Binding="Year" IsRequired="false" />
+        </Field>
+        <Field Title="月" FieldType="TextBox">
+          <Input Tag="input" ID="Month" Name="Month" Class="edit-input easyui-numberbox" Options="min:1,max:12,prompt:'月范围在1-12之间'" Binding="Month" IsRequired="false" />
+        </Field>
+      </Fields>
+      <ToolBar Tag="div" ID="toolbar" Class="dialog-button" PageID="P01031">
+        <Buttons>
+          <UIButton ID="btn-query" Class="easyui-linkbutton edit-button" Options="iconCls:'icon-ok'" Title="确定" ActionValue="2" Action="submitAct_DGReplace('dataform','/Page/P01031/Query','datagrid')" />
+          <UIButton Tag="a" ID="btn-cancel" Class="easyui-linkbutton edit-button" Options="iconCls:'icon-cancel'" Title="取消" Action="cancel()" />
+        </Buttons>
+      </ToolBar>
+    </Form>
+  </Page>
+</EditDialogActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="e4de4f86-9cd7-42f9-95ab-6af7cf71473f" Name="Query" Title="检索" ActionValue="2">
+    <Command CommandID="M01793" Name="查询总数" CommandType="ScalarSqlCommand"><![CDATA[<ScalarCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" NextCommand="执行查询" GroupName="人事管理" TableName="hr_CheckResult" CommandName="QueryCount" SqlType="Scalar">
+  <Parameter Name="UserID" Path="CurrentUserID" Type="SystemParameter" />
+  <Parameter Name="Year" Path="Request[Year]" Type="Parameter" />
+  <Parameter Name="Month" Path="Request[Month]" Type="Parameter" />
+</ScalarCommand>]]></Command>
+    <Command CommandID="M01501" Name="执行查询" Description="本查询的结果值为JSON，参数路径为Results[执行查询].Json" CommandType="QueryJsonSqlCommand"><![CDATA[<QueryJsonCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" NextCommand="搜索结果" GroupName="人事管理" TableName="hr_CheckResult" CommandName="QueryPage" SqlType="QueryJson">
+  <Parameter Name="Year" Path="Request[Year]" Type="Parameter" Converter="Trim" />
+  <Parameter Name="Month" Path="Request[Month]" Type="Parameter" Converter="Trim" />
+  <Parameter Name="UserID" Path="CurrentUserID" Type="SystemParameter" />
+  <Parameter Name="Page" Path="Request[Page]" Type="Parameter" />
+  <Parameter Name="Rows" Path="Request[Rows]" Type="Parameter" />
+</QueryJsonCommand>]]></Command>
+    <Command CommandID="M01502" Name="搜索结果" Description="返回搜索结果" CommandType="JsonActionCommand"><![CDATA[<JsonActionCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ContentType="application/json">
+  <Parameter Name="rows" Path="Results[执行查询].Json" Type="Parameter" />
+  <Parameter Name="HasError" Path="Results[执行查询].IsError" Type="Parameter" />
+  <Parameter Name="ErrorMessage" Path="Results[执行查询].ErrorMessage" Type="Parameter" />
+  <Parameter Name="total" Path="Results[查询总数].Value" Type="Parameter" />
+</JsonActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="13ea24a0-3889-4e98-8078-8750e0e1ee08" Name="Detail" Title="查看" ActionValue="4" ErrorCommand="查看页面">
+    <Command CommandID="M01503" Name="查询明细" Description="查询明细" CommandType="QuerySqlCommand"><![CDATA[<QueryCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" NextCommand="查看页面" GroupName="人事管理" TableName="hr_CheckResult" CommandName="GetDetail">
+  <Parameter Name="EmployeeID" Path="Request[ID]" Type="Parameter" />
+</QueryCommand>]]></Command>
+    <Command CommandID="M01560" Name="查看页面" CommandType="RazorContentActionCommand"><![CDATA[<RazorContentActionCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ContentType="text/html" TemplateFile="\zz_Employee\CheckResult_Detail.cshtml" SettingType="EditDialog">
+  <Parameter Name="Data" Path="LastResult.Item" Type="Parameter" />
+</RazorContentActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="0f02f690-617c-477b-9f25-8ca55414649b" Name="GetCheckRecord" Title="获取出勤明细" ErrorCommand="获取出勤明细">
+    <Command CommandID="M01675" Name="获取出勤明细" CommandType="QueryJsonSqlCommand"><![CDATA[<QueryJsonCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" NextCommand="返回出勤明细" GroupName="人事管理" TableName="hr_CheckResult" CommandName="GetCheckRecord" SqlType="QueryJson">
+  <Parameter Name="EmployeeID" Path="Request[EmployeeID]" Type="Parameter" />
+  <Parameter Name="YearMonth" Path="Request[YearMonth]" Type="Parameter" />
+</QueryJsonCommand>]]></Command>
+    <Command CommandID="M01676" Name="返回出勤明细" CommandType="ReturnActionCommand"><![CDATA[<ReturnActionCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ContentType="appplication/json">
+  <Parameter Name="json" Path="LastResult.Json" Type="Parameter" />
+</ReturnActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="93d37df5-f2c8-468d-958d-a5ff20e04b19" Name="GetLeave" Title="获取请假明细">
+    <Command CommandID="M01677" Name="获取请假明细" CommandType="QueryJsonSqlCommand"><![CDATA[<QueryJsonCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" NextCommand="返回请假明细" GroupName="人事管理" TableName="hr_CheckResult" CommandName="GetLeave" SqlType="QueryJson">
+  <Parameter Name="EmployeeID" Path="Request[EmployeeID]" Type="Parameter" />
+  <Parameter Name="YearMonth" Path="Request[YearMonth]" Type="Parameter" />
+</QueryJsonCommand>]]></Command>
+    <Command CommandID="M01678" Name="返回请假明细" CommandType="ReturnActionCommand"><![CDATA[<ReturnActionCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ContentType="appplication/json">
+  <Parameter Name="json" Path="LastResult.Json" Type="Parameter" />
+</ReturnActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="258a4da2-e97e-40a4-954a-6b92629f39da" Name="GetOvertime" Title="获取加班明细" ErrorCommand="获取加班明细">
+    <Command CommandID="M01679" Name="获取加班明细" CommandType="QueryJsonSqlCommand"><![CDATA[<QueryJsonCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" NextCommand="返回加班明细" GroupName="人事管理" TableName="hr_CheckResult" CommandName="GetOvertime" SqlType="QueryJson">
+  <Parameter Name="EmployeeID" Path="Request[EmployeeID]" Type="Parameter" />
+  <Parameter Name="YearMonth" Path="Request[YearMonth]" Type="Parameter" />
+</QueryJsonCommand>]]></Command>
+    <Command CommandID="M01680" Name="返回加班明细" CommandType="ReturnActionCommand"><![CDATA[<ReturnActionCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ContentType="appplication/json">
+  <Parameter Name="json" Path="LastResult.Json" Type="Parameter" />
+</ReturnActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="992e4575-2664-4362-b8e1-80d9698eb79f" Name="GetGoOut" Title="获取公出明细" ErrorCommand="查询公出明细">
+    <Command CommandID="M01681" Name="查询公出明细" CommandType="QueryJsonSqlCommand"><![CDATA[<QueryJsonCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" NextCommand="返回公出明细" GroupName="人事管理" TableName="hr_CheckResult" CommandName="GetGoOut" SqlType="QueryJson">
+  <Parameter Name="EmployeeID" Path="Request[EmployeeID]" Type="Parameter" />
+  <Parameter Name="YearMonth" Path="Request[YearMonth]" Type="Parameter" />
+</QueryJsonCommand>]]></Command>
+    <Command CommandID="M01682" Name="返回公出明细" CommandType="ReturnActionCommand"><![CDATA[<ReturnActionCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ContentType="appplication/json">
+  <Parameter Name="json" Path="LastResult.Json" Type="Parameter" />
+</ReturnActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="f7ca8360-81fa-4ed4-86c5-563b8a4b9a19" Name="GetAbnormalAttendance" Title="获取缺卡明细" ErrorCommand="获取缺勤解释明细">
+    <Command CommandID="M01683" Name="获取缺勤解释明细" CommandType="QueryJsonSqlCommand"><![CDATA[<QueryJsonCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" NextCommand="返回缺勤解释" GroupName="人事管理" TableName="hr_CheckResult" CommandName="GetAbnormalAttendance" SqlType="QueryJson">
+  <Parameter Name="EmployeeID" Path="Request[EmployeeID]" Type="Parameter" />
+  <Parameter Name="YearMonth" Path="Request[YearMonth]" Type="Parameter" />
+</QueryJsonCommand>]]></Command>
+    <Command CommandID="M01684" Name="返回缺勤解释" CommandType="ReturnActionCommand"><![CDATA[<ReturnActionCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ContentType="appplication/json">
+  <Parameter Name="json" Path="LastResult.Json" Type="Parameter" />
+</ReturnActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="5207224b-7f86-4fdf-844c-af343497e9c0" Name="GetLate" Title="获取迟到早退旷工" ErrorCommand="获取迟到早退旷工">
+    <Command CommandID="M01712" Name="获取迟到早退旷工" CommandType="QueryJsonSqlCommand"><![CDATA[<QueryJsonCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" NextCommand="返回迟到早退旷工" GroupName="人事管理" TableName="hr_CheckResult" CommandName="GetLate" SqlType="QueryJson">
+  <Parameter Name="EmployeeID" Path="Request[EmployeeID]" Type="Parameter" />
+  <Parameter Name="YearMonth" Path="Request[YearMonth]" Type="Parameter" />
+</QueryJsonCommand>]]></Command>
+    <Command CommandID="M01713" Name="返回迟到早退旷工" CommandType="ReturnActionCommand"><![CDATA[<ReturnActionCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ContentType="appplication/json">
+  <Parameter Name="json" Path="LastResult.Json" Type="Parameter" />
+</ReturnActionCommand>]]></Command>
+  </Action>
+  <Layout EditFieldClass="edit-field" />
+  <Buttons>
+    <Button ID="btn-search" Title="检索" ActionValue="2" Action="showActDlg('检索','/Page/P01031/Search',400,300)" Class="easyui-linkbutton" Option="iconCls:'icon-search'" />
+    <Button ID="btn-query" Title="确定" ActionValue="2" Action="submitAct_DGReplace('dataform','/Page/P01031/Query','datagrid')" Class="easyui-linkbutton edit-button" Option="iconCls:'icon-ok'" ShowInToolBar="false" />
+    <Button ID="btn-detail" Title="查看" ActionValue="4" Action="showActDlg('datagrid','查看','/Page/P01031/Detail',400,300)" Class="easyui-linkbutton toolradio" Option="iconCls:'icon-add'" />
+    <Button ID="btn-create" Title="新增" ActionValue="8" Action="showActDlg('新增','/Page/P01031/Create',400,300)" Class="easyui-linkbutton" Option="iconCls:'icon-add'" />
+    <Button ID="btn-add" Title="确定" ActionValue="8" Action="submitAct_DGAppend('dataform','/Page/P01031/Add','datagrid')" Class="easyui-linkbutton edit-button" Option="iconCls:'icon-ok'" ShowInToolBar="false" />
+    <Button ID="btn-edit" Title="修改" ActionValue="16" Action="showActDlg_DGItemActDlg('datagrid','修改','/Page/P01031/Edit',400,300)" Class="easyui-linkbutton toolradio" Option="iconCls:'icon-edit'" />
+    <Button ID="btn-update" Title="确定" ActionValue="16" Action="submitAct_DGUpdate('dataform','/Page/P01031/Update','datagrid')" Class="easyui-linkbutton edit-button" Option="iconCls:'icon-ok'" ShowInToolBar="false" />
+    <Button ID="btn-delete" Title="删除" ActionValue="32" Action="showActDlg_DGItemsConfirm('datagrid','删除','确认删除选择项？','/Page/P01031/Delete',400,300)" Class="easyui-linkbutton toolmultiple" Option="iconCls:'icon-cancel'" />
+    <Button ID="btn-import" Title="导入" ActionValue="64" Action="showActDlg('导入','/Page/P01031/Import',400,300)" Class="easyui-linkbutton" Option="iconCls:'icon-import'" />
+    <Button ID="btn-export" Title="导出" ActionValue="128" Action="showActDlg('导出','/Page/P01031/Export',400,300)" Class="easyui-linkbutton" Option="iconCls:'icon-export'" />
+    <Button ID="btn-cancel" Title="取消" Action="cancel()" Class="easyui-linkbutton edit-button" ShowInToolBar="false" />
+    <Button ID="btn-close" Title="确定" Action="cancel()" Class="easyui-linkbutton edit-button" ShowInToolBar="false" />
+  </Buttons>
+  <EditSource GroupName="人事管理" TableName="hr_CheckResult" Key="Year,Month,CompanyID,DeptID,EmployeeID">
+    <Fields>
+      <EditField Name="Year" Title="Year" DataType="nchar" Length="4" />
+      <EditField Name="Month" Title="Month" DataType="nchar" Length="2" />
+      <EditField Name="CompanyID" Title="CompanyID" DataType="varchar" Length="6" />
+      <EditField Name="DeptID" Title="DeptID" DataType="varchar" Length="6" />
+      <EditField Name="EmployeeID" Title="EmployeeID" DataType="varchar" Length="6" />
+      <EditField Name="JobID" Title="JobID" DataType="varchar" Length="6" />
+      <EditField Name="AttendanceDays" Title="AttendanceDays" DataType="decimal" />
+      <EditField Name="RealAttendanceDays" Title="RealAttendanceDays" DataType="decimal" />
+      <EditField Name="PaidHolidays" Title="PaidHolidays" DataType="decimal" />
+      <EditField Name="LaterTimes" Title="LaterTimes" DataType="int" />
+      <EditField Name="LeaveEarlyTimes" Title="LeaveEarlyTimes" DataType="int" />
+      <EditField Name="SickDays" Title="SickDays" DataType="decimal" />
+      <EditField Name="LeaveDays" Title="LeaveDays" DataType="decimal" />
+      <EditField Name="AbsenteeismDays" Title="AbsenteeismDays" DataType="decimal" />
+      <EditField Name="AbsenceDays" Title="AbsenceDays" DataType="decimal" />
+      <EditField Name="FullDays" Title="FullDays" DataType="decimal" />
+      <EditField Name="State" Title="State" DataType="varchar" Length="10" />
+      <EditField Name="Remark" Title="Remark" DataType="nvarchar" Length="200" />
+      <EditField Name="CreatedUser" Title="CreatedUser" DataType="varchar" Length="6" ShowInGrid="false" ShowInCreate="false" ShowInEdit="false" ShowInDetail="false" ShowInSearch="false" IsRequired="false" EnableEdit="false" />
+      <EditField Name="CreatedTime" Title="CreatedTime" DataType="datetime" ShowInGrid="false" ShowInCreate="false" ShowInEdit="false" ShowInDetail="false" ShowInSearch="false" IsRequired="false" EnableEdit="false" />
+      <EditField Name="ModifiedUser" Title="ModifiedUser" DataType="varchar" Length="6" ShowInGrid="false" ShowInCreate="false" ShowInEdit="false" ShowInDetail="false" ShowInSearch="false" IsRequired="false" EnableEdit="false" />
+      <EditField Name="ModifiedTime" Title="ModifiedTime" DataType="datetime" ShowInGrid="false" ShowInCreate="false" ShowInEdit="false" ShowInDetail="false" ShowInSearch="false" IsRequired="false" EnableEdit="false" />
+      <EditField Name="AutoKey" Title="AutoKey" DataType="int" ShowInGrid="false" ShowInCreate="false" ShowInEdit="false" ShowInDetail="false" ShowInSearch="false" IsRequired="false" EnableEdit="false" />
+    </Fields>
+    <ChildTables />
+  </EditSource>
+</MvcEditPage>

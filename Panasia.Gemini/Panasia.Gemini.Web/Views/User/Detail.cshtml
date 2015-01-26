@@ -1,0 +1,65 @@
+﻿@model Panasia.Core.Sys.UserModel
+@using Panasia.Core
+
+<form class="form-dialog" method="post" id="userDetailForm">
+    <div class="edit-dialog">
+        <div class="edit-panel">
+            <div class="edit-field">
+                <div class="edit-title"><label class="edit-label">用户名：</label></div>
+                <div class="edit-content">
+                    <input class="edit-input easyui-textbox" name="UserName" value="@Model.UserName" readonly="readonly" />
+                </div>
+            </div>
+
+            <div class="edit-field">
+                <div class="edit-title"><label class="edit-label">邮箱：</label><</div>
+                <div class="edit-content">
+                    <input class="edit-input easyui-textbox" name="Email" value="@Model.Email" readonly="readonly" />
+                </div>
+            </div>
+
+            <div class="edit-field">
+                <div class="edit-title"><label class="edit-label">姓名：</label></div>
+                <div class="edit-content">
+                    <input class="edit-input easyui-textbox" name="FullName" value="@Model.FullName" readonly="readonly" />
+                </div>
+            </div>
+            <div class="edit-field">
+            </div>
+        </div>
+    </div>
+</form>
+<div class="dialog-button">
+    <a class="easyui-linkbutton edit-button" data-options="iconCls:'icon-cancel'" onclick="cancel()">关闭</a>
+</div>
+@*<form method="post" id="userDetailForm">
+    <table class="grid">
+        <tr>
+            <th>用户名:</th>
+            <td><input class="input-dialog" name="UserName" value="@Model.UserName" disabled="disabled" /></td>
+        </tr>
+        <tr>
+            <th>邮箱:</th>
+            <td>
+                <input class="input-dialog" name="Email" value="@Model.Email" disabled="disabled" />
+            </td>
+        </tr>
+        <tr>
+            <th>姓名:</th>
+            <td><input class="input-dialog" name="FullName" value="@Model.FullName" disabled="disabled" /></td>
+        </tr>
+        <tr>
+            <th>角色:</th>
+            <td>
+                <input class="input-dialog" name="Roles" value="@Model.Roles" disabled="disabled" />
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <div class="btn-dialog">
+                    <a class="easyui-linkbutton btn-padding" data-options="iconCls:'icon-cancel'" onclick="cancel()">取消</a>
+                </div>
+            </td>
+        </tr>
+    </table>
+</form>*@

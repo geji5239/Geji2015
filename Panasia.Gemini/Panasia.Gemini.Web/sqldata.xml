@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<SqlData>
+	<Connections>
+     	<Connection Name="Auth" ConnectionString="Server=10.1.15.235;Database=PA_Sys;User Id=sa;Password=sa123456;" ProviderName="System.Data.SqlClient" />
+      </Connections>  
+</SqlData>

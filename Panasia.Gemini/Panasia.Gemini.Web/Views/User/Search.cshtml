@@ -1,0 +1,110 @@
+﻿<script type="text/javascript">
+    $(document).ready(function () {
+        $("input[name='isvalid']").val("false");
+        $("input[name='valid']:checkbox").change(function () {
+            if ($(this)[0].checked) {
+                $("input[name='isvalid']").val("true");
+            } else {
+                $("input[name='isvalid']").val("false");
+            }
+        })
+    });
+</script>
+<form class="form-dialog" method="post" id="userSearchForm">
+    <div class="edit-dialog">
+        <div class="edit-panel">
+            <div class="edit-field">
+                <div class="edit-title"><label class="edit-label">用户名：</label></div>
+                <div class="edit-content">
+                    <input class="edit-input easyui-textbox" name="name" id="name" />
+                </div>
+            </div>
+            <div class="edit-field">
+                <div class="edit-title"><label class="edit-label">姓名：</label></div>
+                <div class="edit-content">
+                    <input class="edit-input easyui-textbox" name="fullname" id="fullname" />
+                    @*<select id="state" class="edit-dropdownlist easyui-combobox" name="state" panelheight="auto">
+                        <option value="">全部</option>
+                        <option value="true">有效</option>
+                        <option value="false">无效</option>
+                    </select>*@
+                </div>
+            </div>
+            <div class="edit-field">
+                <div class="edit-title"><label class="edit-label">邮箱：</label></div>
+                <div class="edit-content">
+                    <input class="edit-input easyui-textbox" name="email" id="email" />
+                </div>
+            </div>
+            @*<div class="edit-field">
+                <div class="edit-title"><label class="edit-label">是否有效：</label></div>
+                <div class="edit-content">
+                    <input class="" name="valid" id="valid" type="checkbox"/><label style="line-height:inherit">有效</label>
+                    <input class="edit-inpu" name="isvalid" type="hidden" />
+                </div>
+            </div>*@
+            <div class="edit-field">
+            </div>
+        </div>
+    </div>
+</form>
+<div class="dialog-button">
+    <a class=" easyui-linkbutton edit-button" data-options="iconCls:'icon-ok'" onclick="submitAct_DGReplace('userSearchForm', '/User/Query', 'datagrid')">确定</a>
+    <a class="easyui-linkbutton edit-button" data-options="iconCls:'icon-cancel'" onclick="cancel()">取消</a>
+</div>
+
+@*<form class="form-dialog" method="post" id="userSearchForm">
+        <div class="edit-dialog">
+            <div class="edit-panel">
+                <div class="edit-field">
+                    <div class="edit-title"><label class="edit-label">用户名：</label></div>
+                    <div class="edit-content">
+                        <input class="edit-input easyui-validatebox" name="name" id="name" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="edit-panel">
+                <div class="edit-field">
+                    <div class="edit-title"><label class="edit-label">状态：</label></div>
+                    <div class="edit-content">
+                        <select id="state" class="edit-dropdownlist easyui-combobox" name="state" panelheight="auto">
+                            <option value="false">无效</option>
+                            <option value="true">有效</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="edit-tool">
+            <a class="easyui-linkbutton edit-button" data-options="iconCls:'icon-ok'" onclick="submitAct_DGReplace('userSearchForm', '/User/Query', 'datagrid')">确定</a>
+            <a class="easyui-linkbutton edit-button" data-options="iconCls:'icon-cancel'" onclick="cancel()">取消</a>
+        </div>
+    </form>*@
+
+@*<form method="post" id="userSearchForm">
+        <table class="grid">
+                <tr>
+                    <th>用户名:</th>
+                    <td><input name="name" id="name" class="input-dialog" /></td>
+                </tr>
+                <tr>
+                    <th>状态:</th>
+                    <td>
+                        <select id="state" class="query-state easyui-combobox" name="state" panelheight="auto">
+                            <option value="false">无效</option>
+                            <option value="true">有效</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <div class="btn-dialog">
+                            <a class="easyui-linkbutton btn-padding" data-options="iconCls:'icon-ok'" onclick="submitAct_DGReplace('userSearchForm', '/User/Query', 'datagrid')">确定</a>
+                            <a class="easyui-linkbutton btn-padding" data-options="iconCls:'icon-cancel'" onclick="cancel()">取消</a>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+    </form>*@
+

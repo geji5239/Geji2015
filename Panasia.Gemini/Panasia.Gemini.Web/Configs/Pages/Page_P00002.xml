@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<MvcPage xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" PageID="P00002" Controller="Role" DefaultAction="Index" IsRedirect="true">
+  <Action ActionID="ebdca3ca-0d86-4a26-a798-1299ee78ae24" Name="Index" Title="列表" ActionValue="1" />
+  <Action ActionID="7a5800de-4ebc-4fac-905b-09212f7dd5e2" Name="Details" Title="查看" ActionValue="2" />
+  <Action ActionID="c57f7807-33b0-4e1e-9ca6-b34089438aa5" Name="Create" Title="新增" ActionValue="4" />
+  <Action ActionID="11be18aa-c4fa-4a84-a609-75b2268b868d" Name="Add" Title="新增" ActionValue="4" />
+  <Action ActionID="aab358f4-dee9-4d04-952f-5c6c455d4e4e" Name="Edit" Title="修改" ActionValue="8" />
+  <Action ActionID="d0d14c23-982d-4476-b9ee-04d59603ad95" Name="Update" Title="修改" ActionValue="8" />
+  <Action ActionID="c0a43bde-10e0-4726-96aa-47f49afd235f" Name="Delete" Title="删除" ActionValue="16" />
+  <Action ActionID="40334303-bc85-42fd-804c-0082eca64388" Name="Import" Title="导入" ActionValue="32" />
+  <Action ActionID="42d8607a-bc32-4b8b-b5e0-a1e11c672976" Name="ImportPost" Title="导入" ActionValue="32" />
+  <Action ActionID="daca1d10-da24-4731-b978-40e76f74f416" Name="Export" Title="导出" ActionValue="64" />
+  <Action ActionID="62c63686-919d-408e-921b-f3f0fd2e690d" Name="ExportPost" Title="导出" ActionValue="64" />
+</MvcPage>

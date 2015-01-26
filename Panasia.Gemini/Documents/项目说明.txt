@@ -1,0 +1,11 @@
+﻿
+文件夹
+Core文件夹：这里的项目是将来可以给其它解决方案共享的
+
+项目
+1、Panasia.Gemini.Web：Gemini的WEB应用程序
+2、Panasia.Core：基类定义以及一些常用的操作（扩展）方法；
+3、Panasia.Core.DB：数据库配置及简单的ORM；
+4、Panasia.Core.Auth：用户、角色、页面及授权等；
+5、Panasia.Core.Web：处理和WEB项目相关的公用操作；
+

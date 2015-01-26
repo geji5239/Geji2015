@@ -1,0 +1,57 @@
+﻿@model Panasia.Gemini.Web.Models.org_Department
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<fieldset>
+    <legend>org_Department</legend>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Company_ID)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Company_ID)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.BD_ID)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.BD_ID)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Department_Name)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Department_Name)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Department_Parent_ID)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Department_Parent_ID)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.DepartmentType)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.DepartmentType)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Is_Active)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Is_Active)
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id=Model.Department_ID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

@@ -1,0 +1,153 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+    <link rel="Stylesheet" href="../default.css" />
+    <script type="text/javascript" src="../../javascript/jquery-1.4.4.min.js"></script>
+    <script type="text/javascript" src="../../javascript/dateformat.js"></script>
+    <script type="text/javascript" src="../TemplateInit.js"></script>
+    <style type="text/css">
+        .grade {
+            width:50px;
+        }
+    </style>
+</head>
+<body>
+    <table cellspacing="0" class="main">
+        <tr>
+            <td class="label">姓名</td>
+            <td><span id="EmployeeName"></span>
+                <span id="EmployeeID" class="hidden"></span>
+            </td>
+            <td class="label">性别</td>
+            <td><span valueFrom="EmployeeID" db="hr_Employee,Sex,EmployeeID"></span></td>
+            <td class="label">部门</td>
+            <td><span id="DeptName"></span></td>
+        </tr>
+        <tr>
+            <td class="label">职位</td>
+            <td><span id="JobName"></span></td>
+            <td class="label">申请日期</td>
+            <td><span id="ApplicationDate" datatype="date"></span></td>
+            <td class="label">入职日期</td>
+            <td><span id="HireDate" datatype="date"></span></td>
+        </tr>
+         <tr>
+            <td class="label">毕业院校</td>
+            <td colspan="2"><span id="EduName"></span></td>
+            <td class="label">学历</td>
+            <td colspan="2"><span id="Education"></span></td>
+        </tr>
+        <tr>
+            <td class="label">试用期</td>
+            <td colspan="3"><span id="StartDate" datatype="date"></span> 至 <span id="EndDate" datatype="date"></span></td>
+            <td class="label">时长(月)</td>
+            <td><span id="SXMonths"></span></td>
+        </tr>
+        <tr>
+            <td class="label">自评</td>
+            <td colspan="5"><span id="Summary"></span></td>
+        </tr>
+        <tr>
+            <td class="label">考核内容</td>
+            <td colspan="3">考核要点及总分</td>
+            <td colspan="2" align="center">部门主管评分</td>
+        </tr>
+        <tr>
+            <td class="label" rowspan="5">试用期工作完成情况</td>
+            <td colspan="3">工作完成满意度(35)</td>
+            <td colspan="2" align="center">
+                <input name="Assess1" type="text" required="required" datatype="integer" max="35" min="0" class="grade" />
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3">岗位熟悉度(15)</td>
+            <td colspan="2" align="center">
+                <input name="Assess2" type="text" required="required" datatype="integer" max="15" min="0" class="grade" />
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3">工作计划性和执行力(5)</td>
+            <td colspan="2" align="center">
+                <input name="Assess3" type="text" required="required" datatype="integer" max="5" min="0" class="grade" />
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3">遵守工作流程(5)</td>
+            <td colspan="2" align="center">
+                <input name="Assess4" type="text" required="required" datatype="integer" max="5" min="0" class="grade" />
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3">培训参与度(5)</td>
+            <td colspan="2" align="center">
+                <input name="Assess5" type="text" required="required" datatype="integer" max="5" min="0" class="grade" />
+            </td>
+        </tr>
+        <tr>
+            <td class="label" rowspan="4">工作能力</td>
+            <td colspan="3">责任心和工作主动性(5)</td>
+            <td colspan="2" align="center">
+                <input name="Assess6" type="text" required="required" datatype="integer" max="5" min="0" class="grade" />
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3">团队合作精神和沟通协调能力(5)</td>
+            <td colspan="2" align="center">
+                <input name="Assess7" type="text" required="required" datatype="integer" max="5" min="0" class="grade" />
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3">创新开拓能力(5)</td>
+            <td colspan="2" align="center">
+                <input name="Assess8" type="text" required="required" datatype="integer" max="5" min="0" class="grade" />
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3">自我学习能力及主动改变意识(5)</td>
+            <td colspan="2" align="center">
+                <input name="Assess9" type="text" required="required" datatype="integer" max="5" min="0" class="grade" />
+            </td>
+        </tr>
+        <tr>
+            <td class="label" rowspan="3">工作态度</td>
+            <td colspan="3">良好的职业道德(5)</td>
+            <td colspan="2" align="center">
+                <input name="Assess10" type="text" required="required" datatype="integer" max="5" min="0" class="grade" />
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3">严格遵守公司规章制度(5)</td>
+            <td colspan="2" align="center">
+                <input name="Assess11" type="text" required="required" datatype="integer" max="5" min="0" class="grade" />
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3">个人与公司文化吻合度(5)</td>
+            <td colspan="2" align="center">
+                <input name="Assess12" type="text" required="required" datatype="integer" max="5" min="0" class="grade" />
+            </td>
+        </tr>
+        <!--<tr>
+            <td colspan="4" align="center">合计(100分)</td>
+            <td colspan="2" align="center">&nbsp;</td>
+        </tr>-->
+        <tr>
+            <td class="label">部门主管审核意见</td>
+            <td colspan="5" align="left">
+                <textarea cols="70" name="Suggestion1" rows="5"></textarea>
+                <br />
+                <table class="noborder">
+                    <tr>
+                        <td>建议转正薪水(税前)：</td>
+                        <td>
+                            <input name="Salary1" type="text" required="required" datatype="integer" min="0" style="width: 60px; height: 18px;" />元/月
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>

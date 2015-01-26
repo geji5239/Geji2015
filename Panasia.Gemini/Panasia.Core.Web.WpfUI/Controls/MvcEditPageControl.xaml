@@ -1,0 +1,339 @@
+﻿<UserControl x:Class="Panasia.Core.Web.Controls.MvcEditPageControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:mui="http://firstfloorsoftware.com/ModernUI"
+             xmlns:app="clr-namespace:Panasia.Core.App;assembly=Panasia.Core.App"
+             xmlns:af="http://www.panasia.cn/pf" 
+             xmlns:db="clr-namespace:Panasia.Core;assembly=Panasia.Core" 
+             xmlns:tk="http://schemas.telerik.com/2008/xaml/presentation"
+             xmlns:webctrl="clr-namespace:Panasia.Core.Web.Controls"
+             mc:Ignorable="d"  d:DesignWidth="600" d:DesignHeight="300">
+    <Grid x:Name="Layout" DataContext="{Binding Config}">
+        <Grid.Resources>
+            <ResourceDictionary>
+                <ResourceDictionary.MergedDictionaries>
+                    <ResourceDictionary Source="/Panasia.Core.Wpf;component/Assets/CommonStyles.xaml" />
+                </ResourceDictionary.MergedDictionaries>
+                <webctrl:EditPageCommands x:Key="EditPageCommands"/>
+                <db:SqlData x:Key="sqlData"/>
+                <af:KeyValueCollection x:Key="QueryValueTypes" StringValues="Char:文本|Number:数字|Date:日期"/>
+                <af:KeyValueCollection x:Key="QueryCompareTypes" StringValues="Equals:等于|Like:包含"/>
+                <af:KeyValueCollection x:Key="EditControls" 
+                                       StringValues="TextBox:文本框|PasswordBox:密码框|TextArea:多行文本|ComboBox:选择框|CheckBox:复选框|DateBox:日期框|DateTimeBox:日期时间框|PickBox:搜选框|FileBox:文件上传|ImageBox:图片|NumericBox:数字|Hidden:隐藏|None:默认"/>
+
+                <Style x:Key="CheckBoxColumn" TargetType="CheckBox">
+                    <Setter Property="HorizontalAlignment" Value="Center"/>
+                    <Setter Property="VerticalAlignment" Value="Center"/>
+                </Style>
+
+                <!--<Style TargetType="{x:Type tk:CommonColumnHeader}" >
+                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                    <Setter Property="HorizontalAlignment" Value="Center"/> 
+                </Style>-->
+            </ResourceDictionary>
+        </Grid.Resources>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="30"/>
+        </Grid.RowDefinitions>
+        <TabControl>
+            <TabItem Header="数据设置">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Text="模块" Grid.Column="0" Style="{StaticResource EditTextBlock}" />
+                    <TextBox x:Name="modules" Grid.Column="1"                 
+                          Text="{Binding EditSource.GroupName,Mode=TwoWay}"
+                          Style="{StaticResource EditTextBox}"/>
+
+                    <TextBlock Text="数据表" Grid.Column="2" Style="{StaticResource EditTextBlock}" />
+                    <TextBox Grid.Column="3" 
+                          Text="{Binding EditSource.TableName,Mode=TwoWay}"
+                              Style="{StaticResource EditTextBox}"/>
+
+                    <TextBlock Text="主键" Grid.Column="4" Style="{StaticResource EditTextBlock}" />
+                    <TextBox Text="{Binding EditSource.Key,Mode=TwoWay}" Grid.Column="5" Style="{StaticResource EditTextBox}"/>
+
+                    <TextBlock Text="逻辑删除" Grid.Column="6" Style="{StaticResource EditTextBlock}" />
+                    <TextBox Text="{Binding EditSource.LogicDeleteFlag,Mode=TwoWay}" Grid.Column="7" Style="{StaticResource EditTextBox}"/>
+
+                    <StackPanel Orientation="Horizontal" Grid.Column="8">
+                        <Button x:Name="btnUpdateDataSource" Click="btnUpdateDataSource_Click" Content="刷新" Margin="5,0,0,0" Height="23" Width="75" VerticalAlignment="Center"/>
+                        <Button x:Name="btnClearDataSource" Click="btnClearDataSource_Click" Content="清空" Margin="5,0,0,0" Height="23" Width="75" VerticalAlignment="Center"/>
+
+                    </StackPanel>
+                    <tk:RadGridView x:Name="editFields" Grid.Row="1" Grid.ColumnSpan="9" MinHeight="100" FrozenColumnCount="2"
+                                    AutoGenerateColumns="False" ShowGroupPanel="False" ShowColumnHeaders="True"
+                                   GroupRenderMode="Flat" NewRowPosition="Bottom"
+                                ItemsSource="{Binding EditSource.Fields}" EditTriggers="CellClick" >
+                        <tk:RadGridView.ColumnGroups>
+                            <tk:GridViewColumnGroup Name="基本信息" Header="基本信息" />
+                            <tk:GridViewColumnGroup Name="显示控制" Header="显示控制" />
+                            <tk:GridViewColumnGroup Name="输入控制" Header="输入控制" />
+                            <tk:GridViewColumnGroup Name="查询设置" Header="查询设置" />
+                            <tk:GridViewColumnGroup Name="系统编号" Header="系统编号" />
+                            <tk:GridViewColumnGroup Name="引用字段" Header="引用字段" />
+                            <tk:GridViewColumnGroup Name="下拉列表" Header="下拉列表" />
+
+                        </tk:RadGridView.ColumnGroups>
+                        <tk:RadGridView.Columns>
+
+                            <tk:GridViewDataColumn Header="列名称" DataMemberBinding="{Binding Name,Mode=TwoWay}" ColumnGroupName="基本信息"/>
+                            <tk:GridViewDataColumn Header="标题" DataMemberBinding="{Binding Title,Mode=TwoWay}" ColumnGroupName="基本信息"/>
+                            <tk:GridViewDataColumn Header="数据字段" DataMemberBinding="{Binding FieldName,Mode=TwoWay}" ColumnGroupName="基本信息"/>
+                            <tk:GridViewDataColumn Header="字段类型" DataMemberBinding="{Binding DataType,Mode=TwoWay}" IsReadOnly="True" ColumnGroupName="基本信息"/>
+                            <tk:GridViewColumn Header="列表显示" ColumnGroupName="显示控制">
+                                <tk:GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <CheckBox IsChecked="{Binding ShowInGrid,Mode=TwoWay}" Style="{StaticResource CheckBoxColumn}"/>
+                                    </DataTemplate>
+                                </tk:GridViewColumn.CellTemplate>
+                            </tk:GridViewColumn>
+                            <tk:GridViewColumn Header="检索显示" ColumnGroupName="显示控制">
+                                <tk:GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <CheckBox IsChecked="{Binding ShowInSearch,Mode=TwoWay}" Style="{StaticResource CheckBoxColumn}"/>
+                                    </DataTemplate>
+                                </tk:GridViewColumn.CellTemplate>
+                            </tk:GridViewColumn>
+                            <tk:GridViewColumn Header="新增显示" ColumnGroupName="显示控制">
+                                <tk:GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <CheckBox IsChecked="{Binding ShowInCreate,Mode=TwoWay}" Style="{StaticResource CheckBoxColumn}"/>
+                                    </DataTemplate>
+                                </tk:GridViewColumn.CellTemplate>
+                            </tk:GridViewColumn>
+                            <tk:GridViewColumn Header="编辑显示" ColumnGroupName="显示控制">
+                                <tk:GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <CheckBox IsChecked="{Binding ShowInEdit,Mode=TwoWay}" Style="{StaticResource CheckBoxColumn}"/>
+                                    </DataTemplate>
+                                </tk:GridViewColumn.CellTemplate>
+                            </tk:GridViewColumn>
+                            <tk:GridViewColumn Header="详细显示"  ColumnGroupName="显示控制">
+                                <tk:GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <CheckBox IsChecked="{Binding ShowInDetail,Mode=TwoWay}" Style="{StaticResource CheckBoxColumn}"/>
+                                    </DataTemplate>
+                                </tk:GridViewColumn.CellTemplate>
+                            </tk:GridViewColumn>
+                            <tk:GridViewColumn Header="必须输入" ColumnGroupName="输入控制">
+                                <tk:GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <CheckBox IsChecked="{Binding IsRequired,Mode=TwoWay}" Style="{StaticResource CheckBoxColumn}"/>
+                                    </DataTemplate>
+                                </tk:GridViewColumn.CellTemplate>
+                            </tk:GridViewColumn>
+                            <tk:GridViewColumn Header="可修改" ColumnGroupName="输入控制">
+                                <tk:GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <CheckBox IsChecked="{Binding EnableEdit,Mode=TwoWay}" Style="{StaticResource CheckBoxColumn}"/>
+                                    </DataTemplate>
+                                </tk:GridViewColumn.CellTemplate>
+                            </tk:GridViewColumn>
+                            <tk:GridViewColumn Header="控件" ColumnGroupName="输入控制">
+                                <tk:GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <ComboBox ItemsSource="{StaticResource EditControls}" DisplayMemberPath="Value"
+                                              SelectedValuePath="Key" SelectedValue="{Binding EditBox,Mode=TwoWay}"/>
+                                    </DataTemplate>
+                                </tk:GridViewColumn.CellTemplate>
+                            </tk:GridViewColumn>
+                            <tk:GridViewColumn Header="值类型" ColumnGroupName="查询设置">
+                                <tk:GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <ComboBox ItemsSource="{StaticResource QueryValueTypes}" DisplayMemberPath="Value"
+                                              SelectedValuePath="Key" SelectedValue="{Binding ValueType,Mode=TwoWay}"/>
+                                    </DataTemplate>
+                                </tk:GridViewColumn.CellTemplate>
+                            </tk:GridViewColumn>
+                            <tk:GridViewColumn Header="比较类型" ColumnGroupName="查询设置">
+                                <tk:GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <ComboBox ItemsSource="{StaticResource QueryCompareTypes}" DisplayMemberPath="Value"
+                                              SelectedValuePath="Key" SelectedValue="{Binding CompareType,Mode=TwoWay}"/>
+                                    </DataTemplate>
+                                </tk:GridViewColumn.CellTemplate>
+                            </tk:GridViewColumn>
+                            
+                            <!--Begin系列号-->
+                            <tk:GridViewColumn Header="编号字段" ColumnGroupName="系统编号">
+                                <tk:GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <CheckBox IsChecked="{Binding IsSerialCode,Mode=TwoWay}" Style="{StaticResource CheckBoxColumn}"/>                                            
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </tk:GridViewColumn.CellTemplate>
+                            </tk:GridViewColumn>
+                            <tk:GridViewDataColumn Header="系列号规则" DataMemberBinding="{Binding SerialRule,Mode=TwoWay}" ColumnGroupName="系统编号"/>
+
+                            <!--End系列号-->
+                            
+                            <!--Begin引用字段-->
+                            <tk:GridViewColumn Header="是否引用字段" ColumnGroupName="引用字段">
+                                <tk:GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <CheckBox IsChecked="{Binding IsForeignColumn,Mode=TwoWay}" Style="{StaticResource CheckBoxColumn}"/>                                            
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </tk:GridViewColumn.CellTemplate>
+                            </tk:GridViewColumn>
+                            <tk:GridViewDataColumn Header="引用外键" DataMemberBinding="{Binding TargetForeignKey,Mode=TwoWay}" ColumnGroupName="引用字段"/>
+                            <tk:GridViewDataColumn Header="引用列名" DataMemberBinding="{Binding ForeignColumnName,Mode=TwoWay}" ColumnGroupName="引用字段"/>
+
+                            <!--End系列号-->
+
+                            <!--Begin外键及下拉列表-->
+                            <tk:GridViewColumn Header="外键字段" ColumnGroupName="下拉列表">
+                                <tk:GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <CheckBox IsChecked="{Binding IsForeignKey,Mode=TwoWay}" Style="{StaticResource CheckBoxColumn}"/>
+                                            <Button Content="外键表" VerticalAlignment="Center"
+                                                    Command="{Binding Source={StaticResource EditPageCommands},Path=GetTableCommand}"
+                                                    CommandParameter="{Binding }"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </tk:GridViewColumn.CellTemplate>
+                            </tk:GridViewColumn>
+                            <tk:GridViewDataColumn Header="模块" DataMemberBinding="{Binding ForeignGroup,Mode=TwoWay}" IsReadOnly="True" ColumnGroupName="下拉列表"/>
+                            <tk:GridViewDataColumn Header="数据表" DataMemberBinding="{Binding ForeignTable,Mode=TwoWay}" IsReadOnly="True" ColumnGroupName="下拉列表"/>
+                            <tk:GridViewDataColumn Header="SQL命令" DataMemberBinding="{Binding ForeignSqlName,Mode=TwoWay}" ColumnGroupName="下拉列表"/>
+                            
+                            <tk:GridViewDataColumn Header="数据源" DataMemberBinding="{Binding ItemsSource,Mode=TwoWay}" ColumnGroupName="下拉列表"/>
+                            <tk:GridViewDataColumn Header="显示字段" DataMemberBinding="{Binding DisplayMember,Mode=TwoWay}" ColumnGroupName="下拉列表"/>
+                            <tk:GridViewDataColumn Header="值字段" DataMemberBinding="{Binding ValueMember,Mode=TwoWay}" ColumnGroupName="下拉列表"/>
+                            <!--End 外键及下拉列表-->
+                        </tk:RadGridView.Columns>
+
+                        <tk:RadGridView.ContextMenu>
+                            <ContextMenu x:Name="editFieldMenu">
+                                <ContextMenu.Resources>
+                                    <Style TargetType="MenuItem">
+                                        <Setter Property="Header" Value="{Binding Title}"/>
+                                        <Setter Property="Command" Value="{Binding MenuCommand}"/>
+                                    </Style>
+                                </ContextMenu.Resources>
+                            </ContextMenu>
+                        </tk:RadGridView.ContextMenu>
+                    </tk:RadGridView>
+                </Grid>
+
+            </TabItem>
+            
+            <TabItem Header="子表设置">
+                <tk:RadGridView  AutoGenerateColumns="False" ShowGroupPanel="False" ShowColumnHeaders="True"
+                                   GroupRenderMode="Flat" NewRowPosition="Bottom"
+                                ItemsSource="{Binding EditSource.ChildTables}" EditTriggers="CellClick" >
+                    <tk:RadGridView.Columns>
+                        <tk:GridViewDataColumn Header="子表名" DataMemberBinding="{Binding TableName,Mode=TwoWay}"/>
+                        <tk:GridViewDataColumn Header="子表关联外键" DataMemberBinding="{Binding TableKey,Mode=TwoWay}"/>
+                        <tk:GridViewDataColumn Header="主表主键" DataMemberBinding="{Binding ReferenceKey,Mode=TwoWay}"/>
+                        <tk:GridViewDataColumn Header="删除检查错误信息" DataMemberBinding="{Binding DeleteCheckError,Mode=TwoWay}" Width="*"/>
+                    </tk:RadGridView.Columns>
+                </tk:RadGridView>
+            </TabItem>
+            
+            <TabItem Header="功能按钮">
+
+                <tk:RadGridView Grid.Row="1" Grid.ColumnSpan="7" MinHeight="100" AutoGenerateColumns="False"
+                                FrozenColumnCount="3"  ShowGroupPanel="False"
+                                ItemsSource="{Binding Buttons}" EditTriggers="CellClick" >
+                    <tk:RadGridView.Columns>
+                        <tk:GridViewDataColumn Header="ID" DataMemberBinding="{Binding ID,Mode=TwoWay}"/>
+                        <tk:GridViewDataColumn Header="标题" DataMemberBinding="{Binding Title,Mode=TwoWay}"/>
+                        <tk:GridViewDataColumn Header="权限值" DataMemberBinding="{Binding ActionValue,Mode=TwoWay}"/>
+
+                        <tk:GridViewColumn Header="工具条">
+                            <tk:GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <CheckBox IsChecked="{Binding ShowInToolBar,Mode=TwoWay}" Style="{StaticResource CheckBoxColumn}"/>
+                                </DataTemplate>
+                            </tk:GridViewColumn.CellTemplate>
+                        </tk:GridViewColumn> 
+                        <!--<tk:GridViewColumn Header="功能">
+                            <tk:GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <webctrl:UISelectSettingControl SettingType="Button.Action" SplitSeperate="" DataContext="{Binding Action,Mode=TwoWay}" /> 
+                                </DataTemplate>
+                            </tk:GridViewColumn.CellTemplate>
+                        </tk:GridViewColumn>-->
+                        <tk:GridViewDataColumn Header="功能" DataMemberBinding="{Binding Action,Mode=TwoWay}"/>
+                        <tk:GridViewDataColumn Header="类别" DataMemberBinding="{Binding Class,Mode=TwoWay}"/>
+                        <tk:GridViewDataColumn Header="样式" DataMemberBinding="{Binding Style,Mode=TwoWay}"/>
+                        <tk:GridViewDataColumn Header="选项" DataMemberBinding="{Binding Option,Mode=TwoWay}"/>
+                    </tk:RadGridView.Columns>
+                </tk:RadGridView>
+            </TabItem>
+            
+            <TabItem Header="布局">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    
+                <StackPanel Orientation="Vertical" VerticalAlignment="Top" Margin="20,5,0,0"
+                            Height="Auto"  
+                            DataContext="{Binding Layout}">
+                    <StackPanel.Resources>
+                        <Style TargetType="StackPanel">
+                            <Setter Property="Orientation" Value="Horizontal"/>
+                            <Setter Property="Height" Value="30"/>
+                        </Style>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Margin" Value="0"/>
+                            <Setter Property="VerticalAlignment" Value="Center"/> 
+                            <Setter Property="MinWidth" Value="60"/>
+                        </Style>
+                        <Style TargetType="TextBox">
+                            <Setter Property="Margin" Value="0"/>
+                            <Setter Property="VerticalAlignment" Value="Center"/> 
+                            <Setter Property="MinWidth" Value="150"/>
+                        </Style>
+                        <Style TargetType="CheckBox">
+                            <Setter Property="VerticalAlignment" Value="Center"/> 
+                            <Setter Property="VerticalContentAlignment" Value="Center"/> 
+                        </Style>
+                    </StackPanel.Resources>
+                    <StackPanel>
+                        <TextBlock Text="表格布局"/>
+                        <CheckBox IsChecked="{Binding TableLayout}"/>
+                    </StackPanel>
+                    <StackPanel>
+                        <TextBlock Text="编辑样式"/>
+                        <TextBox Text="{Binding EditFieldClass,Mode=TwoWay}" />
+                    </StackPanel>
+                    <StackPanel>
+                        <TextBlock Text="标题样式"/>
+                        <TextBox Text="{Binding EditLabelClass,Mode=TwoWay}" />
+                    </StackPanel>
+                    <StackPanel>
+                        <TextBlock Text="控件样式"/>
+                        <TextBox Text="{Binding EditInputClass,Mode=TwoWay}" />
+                    </StackPanel>
+                </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+        </TabControl>
+
+        <StackPanel Orientation="Horizontal" Grid.Row="1">
+            <Button x:Name="btnGetTable" Click="btnGetTable_Click" Content="取表" Margin="5,0,0,0" Height="23"  Width="75"/>            
+            <Button x:Name="btnApply" Click="btnApply_Click" Height="23" Content="应用" Margin="5,0,0,0" Width="75"/>
+        </StackPanel>
+    </Grid>
+</UserControl>

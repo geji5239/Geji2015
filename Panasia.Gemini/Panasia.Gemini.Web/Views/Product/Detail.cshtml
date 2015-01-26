@@ -1,0 +1,123 @@
+﻿@{
+    var item = Model.Parameters["Data"];
+}
+<form id="dataform" class="form-dialog" method="post">
+    <div class="edit-dialog1">
+        <div class="edit-panel-w2">
+            <div class="edit-field">
+                <div class="edit-title">
+                    <label class="edit-label">产品编号：</label>
+                </div>
+                <div class="edit-content">
+                    <input name="ProductID" value="@item["ProductID"]" class="edit-input easyui-textbox" readonly="readonly" />
+                </div>
+            </div>
+            <div class="edit-field">
+                <div class="edit-title">
+                    <label class="edit-label">产品名称：</label>
+                </div>
+                <div class="edit-content">
+                    <input name="ProductName" readonly="readonly" value="@item["ProductName"]" class="edit-input easyui-textbox" data-options="required:true,missingMessage:'请输入产品名称',invalidMessage:'产品名称不能大于50',validType:'length[1,50]'" />
+                </div>
+            </div>
+            <div class="edit-field">
+                <div class="edit-title">
+                    <label class="edit-label">产品类型：</label>
+                </div>
+                <div class="edit-content">
+                    <input name="ProductTypeID" readonly="readonly" value="@item["ProductType"]" class="easyui-textbox edit-input" />
+                </div>
+            </div>
+            <div class="edit-field">
+                <div class="edit-title">
+                    <label class="edit-label">产品单位：</label>
+                </div>
+                <div class="edit-content">
+                    <input name="Unit" value="@item["Unit"]" readonly="readonly" class="edit-input easyui-textbox" />
+                </div>
+            </div>
+            <div class="edit-field">
+                <div class="edit-title">
+                    <label class="edit-label"></label>
+                </div>
+                <div class="edit-content">
+                    @{
+                        string IsBiOrder = bool.Parse(item["IsBiOrder"]) ? "checked=\"checked\"" : "";
+                    }
+                    <input name="IsBiOrder" id="IsBiOrder" type="checkbox" value="1" @IsBiOrder disabled="disabled" /><label for="IsBiOrder">允许商务下单</label>
+                </div>
+            </div>
+            <div class="edit-field">
+                <div class="edit-title">
+                    <label class="edit-label"></label>
+                </div>
+                <div class="edit-content">
+                    @{
+                        string IsSeOrder = bool.Parse(item["IsSeOrder"]) ? "checked=\"checked\"" : "";
+                    }
+                    <input name="IsSeOrder" id="IsSeOrder" type="checkbox" value="1" @IsSeOrder disabled="disabled" /><label for="IsSeOrder">允许客服下单</label>
+                </div>
+            </div>
+        </div>
+        <div class="edit-panel-w2" style="height: 110px; width: 444px;margin-left:70px; margin-top: 15px; ">
+            <table id="datagrid1" style="height: 110px; width: 444px;" class="easyui-datagrid" data-options="url:'/Share/Query?name=GetPrice&ProductID=@item["ProductID"]',fitColumns:true,fit:true,nowrap: true,singleSelect:true,striped: true,collapsible: false,resizable:true">
+                <thead>
+                    <tr>
+                        <th data-options="field:'PriceID',hidden:true,checkbox:true"></th>
+                        <th data-options="field:'UnitPrice',fixed:true,">单价</th>
+                        <th data-options="field:'StartDate',fixed:true,">生效起始日</th>
+                        <th data-options="field:'EndDate',fixed:true,">生效结束日</th>
+                        <th data-options="field:'CostPrice',fixed:true,">成本</th>
+                        <th data-options="field:'TaxRate',fixed:true,">增值税率</th>
+                        <th data-options="field:'RebateRate',fixed:true,">返点率</th>
+                        <th data-options="field:'Discount',fixed:true,">折扣</th>
+                    </tr>
+                </thead>
+            </table>
+
+        </div>
+        <div class="edit-panel-w2">
+            <div class="edit-field">
+                <div class="edit-title">
+                    <label class="edit-label">供应商：</label>
+                </div>
+                <div class="edit-content">
+                    <input name="SupplierID" value="@item["SupplierNAME"]" readonly="readonly" class="edit-input easyui-textbox" />
+                </div>
+            </div>
+            <div class="edit-field">
+                <div class="edit-title">
+                    <label class="edit-label">状态：</label>
+                </div>
+                <div class="edit-content">
+                    <input name="PState" value="@item["PState"]" readonly="readonly" class="edit-input easyui-textbox" />
+                </div>
+            </div>
+
+            <div class="edit-field">
+                <div class="edit-title">
+                    <label class="edit-label">显示排序：</label>
+                </div>
+                <div class="edit-content">
+                    <input name="SortID" value="@item["SortID"]" readonly="readonly" class="edit-input easyui-textbox" data-options="required:true,missingMessage:'请输入显示排序',min:0" />
+                </div>
+            </div>
+            <div class="edit-field-w2">
+                <div class="edit-title">
+                    <label class="edit-label">备注：</label>
+                </div>
+                <div class="edit-content-w2">
+                    <input name="Remark" value="@item["Remark"]" readonly="readonly" class="edit-input easyui-textbox" style="height:90px;width:444px;" data-options="invalidMessage:'备注不能大于200',validType:'length[1,200]',multiline:true" />
+                </div>
+            </div>
+            <div class="edit-field">
+                <div class="showmsg">
+                    <label id="showmsg"></label>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<div id="toolbar" class="dialog-button">
+    <a id="btn-cancel" class="easyui-linkbutton edit-button" data-options="iconCls:'icon-cancel'" onclick="cancel()">关闭 </a>
+</div>

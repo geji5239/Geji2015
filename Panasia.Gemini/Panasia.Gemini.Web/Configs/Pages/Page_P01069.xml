@@ -1,0 +1,379 @@
+<?xml version="1.0"?>
+<MvcEditPage xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" PageID="P01069" Controller="" DefaultAction="Index">
+  <Action ActionID="209dc126-f72d-43da-b8b0-81f153bdeabe" Name="Index" Title="列表" ActionValue="1">
+    <Command CommandID="M01713" Name="列表页面" Description="这个命令会直接返回到客户端，无需后继命令" CommandType="IndexPageActionCommand"><![CDATA[<IndexPageActionCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ContentType="text/html">
+  <Page SettingType="IndexPage">
+    <ToolBar Tag="div" ID="toolbar" Class="toolbar-panel" PageID="P01069">
+      <Buttons>
+        <UIButton ID="btn-search" Class="easyui-linkbutton normal-button" Options="iconCls:'icon-search',plain:true" Title="检索" ActionValue="2" Action="showActDlg('检索','/Page/P01069/Search',400,300)" />
+        <UIButton ID="btn-edit" Class="easyui-linkbutton toolradio normal-button" Options="iconCls:'icon-edit',plain:true" Title="修改" ActionValue="4" Action="showActDlg_DGItemActDlg('datagrid','修改','/Page/P01069/Edit',400,300)" />
+      </Buttons>
+    </ToolBar>
+    <DataGrid Tag="table" ID="datagrid" Class="easyui-datagrid" Options="fit:true,pagination: true,rownumbers: true,nowrap: true,striped: true,collapsible: false,resizable:true,onClickRow:oncheckstate,onSelect:oncheckstate,onCheck:oncheckstate,onCheckAll:oncheckstate,onUncheckAll:oncheckstate,onUncheck:oncheckstate,onUnselect:oncheckstate" Key="Year,Month,EmployeeID">
+      <Column HAlign="Right" FieldName="AutoKey" ColumnWidth="29" IsCheckBox="true" />
+      <Column HAlign="Right" Title="年" FieldName="Year" ColumnWidth="38" />
+      <Column HAlign="Right" Title="月" FieldName="Month" ColumnWidth="25" />
+      <Column Title="姓名" FieldName="EmployeeName" />
+      <Column Title="公司" FieldName="CompanyName" />
+      <Column Title="部门" FieldName="DeptName" />
+      <Column Title="职位" FieldName="JobName" />
+      <Column HAlign="Center" Title="入职日期" FieldName="HireDate" ColumnWidth="76" />
+      <Column HAlign="Center" Title="离职日期" FieldName="DimissionDate" />
+      <Column Title="状态" FieldName="State" />
+      <Column Title="身份证" FieldName="CardNo" ColumnWidth="136" />
+      <Column Title="银行" FieldName="Bank" />
+      <Column Title="银行卡号" FieldName="BankAccount" />
+      <Column HAlign="Right" Title="薪资总额" FieldName="TotalSalary" ColumnWidth="62" />
+      <Column HAlign="Right" Title="基本薪资" FieldName="BaseSalary" ColumnWidth="62" />
+      <Column HAlign="Right" Title="职位薪资" FieldName="PostSalary" ColumnWidth="62" />
+      <Column HAlign="Right" Title="绩效基数" FieldName="PerformanceOfTheBase" ColumnWidth="62" />
+      <Column HAlign="Right" Title="绩效系数" FieldName="CoefficientOfPerformance" ColumnWidth="62" />
+      <Column HAlign="Right" Title="绩效工资" FieldName="PerformanceSalary" ColumnWidth="62" />
+      <Column HAlign="Right" Title="应出勤天数" FieldName="AttendanceDays" ColumnWidth="74" />
+      <Column HAlign="Right" Title="实际出勤天数" FieldName="RealAttendanceDays" ColumnWidth="86" />
+      <Column HAlign="Right" Title="迟到早退次数" FieldName="LateArrivalTimes" ColumnWidth="86" />
+      <Column HAlign="Right" Title="病假天数" FieldName="DaysSick" ColumnWidth="62" />
+      <Column HAlign="Right" Title="事假天数" FieldName="LeaveDays" ColumnWidth="62" />
+      <Column HAlign="Right" Title="旷工天数" FieldName="AbsenteeismDays" ColumnWidth="62" />
+      <Column HAlign="Right" Title="缺勤天数" FieldName="AbsencesDays" ColumnWidth="62" />
+      <Column HAlign="Right" Title="日薪" FieldName="DailyWage" ColumnWidth="38" />
+      <Column HAlign="Right" Title="请休假小计" FieldName="SmallGauge" ColumnWidth="74" />
+      <Column HAlign="Right" Title="全勤奖" FieldName="PerfectAttendance" ColumnWidth="50" />
+      <Column HAlign="Right" Title="餐补" FieldName="SubsidizedMeals" ColumnWidth="38" />
+      <Column HAlign="Right" Title="提成金额" FieldName="CommissionAmount" ColumnWidth="62" />
+      <Column HAlign="Right" Title="退单扣款金额" FieldName="ReturnDeductionsAmount" ColumnWidth="86" />
+      <Column HAlign="Right" Title="网站暂扣金额" FieldName="SiteDeductedAmount" ColumnWidth="86" />
+      <Column HAlign="Right" Title="移动手机费扣款" FieldName="YDMobiKK" ColumnWidth="98" />
+      <Column HAlign="Right" Title="电信手机费扣款" FieldName="DXMobiKK" ColumnWidth="98" />
+      <Column HAlign="Right" Title="团费" FieldName="MembershipFee" ColumnWidth="38" />
+      <Column HAlign="Right" Title="应扣其它" FieldName="ShouldDeductOther" ColumnWidth="62" />
+      <Column HAlign="Right" Title="奖金" FieldName="Bonus" ColumnWidth="38" />
+      <Column HAlign="Right" Title="暂扣领取金额" FieldName="DeductedAmount" ColumnWidth="86" />
+      <Column HAlign="Right" Title="应加其他" FieldName="ShouldAddOther" ColumnWidth="62" />
+      <Column HAlign="Right" Title="应发总额" FieldName="TotalAmount" ColumnWidth="62" />
+      <Column HAlign="Right" Title="养老保险" FieldName="EndowmentInsurance" ColumnWidth="62" />
+      <Column HAlign="Right" Title="医疗保险" FieldName="MedicalInsurance" ColumnWidth="62" />
+      <Column HAlign="Right" Title="失业保险" FieldName="UnemploymentInsurance" ColumnWidth="62" />
+      <Column HAlign="Right" Title="个人公积金" FieldName="PersonalAccumulationFund" ColumnWidth="74" />
+      <Column HAlign="Right" Title="税前工资" FieldName="NoTaxSalary" ColumnWidth="62" />
+      <Column HAlign="Right" Title="免税收入" FieldName="TaxExemptIncome" ColumnWidth="62" />
+      <Column HAlign="Right" Title="代扣税" FieldName="Tax" ColumnWidth="50" />
+      <Column HAlign="Right" Title="实发工资" FieldName="RealSalary" ColumnWidth="62" />
+    </DataGrid>
+  </Page>
+</IndexPageActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="5a134041-41ff-4c84-8f94-6fce32b47a6e" Name="Search" Title="检索" ActionValue="2" ErrorCommand="检索页面">
+    <Command CommandID="M01710" Name="检索页面" Description="这个命令会直接返回到客户端，无需后继命令" CommandType="EditDialogActionCommand"><![CDATA[<EditDialogActionCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ContentType="text/html">
+  <Parameter Name="Years" Type="Const" Converter="Eval" ConverterParameter="DateTime.Now.Year +&quot;:今年|&quot; +(DateTime.Now.Year - 1)+&quot;:去年|&quot;+(DateTime.Now.Year - 2)+&quot;:前年&quot;" />
+  <Parameter Name="CurrentMonth" Type="Const" Converter="Eval" ConverterParameter="DateTime.Now.ToString(&quot;yyyyMM&quot;).Substring(4,2)" />
+  <Page SettingType="EditDialog">
+    <Form ID="dataform" Class="form-dialog">
+      <TableLayout />
+      <Fields>
+        <Field Title="年" FieldType="ComboBox">
+          <ComboBox Tag="select" Name="Year" Class="easyui-combobox edit-input" Options="editable:false" Binding="Year" IsRequired="false" Length="4" ItemsSource="Parameters[Years]" DisplayMember="Value" ValueMember="Key" />
+        </Field>
+        <Field Title="月" FieldType="ComboBox">
+          <ComboBox Tag="input" Name="Month" Class="easyui-combobox edit-input" Options="editable:false" Binding="/Parameters[CurrentMonth]" IsRequired="false" DisplayMember="Name" ValueMember="Code" DataUrl="/Share/GetSystemCodes?code=C062" IsAutoHeight="false" />
+        </Field>
+        <Field Title="部门" FieldType="ComboTree">
+          <ComboTree Tag="input" Name="DeptID" Class="edit-input easyui-combotree" Options="editable:false" IsRequired="false" Length="6" DataUrl="/Share/Query?name=GetAllComAndDptTree&amp;resultformat=jsontree&amp;root=&amp;pid=PID&amp;id=ID&amp;text=Name" DisplayMember="text" ValueMember="id" IsAutoHeight="false" OnSelect="function(node){&#xD;&#xA;       $('#EmployeeID').combobox({&#xD;&#xA;       url:'/Share/Query?name=GetEmpByCmpOrDept&amp;ID='+node.id&#xD;&#xA;    });&#xD;&#xA;}" />
+        </Field>
+        <Field Title="职位" FieldType="ComboBox">
+          <ComboBox Tag="input" Name="JobID" Class="easyui-combobox edit-input" Options="editable:false" Binding="JobID" IsRequired="false" Length="6" DisplayMember="Name" ValueMember="ID" DataUrl="/Share/Query?name=GetAllJob" IsAutoHeight="false" />
+        </Field>
+        <Field Title="姓名" FieldType="ComboBox">
+          <ComboBox Tag="input" ID="EmployeeID" Name="EmployeeID" Class="easyui-combobox edit-input" IsRequired="false" Length="20" DisplayMember="Name" ValueMember="ID" DataUrl="/Share/Query?name=GetEmpByCmpOrDept&amp;ID=" IsAutoHeight="false" />
+        </Field>
+      </Fields>
+      <ToolBar Tag="div" ID="toolbar" Class="dialog-button" PageID="P01069">
+        <Buttons>
+          <UIButton ID="btn-query" Class="easyui-linkbutton edit-button" Options="iconCls:'icon-ok'" Title="确定" ActionValue="2" Action="submitAct_DGReplace('dataform','/Page/P01069/Query','datagrid')" />
+          <UIButton ID="btn-cancel" Class="easyui-linkbutton edit-button" Options="iconCls:'icon-cancel'" Title="取消" Action="cancel()" />
+        </Buttons>
+      </ToolBar>
+    </Form>
+  </Page>
+</EditDialogActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="54c6e198-7411-4250-9d0d-7f5b1623ef59" Name="Query" Title="检索" ActionValue="2">
+    <Command CommandID="M01714" Name="查询总数" Description="本查询的结果值为JSON，参数路径为Results[检索分页].Json" CommandType="ScalarSqlCommand"><![CDATA[<ScalarCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" NextCommand="分页查询" GroupName="人事管理" TableName="hr_Payroll" CommandName="Count" SqlType="Scalar">
+  <Parameter Name="Year" Path="Request[Year]" Type="Parameter" />
+  <Parameter Name="Month" Path="Request[Month]" Type="Parameter" />
+  <Parameter Name="EmployeeID" Path="Request[EmployeeID]" Type="Parameter" />
+  <Parameter Name="DeptID" Path="Request[DeptID]" Type="Parameter" />
+  <Parameter Name="JobID" Path="Request[JobID]" Type="Parameter" />
+  <Parameter Name="UserID" Path="CurrentUserID" Type="SystemParameter" />
+</ScalarCommand>]]></Command>
+    <Command CommandID="M01715" Name="分页查询" Description="本查询的结果值为JSON，参数路径为Results[检索分页].Json" CommandType="QuerySqlCommand"><![CDATA[<QueryCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" NextCommand="搜索结果" GroupName="人事管理" TableName="hr_Payroll" CommandName="Query">
+  <Parameter Name="Year" Path="Request[Year]" Type="Parameter" />
+  <Parameter Name="Month" Path="Request[Month]" Type="Parameter" />
+  <Parameter Name="EmployeeID" Path="Request[EmployeeID]" Type="Parameter" />
+  <Parameter Name="DeptID" Path="Request[DeptID]" Type="Parameter" />
+  <Parameter Name="JobID" Path="Request[JobID]" Type="Parameter" />
+  <Parameter Name="Page" Path="Request[Page]" Type="Parameter" />
+  <Parameter Name="Rows" Path="Request[Rows]" Type="Parameter" />
+  <Parameter Name="UserID" Path="CurrentUserID" Type="SystemParameter" />
+</QueryCommand>]]></Command>
+    <Command CommandID="M01716" Name="搜索结果" Description="返回搜索结果" CommandType="JsonActionCommand"><![CDATA[<JsonActionCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ContentType="application/json">
+  <Parameter Name="total" Path="Results[查询总数].Value" Type="Parameter" />
+  <Parameter Name="rows" Path="Results[分页查询].Items" Type="Parameter" />
+  <Parameter Name="HasError" Path="LastResult.IsError" Type="Parameter" />
+  <Parameter Name="ErrorMessage" Path="LastResult.ErrorMessage" Type="Parameter" />
+</JsonActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="88e2aac6-07fa-4ff8-8d15-5e343b0de537" Name="Edit" Title="修改" ActionValue="4" ErrorCommand="编辑">
+    <Command CommandID="M01826" Name="查询" CommandType="QuerySqlCommand"><![CDATA[<QueryCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" NextCommand="编辑" GroupName="人事管理" TableName="hr_Payroll" CommandName="GetItem">
+  <Parameter Name="AutoKey" Path="Request[ID]" Type="Parameter" />
+</QueryCommand>]]></Command>
+    <Command CommandID="M01825" Name="编辑" CommandType="EditDialogActionCommand"><![CDATA[<EditDialogActionCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ContentType="text/html">
+  <Parameter Name="Data" Path="LastResult.Item" Type="Parameter" />
+  <Page SettingType="EditDialog">
+    <Form ID="dataform" Class="form-dialog" DataBinding="Parameters[Data]" InnerBorderClass="edit-dialog1" EditPanelClass="edit-panel-w3">
+      <TableLayout />
+      <Fields>
+        <Field Title="日期" FieldType="TextBox">
+          <Input Tag="input" Name="Date" Class="edit-input easyui-textbox" Binding="Date" IsReadOnly="true" IsRequired="false" />
+        </Field>
+        <Field Title="公司" FieldType="TextBox">
+          <Input Tag="input" Name="CName" Class="edit-input easyui-textbox" Binding="CName" IsReadOnly="true" IsRequired="false" />
+        </Field>
+        <Field Title="部门" FieldType="TextBox">
+          <Input Tag="input" Name="DName" Class="edit-input easyui-textbox" Binding="DName" IsReadOnly="true" IsRequired="false" />
+        </Field>
+        <Field Title="职位" FieldType="TextBox">
+          <Input Tag="input" Name="JName" Class="edit-input easyui-textbox" Binding="JName" IsReadOnly="true" IsRequired="false" />
+        </Field>
+        <Field Title="姓名" FieldType="TextBox">
+          <Input Tag="input" Name="EName" Class="edit-input easyui-textbox" Binding="EName" IsReadOnly="true" IsRequired="false" />
+        </Field>
+        <Field Title="状态" FieldType="TextBox">
+          <Input Tag="input" Name="State" Class="edit-input easyui-textbox" Binding="State" IsReadOnly="true" IsRequired="false" />
+        </Field>
+        <Field Title="入职时间" FieldType="TextBox">
+          <Input Tag="input" Name="HireDate" Class="edit-input easyui-textbox" Binding="HireDate" IsReadOnly="true" IsRequired="false" />
+        </Field>
+        <Field Title="身份证号" FieldType="TextBox">
+          <Input Tag="input" Name="CardNo" Class="edit-input easyui-textbox" Binding="CardNo" IsReadOnly="true" IsRequired="false" />
+        </Field>
+        <Field Title="工资总额" FieldType="TextBox">
+          <Input Tag="input" Name="TotalSalary" Class="edit-input easyui-textbox" Binding="TotalSalary" IsReadOnly="true" IsRequired="false" />
+        </Field>
+        <Field Title="基本薪资" FieldType="TextBox">
+          <Input Tag="input" Name="BaseSalary" Class="edit-input easyui-textbox" Binding="BaseSalary" IsReadOnly="true" IsRequired="false" />
+        </Field>
+        <Field Title="职位薪资" FieldType="TextBox">
+          <Input Tag="input" Name="PostSalary" Class="edit-input easyui-textbox" Binding="PostSalary" IsReadOnly="true" IsRequired="false" />
+        </Field>
+        <Field Title="绩效基数" FieldType="TextBox">
+          <Input Tag="input" Name="PerformanceOfTheBase" Class="edit-input easyui-textbox" Binding="PerformanceOfTheBase" IsReadOnly="true" IsRequired="false" />
+        </Field>
+        <Field Title="绩效系数" FieldType="TextBox">
+          <Input Tag="input" Name="CoefficientOfPerformance" Class="edit-input easyui-textbox" Binding="CoefficientOfPerformance" IsRequired="false" />
+        </Field>
+        <Field Title="绩效工资" FieldType="TextBox">
+          <Input Tag="input" Name="PerformanceSalary" Class="edit-input easyui-textbox" Binding="PerformanceSalary" IsReadOnly="true" IsRequired="false" />
+        </Field>
+        <Field Title="餐补" FieldType="TextBox">
+          <Input Tag="input" Name="SubsidizedMeals" Class="edit-input easyui-textbox" Binding="SubsidizedMeals" IsReadOnly="true" IsRequired="false" />
+        </Field>
+        <Field Title="应出勤数" FieldType="TextBox">
+          <Input Tag="input" Name="AttendanceDays" Class="edit-input easyui-textbox" Binding="AttendanceDays" IsReadOnly="true" IsRequired="false" />
+        </Field>
+        <Field Title="实际出勤数" FieldType="TextBox">
+          <Input Tag="input" Name="RealAttendanceDays" Class="edit-input easyui-textbox" Binding="RealAttendanceDays" IsReadOnly="true" IsRequired="false" />
+        </Field>
+        <Field Title="日薪" FieldType="TextBox">
+          <Input Tag="input" Name="DailyWage" Class="edit-input easyui-textbox" Binding="DailyWage" IsReadOnly="true" IsRequired="false" />
+        </Field>
+        <Field Title="迟到早退数" FieldType="TextBox">
+          <Input Tag="input" Name="LateArrivalTimes" Class="edit-input easyui-textbox" Binding="LateArrivalTimes" IsReadOnly="true" IsRequired="false" />
+        </Field>
+        <Field Title="病假天数" FieldType="TextBox">
+          <Input Tag="input" Name="DaysSick" Class="edit-input easyui-textbox" Binding="DaysSick" IsReadOnly="true" IsRequired="false" />
+        </Field>
+        <Field Title="事假天数" FieldType="TextBox">
+          <Input Tag="input" Name="LeaveDays" Class="edit-input easyui-textbox" Binding="LeaveDays" IsReadOnly="true" IsRequired="false" />
+        </Field>
+        <Field Title="旷工天数" FieldType="TextBox">
+          <Input Tag="input" Name="AbsenteeismDays" Class="edit-input easyui-textbox" Binding="AbsenteeismDays" IsReadOnly="true" IsRequired="false" />
+        </Field>
+        <Field Title="缺勤天数" FieldType="TextBox">
+          <Input Tag="input" Name="AbsencesDays" Class="edit-input easyui-textbox" Binding="AbsencesDays" IsReadOnly="true" IsRequired="false" />
+        </Field>
+        <Field Title="请假扣款" FieldType="TextBox">
+          <Input Tag="input" Name="SmallGauge" Class="edit-input easyui-textbox" Binding="SmallGauge" IsReadOnly="true" IsRequired="false" />
+        </Field>
+        <Field Title="全勤奖" FieldType="TextBox">
+          <Input Tag="input" Name="PerfectAttendance" Class="edit-input easyui-textbox" Binding="PerfectAttendance" IsReadOnly="true" IsRequired="false" />
+        </Field>
+        <Field Title="提成金额" FieldType="TextBox">
+          <Input Tag="input" Name="CommissionAmount" Class="edit-input easyui-textbox" Binding="CommissionAmount" IsReadOnly="true" IsRequired="false" />
+        </Field>
+        <Field Title="退单扣款" FieldType="TextBox">
+          <Input Tag="input" Name="ReturnDeductionsAmount" Class="edit-input easyui-textbox" Binding="ReturnDeductionsAmount" IsReadOnly="true" IsRequired="false" />
+        </Field>
+        <Field Title="移动扣款" FieldType="TextBox">
+          <Input Tag="input" Name="YDMobiKK" Class="edit-input easyui-textbox" Binding="YDMobiKK" IsReadOnly="true" IsRequired="false" />
+        </Field>
+        <Field Title="电信扣款" FieldType="TextBox">
+          <Input Tag="input" Name="DXMobiKK" Class="edit-input easyui-textbox" Binding="DXMobiKK" IsReadOnly="true" IsRequired="false" />
+        </Field>
+        <Field Title="网站暂扣" FieldType="TextBox">
+          <Input Tag="input" Name="SiteDeductedAmount" Class="edit-input easyui-textbox" Binding="SiteDeductedAmount" IsReadOnly="true" IsRequired="false" />
+        </Field>
+        <Field Title="团费" FieldType="TextBox">
+          <Input Tag="input" Name="MembershipFee" Class="edit-input easyui-textbox" Binding="MembershipFee" IsReadOnly="true" IsRequired="false" />
+        </Field>
+        <Field Title="应扣其他" FieldType="TextBox">
+          <Input Tag="input" Name="ShouldDeductOther" Class="edit-input easyui-numberbox" Options="precision:2,min:0" Binding="ShouldDeductOther" IsRequired="false" />
+        </Field>
+        <Field Title="应加其他" FieldType="TextBox">
+          <Input Tag="input" Name="ShouldAddOther" Class="edit-input easyui-numberbox" Options="precision:2,min:0" Binding="ShouldAddOther" IsRequired="false" />
+        </Field>
+        <Field Title="应付总额" FieldType="TextBox">
+          <Input Tag="input" Name="TotalAmount" Class="edit-input easyui-textbox" Binding="TotalAmount" IsReadOnly="true" IsRequired="false" />
+        </Field>
+        <Field Title="养老保险" FieldType="TextBox">
+          <Input Tag="input" Name="EndowmentInsurance" Class="edit-input easyui-textbox" Binding="EndowmentInsurance" IsReadOnly="true" IsRequired="false" />
+        </Field>
+        <Field Title="医疗保险" FieldType="TextBox">
+          <Input Tag="input" Name="MedicalInsurance" Class="edit-input easyui-textbox" Binding="MedicalInsurance" IsReadOnly="true" IsRequired="false" />
+        </Field>
+        <Field Title="失业保险" FieldType="TextBox">
+          <Input Tag="input" Name="UnemploymentInsurance" Class="edit-input easyui-textbox" Binding="UnemploymentInsurance" IsReadOnly="true" IsRequired="false" />
+        </Field>
+        <Field Title="个人公积金" FieldType="TextBox">
+          <Input Tag="input" Name="PersonalAccumulationFund" Class="edit-input easyui-textbox" Binding="PersonalAccumulationFund" IsReadOnly="true" IsRequired="false" />
+        </Field>
+        <Field Title="税前工资" FieldType="TextBox">
+          <Input Tag="input" Name="NoTaxSalary" Class="edit-input easyui-textbox" Binding="NoTaxSalary" IsReadOnly="true" IsRequired="false" />
+        </Field>
+        <Field Title="代扣税" FieldType="TextBox">
+          <Input Tag="input" Name="Tax" Class="edit-input easyui-textbox" Binding="Tax" IsReadOnly="true" IsRequired="false" />
+        </Field>
+        <Field Title="奖金" FieldType="TextBox">
+          <Input Tag="input" Name="Bonus" Class="edit-input easyui-textbox" Binding="Bonus" IsReadOnly="true" IsRequired="false" />
+        </Field>
+        <Field Title="免税收入" FieldType="TextBox">
+          <Input Tag="input" Name="TaxExemptIncome" Class="edit-input  easyui-numberbox" Options="precision:2,min:0" Binding="TaxExemptIncome" IsRequired="false" />
+        </Field>
+        <Field Title="实发工资" FieldType="TextBox">
+          <Input Tag="input" Name="RealSalary" Class="edit-input easyui-textbox" Binding="RealSalary" IsReadOnly="true" IsRequired="false" />
+        </Field>
+        <Field Title="备注" FieldType="TextBox">
+          <Input Tag="input" Name="Remark" Class="edit-input easyui-textbox" Style="width:444px" Options="invalidMessage:'备注不能大于200',validType:'length[1,200]',multiline:true" Binding="Remark" IsRequired="false" />
+        </Field>
+        <Field FieldType="Hidden">
+          <Input Tag="input" Name="AutoKey" InputType="hidden" Binding="AutoKey" />
+        </Field>
+      </Fields>
+      <ToolBar Tag="div" ID="toolbar" Class="dialog-button" PageID="P01069">
+        <Buttons>
+          <UIButton ID="btn-update" Class="easyui-linkbutton edit-button" Options="iconCls:'icon-ok'" Title="确定" ActionValue="16" Action="submitAct_DGUpdate('dataform','/Page/P01069/Update','datagrid')" />
+          <UIButton ID="btn-cancel" Class="easyui-linkbutton edit-button" Options="iconCls:'icon-cancel'" Title="取消" Action="cancel()" />
+        </Buttons>
+      </ToolBar>
+    </Form>
+  </Page>
+</EditDialogActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="26a01773-64e2-44b1-9330-3ab28e9d833f" Name="Update" Title="编辑" ActionValue="4">
+    <Command CommandID="M01825" Name="执行更新" Description="本查询的结果值为JSON，参数路径为Results[执行更新].Json" CommandType="QueryJsonSqlCommand"><![CDATA[<QueryJsonCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" NextCommand="编辑结果" GroupName="人事管理" TableName="hr_Payroll" CommandName="Update" SqlType="QueryJson">
+  <Parameter Name="CoefficientOfPerformance" Path="Request[CoefficientOfPerformance]" Type="Parameter" />
+  <Parameter Name="ShouldDeductOther" Path="Request[ShouldDeductOther]" Type="Parameter" />
+  <Parameter Name="ShouldAddOther" Path="Request[ShouldAddOther]" Type="Parameter" />
+  <Parameter Name="TaxExemptIncome" Path="Request[TaxExemptIncome]" Type="Parameter" />
+  <Parameter Name="Remark" Path="Request[Remark]" Type="Parameter" />
+  <Parameter Name="ModifiedUser" Path="CurrentUserID" Type="SystemParameter" />
+  <Parameter Name="ModifiedTime" Path="CurrentDateTime" Type="SystemParameter" />
+  <Parameter Name="AutoKey" Path="Request[AutoKey]" Type="Parameter" />
+</QueryJsonCommand>]]></Command>
+    <Command CommandID="M01826" Name="编辑结果" Description="返回编辑结果" CommandType="JsonActionCommand"><![CDATA[<JsonActionCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ContentType="application/json">
+  <Parameter Name="Data" Path="Results[执行更新].Json" Type="Parameter" />
+  <Parameter Name="HasError" Path="Results[执行更新].IsError" Type="Parameter" />
+  <Parameter Name="ErrorMessage" Path="Results[执行更新].ErrorMessage" Type="Parameter" />
+</JsonActionCommand>]]></Command>
+  </Action>
+  <Layout EditFieldClass="edit-field" />
+  <Buttons>
+    <Button ID="btn-search" Title="检索" ActionValue="2" Action="showActDlg('检索','/Page/P01069/Search',400,300)" Class="easyui-linkbutton" Option="iconCls:'icon-search'" />
+    <Button ID="btn-query" Title="确定" ActionValue="2" Action="submitAct_DGReplace('dataform','/Page/P01069/Query','datagrid')" Class="easyui-linkbutton edit-button" Option="iconCls:'icon-ok'" ShowInToolBar="false" />
+    <Button ID="btn-detail" Title="查看" ActionValue="4" Action="showActDlg_DGItemActDlg('datagrid','查看','/Page/P01069/Detail',400,300)" Class="easyui-linkbutton toolradio" Option="iconCls:'icon-add'" />
+    <Button ID="btn-create" Title="新增" ActionValue="8" Action="showActDlg('新增','/Page/P01069/Create',400,300)" Class="easyui-linkbutton" Option="iconCls:'icon-add'" />
+    <Button ID="btn-add" Title="确定" ActionValue="8" Action="submitAct_DGAppend('dataform','/Page/P01069/Add','datagrid')" Class="easyui-linkbutton edit-button" Option="iconCls:'icon-ok'" ShowInToolBar="false" />
+    <Button ID="btn-edit" Title="修改" ActionValue="16" Action="showActDlg_DGItemActDlg('datagrid','修改','/Page/P01069/Edit',400,300)" Class="easyui-linkbutton toolradio" Option="iconCls:'icon-edit'" />
+    <Button ID="btn-update" Title="确定" ActionValue="16" Action="submitAct_DGUpdate('dataform','/Page/P01069/Update','datagrid')" Class="easyui-linkbutton edit-button" Option="iconCls:'icon-ok'" ShowInToolBar="false" />
+    <Button ID="btn-delete" Title="删除" ActionValue="32" Action="showActDlg_DGItemsConfirm('datagrid','删除','确认删除选择项？','/Page/P01069/Delete',400,300)" Class="easyui-linkbutton toolmultiple" Option="iconCls:'icon-cancel'" />
+    <Button ID="btn-import" Title="导入" ActionValue="64" Action="showActDlg('导入','/Page/P01069/Import',400,300)" Class="easyui-linkbutton" Option="iconCls:'icon-import'" />
+    <Button ID="btn-export" Title="导出" ActionValue="128" Action="showActDlg('导出','/Page/P01069/Export',400,300)" Class="easyui-linkbutton" Option="iconCls:'icon-export'" />
+    <Button ID="btn-cancel" Title="取消" Action="cancel()" Class="easyui-linkbutton edit-button" Option="iconCls:'icon-cancel'" ShowInToolBar="false" />
+    <Button ID="btn-close" Title="确定" Action="cancel()" Class="easyui-linkbutton edit-button" ShowInToolBar="false" />
+  </Buttons>
+  <EditSource GroupName="人事管理" TableName="hr_Payroll" Key="Year,Month,EmployeeID" LogicDeleteFlag="IsActive=0">
+    <Fields>
+      <EditField Name="Year" Title="年" DataType="char" Length="4" ValueType="Number" />
+      <EditField Name="Month" Title="月" DataType="char" Length="2" ValueType="Number" />
+      <EditField Name="EmployeeID" Title="员工" DataType="varchar" Length="6" ShowInGrid="false" IsForeignKey="true" ForeignGroup="人事管理" ForeignTable="hr_Employee" DisplayMember="Name" ValueMember="EmployeeID" />
+      <EditField Name="CompanyID" Title="公司" DataType="varchar" Length="6" ShowInGrid="false" IsForeignKey="true" ForeignGroup="组织结构" ForeignTable="hr_Company" DisplayMember="Name" ValueMember="CompanyID" />
+      <EditField Name="DeptID" Title="部门" DataType="varchar" Length="6" ShowInGrid="false" IsForeignKey="true" ForeignGroup="组织结构" ForeignTable="hr_Department" DisplayMember="Name" ValueMember="DeptID" />
+      <EditField Name="JobID" Title="职位" DataType="varchar" Length="6" ShowInGrid="false" IsForeignKey="true" ForeignGroup="组织结构" ForeignTable="hr_Job" DisplayMember="Name" ValueMember="JobID" />
+      <EditField Name="HireDate" Title="入职日期" DataType="date" ShowInSearch="false" />
+      <EditField Name="State" Title="状态" DataType="nvarchar" Length="50" ShowInSearch="false" />
+      <EditField Name="CardNo" Title="身份证" DataType="nvarchar" Length="20" ShowInSearch="false" />
+      <EditField Name="TotalSalary" Title="薪资总额" DataType="money" ShowInSearch="false" />
+      <EditField Name="BaseSalary" Title="基本薪资" DataType="money" ShowInSearch="false" />
+      <EditField Name="PostSalary" Title="职位薪资" DataType="money" ShowInSearch="false" />
+      <EditField Name="PerformanceOfTheBase" Title="绩效基数" DataType="money" ShowInSearch="false" />
+      <EditField Name="CoefficientOfPerformance" Title="绩效系数" DataType="decimal" ShowInSearch="false" />
+      <EditField Name="PerformanceSalary" Title="绩效工资" DataType="money" ShowInSearch="false" />
+      <EditField Name="AttendanceDays" Title="应出勤天数" DataType="decimal" ShowInSearch="false" />
+      <EditField Name="RealAttendanceDays" Title="实际出勤天数" DataType="decimal" ShowInSearch="false" />
+      <EditField Name="LateArrivalTimes" Title="迟到早退次数" DataType="decimal" ShowInSearch="false" />
+      <EditField Name="DaysSick" Title="病假天数" DataType="decimal" ShowInSearch="false" />
+      <EditField Name="LeaveDays" Title="事假天数" DataType="decimal" ShowInSearch="false" />
+      <EditField Name="AbsenteeismDays" Title="旷工天数" DataType="decimal" ShowInSearch="false" />
+      <EditField Name="AbsencesDays" Title="缺勤天数" DataType="decimal" ShowInSearch="false" />
+      <EditField Name="DailyWage" Title="日薪" DataType="money" ShowInSearch="false" />
+      <EditField Name="SmallGauge" Title="请休假小计" DataType="decimal" ShowInSearch="false" />
+      <EditField Name="PerfectAttendance" Title="全勤奖" DataType="money" ShowInSearch="false" />
+      <EditField Name="SubsidizedMeals" Title="餐补" DataType="money" ShowInSearch="false" />
+      <EditField Name="CommissionAmount" Title="提成金额" DataType="money" ShowInSearch="false" />
+      <EditField Name="ReturnDeductionsAmount" Title="退单扣款金额" DataType="money" ShowInSearch="false" />
+      <EditField Name="SiteDeductedAmount" Title="网站暂扣金额" DataType="money" ShowInSearch="false" />
+      <EditField Name="YDMobiKK" Title="移动手机费扣款" DataType="money" ShowInSearch="false" />
+      <EditField Name="DXMobiKK" Title="电信手机费扣款" DataType="money" ShowInSearch="false" />
+      <EditField Name="MembershipFee" Title="团费" DataType="money" ShowInSearch="false" />
+      <EditField Name="ShouldDeductOther" Title="应扣其它" DataType="money" ShowInSearch="false" />
+      <EditField Name="Bonus" Title="奖金" DataType="money" ShowInSearch="false" />
+      <EditField Name="DeductedAmount" Title="暂扣领取金额" DataType="money" ShowInSearch="false" />
+      <EditField Name="ShouldAddOther" Title="应加其他" DataType="money" ShowInSearch="false" />
+      <EditField Name="TotalAmount" Title="应发总额" DataType="money" ShowInSearch="false" />
+      <EditField Name="EndowmentInsurance" Title="养老保险" DataType="money" ShowInSearch="false" />
+      <EditField Name="MedicalInsurance" Title="医疗保险" DataType="money" ShowInSearch="false" />
+      <EditField Name="UnemploymentInsurance" Title="失业保险" DataType="money" ShowInSearch="false" />
+      <EditField Name="PersonalAccumulationFund" Title="个人公积金" DataType="money" ShowInSearch="false" />
+      <EditField Name="NoTaxSalary" Title="税前工资" DataType="money" ShowInSearch="false" />
+      <EditField Name="TaxExemptIncome" Title="免税收入" DataType="money" ShowInSearch="false" />
+      <EditField Name="Tax" Title="代扣税" DataType="decimal" ShowInSearch="false" />
+      <EditField Name="RealSalary" Title="实发工资" DataType="money" ShowInSearch="false" />
+      <EditField Name="DimissionDate" Title="离职日期" DataType="date" ShowInSearch="false" />
+      <EditField Name="Bank" Title="银行" DataType="nvarchar" Length="50" ShowInSearch="false" />
+      <EditField Name="BankAccount" Title="银行卡号" DataType="nvarchar" Length="20" ShowInSearch="false" />
+      <EditField Name="IsFaFang" Title="是否发放" DataType="bit" ShowInGrid="false" ShowInCreate="false" ShowInEdit="false" ShowInDetail="false" ShowInSearch="false" EnableEdit="false" EditBox="ComboBox" ItemsSource="1:是|0:否" />
+      <EditField Name="IsActive" Title="IsActive" DataType="bit" ShowInGrid="false" ShowInCreate="false" ShowInEdit="false" ShowInDetail="false" ShowInSearch="false" IsRequired="false" EnableEdit="false" EditBox="ComboBox" ItemsSource="1:是|0:否" />
+      <EditField Name="SortID" Title="SortID" DataType="int" ShowInGrid="false" ShowInCreate="false" ShowInEdit="false" ShowInDetail="false" ShowInSearch="false" IsRequired="false" EnableEdit="false" />
+      <EditField Name="CreatedUser" Title="CreatedUser" DataType="varchar" Length="6" ShowInGrid="false" ShowInCreate="false" ShowInEdit="false" ShowInDetail="false" ShowInSearch="false" IsRequired="false" EnableEdit="false" />
+      <EditField Name="CreatedTime" Title="CreatedTime" DataType="datetime" ShowInGrid="false" ShowInCreate="false" ShowInEdit="false" ShowInDetail="false" ShowInSearch="false" IsRequired="false" EnableEdit="false" />
+      <EditField Name="ModifiedUser" Title="ModifiedUser" DataType="varchar" Length="6" ShowInGrid="false" ShowInCreate="false" ShowInEdit="false" ShowInDetail="false" ShowInSearch="false" IsRequired="false" EnableEdit="false" />
+      <EditField Name="ModifiedTime" Title="ModifiedTime" DataType="datetime" ShowInGrid="false" ShowInCreate="false" ShowInEdit="false" ShowInDetail="false" ShowInSearch="false" IsRequired="false" EnableEdit="false" />
+      <EditField Name="AutoKey" Title="AutoKey" DataType="int" ShowInGrid="false" ShowInCreate="false" ShowInEdit="false" ShowInDetail="false" ShowInSearch="false" IsRequired="false" EnableEdit="false" />
+      <EditField Name="EmployeeName" Title="姓名" ShowInSearch="false" IsForeignColumn="true" TargetForeignKey="EmployeeID" ForeignColumnName="Name" />
+      <EditField Name="CompanyName" Title="公司" ShowInSearch="false" IsForeignColumn="true" TargetForeignKey="CompanyID" ForeignColumnName="Name" />
+      <EditField Name="DeptName" Title="部门" ShowInSearch="false" IsForeignColumn="true" TargetForeignKey="DeptID" ForeignColumnName="Name" />
+      <EditField Name="JobName" Title="职位" ShowInSearch="false" IsForeignColumn="true" TargetForeignKey="JobID" ForeignColumnName="Name" />
+    </Fields>
+    <ChildTables />
+  </EditSource>
+</MvcEditPage>

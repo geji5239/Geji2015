@@ -1,0 +1,264 @@
+﻿@{
+    var item = Model.Parameters["Data"];
+}
+<div class="form-dialog">
+    <form method="post" id="dataform">
+        <div class="edit-dialog1">
+            <div class="edit-panel2">
+                <div class="edit-field1">
+                    <input class="edit-input" name="EmployeeID" value="@item["EmployeeID"]" type="hidden" />
+                    <div class="edit-title1"><label class="edit-label1">姓名：</label></div>
+                    <div class="edit-content">
+                        <input class="edit-input easyui-textbox" name="Name" value="@item["Name"]" readonly="readonly" />
+                    </div>
+                </div>
+                <div class="edit-field1">
+                    <div class="edit-title1"><label class="edit-label1">英文名：</label></div>
+                    <div class="edit-content">
+                        <input class="edit-input easyui-textbox" name="EnName" value="@item["EnName"]" readonly="readonly" />
+                    </div>
+                </div>
+                <div class="edit-field1">
+                    <div class="edit-title1"><label class="edit-label1">身份证号：</label></div>
+                    <div class="edit-content">
+                        <input class="edit-input easyui-textbox" name="CardNo" value="@item["CardNo"]" readonly="readonly">
+                    </div>
+                </div>
+                <div class="edit-field1">
+                    <div class="edit-title1" style="height:136px;padding-top:68px;overflow:hidden;">
+                        <label class="edit-label1">照片：</label>
+                    </div>
+                    <div class="edit-content">
+                        @if (item["PhotoPath"] == "")
+                        {
+                            <img src="/EmployeeImg/default.jpg" height="130" width="130" id="EmployeeImg" /><input type="hidden" name="PhotoPath" value="/EmployeeImg/default.jpg" />
+                        }
+                        else
+                        {
+                            <img src="@item["PhotoPath"]" height="130" width="130" id="EmployeeImg" /><input type="hidden" name="PhotoPath" value="@item["PhotoPath"]" />
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <div class="edit-panel2">
+                <div class="edit-field1">
+                    <div class="edit-title1"><label class="edit-label1">出生日期：</label></div>
+                    <div class="edit-content">
+                        <input class="edit-input easyui-textbox" name="Birthday" value="@item["Birthday"]" readonly="readonly">
+                    </div>
+                </div>
+                <div class="edit-field1">
+                    <div class="edit-title1"><label class="edit-label1">性别：</label></div>
+                    <div class="edit-content">
+                        <input class="edit-input easyui-textbox" name="Sex" value="@item["Sex"]" readonly="readonly">
+                    </div>
+                </div>
+                <div class="edit-field1">
+                    <div class="edit-title1"><label class="edit-label1">籍贯：</label></div>
+                    <div class="edit-content">
+                        <input class="edit-input easyui-textbox" name="Native" value="@item["Native"]" readonly="readonly">
+                    </div>
+                </div>
+            </div>
+            <div class="edit-panel2">
+                <div class="edit-field1">
+                    <div class="edit-title1"><label class="edit-label1">政治面貌：</label></div>
+                    <div class="edit-content">
+                        <input name="Politics" class="edit-input easyui-textbox" value="@item["Politics"]" readonly="readonly">
+                    </div>
+                </div>
+                <div class="edit-field1">
+                    <div class="edit-title1"><label class="edit-label1">民族：</label></div>
+                    <div class="edit-content">
+                        <input name="Nation" class="edit-input easyui-textbox" value="@item["Nation"]" readonly="readonly">
+                    </div>
+                </div>
+                <div class="edit-field1">
+                    <div class="edit-title1"><label class="edit-label1">婚姻状况：</label></div>
+                    <div class="edit-content">
+                        <input name="Marriage" value="@item["Marriage"]"  class="edit-input easyui-textbox" readonly="readonly">
+                    </div>
+                </div>
+            </div>
+            <div class="edit-panel2">
+                <div class="edit-field1">
+                    <div class="edit-title1"><label class="edit-label1">健康状况：</label></div>
+                    <div class="edit-content">
+                        <input name="Health" value="@item["Health"]" class="edit-input easyui-textbox" readonly="readonly">
+                    </div>
+                </div>
+                <div class="edit-field1">
+                    <div class="edit-title1"><label class="edit-label1">身高(cm)：</label></div>
+                    <div class="edit-content">
+                        <input class="edit-input easyui-textbox" name="Height" value="@item["Height"]" readonly="readonly">
+                    </div>
+                </div>
+                <div class="edit-field1">
+                    <div class="edit-title1"><label class="edit-label1">体重(kg)：</label></div>
+                    <div class="edit-content">
+                        <input class="edit-input easyui-textbox" name="Weight"  value="@item["Weight"]" readonly="readonly">
+                    </div>
+                </div>
+            </div>
+            <div class="edit-panel2">
+                <div class="edit-field1">
+                    <div class="edit-title1"><label class="edit-label1">户籍地址：</label></div>
+                    <div class="edit-content">
+                        <input class="edit-input easyui-textbox" name="RegisterAddress" style="width:434px;" value="@item["RegisterAddress"]" readonly="readonly">
+                    </div>
+                </div>
+                <div class="edit-field1 margin-left">
+                    <div class="edit-title1"><label class="edit-label1">现住址：</label></div>
+                    <div class="edit-content">
+                        <input class="edit-input easyui-textbox" name="LiveAddress" style="width:434px;" value="@item["LiveAddress"]" readonly="readonly">
+                    </div>
+                </div>
+            </div>
+            <div class="edit-panel2">
+                <div class="edit-field1">
+                    <div class="edit-title1"><label class="edit-label1">首次工作：</label></div>
+                    <div class="edit-content">
+                        <input class="edit-input easyui-textbox" name="FirstWorkDate" value="@item["FirstWorkDate"]" readonly="readonly">
+                    </div>
+                </div>
+                <div class="edit-field1">
+                    <div class="edit-title1"><label class="edit-label1">文化程度：</label></div>
+                    <div class="edit-content">
+                        <input name="Education" value="@item["Education"]" class="edit-input easyui-textbox" readonly="readonly">
+                    </div>
+                </div>
+                <div class="edit-field1">
+                    <div class="edit-title1"><label class="edit-label1">毕业院校：</label></div>
+                    <div class="edit-content">
+                        <input class="edit-input easyui-textbox" name="EduName" value="@item["EduName"]" readonly="readonly">
+                    </div>
+                </div>
+                <div class="edit-field1">
+                    <div class="edit-title1"><label class="edit-label1">专业：</label></div>
+                    <div class="edit-content">
+                        <input class="edit-input easyui-textbox" name="Major" value="@item["Major"]" readonly="readonly">
+                    </div>
+                </div>
+            </div>
+            <div class="edit-panel2">
+                <div class="edit-field1">
+                    <div class="edit-title1"><label class="edit-label1">入职日期：</label></div>
+                    <div class="edit-content">
+                        <input class="edit-input easyui-textbox" name="HireDate" value="@item["HireDate"]" readonly="readonly">
+                    </div>
+                </div>
+                <div class="edit-field1">
+                    <div class="edit-title1"><label class="edit-label1">状态：</label></div>
+                    <div class="edit-content">
+                        <input class="edit-input easyui-textbox" name="State" value="@item["State"]" readonly="readonly">
+                    </div>
+                </div>
+                <div class="edit-field1">
+                    <div class="edit-title1"><label class="edit-label1">部门：</label></div>
+                    <div class="edit-content">
+                        <input name="DeptID" class="edit-input easyui-textbox" value="@item["DeptName"]" readonly="readonly">
+                    </div>
+                </div>
+                <div class="edit-field1">
+                    <div class="edit-title1"><label class="edit-label1">职位：</label></div>
+                    <div class="edit-content">
+                        <input name="JobID" class="edit-input easyui-textbox" value="@item["JobName"]" readonly="readonly">
+                    </div>
+                </div>
+            </div>
+            <div class="edit-panel2">
+                <div class="edit-field1">
+                    <div class="edit-title1"><label class="edit-label1">联系电话：</label></div>
+                    <div class="edit-content">
+                        <input class="edit-input easyui-textbox" name="MobiPhone" value="@item["MobiPhone"]" readonly="readonly">
+                    </div>
+                </div>
+                <div class="edit-field1">
+                    <div class="edit-title1"><label class="edit-label1">个人邮箱：</label></div>
+                    <div class="edit-content">
+                        <input class="edit-input easyui-textbox" name="Pemail"  value="@item["Pemail"]" readonly="readonly">
+                    </div>
+                </div>
+                <div class="edit-field1">
+                    <div class="edit-title1"><label class="edit-label1">办公电话：</label></div>
+                    <div class="edit-content">
+                        <input class="edit-input easyui-textbox" name="Telephone" value="@item["Telephone"]" readonly="readonly">
+                    </div>
+                </div>
+                <div class="edit-field1">
+                    <div class="edit-title1"><label class="edit-label1">分机号：</label></div>
+                    <div class="edit-content">
+                        <input class="edit-input easyui-textbox" name="ExtNum" value="@item["ExtNum"]" readonly="readonly">
+                    </div>
+                </div>
+            </div>
+            <div class="edit-panel2">
+                <div class="edit-field1">
+                    <div class="edit-title1"><label class="edit-label1">卡号：</label></div>
+                    <div class="edit-content">
+                        <input class="edit-input easyui-textbox" name="CardID"  value="@item["CardID"]" readonly="readonly">
+                    </div>
+                </div>
+                <div class="edit-field1">
+                    <div class="edit-title1"><label class="edit-label1">IMO：</label></div>
+                    <div class="edit-content">
+                        <input class="edit-input easyui-textbox" name="ImoID"  value="@item["ImoID"]" readonly="readonly">
+                    </div>
+                </div>
+                <div class="edit-field1">
+                    <div class="edit-title1"><label class="edit-label1">公司邮箱：</label></div>
+                    <div class="edit-content">
+                        <input class="edit-input easyui-textbox" name="Email" value="@item["Email"]" readonly="readonly">
+                    </div>
+                </div>
+            </div>
+            <div class="edit-panel2">
+                <div class="edit-field1">
+                    <div class="edit-title1"><label class="edit-label1">实习合同：</label></div>
+                    <div class="edit-content">
+                        <input class="edit-input easyui-textbox" name="Convention" value="@item["Convention"]" readonly="readonly">
+                    </div>
+                </div>
+                <div class="edit-field1">
+                    <div class="edit-title1"><label class="edit-label1">起始日期：</label></div>
+                    <div class="edit-content">
+                        <input class="edit-input easyui-textbox" name="ConventionStartDate" value="@item["ConventionStartDate"]" readonly="readonly">
+                    </div>
+                </div>
+                <div class="edit-field1">
+                    <div class="edit-title1"><label class="edit-label1">终止日期：</label></div>
+                    <div class="edit-content">
+                        <input class="edit-input easyui-textbox" name="ConventionEndDate" value="@item["ConventionEndDate"]" readonly="readonly">
+                    </div>
+                </div>
+            </div>
+            <div class="edit-panel2">
+                <div class="edit-field1">
+                    <div class="edit-title1"><label class="edit-label1">正式合同：</label></div>
+                    <div class="edit-content">
+                        <input class="edit-input easyui-textbox" name="ContractOfSale" value="@item["ContractOfSale"]" readonly="readonly">
+                    </div>
+                </div>
+                <div class="edit-field1">
+                    <div class="edit-title1"><label class="edit-label1">起始日期：</label></div>
+                    <div class="edit-content">
+                        <input class="edit-input easyui-textbox" name="ContractStartDate" value="@item["ContractStartDate"]" readonly="readonly">
+                    </div>
+                </div>
+                <div class="edit-field1">
+                    <div class="edit-title1"><label class="edit-label1">终止日期：</label></div>
+                    <div class="edit-content">
+                        <input class="edit-input easyui-textbox" name="ContractEndDate" value="@item["ContractEndDate"]" readonly="readonly">
+                    </div>
+                </div>
+                <div class="edit-field1">
+                    <div class="showmsg"><label id="showmsg"></label></div>
+                </div>
+            </div>
+        </div>
+    </form>
+    </div>
+    <div class="dialog-button">
+        <a class="easyui-linkbutton edit-button" data-options="iconCls:'icon-cancel'" onclick="cancel()">关闭</a>
+    </div>

@@ -1,0 +1,17 @@
+E:\Code2014\Panasia.Gemini\Panasia.Gemini.FL.Data\bin\Debug\Panasia.Gemini.FL.Data.dll
+E:\Code2014\Panasia.Gemini\Panasia.Gemini.FL.Data\bin\Debug\Panasia.Gemini.FL.Data.pdb
+E:\Code2014\Panasia.Gemini\Panasia.Gemini.FL.Data\bin\Debug\EntityFramework.dll
+E:\Code2014\Panasia.Gemini\Panasia.Gemini.FL.Data\bin\Debug\EntityFramework.SqlServer.dll
+E:\Code2014\Panasia.Gemini\Panasia.Gemini.FL.Data\bin\Debug\Maticsoft.DBUtility.dll
+E:\Code2014\Panasia.Gemini\Panasia.Gemini.FL.Data\bin\Debug\Panasia.Core.Sys.dll
+E:\Code2014\Panasia.Gemini\Panasia.Gemini.FL.Data\bin\Debug\Panasia.Core.dll
+E:\Code2014\Panasia.Gemini\Panasia.Gemini.FL.Data\bin\Debug\log4net.dll
+E:\Code2014\Panasia.Gemini\Panasia.Gemini.FL.Data\bin\Debug\Newtonsoft.Json.dll
+E:\Code2014\Panasia.Gemini\Panasia.Gemini.FL.Data\bin\Debug\Panasia.Core.Commands.dll
+E:\Code2014\Panasia.Gemini\Panasia.Gemini.FL.Data\bin\Debug\Panasia.Core.App.dll
+E:\Code2014\Panasia.Gemini\Panasia.Gemini.FL.Data\bin\Debug\Panasia.Core.Sys.pdb
+E:\Code2014\Panasia.Gemini\Panasia.Gemini.FL.Data\bin\Debug\EntityFramework.xml
+E:\Code2014\Panasia.Gemini\Panasia.Gemini.FL.Data\bin\Debug\EntityFramework.SqlServer.xml
+E:\Code2014\Panasia.Gemini\Panasia.Gemini.FL.Data\obj\Debug\Panasia.Gemini.FL.Data.csprojResolveAssemblyReference.cache
+E:\Code2014\Panasia.Gemini\Panasia.Gemini.FL.Data\obj\Debug\Panasia.Gemini.FL.Data.dll
+E:\Code2014\Panasia.Gemini\Panasia.Gemini.FL.Data\obj\Debug\Panasia.Gemini.FL.Data.pdb

@@ -1,0 +1,15 @@
+E:\Code2014\Panasia.Gemini\bin\Panasia.Core.AppTest.dll
+E:\Code2014\Panasia.Gemini\bin\Panasia.Core.AppTest.pdb
+E:\Code2014\Panasia.Gemini\Panasia.Core.AppTest\obj\Debug\Views\SelectTestTypeWindow.baml
+E:\Code2014\Panasia.Gemini\Panasia.Core.AppTest\obj\Debug\Views\SelectSqlItemWindow.baml
+E:\Code2014\Panasia.Gemini\Panasia.Core.AppTest\obj\Debug\Views\TestDocView.baml
+E:\Code2014\Panasia.Gemini\Panasia.Core.AppTest\obj\Debug\Views\SelectTestTypeWindow.g.cs
+E:\Code2014\Panasia.Gemini\Panasia.Core.AppTest\obj\Debug\Views\SelectSqlItemWindow.g.cs
+E:\Code2014\Panasia.Gemini\Panasia.Core.AppTest\obj\Debug\Views\TestDocView.g.cs
+E:\Code2014\Panasia.Gemini\Panasia.Core.AppTest\obj\Debug\Panasia.Core.AppTest_MarkupCompile.cache
+E:\Code2014\Panasia.Gemini\Panasia.Core.AppTest\obj\Debug\Panasia.Core.AppTest.g.resources
+E:\Code2014\Panasia.Gemini\Panasia.Core.AppTest\obj\Debug\Panasia.Core.AppTest.Properties.Resources.resources
+E:\Code2014\Panasia.Gemini\Panasia.Core.AppTest\obj\Debug\Panasia.Core.AppTest.csproj.GenerateResource.Cache
+E:\Code2014\Panasia.Gemini\Panasia.Core.AppTest\obj\Debug\Panasia.Core.AppTest.dll
+E:\Code2014\Panasia.Gemini\Panasia.Core.AppTest\obj\Debug\Panasia.Core.AppTest.pdb
+E:\Code2014\Panasia.Gemini\Panasia.Core.AppTest\obj\Debug\Panasia.Core.AppTest.csprojResolveAssemblyReference.cache

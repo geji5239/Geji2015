@@ -1,0 +1,66 @@
+﻿@{
+    var item = Model.Parameters["Data"];
+}
+<style>
+    .edit-panel3 {
+    padding:5px 0px;
+    margin-top:5px;
+    width:530px;
+    height:20px;
+    margin-left: auto;
+    margin-right: auto;
+    }
+</style>
+
+<form method="post" id="dataform" class="form-dialog">
+
+    <div class="edit-dialog1" style="width:560px">
+
+
+        <div class="edit-panel3">
+
+            <div class="edit-field1">
+                <div class="edit-title1"><label class="edit-label1">开始时间：</label></div>
+                <div class="edit-content"> <input class="edit-input easyui-textbox " value="@item["StartDate"]" name="StartDate" readonly="readonly" /></div>
+            </div>
+
+            <div class="edit-field1">
+                <div class="edit-title1"><label class="edit-label1">结束时间：</label></div>
+                <div class="edit-content"> <input class="edit-input easyui-textbox " value="@item["EndDate"]" name="EndDate" readonly="readonly" /></div>
+            </div>
+
+        </div>
+
+        <div class="edit-panel3">
+
+            <div class="edit-field1">
+                <div class="edit-title1"><label class="edit-label1">申请时长(H)：</label></div>
+                <div class="edit-content"> <input class="edit-input easyui-textbox" value="@item["ApplicationHours"]" readonly="readonly" name="ApplicationHours" /></div>
+            </div>
+
+            <div class="edit-field1">
+                <div class="edit-title1"><label class="edit-label1">类型：</label></div>
+                <div class="edit-content"><input class="edit-input easyui-textbox" value="@item["ThrowableType"]" name="ThrowableType" readonly="readonly" /></div>
+            </div>
+        </div>
+
+        <div class="edit-panel3" style="height:60px">
+
+            <div class="edit-field1">
+                <div class="edit-title1"><label class="edit-label1">事由：</label></div>
+                <div class="edit-content-r2">
+                    <input class="edit-input easyui-textbox " name="Reason" value="@item["Reason"]" style="width:434px; height:60px" readonly="readonly" data-options="multiline:true" />
+                </div>
+            </div>
+
+        </div>
+
+        <div class="edit-field1">
+            <div class="showmsg"><label id="showmsg"></label></div>
+        </div>
+    </div>
+</form>
+
+<div class="dialog-button">
+    <a class="easyui-linkbutton edit-button" data-options="iconCls:'icon-cancel'" onclick="cancel()">关闭</a>
+</div>

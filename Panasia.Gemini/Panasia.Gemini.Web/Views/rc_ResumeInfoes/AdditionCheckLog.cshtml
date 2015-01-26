@@ -1,0 +1,95 @@
+﻿@{
+    var item = Model.Parameters["Data"];
+}
+<style>
+    .edit-panel3 {
+    padding:5px 0px;
+    margin-top:5px;
+    width:530px;
+    height:20px;
+    margin-left: auto;
+    margin-right: auto;
+    }
+</style>
+<form id="dataform" class="form-dialog" method="post">
+    <div class="edit-dialog">
+        <div class="edit-panel-w2">
+            <div class="edit-field">
+                <div class="edit-title">
+                    <label class="edit-label">部门：</label>
+                </div>
+                <div class="edit-content">
+                    <input name="DeptName" class="edit-input easyui-textbox" readonly="readonly" value="@item["DeptName"]" disabled="disabled"></input>
+                </div>
+            </div>
+            <div class="edit-field">
+                <div class="edit-title">
+                    <label class="edit-label">职位名称：</label>
+                </div>
+                <div class="edit-content">
+                    <input name="Position" class="edit-input easyui-textbox" readonly="readonly" value="@item["Position"]" disabled="disabled"></input>
+                </div>
+            </div>
+            <div class="edit-field">
+                <div class="edit-title">
+                    <label class="edit-label">申请日期：</label>
+                </div>
+                <div class="edit-content">
+                    <input name="ApplicationDate" class="edit-input easyui-datebox" readonly="readonly" value="@item["ApplicationDate"]" disabled="disabled"></input>
+                </div>
+            </div>
+            <div class="edit-field">
+                <div class="edit-title">
+                    <label class="edit-label">申请人：</label>
+                </div>
+                <div class="edit-content">
+                    <input name="UserName" class="edit-input easyui-textbox" readonly="readonly" value="@item["UserName"]" disabled="disabled"></input>
+                </div>
+            </div>
+                @*<div class="edit-field" style="width:500px;height:auto;">
+                    <div class="edit-title">
+                        <label class="edit-label">
+                            签核历程：
+                        </label>
+                    </div>
+                </div>
+                <div class="edit-field" style="width:500px;height:auto;">
+                    <table class="detail">
+                        @{
+                            dynamic dataAF = Model.Parameters["AFData"];
+                            if (dataAF != null)
+                            {
+                                dynamic items = dataAF;
+
+                                for (int i = 1; i <= items.Count; i++)
+                                {
+                                    <tr>
+                                        <td style="width:20px;"></td>
+                                        <td style="width:120px;">@items[i - 1].GetFieldValue("Confirm_Time", "")</td>
+                                        <td style="width:100px;">@items[i - 1].GetFieldValue("DepartmentName", "")</td>
+                                        <td style="width:80px;">@items[i - 1].GetFieldValue("JobName", "")</td>
+                                        <td style="width:60px;">@items[i - 1].GetFieldValue("EmployeeName", "")</td>
+                                        <td style="width:40px;">@items[i - 1].GetFieldValue("Confirm_Stat", "")</td>
+                                        <td>@items[i - 1].GetFieldValue("Suggestion", "")</td>
+                                    </tr>
+                                }
+                            }
+                        }
+                    </table>
+
+            </div>*@
+            <div class="edit-field">
+                <div class="showmsg">
+                    <label id="showmsg"></label>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<div id="toolbar" class="dialog-button">
+    <a class="easyui-linkbutton edit-button" data-options="iconCls:'icon-cancel'" onclick="cancel()">取消 </a>
+</div>
+<iframe tb="fl_EmployeeMove" id="af" onload="DynIframeSize('af')"></iframe>
+<script type="text/javascript">
+    InitIFrame();
+</script>

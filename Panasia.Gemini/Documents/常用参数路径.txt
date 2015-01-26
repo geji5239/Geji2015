@@ -1,0 +1,64 @@
+﻿
+一、 设计工具中的参数路径
+1、固定参数
+
+路径           说明
+User           当前用户对象，类型为UserPrincipal
+User.UserName  用户名
+User.UserID    用户编号
+User.Email     用户邮件
+User.FullName  用户全名
+
+Page           当前的Page对象
+Action         当前的Action对象
+
+Controller     PageController对象
+
+2、WEB请求参数
+路径           说明
+Request        Request.Params对象，包括Request.From和Request.QueryString
+Request[Name]  取Request.Params["Name"]的值，注意路径中的[]里的参数不需要写双引号
+
+3、执行结果参数
+路径                   说明
+LastResult             本命令前一个命令的结果
+Results                执行结果的列表
+Results[CommandName]   取某个命令的执行结果，注意路径中的[]里的参数不需要写双引号
+Results[CommandName].IsError   取某个命令的执行结果，判断返回的结果是否有错
+Results[CommandName].ErrorMessage  取某个命令的执行结果，返回错误信息
+
+
+4、SQL执行的结果
+路径                        说明
+Results[CommandName].Items  查询结果列表
+Resutls[CommandName].Count  执行结果影响行数
+Resutls[CommandName].Value  执行结果值
+Resutls[CommandName].Json   查询结果是Json格式时的返回值
+Results[CommandName].Item   查询结果列表第一行记录，如果没有，则创建
+                            Results[CommandName].Item[fieldName]，返回的是字符串值，
+
+
+二、数据绑定时的参数路径
+
+相对路径
+从Model开始，逐层往下
+
+绝对路径
+/Parameters[Name]
+
+三、值转换器
+名称                 标题                    参数
+CreateSystemText     系统信息                参数是默认描述，不需参数
+     值： 1001|arg1|arg2|arg3|...，多个参数以'|'分割，第一个为系统文本的ID，后面的为参数
+
+"CreateSearchField", "创建搜索列参数"        列名,是否为数字(1:数字;其它非数字),表名(如果有多个表查询，则需要写本表的前缀)
+Trim                 去空格                  参数（无）
+CreateTreeJson       Json数据树              root:{根节点ID值}|pid:{父节点ID字段名}|id:{数据ID字段名}|text:{数据显示文本字段名}
+
+四、参数验证
+
+IsNullOrEmpty 空值           参数（空值：不反转；非空值：反转）
+IsEmail       邮件地址       参数（无）
+IsRegexMatch  正则表达式匹配 参数（正则表达式，非空）
+LengthLimit   长度限制       参数（最小值，最大值）“,”分割 
+

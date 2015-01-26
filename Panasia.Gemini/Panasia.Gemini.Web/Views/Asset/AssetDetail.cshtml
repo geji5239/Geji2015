@@ -1,0 +1,244 @@
+﻿@{
+    var item = Model.Parameters["Data"];
+}
+<style>
+    .edit-panel3 {
+        padding: 5px 0px;
+        margin-top: 5px;
+        width: 530px;
+        height: 20px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .edg {
+        height: 300px;
+        width: 400px;
+    }
+</style>
+
+<script type="text/javascript">
+    var flag = [0, 0, 0];
+    $(function () {
+        $('#tabs').tabs({
+            onSelect: function (title, index) {
+                switch (title) {
+                    case '维修记录':
+                        if (flag[0] == 0) {
+                            $('#datagridBX').datagrid({ url: '/Page/P01101/GetBX?AssetID=' + $('#AssetID').val() });
+                        }
+                        flag[0] = 1;
+                        break;
+                    case '借还记录':
+                        if (flag[1] == 0) {
+                            $('#datagridJH').datagrid({ url: '/Page/P01101/GetJH?AssetID=' + $('#AssetID').val() });
+                        }
+                        flag[1] = 1;
+                        break;
+                    case '调拨记录':
+                        if (flag[2] == 0) {
+                            $('#datagridDB').datagrid({ url: '/Page/P01101/GetDB?AssetID=' + $('#AssetID').val() });
+                        }
+                        flag[2] = 1;
+                        break;
+                    default: break;
+                }
+            }
+        });
+    });
+</script>
+<div class="form-dialog">
+    <div id="tabs" class="easyui-tabs" style="width:650px;height:460px;">
+        <div title="基本信息" style="padding:10px;overflow:hidden">
+
+                    <div class="edit-panel-w2">
+                        <div class=" edit-field">
+                            <div class="edit-title">
+                                <label class="edit-label">条码编号：</label>
+                            </div>
+                            <div class="edit-content">
+                                <input name="BarCard" class="edit-input easyui-textbox " readonly="readonly" value="@item["BarCard"]" />
+                                <input id="AssetID" type="hidden" value="@item["AssetID"]" />
+                            </div>
+                        </div>
+                        <div class="edit-field">
+                            <div class="edit-title">
+                                <label class="edit-label">资产名称：</label>
+                            </div>
+                            <div class="edit-content">
+                                <input name="AssetName" class="edit-input easyui-textbox " readonly="readonly" value="@item["AssetName"]" />
+                            </div>
+                        </div>
+                        <div class="edit-field">
+                            <div class="edit-title">
+                                <label class="edit-label">公司：</label>
+                            </div>
+                            <div class="edit-content">
+                                <input name="CName" class="edit-input easyui-textbox " readonly="readonly" value="@item["CName"]" />
+                            </div>
+                        </div>
+                        <div class="edit-field">
+                            <div class="edit-title">
+                                <label class="edit-label">资产类别：</label>
+                            </div>
+                            <div class="edit-content">
+                                <input name="Category" class="edit-input easyui-textbox " readonly="readonly" value="@item["Category"]" />
+                            </div>
+                        </div>
+                        <div class="edit-field">
+                            <div class="edit-title">
+                                <label class="edit-label">增加方式：</label>
+                            </div>
+                            <div class="edit-content">
+                                <input name="AddType" class="edit-input easyui-textbox " readonly="readonly" value="@item["AddType"]" />
+                            </div>
+                        </div>
+                        <div class="edit-field">
+                            <div class="edit-title">
+                                <label class="edit-label">规格型号：</label>
+                            </div>
+                            <div class="edit-content">
+                                <input name="SpecificationsModel" class="edit-input easyui-textbox " readonly="readonly" value="@item["SpecificationsModel"]" />
+                            </div>
+                        </div>
+                        <div class="edit-field">
+                            <div class="edit-title">
+                                <label class="edit-label">单位：</label>
+                            </div>
+                            <div class="edit-content">
+                                <input name="UnitName" class="edit-input easyui-textbox " readonly="readonly" value="@item["UnitName"]" />
+                            </div>
+                        </div>
+                        <div class="edit-field">
+                            <div class="edit-title">
+                                <label class="edit-label">使用情况：</label>
+                            </div>
+                            <div class="edit-content">
+                                <input name="UseCondition" class="edit-input easyui-textbox " readonly="readonly" value="@item["UseCondition"]" />
+                            </div>
+                        </div>
+                        <div class="edit-field">
+                            <div class="edit-title">
+                                <label class="edit-label">所属部门：</label>
+                            </div>
+                            <div class="edit-content">
+                                <input id="DName" name="DeptID" class="edit-input easyui-textbox " readonly="readonly" value="@item["DName"]" />
+                            </div>
+                        </div>
+                        <div class="edit-field">
+                            <div class="edit-title">
+                                <label class="edit-label">使用员工：</label>
+                            </div>
+                            <div class="edit-content">
+                                <input id="EName" name="EName" class="edit-input easyui-textbox " readonly="readonly" value="@item["EName"]" />
+                            </div>
+                        </div>
+                        <div class="edit-field">
+                            <div class="edit-title">
+                                <label class="edit-label">仓库名称：</label>
+                            </div>
+                            <div class="edit-content">
+                                <input id="WHName" name="WHName" class="edit-input easyui-textbox " readonly="readonly" value="@item["WHName"]" />
+                            </div>
+                        </div>
+                        <div class="edit-field">
+                            <div class="edit-title">
+                                <label class="edit-label">购入价格：</label>
+                            </div>
+                            <div class="edit-content">
+                                <input name="Price" class="edit-input easyui-numberbox" readonly="readonly" data-options="precision:2,groupSeparator:',',decimalSeparator:'.',min:0,max:99999999.99" value="@item["Price"]" />
+                            </div>
+                        </div>
+                        <div class="edit-field">
+                            <div class="edit-title">
+                                <label class="edit-label">购置日期：</label>
+                            </div>
+                            <div class="edit-content">
+                                <input name="BuyDate" class="edit-input easyui-textbox " readonly="readonly" value="@item["BuyDate"]" />
+                            </div>
+                        </div>
+                        <div class="edit-field">
+                            <div class="edit-title">
+                                <label class="edit-label">供应商：</label>
+                            </div>
+                            <div class="edit-content">
+                                <input name="SupplierName" class="edit-input easyui-textbox " readonly="readonly" value="@item["SupplierName"]" />
+                            </div>
+                        </div>
+                        <div class="edit-field">
+                            <div class="edit-title">
+                                <label class="edit-label">使用年限：</label>
+                            </div>
+                            <div class="edit-content">
+                                <input name="UseYear" class="edit-input easyui-textbox " readonly="readonly" value="@item["UseYear"]" />
+                            </div>
+                        </div>
+                        <div class="edit-field-w2" style="height:60px">
+                            <div class="edit-title">
+                                <label class="edit-label">质保说明：</label>
+                            </div>
+                            <div class="edit-content-w2">
+                                <input name="QualityDescription" class="edit-input easyui-textbox " data-options="multiline:true" style="height:60px;width:444px" readonly="readonly" value="@item["QualityDescription"]" />
+                            </div>
+                        </div>
+                        <div class="edit-field-w2" style="height:60px">
+                            <div class="edit-title">
+                                <label class="edit-label">备注：</label>
+                            </div>
+                            <div class="edit-content-w2">
+                                <input name="Remark" class="edit-input easyui-textbox " data-options="multiline:true" style="height:60px;width:444px" readonly="readonly" value="@item["Remark"]">
+                            </div>
+                        </div>
+                    </div>
+
+        </div>
+        <div title="维修记录" data-options="closable:false" style="overflow:hidden;padding:10px;">
+            <table id="datagridBX" class="easyui-datagrid edg" data-options="fitColumns:true,fit:true,rownumbers:true,nowrap: true,striped: true,collapsible: false,resizable:true">
+                <thead>
+                    <tr>
+                        <th data-options="field:'RepairID',hidden:true,checkbox:true"></th>
+                        <th data-options="field:'AADATE',fixed:true">维修时间</th>
+                        <th data-options="field:'RepairType',fixed:true">维修类型</th>
+                        <th data-options="field:'RepairPrice',fixed:true">维修费用</th>
+                        <th data-options="field:'Repairer',fixed:true">维修单位或人</th>
+                        <th data-options="field:'Reason',fixed:true">维修原因</th>
+                        <th data-options="field:'Remark',fixed:true">备注</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+        <div title="借还记录" data-options="closable:false" style="overflow:hidden;padding:10px;">
+            <table id="datagridJH" class="easyui-datagrid edg" data-options="fitColumns:true,fit:true,rownumbers:true,nowrap: true,striped: true,collapsible: false,resizable:true">
+                <thead>
+                    <tr>
+                        <th data-options="field:'LYID',checkbox:true,hidden:true"></th>
+                        <th data-options="field:'CName',fixed:true">公司</th>
+                        <th data-options="field:'DName',fixed:true">部门</th>
+                        <th data-options="field:'EName',fixed:true">姓名</th>
+                        <th data-options="field:'AAType',fixed:true">领用归还</th>
+                        <th data-options="field:'AADATE',fixed:true">时间</th>
+                        <th data-options="field:'ConfirmedName',fixed:true">确认人</th>
+                        <th data-options="field:'Remark',fixed:true">备注</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+        <div title="调拨记录" data-options="closable:false" style="overflow:hidden;padding:10px;">
+            <table id="datagridDB" class="easyui-datagrid edg" data-options="fitColumns:true,fit:true,rownumbers:true,nowrap: true,striped: true,collapsible: false,resizable:true">
+                <thead>
+                    <tr>
+                        <th data-options="field:'AAID',checkbox:true"></th> 
+                        <th data-options="field:'CName',fixed:true">原公司</th>
+                        <th data-options="field:'WHName',fixed:true">原仓库</th>
+                        <th data-options="field:'AADATE',fixed:true">调动日期</th>
+                        <th data-options="field:'NewCName',fixed:true">新公司</th>
+                        <th data-options="field:'NewWHName',fixed:true">新仓库</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+</div>
+<div id="toolbar" class="dialog-button">
+    <a id="btn-close" class="easyui-linkbutton edit-button" data-options="iconCls:'icon-cancel'" onclick="cancel()">关闭 </a>
+</div>

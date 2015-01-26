@@ -1,0 +1,202 @@
+﻿@{
+    var item = Model.Parameters["Data"];
+}
+<style>
+    .edit-panel3 {
+        padding: 5px 0px;
+        margin-top: 5px;
+        width: 530px;
+        height: 20px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+</style>
+<script type="text/javascript">
+    $(function () {
+        UnitWithText("OrderCommission", "OCUnit");
+        UnitWithText("ReceiveCommission", "RCUnit");
+        $("#CommissionDeptID").combotree({
+            onSelect: function (rec) {
+                    var ID=rec.id;
+                    if(ID!=''){
+                        if (ID.charAt(0) != 'D') { $('#CommissionDeptID').combotree('unselect', id); }
+                }
+            }
+        });
+    });
+
+    function addClick() {
+        cancleClickRow();
+        $('#EDelBtn').linkbutton('disable');//删除按钮不可用
+        $("#datagrid1").datagrid("unselectAll");
+    }
+    function delClick() {
+        $.extend($.messager.defaults, {
+            ok: "确定", cancel: "取消"
+        })
+        $.messager.confirm("提示", "确认删除选择项？", function (r) {
+            if (r) {
+                $('#EDelBtn').linkbutton('disable');//删除不按钮可用
+                var url = "/Page/P01067/Delete?Keys=" + $("#RuleID").val();
+                funcForAct(url);
+            }
+        })
+    }
+    function onClickRow(rowIndex, rowData) {
+        $("#RuleID").val(rowData["CommissionRuleID"]);
+        $('#ReceiveCommission').numberbox('setValue', rowData['ReceiveCommissionValue']);
+        $('#CommissionDeptID').combotree('setValue', rowData['DeptID']);
+        $('#CommissionTypeID').combobox('setValue', rowData['CommissionTypeID']);
+        $('#OrderCommission').numberbox('setValue', rowData['OrderCommissionValue']);
+        $('#OCUnit').combobox('setValue', rowData['OCUnit']);
+        $('#RCUnit').combobox('setValue', rowData['RCUnit']);
+        $("#Remark").textbox('setValue', rowData["Remark"]);
+        $('#EDelBtn').linkbutton('enable');//删除按钮可用
+    }
+    function cancleClickRow(rowIndex, rowData) {
+        $('#ReceiveCommission,#Remark,#OrderCommission').textbox('setValue', '');
+        $('#CommissionDeptID').combotree('clear');
+        $('#CommissionTypeID,#OCUnit,#RCUnit').combobox('setValue', '');
+        $('#EDelBtn').linkbutton('disable');//删除不按钮可用
+    }
+    function Submit() {
+        if ($("#dataform").form('validate')) {
+            var rows = $("#datagrid1").datagrid('getSelections');
+            var url = "";
+            if (rows.length > 0) {
+                url = "/Page/P01067/Update";
+            } else { url = "/Page/P01067/Add"; }
+            funcForAct(url);
+        }
+    }
+    function funcForAct(url) {
+        $.ajax({
+            url: url,
+            type: "post",
+            data: $("#dataform").serialize(),
+            dataType: "json",
+            success: function (result) {
+                if (result.HasError) 
+                    showError(result.ErrorMessage);
+                if (result.ErrorMessage == '新增成功！' || result.ErrorMessage == '更新成功！' || result.ErrorMessage == '删除成功！') {
+                    $('#datagrid1').datagrid('reload');
+                    cancleClickRow();
+                }
+            },
+            error: function (d, error) {
+                showError(error);
+            }
+        });
+    }
+</script>
+<form method="post" id="dataform" class="form-dialog">
+
+    <div class="edit-dialog1" style="width:530px">
+        <div class="edit-panel3">
+            <div class="edit-field1">
+                <div class="edit-title1"><label class="edit-label1">产品名称：</label></div>
+                <div class="edit-content">
+                    <input class="edit-input easyui-textbox " name="Product" value="@item["Product"]"  readonly="readonly" />
+                    <input readonly="readonly" type="hidden" name="ProductID" id="ProductID" value="@item["ProductID"]"/>
+                </div>
+            </div>
+        </div>
+
+        <div class="edit-panel3" style="height:110px;width:434px;margin-left:70px">
+            <table id="datagrid1" style="height:110px;width:434px;" class="easyui-datagrid" data-options="url:'/Page/P01067/GetCommission?ProductID=@item["ProductID"]',fitColumns:true,fit:true,rownumbers:true,nowrap: true,singleSelect:true,striped: true,collapsible: false,resizable:true, onSelect: onClickRow,onUnselect: cancleClickRow">
+                <thead>
+                    <tr>
+                        <th data-options="field:'CommissionRuleID',hidden:true,checkbox:true"></th>
+                        <th data-options="field:'Dept',fixed:true,halign:'center'">提成部门</th>
+                        <th data-options="field:'CommissionType',fixed:true,halign:'center'">提成类别</th>
+                        <th data-options="field:'OrderCommission',fixed:true,halign:'center',align:'right',formatter:function(value,row,index){
+                            if(value.indexOf('￥')!=-1){
+                            return '￥'+value.substring(0,value.indexOf('￥'))
+                            }
+                            else{
+                            return value;
+                            }
+
+                            }">下单提成</th>
+                        <th data-options="field:'ReceiveCommission',fixed:true,halign:'center',align:'right',formatter:function(value,row,index){
+                                                        if(value.indexOf('￥')!=-1){
+                            return '￥'+value.substring(0,value.indexOf('￥'))
+                            }
+                                                     else{
+                            return value;
+                            }
+                            }">结单提成</th>
+                        <th data-options="field:'Remark',fixed:true,halign:'center'">备注</th>
+                        <th data-options="field:'DeptID',fixed:true,hidden:true"></th>
+                        <th data-options="field:'CommissionTypeID',fixed:true,hidden:true"></th>
+                        <th data-options="field:'OrderCommissionValue',fixed:true,hidden:true"></th>
+                        <th data-options="field:'ReceiveCommissionValue',fixed:true,hidden:true"></th>
+                        <th data-options="field:'OCUnit',fixed:true,hidden:true"></th>
+                        <th data-options="field:'RCUnit',fixed:true,hidden:true"></th>
+                    </tr>
+                </thead>
+            </table>
+
+        </div>
+        <a class="easyui-linkbutton edit-button" style="margin-left:70px" data-options="iconCls:'icon-add'" href="javascript:void(0)" onclick="addClick()">新增</a>
+        <a class="easyui-linkbutton edit-button" data-options="iconCls:'icon-cancel',disabled:true" onclick="delClick()" id="EDelBtn">删除</a>
+
+        <div class="edit-panel3">
+
+            <div class="edit-field1">
+                <div class="edit-title1"><label class="edit-label1">提成部门：</label></div>
+                <div class="edit-content">
+                    <input id="RuleID" name="RuleID" class="edit-input" type="hidden">
+                    <input id="CommissionDeptID" class="edit-input easyui-combotree" name="CommissionDeptID" data-options="missingMessage:'请选择提成部门',required:true,editable:false,url:'/Share/Query?name=GetAllComAndDptTree&resultformat=jsontree&root=000000&pid=PID&id=ID&text=Name'" />
+                </div>
+            </div>
+
+            <div class="edit-field1">
+                <div class="edit-title1"><label class="edit-label1">提成类别：</label></div>
+                <div class="edit-content">
+                    <input id="CommissionTypeID" class="edit-input easyui-combobox" name="CommissionTypeID" data-options="missingMessage:'请选择结束日期',required:true,editable:false,url:'/Share/Query?name=GetCommissionType',valueField:'CommissionTypeID',textField:'CommissionType'" />
+                </div>
+            </div>
+        </div>
+
+        <div class="edit-panel3">
+
+            <div class="edit-field1">
+                <div class="edit-title1"><label class="edit-label1">下单提成：</label></div>
+                <div class="edit-content">
+                    <input id="OrderCommission" class="edit-input easyui-numberbox" style="width:133px;" name="OrderCommission" data-options="precision:2,missingMessage:'请输入下单提成',min:0,validType:'length[1,10]',invalidMessage:'结单提成长度不能大于10'" />
+                    <input name="OCUnit" id="OCUnit" class="edit-input easyui-combobox" style="width:47px;"  data-options="missingMessage:'请选择单位',editable:false,url:'/Share/GetSystemCodes?code=C048',method:'get',valueField:'Code',textField:'Name',panelHeight:'auto'"></input>
+                </div>
+            </div>
+
+            <div class="edit-field1">
+                <div class="edit-title1"><label class="edit-label1">结单提成：</label></div>
+                <div class="edit-content">
+                    <input id="ReceiveCommission" class="edit-input easyui-numberbox " name="ReceiveCommission" style="width:133px;" data-options="precision:2,min:0,missingMessage:'请输入结单提成',validType:'length[1,10]',invalidMessage:'结单提成长度不能大于10'" />
+                    <input name="RCUnit" id="RCUnit" class="edit-input easyui-combobox" style="width:47px;" data-options="missingMessage:'请选择单位',editable:false,url:'/Share/GetSystemCodes?code=C048',method:'get',valueField:'Code',textField:'Name',panelHeight:'auto'"></input>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="edit-panel3">
+
+            <div class="edit-field1">
+                <div class="edit-title1"><label class="edit-label1">备注：</label></div>
+                <div class="edit-content">
+                    <input id="Remark" class="edit-input easyui-textbox" name="Remark" style="width:434px;height:60px" data-options="validType:'length[1,200]',invalidMessage:'备注不得超过200个字符',multiline:true" />
+                </div>
+            </div>
+        </div>
+        <div class="edit-panel3">
+            <div class="edit-field1" style="margin-top:30px;">
+                <div class="showmsg"><label id="showmsg"></label></div>
+            </div>
+        </div>
+    </div>
+</form>
+<div class="dialog-button">
+    <a class="easyui-linkbutton edit-button" data-options="iconCls:'icon-ok'" href="javascript:void(0)" onclick="Submit()">确定</a>
+    <a class="easyui-linkbutton edit-button" data-options="iconCls:'icon-cancel'" onclick="cancel()">取消</a>
+</div>
+

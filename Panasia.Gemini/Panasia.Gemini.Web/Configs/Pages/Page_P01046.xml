@@ -1,0 +1,442 @@
+<?xml version="1.0"?>
+<MvcEditPage xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" PageID="P01046" Controller="" DefaultAction="Index">
+  <Action ActionID="A01105" Name="Index" Title="列表" ActionValue="1">
+    <Command CommandID="M01313" Name="列表页面" Description="这个命令会直接返回到客户端，无需后继命令" CommandType="IndexPageActionCommand"><![CDATA[<IndexPageActionCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ContentType="text/html">
+  <Page SettingType="IndexPage">
+    <ToolBar Tag="div" ID="toolbar" Class="toolbar-panel" PageID="P01046">
+      <Buttons>
+        <UIButton ID="btn-search" Class="easyui-linkbutton normal-button" Options="iconCls:'icon-search',plain:true" Title="检索" ActionValue="2" Action="showActDlg('检索','/Page/P01046/Search',400,300)" />
+        <UIButton ID="btn-detail" Class="easyui-linkbutton toolradio  normal-button" Options="iconCls:'icon-detail',plain:true" Title="查看" ActionValue="4" Action="showActDlg_DGItemActDlg('datagrid','查看','/Page/P01046/Detail',400,300)" />
+        <UIButton ID="btn-create" Class="easyui-linkbutton normal-button" Options="iconCls:'icon-add',plain:true" Title="新增" ActionValue="8" Action="showActDlg('新增','/Page/P01046/Create',400,300)" />
+        <UIButton ID="btn-edit" Class="easyui-linkbutton toolradio normal-button" Options="iconCls:'icon-edit',plain:true" Title="修改" ActionValue="16" Action="showActDlg_DGItemActDlg('datagrid','修改','/Page/P01046/Edit',400,300)" />
+        <UIButton ID="btn-edit" Class="easyui-linkbutton toolmultiple normal-button" Options="iconCls:'icon-edit',plain:true" Title="批量修改" ActionValue="32" Action="showActDlg_DGItemActDlgPL('datagrid','批量修改','/Page/P01046/EditP',400,300)" />
+        <UIButton ID="btn-delete" Class="easyui-linkbutton toolmultiple normal-button" Options="iconCls:'icon-cancel',plain:true" Title="删除" ActionValue="64" Action="showActDlg_DGItemsConfirm('datagrid','删除','确认删除选择项？','/Page/P01046/Delete',400,300)" />
+        <UIButton />
+      </Buttons>
+    </ToolBar>
+    <DataGrid Tag="table" ID="datagrid" Class="easyui-datagrid" Options="url:'/Page/P01046/Query',fitColumns:true,fit:true,pagination: true,rownumbers: true,nowrap: true,striped: true,collapsible: false,resizable:true,onClickRow:oncheckstate,onSelect:oncheckstate,onCheck:oncheckstate,onCheckAll:oncheckstate,onUncheckAll:oncheckstate,onUncheck:oncheckstate,onUnselect:oncheckstate" Key="EmployeeID">
+      <Column Title="AutoKey" FieldName="AutoKey" IsCheckBox="true" />
+      <Column Title="公司" FieldName="Cname" />
+      <Column Title="部门" FieldName="Dname" />
+      <Column Title="职位" FieldName="Pname" />
+      <Column Title="姓名" FieldName="Ename" />
+      <Column Title="银行" FieldName="Bank" />
+      <Column Title="账号" FieldName="Account" />
+      <Column HAlign="Right" Title="基本工资" FieldName="BaseSalary" />
+      <Column HAlign="Right" Title="职位工资" FieldName="PostSalary" />
+      <Column HAlign="Right" Title="养老金" FieldName="Yanglaojin" />
+      <Column HAlign="Right" Title="医疗金" FieldName="Yiliaojin" />
+      <Column HAlign="Right" Title="失业金" FieldName="Shiyejin" />
+      <Column HAlign="Right" Title="公积金" FieldName="Gongjijin" />
+      <Column HAlign="Right" Title="团费" FieldName="Tuanfei" />
+    </DataGrid>
+  </Page>
+</IndexPageActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="A01106" Name="Search" Title="检索" ActionValue="2">
+    <Command CommandID="M01314" Name="检索页面" Description="这个命令会直接返回到客户端，无需后继命令" CommandType="EditDialogActionCommand"><![CDATA[<EditDialogActionCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ContentType="text/html">
+  <Parameter Name="Null" Type="Const" />
+  <Page SettingType="EditDialog">
+    <Form ID="dataform" Class="form-dialog">
+      <TableLayout />
+      <Fields>
+        <Field Title="公司" FieldType="ComboBox">
+          <ComboBox Tag="input" ID="Company" Name="CompanyID" Class="edit-input easyui-combobox" Options="editable:false" Binding="Company" IsRequired="false" Length="8" DisplayMember="Name" ValueMember="ID" DataUrl="/Share/Query?name=GetCompanyName&amp;Key=" IsAutoHeight="false" OnSelect="function(rec){&#xD;&#xA;var url='/Share/Query?name=GetDeptTreeByCompanyID&amp;resultformat=jsontree&amp;root='+rec.ID+'&amp;pid=PID&amp;id=ID&amp;text=Name&amp;CompanyID='+rec.ID;&#xD;&#xA;var url1='/Share/Query?name=GetEmpByCmpOrDept&amp;ID='+rec.ID;&#xD;&#xA;var url2='/Share/Query?name=GetPositionByDeptID&amp;DeptID=';&#xD;&#xA;$('#DeptID').combotree({url:url});&#xD;&#xA;$('#EmployeeID').combobox({url:url1});&#xD;&#xA;$('#JobID').combobox({url:url2});&#xD;&#xA;}" />
+        </Field>
+        <Field Title="部门" FieldType="ComboTree">
+          <ComboTree Tag="input" ID="DeptID" Name="DeptID" Class="edit-input easyui-combotree" Options="editable:false" Binding="/Parameters[Null]" IsRequired="false" Length="8" DataUrl="/Share/Query?name=GetDeptTreeByCompanyID&amp;resultformat=jsontree&amp;root=000000&amp;pid=PID&amp;id=ID&amp;text=Name&amp;CompanyID=xxxxxx" DisplayMember="text" ValueMember="id" IsAutoHeight="false" OnSelect="function(rec){&#xD;&#xA;var url='/Share/Query?name=GetEmpByDeptAndJob&amp;JobID=&amp;DeptID='+rec.id;&#xD;&#xA;var url1='/Share/Query?name=GetPositionByDeptID&amp;DeptID='+rec.id;&#xD;&#xA;$('#EmployeeID').combobox({url:url});&#xD;&#xA;$('#JobID').combobox({url:url1});&#xD;&#xA;}" />
+        </Field>
+        <Field Title="职位" FieldType="ComboBox">
+          <ComboBox Tag="input" ID="JobID" Name="JobID" Class="edit-input easyui-combobox" Options="editable:false" Binding="/Parameters[Null]" IsRequired="false" Length="8" DisplayMember="Name" ValueMember="ID" DataUrl="/Share/Query?name=GetPositionByDeptID&amp;DeptID=" IsAutoHeight="false" OnSelect="function(rec){&#xD;&#xA;var url='/Share/Query?name=GetEmpByDeptAndJob&amp;DeptID='+$('#DeptID').combotree('getValue')+'&amp;JobID='+rec.ID;&#xD;&#xA;$('#EmployeeID').combobox({url:url});&#xD;&#xA;}" />
+        </Field>
+        <Field Title="姓名" FieldType="ComboBox">
+          <ComboBox Tag="input" ID="EmployeeID" Name="EmployeeID" Class="edit-input easyui-combobox" Binding="/Parameters[Null]" IsRequired="false" Length="8" DisplayMember="Name" ValueMember="Name" DataUrl="/Share/Query?name=GetEmpByDeptAndJob&amp;DeptID=&amp;JobID=" IsAutoHeight="false" />
+        </Field>
+      </Fields>
+      <ToolBar Tag="div" ID="toolbar" Class="dialog-button" PageID="P01046">
+        <Buttons>
+          <UIButton ID="btn-query" Class="easyui-linkbutton edit-button" Options="iconCls:'icon-ok'" Title="确定" ActionValue="2" Action="submitAct_DGReplace('dataform','/Page/P01046/Query','datagrid')" />
+          <UIButton ID="btn-cancel" Class="easyui-linkbutton edit-button" Options="iconCls:'icon-cancel'" Title="取消" Action="cancel()" />
+        </Buttons>
+      </ToolBar>
+    </Form>
+  </Page>
+</EditDialogActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="A01107" Name="Query" Title="检索" ActionValue="2" ErrorCommand="搜索结果">
+    <Command CommandID="M01771" Name="查询总数" CommandType="ScalarSqlCommand"><![CDATA[<ScalarCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" NextCommand="执行查询" GroupName="人事管理" TableName="hr_SalarySet" CommandName="QueryCount" SqlType="Scalar">
+  <Parameter Name="EmployeeID" Path="Request[EmployeeID]" Type="Parameter" />
+  <Parameter Name="JobID" Path="Request[JobID]" Type="Parameter" />
+  <Parameter Name="DeptID" Path="Request[DeptID]" Type="Parameter" />
+  <Parameter Name="CompanyID" Path="Request[CompanyID]" Type="Parameter" />
+  <Parameter Name="UserID" Path="CurrentUserID" Type="SystemParameter" />
+</ScalarCommand>]]></Command>
+    <Command CommandID="M01314" Name="执行查询" CommandType="QuerySqlCommand"><![CDATA[<QueryCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" NextCommand="搜索结果" GroupName="人事管理" TableName="hr_SalarySet" CommandName="QueryPage">
+  <Parameter Name="EmployeeID" Path="Request[EmployeeID]" Type="Parameter" />
+  <Parameter Name="JobID" Path="Request[JobID]" Type="Parameter" />
+  <Parameter Name="DeptID" Path="Request[DeptID]" Type="Parameter" />
+  <Parameter Name="CompanyID" Path="Request[CompanyID]" Type="Parameter" />
+  <Parameter Name="Rows" Path="Request[Rows]" Type="Parameter" />
+  <Parameter Name="Page" Path="Request[Page]" Type="Parameter" />
+  <Parameter Name="UserID" Path="CurrentUserID" Type="SystemParameter" />
+</QueryCommand>]]></Command>
+    <Command CommandID="M01316" Name="搜索结果" Description="返回搜索结果" CommandType="JsonActionCommand"><![CDATA[<JsonActionCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ContentType="application/json">
+  <Parameter Name="rows" Path="Results[执行查询].Items" Type="Parameter" />
+  <Parameter Name="HasError" Path="Results[执行查询].IsError" Type="Parameter" />
+  <Parameter Name="ErrorMessage" Path="Results[执行查询].ErrorMessage" Type="Parameter" />
+  <Parameter Name="total" Path="Results[查询总数].Value" Type="Parameter" />
+</JsonActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="A01115" Name="Detail" Title="查看" ActionValue="4">
+    <Command CommandID="M01317" Name="查询明细" Description="查询明细" CommandType="QuerySqlCommand"><![CDATA[<QueryCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" NextCommand="查看页面" GroupName="人事管理" TableName="hr_SalarySet" CommandName="GetDetail">
+  <Parameter Name="AutoKey" Path="Request[ID]" Type="Parameter" />
+</QueryCommand>]]></Command>
+    <Command CommandID="M01318" Name="查看页面" Description="这个命令会直接返回到客户端，无需后继命令" CommandType="EditDialogActionCommand"><![CDATA[<EditDialogActionCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ContentType="text/html">
+  <Parameter Name="Data" Path="LastResult.Items" Type="Parameter" />
+  <Page SettingType="EditDialog">
+    <Form ID="dataform" Class="form-dialog" DataBinding="Parameters[Data]" EditPanelClass="edit-panel-w2">
+      <TableLayout />
+      <Fields>
+        <Field Title="公司" FieldType="TextBox">
+          <Input Tag="input" Name="Company" Class="edit-input easyui-textbox" Binding="Cname" IsReadOnly="true" IsRequired="false" />
+        </Field>
+        <Field Title="部门" FieldType="TextBox">
+          <Input Tag="input" Name="Department" Class="edit-input easyui-textbox" Binding="Dname" IsReadOnly="true" IsRequired="false" />
+        </Field>
+        <Field Title="职位" FieldType="TextBox">
+          <Input Tag="input" Name="Position" Class="edit-input easyui-textbox" Binding="Pname" IsReadOnly="true" IsRequired="false" />
+        </Field>
+        <Field Title="姓名" FieldType="TextBox">
+          <Input Tag="input" Name="Ename" Class="edit-input easyui-textbox" Binding="Ename" IsReadOnly="true" IsRequired="false" Length="8" />
+        </Field>
+        <Field Title="公司银行" FieldType="TextBox">
+          <Input Tag="input" Name="Bank" Class="edit-input easyui-textbox" Binding="Bank" IsReadOnly="true" IsRequired="false" Length="6" />
+        </Field>
+        <Field Title="员工账号" FieldType="TextBox">
+          <Input Tag="input" Name="Account" Class="edit-input easyui-textbox" Binding="Account" IsReadOnly="true" IsRequired="false" Length="20" />
+        </Field>
+        <Field Title="基本工资" FieldType="TextBox">
+          <Input Tag="input" Name="BaseSalary" Class="edit-input easyui-textbox" Binding="BaseSalary" IsReadOnly="true" IsRequired="false" />
+        </Field>
+        <Field Title="职位工资" FieldType="TextBox">
+          <Input Tag="input" Name="PostSalary" Class="edit-input easyui-textbox" Binding="PostSalary" IsReadOnly="true" IsRequired="false" />
+        </Field>
+        <Field Title="养老金" FieldType="TextBox">
+          <Input Tag="input" Name="Yanglaojin" Class="edit-input easyui-textbox" Binding="Yanglaojin" IsReadOnly="true" IsRequired="false" />
+        </Field>
+        <Field Title="医疗金" FieldType="TextBox">
+          <Input Tag="input" Name="Yiliaojin" Class="edit-input easyui-textbox" Binding="Yiliaojin" IsReadOnly="true" IsRequired="false" />
+        </Field>
+        <Field Title="失业金" FieldType="TextBox">
+          <Input Tag="input" Name="Shiyejin" Class="edit-input easyui-textbox" Binding="Shiyejin" IsReadOnly="true" IsRequired="false" />
+        </Field>
+        <Field Title="公积金" FieldType="TextBox">
+          <Input Tag="input" Name="Gongjijin" Class="edit-input easyui-textbox" Binding="Gongjijin" IsReadOnly="true" IsRequired="false" />
+        </Field>
+        <Field Title="团费" FieldType="TextBox">
+          <Input Tag="input" Name="Tuanfei" Class="edit-input easyui-textbox" Binding="Tuanfei" IsReadOnly="true" IsRequired="false" />
+        </Field>
+      </Fields>
+      <ToolBar Tag="div" ID="toolbar" Class="dialog-button" PageID="P01046">
+        <Buttons>
+          <UIButton ID="btn-update" Class="easyui-linkbutton edit-button" Options="iconCls:'icon-cancel'" Title="关闭" ActionValue="16" Action="cancel()" />
+        </Buttons>
+      </ToolBar>
+    </Form>
+  </Page>
+</EditDialogActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="A01109" Name="Create" Title="新增" ActionValue="8" ErrorCommand="新增页面">
+    <Command CommandID="M01362" Name="查询信息" CommandType="QuerySqlCommand"><![CDATA[<QueryCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" NextCommand="新增页面" GroupName="人事管理" TableName="hr_SalarySet" CommandName="Info">
+  <Parameter Name="AutoKey" Path="Request[ID]" Type="Parameter" />
+</QueryCommand>]]></Command>
+    <Command CommandID="M01319" Name="新增页面" Description="这个命令会直接返回到客户端，无需后继命令" CommandType="EditDialogActionCommand"><![CDATA[<EditDialogActionCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ContentType="text/html">
+  <Parameter Name="Data" Path="LastResult.Items" Type="Parameter" />
+  <Page SettingType="EditDialog">
+    <Form ID="dataform" Class="form-dialog" DataBinding="Parameters[Data]" EditPanelClass="edit-panel-w2">
+      <TableLayout />
+      <Fields>
+        <Field Title="公司" FieldType="ComboBox">
+          <ComboBox Tag="input" ID="Company" Name="Company" Class="edit-input easyui-combobox" Options="editable:false,missingMessage:'请选择公司'" Length="8" DisplayMember="Name" ValueMember="ID" DataUrl="/Share/Query?name=GetCompanyName&amp;Key=" IsAutoHeight="false" OnSelect="function(rec){&#xD;&#xA;var url='/Share/Query?name=GetDeptTreeByCompanyID&amp;resultformat=jsontree&amp;root='+rec.ID+'&amp;pid=PID&amp;id=ID&amp;text=Name&amp;CompanyID='+rec.ID;&#xD;&#xA;var url1='/Share/Query?name=GetBankByCompanyID&amp;CompanyID='+rec.ID;&#xD;&#xA;var url2='/Share/Query?name=GetEmpByDeptAndJob&amp;JobID=xxxxxx&amp;DeptID=xxxxxx';&#xD;&#xA;var url3='/Share/Query?name=GetPositionByDeptID&amp;DeptID=xxxxxx';&#xD;&#xA;$('#EmployeeID').textbox('setValue','');&#xD;&#xA;$('#Position').textbox('setValue','');&#xD;&#xA;$('#HireDate').textbox('setValue','');&#xD;&#xA;$('#State').textbox('setValue','');&#xD;&#xA;$('#Account').textbox('setValue','');&#xD;&#xA;$('#BaseSalary').textbox('setValue','');&#xD;&#xA;$('#PostSalary').textbox('setValue','');&#xD;&#xA;$('#Yanglaojin').textbox('setValue','');&#xD;&#xA;$('#Yiliaojin').textbox('setValue','');&#xD;&#xA;$('#Shiyejin').textbox('setValue','');&#xD;&#xA;$('#Gongjijin').textbox('setValue','');&#xD;&#xA;$('#Tuanfei').textbox('setValue','');&#xD;&#xA;$('#Department').combotree({url:url});&#xD;&#xA;$('#Bank').combobox({url:url1});&#xD;&#xA;$('#EmployeeID').combobox({url:url2});&#xD;&#xA;$('#Position').combobox({url:url3});&#xD;&#xA;}" />
+        </Field>
+        <Field Title="部门" FieldType="ComboTree">
+          <ComboTree Tag="input" ID="Department" Name="Department" Class="edit-input easyui-combotree" Options="editable:false,missingMessage:'请选择部门'" Length="8" DataUrl="/Share/Query?name=GetDeptTreeByCompanyID&amp;resultformat=jsontree&amp;root=000000&amp;pid=PID&amp;id=ID&amp;text=Name&amp;CompanyID=xxxxxx" DisplayMember="text" ValueMember="id" IsAutoHeight="false" OnSelect="function(rec){&#xD;&#xA;var url='/Share/Query?name=GetEmpByDeptAndJob&amp;JobID=&amp;DeptID='+rec.id;&#xD;&#xA;var url1='/Share/Query?name=GetPositionByDeptID&amp;DeptID='+rec.id;&#xD;&#xA;$('#HireDate').textbox('setValue','');&#xD;&#xA;$('#State').textbox('setValue','');&#xD;&#xA;$('#Bank').textbox('setValue','');&#xD;&#xA;$('#Account').textbox('setValue','');&#xD;&#xA;$('#BaseSalary').textbox('setValue','');&#xD;&#xA;$('#PostSalary').textbox('setValue','');&#xD;&#xA;$('#Yanglaojin').textbox('setValue','');&#xD;&#xA;$('#Yiliaojin').textbox('setValue','');&#xD;&#xA;$('#Shiyejin').textbox('setValue','');&#xD;&#xA;$('#Gongjijin').textbox('setValue','');&#xD;&#xA;$('#Tuanfei').textbox('setValue','');&#xD;&#xA;$('#EmployeeID').combobox({url:url});&#xD;&#xA;$('#Position').combobox({url:url1});&#xD;&#xA;}" />
+        </Field>
+        <Field Title="职位" FieldType="ComboBox">
+          <ComboBox Tag="input" ID="Position" Name="Position" Class="edit-input easyui-combobox" Options="editable:false" Binding="Pname" IsRequired="false" Length="8" DisplayMember="Name" ValueMember="ID" DataUrl="/Share/Query?name=GetPositionByDeptID&amp;DeptID=xxxxxx" IsAutoHeight="false" OnSelect="function(rec){&#xD;&#xA;var url='/Share/Query?name=GetEmpByDeptAndJob&amp;DeptID='+$('#Department').combotree('getValue')+'&amp;JobID='+rec.ID;&#xD;&#xA;$('#HireDate').textbox('setValue','');&#xD;&#xA;$('#State').textbox('setValue','');&#xD;&#xA;$('#Bank').textbox('setValue','');&#xD;&#xA;$('#Account').textbox('setValue','');&#xD;&#xA;$('#BaseSalary').textbox('setValue','');&#xD;&#xA;$('#PostSalary').textbox('setValue','');&#xD;&#xA;$('#Yanglaojin').textbox('setValue','');&#xD;&#xA;$('#Yiliaojin').textbox('setValue','');&#xD;&#xA;$('#Shiyejin').textbox('setValue','');&#xD;&#xA;$('#Gongjijin').textbox('setValue','');&#xD;&#xA;$('#Tuanfei').textbox('setValue','');&#xD;&#xA;$('#EmployeeID').combobox({url:url});&#xD;&#xA;}" />
+        </Field>
+        <Field Title="姓名" FieldType="ComboBox">
+          <ComboBox Tag="input" ID="EmployeeID" Name="EmployeeID" Class="edit-input easyui-combobox" Options="editable:false,missingMessage:'请选择员工'" Length="8" DisplayMember="Name" ValueMember="ID" DataUrl="/Share/Query?name=GetEmpByDeptAndJob&amp;DeptID=xxxxxx&amp;JobID=xxxxxx" IsAutoHeight="false" OnSelect="function(rec){&#xD;&#xA;var url='/Page/P01046/Info?ID='+rec.ID;&#xD;&#xA; $.ajax({&#xD;&#xA;            url: url,&#xD;&#xA;            type: 'post',&#xD;&#xA;            success: function (result)&#xD;&#xA;            {&#xD;&#xA;var r=result.Data[0];&#xD;&#xA;$('#Position').textbox('setValue',r['Pname']);&#xD;&#xA;$('#HireDate').textbox('setValue',r['HireDate']);&#xD;&#xA;$('#State').textbox('setValue',r['State']);&#xD;&#xA;$('#Bank').textbox('setValue',r['Bank'])&#xD;&#xA;$('#Account').textbox('setValue',r['Account'])&#xD;&#xA;$('#BaseSalary').textbox('setValue',r['BaseSalary']);&#xD;&#xA;$('#PostSalary').textbox('setValue',r['PostSalary']);&#xD;&#xA;$('#Yanglaojin').textbox('setValue',r['Yanglaojin']);&#xD;&#xA;$('#Yiliaojin').textbox('setValue',r['Yiliaojin']);&#xD;&#xA;$('#Shiyejin').textbox('setValue',r['Shiyejin']);&#xD;&#xA;$('#Gongjijin').textbox('setValue',r['Gongjijin']);&#xD;&#xA;$('#Tuanfei').textbox('setValue',r['Tuanfei']);&#xD;&#xA;            },&#xD;&#xA;            error: function (d, error) {&#xD;&#xA;                showError(error);&#xD;&#xA;            }&#xD;&#xA;      });&#xD;&#xA;}" />
+        </Field>
+        <Field Title="入职日期" FieldType="TextBox">
+          <Input Tag="input" ID="HireDate" Name="HireDate" Class="edit-input easyui-textbox" Binding="HireDate" IsReadOnly="true" IsRequired="false" Length="8" />
+        </Field>
+        <Field Title="状态" FieldType="TextBox">
+          <Input Tag="input" ID="State" Name="State" Class="edit-input easyui-textbox" Binding="State" IsReadOnly="true" IsRequired="false" Length="8" />
+        </Field>
+        <Field Title="公司银行" FieldType="ComboBox">
+          <ComboBox Tag="input" ID="Bank" Name="Bank" Class="edit-input easyui-combobox" Options="mode:'remote',editable:false,missingMessage:'请选择银行'" Binding="Bank" Length="6" DisplayMember="BankName" ValueMember="BankName" DataUrl="/Share/Query?name=GetBankByCompanyID&amp;CompanyID=xxxxxx" />
+        </Field>
+        <Field Title="员工账号" FieldType="TextBox">
+          <Input Tag="input" ID="Account" Name="Account" Class="edit-input easyui-textbox" Options="missingMessage:'请输入账号',validType:'bankInt[16,19]',invalidMessage:'请输入有效账号'" Binding="Account" Length="20" />
+        </Field>
+        <Field Title="基本工资" FieldType="TextBox">
+          <Input Tag="input" ID="BaseSalary" Name="BaseSalary" Class="edit-input easyui-numberbox" Options="missingMessage:'请输入基本工资',precision:2,groupSeparator:',',decimalSeparator:'.',min:0,max:99999999.99,required:true" Binding="BaseSalary" />
+        </Field>
+        <Field Title="职位工资" FieldType="TextBox">
+          <Input Tag="input" ID="PostSalary" Name="PostSalary" Class="edit-input easyui-numberbox" Options="missingMessage:'请输入职位工资',precision:2,groupSeparator:',',decimalSeparator:'.',min:0,max:99999999.99,required:true" Binding="PostSalary" />
+        </Field>
+        <Field Title="养老金" FieldType="TextBox">
+          <Input Tag="input" ID="Yanglaojin" Name="Yanglaojin" Class="edit-input easyui-numberbox" Options="missingMessage:'请输入养老金',precision:2,groupSeparator:',',decimalSeparator:'.',min:0,max:99999999.99" Binding="Yanglaojin" IsRequired="false" />
+        </Field>
+        <Field Title="医疗金" FieldType="TextBox">
+          <Input Tag="input" ID="Yiliaojin" Name="Yiliaojin" Class="edit-input easyui-numberbox" Options="missingMessage:'请输入医疗金',precision:2,groupSeparator:',',decimalSeparator:'.',min:0,max:99999999.99" Binding="Yiliaojin" IsRequired="false" />
+        </Field>
+        <Field Title="失业金" FieldType="TextBox">
+          <Input Tag="input" ID="Shiyejin" Name="Shiyejin" Class="edit-input easyui-numberbox" Options="missingMessage:'请输入失业金',precision:2,groupSeparator:',',decimalSeparator:'.',min:0,max:99999999.99" Binding="Shiyejin" IsRequired="false" />
+        </Field>
+        <Field Title="公积金" FieldType="TextBox">
+          <Input Tag="input" ID="Gongjijin" Name="Gongjijin" Class="edit-input easyui-numberbox" Options="missingMessage:'请输入公积金',precision:2,groupSeparator:',',decimalSeparator:'.',min:0,max:99999999.99" Binding="Gongjijin" IsRequired="false" />
+        </Field>
+        <Field Title="团费" FieldType="TextBox">
+          <Input Tag="input" ID="Tuanfei" Name="Tuanfei" Class="edit-input easyui-numberbox" Options="missingMessage:'请输入团费',precision:2,groupSeparator:',',decimalSeparator:'.',min:0,max:99999999.99" Binding="Tuanfei" IsRequired="false" />
+        </Field>
+      </Fields>
+      <ToolBar Tag="div" ID="toolbar" Class="dialog-button" PageID="P01046">
+        <Buttons>
+          <UIButton ID="btn-add" Class="easyui-linkbutton edit-button" Options="iconCls:'icon-ok'" Title="确定" ActionValue="8" Action="submitAct_DGAddUpd('dataform','/Page/P01046/Add','datagrid')" />
+          <UIButton Tag="a" ID="btn-cancel" Class="easyui-linkbutton edit-button" Options="iconCls:'icon-cancel'" Title="取消" Action="cancel()" />
+        </Buttons>
+      </ToolBar>
+    </Form>
+  </Page>
+</EditDialogActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="A01110" Name="Add" Title="新增" ActionValue="8" ErrorCommand="新增结果">
+    <Command CommandID="M01320" Name="执行新增" Description="本查询的结果值为JSON，参数路径为Results[执行新增].Json" CommandType="QueryJsonSqlCommand"><![CDATA[<QueryJsonCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" NextCommand="新增结果" GroupName="人事管理" TableName="hr_SalarySet" CommandName="Add" SqlType="QueryJson">
+  <Parameter Name="BaseSalary" Path="Request[BaseSalary]" Type="Parameter" DefaultValue="0" />
+  <Parameter Name="PostSalary" Path="Request[PostSalary]" Type="Parameter" DefaultValue="0" />
+  <Parameter Name="Yanglaojin" Path="Request[Yanglaojin]" Type="Parameter" DefaultValue="0" />
+  <Parameter Name="Yiliaojin" Path="Request[Yiliaojin]" Type="Parameter" DefaultValue="0" />
+  <Parameter Name="Shiyejin" Path="Request[Shiyejin]" Type="Parameter" DefaultValue="0" />
+  <Parameter Name="Gongjijin" Path="Request[Gongjijin]" Type="Parameter" DefaultValue="0" />
+  <Parameter Name="Cantie" Path="Request[Cantie]" Type="Parameter" DefaultValue="0" />
+  <Parameter Name="Tuanfei" Path="Request[Tuanfei]" Type="Parameter" DefaultValue="0" />
+  <Parameter Name="EmployeeID" Path="Request[EmployeeID]" Type="Parameter" />
+  <Parameter Name="CompanyID" Path="Request[Company]" Type="Parameter" />
+  <Parameter Name="DeptID" Path="Request[Department]" Type="Parameter" />
+  <Parameter Name="Bank" Path="Request[Bank]" Type="Parameter" />
+  <Parameter Name="Account" Path="Request[Account]" Type="Parameter" />
+  <Parameter Name="ModifiedUser" Path="CurrentUserID" Type="SystemParameter" />
+  <Parameter Name="ModifiedTime" Path="CurrentDateTime" Type="SystemParameter" />
+  <Parameter Name="CreatedUser" Path="CurrentUserID" Type="SystemParameter" />
+  <Parameter Name="CreatedTime" Path="CurrentDateTime" Type="SystemParameter" />
+</QueryJsonCommand>]]></Command>
+    <Command CommandID="M01321" Name="新增结果" Description="返回新增结果" CommandType="JsonActionCommand"><![CDATA[<JsonActionCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ContentType="text/xml">
+  <Parameter Name="Data" Path="Results[执行新增].Json" Type="Parameter" />
+  <Parameter Name="HasError" Path="Results[执行新增].IsError" Type="Parameter" />
+  <Parameter Name="ErrorMessage" Path="Results[执行新增].ErrorMessage" Type="Parameter" />
+</JsonActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="A01114" Name="Edit" Title="修改" ActionValue="16" ErrorCommand="查看页面">
+    <Command CommandID="M01315" Name="查询公司" CommandType="QuerySqlCommand"><![CDATA[<QueryCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" NextCommand="查询明细" GroupName="人事管理" TableName="hr_SalarySet" CommandName="GetCompany" SqlType="Scalar">
+  <Parameter Name="AutoKey" Path="Request[ID]" Type="Parameter" />
+</QueryCommand>]]></Command>
+    <Command CommandID="M01317" Name="查询明细" Description="查询明细" CommandType="QuerySqlCommand"><![CDATA[<QueryCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" NextCommand="查看页面" GroupName="人事管理" TableName="hr_SalarySet" CommandName="GetEdit">
+  <Parameter Name="AutoKey" Path="Request[ID]" Type="Parameter" />
+</QueryCommand>]]></Command>
+    <Command CommandID="M01318" Name="查看页面" Description="这个命令会直接返回到客户端，无需后继命令" CommandType="EditDialogActionCommand"><![CDATA[<EditDialogActionCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ContentType="text/html">
+  <Parameter Name="Data" Path="LastResult.Items" Type="Parameter" />
+  <Parameter Name="CID" Path="Results[查询公司].Value" Type="Parameter" />
+  <Page SettingType="EditDialog">
+    <Form ID="dataform" Class="form-dialog" DataBinding="Parameters[Data]" EditPanelClass="edit-panel-w2">
+      <TableLayout />
+      <Fields>
+        <Field Title="公司" FieldType="TextBox">
+          <Input Tag="input" Name="Company" Class="edit-input easyui-textbox" Binding="Cname" IsReadOnly="true" IsRequired="false" />
+        </Field>
+        <Field Title="部门" FieldType="TextBox">
+          <Input Tag="input" Name="Department" Class="edit-input easyui-textbox" Binding="Dname" IsReadOnly="true" IsRequired="false" />
+        </Field>
+        <Field Title="职位" FieldType="TextBox">
+          <Input Tag="input" Name="Position" Class="edit-input easyui-textbox" Binding="Pname" IsReadOnly="true" IsRequired="false" />
+        </Field>
+        <Field Title="姓名" FieldType="TextBox">
+          <Input Tag="input" Name="EName" Class="edit-input easyui-textbox" Binding="Ename" IsReadOnly="true" IsRequired="false" Length="8" />
+        </Field>
+        <Field Title="公司银行" FieldType="ComboBox">
+          <ComboBox Tag="input" Name="Bank" Class="edit-input easyui-combobox" Options="missingMessage:'请选择银行',mode:'remote',editable:false" Binding="Bank" Length="6" DisplayMember="BankName" ValueMember="BankName" DataUrl="/Share/Query?name=GetBankByCompanyID&amp;CompanyID={@/Parameters[CID]}" />
+        </Field>
+        <Field Title="员工账号" FieldType="TextBox">
+          <Input Tag="input" Name="Account" Class="edit-input easyui-textbox" Options="missingMessage:'请输入账号',validType:'bankInt[16,19]',invalidMessage:'请输入有效账号'" Binding="Account" Length="20" />
+        </Field>
+        <Field Title="基本工资" FieldType="TextBox">
+          <Input Tag="input" Name="BaseSalary" Class="edit-input easyui-numberbox" Options="missingMessage:'请输入基本工资',precision:2,groupSeparator:',',decimalSeparator:'.',min:0,max:99999999.99,required:true" Binding="BaseSalary" />
+        </Field>
+        <Field Title="职位工资" FieldType="TextBox">
+          <Input Tag="input" Name="PostSalary" Class="edit-input easyui-numberbox" Options="missingMessage:'请输入职位工资',precision:2,groupSeparator:',',decimalSeparator:'.',min:0,max:99999999.99,required:true" Binding="PostSalary" />
+        </Field>
+        <Field Title="养老金" FieldType="TextBox">
+          <Input Tag="input" Name="Yanglaojin" Class="edit-input easyui-numberbox" Options="missingMessage:'请输入养老金',precision:2,groupSeparator:',',decimalSeparator:'.',min:0,max:99999999.99" Binding="Yanglaojin" IsRequired="false" />
+        </Field>
+        <Field Title="医疗金" FieldType="TextBox">
+          <Input Tag="input" Name="Yiliaojin" Class="edit-input easyui-numberbox" Options="missingMessage:'请输入医疗金',precision:2,groupSeparator:',',decimalSeparator:'.',min:0,max:99999999.99" Binding="Yiliaojin" IsRequired="false" />
+        </Field>
+        <Field Title="失业金" FieldType="TextBox">
+          <Input Tag="input" Name="Shiyejin" Class="edit-input easyui-numberbox" Options="missingMessage:'请输入失业金',precision:2,groupSeparator:',',decimalSeparator:'.',min:0,max:99999999.99" Binding="Shiyejin" IsRequired="false" />
+        </Field>
+        <Field Title="公积金" FieldType="TextBox">
+          <Input Tag="input" Name="Gongjijin" Class="edit-input easyui-numberbox" Options="missingMessage:'请输入公积金',precision:2,groupSeparator:',',decimalSeparator:'.',min:0,max:99999999.99" Binding="Gongjijin" IsRequired="false" />
+        </Field>
+        <Field Title="团费" FieldType="TextBox">
+          <Input Tag="input" Name="Tuanfei" Class="edit-input easyui-numberbox" Options="missingMessage:'请输入团费',precision:2,groupSeparator:',',decimalSeparator:'.',min:0,max:99999999.99" Binding="Tuanfei" IsRequired="false" />
+        </Field>
+        <Field Title="AutoKey" FieldType="TextBox">
+          <Input Tag="input" Name="AutoKey" Class="edit-input" InputType="hidden" Binding="AutoKey" IsHidden="true" />
+        </Field>
+      </Fields>
+      <ToolBar Tag="div" ID="toolbar" Class="dialog-button" PageID="P01046">
+        <Buttons>
+          <UIButton ID="btn-update" Class="easyui-linkbutton edit-button" Options="iconCls:'icon-ok'" Title="确定" ActionValue="16" Action="submitAct_DGUpdate('dataform','/Page/P01046/Update','datagrid')" />
+          <UIButton ID="btn-cancel" Class="easyui-linkbutton edit-button" Options="iconCls:'icon-cancel'" Title="取消" Action="cancel()" />
+        </Buttons>
+      </ToolBar>
+    </Form>
+  </Page>
+</EditDialogActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="A01112" Name="Update" Title="修改" ActionValue="16" ErrorCommand="编辑结果">
+    <Command CommandID="M01313" Name="执行更新" CommandType="QuerySqlCommand"><![CDATA[<QueryCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" NextCommand="编辑结果" GroupName="人事管理" TableName="hr_SalarySet" CommandName="Update">
+  <Parameter Name="Bank" Path="Request[Bank]" Type="Parameter" />
+  <Parameter Name="Account" Path="Request[Account]" Type="Parameter" />
+  <Parameter Name="BaseSalary" Path="Request[BaseSalary]" Type="Parameter" />
+  <Parameter Name="PostSalary" Path="Request[PostSalary]" Type="Parameter" />
+  <Parameter Name="Yanglaojin" Path="Request[Yanglaojin]" Type="Parameter" DefaultValue="0" />
+  <Parameter Name="Yiliaojin" Path="Request[Yiliaojin]" Type="Parameter" DefaultValue="0" />
+  <Parameter Name="Shiyejin" Path="Request[Shiyejin]" Type="Parameter" DefaultValue="0" />
+  <Parameter Name="Gongjijin" Path="Request[Gongjijin]" Type="Parameter" DefaultValue="0" />
+  <Parameter Name="Tuanfei" Path="Request[Tuanfei]" Type="Parameter" DefaultValue="0" />
+  <Parameter Name="ModifiedUser" Path="CurrentUserID" Type="SystemParameter" />
+  <Parameter Name="ModifiedTime" Path="CurrentDateTime" Type="SystemParameter" />
+  <Parameter Name="AutoKey" Path="Request[AutoKey]" Type="Parameter" />
+</QueryCommand>]]></Command>
+    <Command CommandID="M01325" Name="编辑结果" Description="返回编辑结果" CommandType="JsonActionCommand"><![CDATA[<JsonActionCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ContentType="application/json">
+  <Parameter Name="Data" Path="Results[执行更新].Items" Type="Parameter" />
+  <Parameter Name="HasError" Path="Results[执行更新].IsError" Type="Parameter" />
+  <Parameter Name="ErrorMessage" Path="Results[执行更新].ErrorMessage" Type="Parameter" />
+</JsonActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="A01116" Name="EditP" Title="批量修改" ActionValue="32">
+    <Command CommandID="M01318" Name="查看页面" Description="这个命令会直接返回到客户端，无需后继命令" CommandType="EditDialogActionCommand"><![CDATA[<EditDialogActionCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ContentType="text/html">
+  <Parameter Name="IDs" Path="Request[keys]" Type="Parameter" />
+  <Parameter Name="Typ" Type="Const" DefaultValue="全部" />
+  <Page SettingType="EditDialog">
+    <Form ID="dataform" Class="form-dialog">
+      <TableLayout />
+      <Fields>
+        <Field Title="类别" FieldType="ComboBox">
+          <ComboBox Tag="input" ID="Types" Class="edit-input easyui-combobox" Binding="\Parameters[Typ]" DisplayMember="Name" ValueMember="Name" DataUrl="/Share/GetSystemCodes?code=C034" OnSelect="function (rec) {&#xD;&#xA;                if (rec.Name == '团费') { &#xD;&#xA; $('.edit-field:eq(1),.edit-field:eq(2),.edit-field:eq(3),.edit-field:eq(4)').hide();&#xD;&#xA;$('.edit-field:eq(5)').show();&#xD;&#xA;$('.textbox-text:eq(1)').val('');&#xD;&#xA;$('.textbox-text:eq(2)').val('');&#xD;&#xA;$('.textbox-text:eq(3)').val('');&#xD;&#xA;$('.textbox-text:eq(4)').val('');&#xD;&#xA;$('input[name=\'Yanglaojin\']').val('');&#xD;&#xA;$('input[name=\'Yiliaojin\']').val('');&#xD;&#xA;$('input[name=\'Shiyejin\']').val('');&#xD;&#xA;$('input[name=\'Gongjijin\']').val('');&#xD;&#xA;}&#xD;&#xA;               else   if (rec.Name == '公积金') { &#xD;&#xA; $('.edit-field:eq(1),.edit-field:eq(2),.edit-field:eq(3),.edit-field:eq(5)').hide();&#xD;&#xA;$('.edit-field:eq(4)').show();&#xD;&#xA;$('.textbox-text:eq(1)').val('');&#xD;&#xA;$('.textbox-text:eq(2)').val('');&#xD;&#xA;$('.textbox-text:eq(3)').val('');&#xD;&#xA;$('.textbox-text:eq(5)').val('');&#xD;&#xA;$('input[name=\'Yanglaojin\']').val('');&#xD;&#xA;$('input[name=\'Yiliaojin\']').val('');&#xD;&#xA;$('input[name=\'Shiyejin\']').val('');&#xD;&#xA;$('input[name=\'Tuanfei\']').val('');&#xD;&#xA;}&#xD;&#xA;                else   if (rec.Name == '社保') { &#xD;&#xA; $('.edit-field:eq(4),.edit-field:eq(5)').hide();&#xD;&#xA;$('.edit-field:eq(1),.edit-field:eq(2),.edit-field:eq(3)').show();&#xD;&#xA;$('.textbox-text:eq(4)').val('');&#xD;&#xA;$('.textbox-text:eq(5)').val('');&#xD;&#xA;$('input[name=\'Tuanfei\']').val('');&#xD;&#xA;$('input[name=\'Gongjijin\']').val('');&#xD;&#xA;}    &#xD;&#xA;    else { &#xD;&#xA;$('.edit-field:eq(1),.edit-field:eq(2),.edit-field:eq(3),.edit-field:eq(4),.edit-field:eq(5)').show(); }&#xD;&#xA;            }" />
+        </Field>
+        <Field Title="养老金" FieldType="TextBox">
+          <Input Tag="input" ID="Yanglaojin" Name="Yanglaojin" Class="edit-input easyui-numberbox" Options="precision:2,groupSeparator:','" Binding="Yanglaojin" IsRequired="false" />
+        </Field>
+        <Field Title="医疗金" FieldType="TextBox">
+          <Input Tag="input" ID="Yiliaojin" Name="Yiliaojin" Class="edit-input easyui-numberbox" Options="precision:2,groupSeparator:','" Binding="Yiliaojin" IsRequired="false" />
+        </Field>
+        <Field Title="失业金" FieldType="TextBox">
+          <Input Tag="input" ID="Shiyejin" Name="Shiyejin" Class="edit-input easyui-numberbox" Options="precision:2,groupSeparator:','" Binding="Shiyejin" IsRequired="false" />
+        </Field>
+        <Field Title="公积金" FieldType="TextBox">
+          <Input Tag="input" ID="Gongjijin" Name="Gongjijin" Class="edit-input easyui-numberbox" Options="precision:2,groupSeparator:','" Binding="Gongjijin" IsRequired="false" />
+        </Field>
+        <Field Title="团费" FieldType="TextBox">
+          <Input Tag="input" ID="Tuanfei" Name="Tuanfei" Class="edit-input easyui-numberbox" Options="precision:2,groupSeparator:','" Binding="Tuanfei" IsRequired="false" />
+        </Field>
+        <Field Title="IDs" FieldType="TextBox">
+          <Input Tag="input" ID="IDs" Name="IDs" Class="edit-input" InputType="hidden" Binding="/Parameters[IDs]" IsReadOnly="true" IsRequired="false" IsHidden="true" />
+        </Field>
+      </Fields>
+      <ToolBar Tag="div" ID="toolbar" Class="dialog-button" PageID="P01046">
+        <Buttons>
+          <UIButton ID="btn-update" Class="easyui-linkbutton edit-button" Options="iconCls:'icon-ok'" Title="确定" ActionValue="16" Action="submitAct_DGUpdate('dataform','/Page/P01046/UpdateP','datagrid')" />
+          <UIButton ID="btn-cancel" Class="easyui-linkbutton edit-button" Options="iconCls:'icon-cancel'" Title="取消" Action="cancel()" />
+        </Buttons>
+      </ToolBar>
+    </Form>
+  </Page>
+</EditDialogActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="A01117" Name="UpdateP" Title="批量修改" ActionValue="32" ErrorCommand="编辑结果">
+    <Command CommandID="M01314" Name="执行更新" CommandType="QuerySqlCommand"><![CDATA[<QueryCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" NextCommand="编辑结果" GroupName="人事管理" TableName="hr_SalarySet" CommandName="UpdateP">
+  <Parameter Name="Yanglaojin" Path="Request[Yanglaojin]" Type="Parameter" />
+  <Parameter Name="Yiliaojin" Path="Request[Yiliaojin]" Type="Parameter" />
+  <Parameter Name="Shiyejin" Path="Request[Shiyejin]" Type="Parameter" />
+  <Parameter Name="Gongjijin" Path="Request[Gongjijin]" Type="Parameter" />
+  <Parameter Name="Tuanfei" Path="Request[Tuanfei]" Type="Parameter" />
+  <Parameter Name="ModifiedUser" Path="CurrentUserID" Type="SystemParameter" />
+  <Parameter Name="ModifiedTime" Path="CurrentDateTime" Type="SystemParameter" />
+  <Parameter Name="AutoKey" Path="Request[IDs]" Type="Parameter" />
+</QueryCommand>]]></Command>
+    <Command CommandID="M01325" Name="编辑结果" Description="返回编辑结果" CommandType="JsonActionCommand"><![CDATA[<JsonActionCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ContentType="application/json">
+  <Parameter Name="Data" Path="Results[执行更新].Items" Type="Parameter" />
+  <Parameter Name="HasError" Path="Results[执行更新].IsError" Type="Parameter" />
+  <Parameter Name="ErrorMessage" Path="Results[执行更新].ErrorMessage" Type="Parameter" />
+</JsonActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="A01113" Name="Delete" Title="删除" ActionValue="64" ErrorCommand="删除结果">
+    <Command CommandID="M01326" Name="执行删除" Description="本查询的结果值为JSON，参数路径为Results[执行删除].Json" CommandType="QueryJsonSqlCommand"><![CDATA[<QueryJsonCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" NextCommand="删除结果" GroupName="人事管理" TableName="hr_SalarySet" CommandName="Delete" SqlType="QueryJson">
+  <Parameter Name="AutoKey" Path="Request[keys]" Type="Parameter" />
+</QueryJsonCommand>]]></Command>
+    <Command CommandID="M01327" Name="删除结果" Description="返回删除结果" CommandType="JsonActionCommand"><![CDATA[<JsonActionCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ContentType="application/json">
+  <Parameter Name="Data" Path="Results[执行删除].Json" Type="Parameter" />
+  <Parameter Name="HasError" Path="Results[执行删除].IsError" Type="Parameter" />
+  <Parameter Name="ErrorMessage" Path="Results[执行删除].ErrorMessage" Type="Parameter" />
+</JsonActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="A01106" Name="Info" Title="查询" ErrorCommand="查询结果">
+    <Command CommandID="M01317" Name="查询信息" CommandType="QuerySqlCommand"><![CDATA[<QueryCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" NextCommand="查询结果" GroupName="人事管理" TableName="hr_SalarySet" CommandName="Info">
+  <Parameter Name="EmployeeID" Path="Request[ID]" Type="Parameter" />
+</QueryCommand>]]></Command>
+    <Command CommandID="M01361" Name="查询结果" CommandType="JsonActionCommand"><![CDATA[<JsonActionCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ContentType="application/json">
+  <Parameter Name="Data" Path="Results[查询信息].Items" Type="Parameter" />
+  <Parameter Name="HasError" Path="Results[查询信息].IsError" Type="Parameter" />
+  <Parameter Name="ErrorMessage" Path="Results[查询信息].ErrorMessage" Type="Parameter" />
+</JsonActionCommand>]]></Command>
+  </Action>
+  <Layout EditFieldClass="edit-field" />
+  <Buttons>
+    <Button ID="btn-search" Title="检索" ActionValue="2" Action="showActDlg('检索','/Page/P01046/Search',400,300)" Class="easyui-linkbutton" Option="iconCls:'icon-reload'" />
+    <Button ID="btn-query" Title="确定" ActionValue="2" Action="submitAct_DGReplace('dataform','/Page/P01046/Query','datagrid')" Class="easyui-linkbutton edit-button" Option="iconCls:'icon-ok'" ShowInToolBar="false" />
+    <Button ID="btn-detail" Title="查看" ActionValue="4" Action="showActDlg('datagrid','查看','/Page/P01046/Detail',400,300)" Class="easyui-linkbutton toolradio" Option="iconCls:'icon-add'" />
+    <Button ID="btn-create" Title="新增" ActionValue="8" Action="showActDlg('新增','/Page/P01046/Create',400,300)" Class="easyui-linkbutton" Option="iconCls:'icon-add'" />
+    <Button ID="btn-add" Title="确定" ActionValue="8" Action="submitAct_DGAppend('dataform','/Page/P01046/Add','datagrid')" Class="easyui-linkbutton edit-button" Option="iconCls:'icon-ok'" ShowInToolBar="false" />
+    <Button ID="btn-edit" Title="修改" ActionValue="16" Action="showActDlg_DGItemActDlg('datagrid','修改','/Page/P01046/Edit',400,300)" Class="easyui-linkbutton toolradio" Option="iconCls:'icon-edit'" />
+    <Button ID="btn-update" Title="确定" ActionValue="16" Action="submitAct_DGUpdate('dataform','/Page/P01046/Update','datagrid')" Class="easyui-linkbutton edit-button" Option="iconCls:'icon-ok'" ShowInToolBar="false" />
+    <Button ID="btn-delete" Title="删除" ActionValue="32" Action="showActDlg_DGItemsConfirm('datagrid','删除','确认删除选择项？','/Page/P01046/Delete',400,300)" Class="easyui-linkbutton toolmultiple" Option="iconCls:'icon-cancel'" />
+    <Button ID="btn-import" Title="导入" ActionValue="64" Action="showActDlg('导入','/Page/P01046/Import',400,300)" Class="easyui-linkbutton" Option="iconCls:'icon-import'" />
+    <Button ID="btn-export" Title="导出" ActionValue="128" Action="showActDlg('导出','/Page/P01046/Export',400,300)" Class="easyui-linkbutton" Option="iconCls:'icon-export'" />
+    <Button ID="btn-cancel" Title="取消" Action="cancel()" Class="easyui-linkbutton edit-button" ShowInToolBar="false" />
+    <Button ID="btn-close" Title="确定" Action="cancel()" Class="easyui-linkbutton edit-button" ShowInToolBar="false" />
+  </Buttons>
+  <EditSource GroupName="人事管理" TableName="hr_SalarySet" Key="EmployeeID" LogicDeleteFlag="IsActive:0">
+    <Fields>
+      <EditField Name="EmployeeID" Title="姓名" DataType="varchar" Length="8" EnableEdit="false" />
+      <EditField Name="Bank" Title="银行" DataType="varchar" Length="6" ShowInSearch="false" />
+      <EditField Name="Account" Title="账号" DataType="varchar" Length="20" ShowInSearch="false" />
+      <EditField Name="BaseSalary" Title="基本工资" DataType="decimal" ShowInSearch="false" IsRequired="false" />
+      <EditField Name="PostSalary" Title="职位工资" DataType="decimal" ShowInSearch="false" IsRequired="false" />
+      <EditField Name="Yanglaojin" Title="养老金" DataType="decimal" ShowInSearch="false" IsRequired="false" />
+      <EditField Name="Yiliaojin" Title="医疗金" DataType="decimal" ShowInSearch="false" IsRequired="false" />
+      <EditField Name="Shiyejin" Title="失业金" DataType="decimal" ShowInSearch="false" IsRequired="false" />
+      <EditField Name="Gongjijin" Title="公积金" DataType="decimal" ShowInSearch="false" IsRequired="false" />
+      <EditField Name="Cantie" Title="餐贴" DataType="decimal" ShowInSearch="false" IsRequired="false" />
+      <EditField Name="Tuanfei" Title="团费" DataType="decimal" ShowInSearch="false" IsRequired="false" />
+      <EditField Name="CreatedUser" Title="CreatedUser" DataType="varchar" Length="6" ShowInGrid="false" ShowInCreate="false" ShowInEdit="false" ShowInDetail="false" ShowInSearch="false" IsRequired="false" EnableEdit="false" />
+      <EditField Name="CreatedTime" Title="CreatedTime" DataType="datetime" ShowInGrid="false" ShowInCreate="false" ShowInEdit="false" ShowInDetail="false" ShowInSearch="false" IsRequired="false" EnableEdit="false" />
+      <EditField Name="ModifiedUser" Title="ModifiedUser" DataType="varchar" Length="6" ShowInGrid="false" ShowInCreate="false" ShowInEdit="false" ShowInDetail="false" ShowInSearch="false" IsRequired="false" EnableEdit="false" />
+      <EditField Name="ModifiedTime" Title="ModifiedTime" DataType="datetime" ShowInGrid="false" ShowInCreate="false" ShowInEdit="false" ShowInDetail="false" ShowInSearch="false" IsRequired="false" EnableEdit="false" />
+      <EditField Name="AutoKey" Title="AutoKey" DataType="int" ShowInGrid="false" ShowInCreate="false" ShowInEdit="false" ShowInDetail="false" ShowInSearch="false" IsRequired="false" EnableEdit="false" />
+    </Fields>
+    <ChildTables />
+  </EditSource>
+</MvcEditPage>

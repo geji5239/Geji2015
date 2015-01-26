@@ -1,0 +1,171 @@
+﻿
+<script type="text/javascript">
+    function next()
+    {
+        var tab = $('#tabs').tabs('getSelected');
+        var index = $('#tabs').tabs('getTabIndex', tab);
+        $('#tabs').tabs('select', index +1);
+    }
+    function before()
+    {
+        var tab = $('#tabs').tabs('getSelected');
+        var index = $('#tabs').tabs('getTabIndex', tab);
+        $('#tabs').tabs('select', index -1);
+    }
+
+    function upload()
+    {
+        //$.ajax({
+        //    url: "/User/UploadFile",
+        //    //context: $('#file_form').serializeArray(),
+        //    success: function (data) {
+        //        var result = $.parseJSON(data);
+        //            if (result.HasError)
+        //            {
+        //                $.messager.alert("提示", result.Error);
+        //            } else
+        //            {
+        //                $('#tabs').tabs('select', 2);
+        //            }
+        //    },
+        //    cache: false,
+        //    dataType: 'json',
+        //    beforeSend: function ()
+        //    {
+        //        if ($('#file').val() == "") {
+        //            $.messager.alert("提示", "没有数据！",'info');
+        //            return false;
+        //        }
+        //    },
+        //    type: 'post'
+        //});
+
+        $('#file_form').form('submit', {
+            onSubmit: function () {
+                if ($('#file').val() == "") {
+                    $.messager.alert("提示", "没有数据！",'info');
+                    return false;
+                }
+            },
+            success: function (data) {
+                var result = $.parseJSON(data);
+                if (result.HasError)
+                {
+                    $.messager.alert("提示", result.Error);
+                } else
+                {
+                    $('#tabs').tabs('select', 2);
+                    $('#importRecord').html("导入记录：" + "导入成功" + result.Data.InsertCount + "条;导入更新" + result.Data.UpdateCount + "条;导入取消" + result.Data.CancelCount + "条");
+                }
+            }    
+        });
+
+    }
+
+</script>
+
+@*<link rel="stylesheet" href="~/Scripts/plupload/jquery.plupload.queue/css/jquery.plupload.queue.css" type="text/css" media="screen" />
+
+<script type="text/javascript" src="~/Scripts/plupload/browserplus-min.js"></script>
+
+<script type="text/javascript" src="~/Scripts/plupload/plupload.js"></script>
+<script type="text/javascript" src="~/Scripts/plupload/plupload.gears.js"></script>
+<script type="text/javascript" src="~/Scripts/plupload/plupload.silverlight.js"></script>
+<script type="text/javascript" src="~/Scripts/plupload/plupload.flash.js"></script>
+<!-- <script type="text/javascript" src="../../js/plupload.browserplus.js"></script> -->
+<!-- <script type="text/javascript" src="../../js/plupload.html4.js"></script>
+<script type="text/javascript" src="../../js/plupload.html5.js"></script> -->
+<script type="text/javascript" src="~/Scripts/plupload/jquery.plupload.queue/jquery.plupload.queue.js"></script>
+<script type="text/javascript" src="~/Scripts/plupload/i18n/cn.js"></script>
+<script type="text/javascript">
+$(function () {
+        $("#uploader").pluploadQueue({
+            // General settings
+            runtimes: 'html5,gears,browserplus,silverlight,flash,html4',
+            runtimes: 'html5,gears,browserplus,silverlight,flash,html4',
+            url: '/User/UploadFile',//上传处理的Action
+            max_file_size: '20mb',
+            chunk_size: '1mb',
+            unique_names: true,
+            max_file_count: 10,
+            multiple_queues: true,
+            // Resize images on clientside if we can
+            resize: { width: 320, height: 240, quality: 90 },
+            // Specify what files to browse for
+            filters: [
+			{ title: "csv files", extensions: "csv" },
+            { title: "xlsx files", extensions: "xlsx" }
+            ],
+            // Flash/Silverlight paths
+            flash_swf_url: '../../Scripts/plupload/plupload.flash.swf',
+            silverlight_xap_url: '../../Scripts/plupload/plupload.silverlight.xap'
+        });
+
+        $('#uploader').pluploadQueue().bind('UploadComplete', function (up, files) {
+            alert("上传成功！");
+        });
+        $('#uploader').pluploadQueue().bind('FilesAdded', function (up, files) {
+            if (up.files.length > maxfiles) {
+                // Removing the extra files
+                while (up.files.length > maxfiles) {
+                    if (up.files.length > maxfiles)
+                        $('#uploader').pluploadQueue().removeFile(up.files[maxfiles]);
+                }
+                alert("Max " + maxfiles + " files.");
+            }
+        });
+    });
+</script>
+<div id="uploader" style="width: 100%; height: 100%;"></div>*@
+
+<div id="tabs" class="easyui-tabs" style="width:500px;height:300px;">
+    <div title="批量导入-1.下载模板" style="padding:10px;overflow:hidden">
+        <div style="margin-top:10px">
+            <p>1.下载模板>2.导入Excel>3.导入完毕</p>
+            <p>温馨提示</p>
+            <p>导入模板的格式不能修改,录入方法请参照演示模板</p>
+        </div>
+        <div>
+            <ul>
+                <li><a href="javaScript:void(0)" onclick="">下载导入模板</a></li>
+            </ul>
+            <ul>
+                <li><a href="javaScript:void(0)" onclick="">下载演示模板</a></li>
+            </ul>
+            <ul>
+                <li><a href="javaScript:void(0)" onclick="">查看导入信息</a></li>
+            </ul>
+        </div>
+        <div style="position: absolute;bottom:15px;right:20px">
+            <a class="easyui-linkbutton" href="javaScript:void(0)" onclick="next();">下一步</a>
+        </div>
+    </div>
+    <div title="批量导入-2.导入Excel" data-options="closable:false" style="overflow:hidden;padding:10px;">
+        <div style="margin-top:10px">
+            <p>1.下载模板>2.导入Excel>3.导入完毕</p>
+        </div>
+            <div>
+                <form enctype="multipart/form-data" method="post" id="file_form">
+                    <label class="label-title">文件：</label>
+                    <input id="file" class="easyui-filebox" name="file" data-options="validType:'onlyExcel',buttonText:'选择文件'" style="width:250px" />
+                    <br />
+                </form>
+            </div>
+        <div style="position: absolute;bottom:15px;right:20px">
+            <a class="easyui-linkbutton" href="javaScript:void(0)" onclick="before();">上一步</a>
+            <a class="easyui-linkbutton" href="javaScript:void(0)" onclick="ImportFile('/User/UploadFile')">导入</a>
+        </div>
+        </div>
+    <div title="批量导入-3.导入完毕" data-options="iconCls:'icon-reload',closable:false" style="padding:10px;overflow:hidden;">
+        <div style="margin-top:10px">
+            <p>1.下载模板>2.导入Excel>3.导入完毕</p>
+            <p id="importRecord" style="font-weight:700; color:red">......：<ul><li><a>查看导入记录</a></li></ul></p>
+        </div>
+        <div style="position: absolute;bottom:15px;right:20px">
+            <a class="easyui-linkbutton" href="javaScript:void(0)" onclick="before()">上一步</a>
+            <a class="easyui-linkbutton" href="javaScript:void(0)" onclick="cancel()">完成</a>
+        </div>
+    </div>
+</div>  
+
+

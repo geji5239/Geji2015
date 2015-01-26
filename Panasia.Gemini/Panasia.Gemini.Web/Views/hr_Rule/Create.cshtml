@@ -1,0 +1,185 @@
+﻿
+<form id="dataform" class="form-dialog" method="post">
+    <div class="edit-dialog">
+        <div class="edit-panel-w2">
+            <div class="edit-field">
+                <div class="edit-title">
+                    <label class="edit-label">规则名称：</label>
+                </div>
+                <div class="edit-content">
+                    <input name="RName" class="edit-input easyui-textbox" data-options="required:true,missingMessage:'请输入规则名称',prompt:'不得超过30个字符',invalidMessage:'规则名称不得超过30个字符',validType:'length[1,30]'" />
+                </div>
+            </div>
+            <div class="edit-field">
+                <div class="edit-title">
+                    <label class="edit-label">公司名称：</label>
+                </div>
+                <div class="edit-content">
+                    <input name="CompanyID" class="edit-input easyui-combobox" data-options="required:true,missingMessage:'请选择公司',url:'/Share/Query?name=GetCompanyName&Key=',editable:false,valueField:'ID',textField:'Name'" />
+                </div>
+            </div>
+            <div class="edit-field-w2">
+                <div class="edit-title">
+                    <label class="edit-label">备注：</label>
+                </div>
+                <div class="edit-content-w2">
+                    <input name="Remark" class="edit-input-w2 easyui-textbox" data-options="multiline:true,validType:'length[1,100]',prompt:'不得超过100个字符'" style="height:90px" />
+                </div>
+            </div>
+            <div class="edit-field-w2-r1">
+                <div class="easyui-panel" title="迟到早退规则" style="width:540px;">
+                    <div class="edit-field-w2">
+                        <div class="edit-field">
+                            <div class="edit-title" style="padding-left:30px">
+                                <label class="edit-label">迟到：上班后</label>
+                            </div>
+                            <div class="edit-content" style="width:108px !important;padding-left:10px">
+                                <input name="MinutesLate" class="easyui-numberbox" style="width:30px;" data-options="required:false,missingMessage:'请输入迟到时间',max:60,min:0,value:30,prompt:'30'" />
+                                <label class="edit-label2">分钟内无故不到岗者。</label>
+                            </div>
+                        </div>
+                        <div class="edit-field">
+                            <div class="edit-title" style="padding-left:30px">
+                                <label class="edit-label">迟到</label>
+                            </div>
+                            <div class="edit-content" style="width:108px !important;padding-left:10px">
+                                <input name="IgnoreMinutesLate" class="easyui-numberbox" style="width:30px;" data-options="required:true,missingMessage:'请输入迟到时间',max:60,min:0,value:3,prompt:'3'" />
+                                <label class="edit-label2">分钟内不计</label>
+                            </div>
+                        </div>
+                        <div class="edit-field">
+                            <div class="edit-title" style="padding-left:40px">
+                                <label class="edit-label">早退：下班前</label>
+                            </div>
+                            <div class="edit-content" style="width:108px !important;padding-left:10px">
+                                <input name="MinutesEarlyleave" class="easyui-numberbox" style="width:30px;" data-options="required:true,missingMessage:'请输入迟到时间',max:60,min:0,value:30,prompt:'30'" />
+                                <label class="edit-label2">分钟内无故离岗者。</label>
+                            </div>
+                        </div>
+                        <div class="edit-field">
+                            <div class="edit-title" style="padding-left:30px">
+                                <label class="edit-label">早退</label>
+                            </div>
+                            <div class="edit-content" style="width:108px !important;padding-left:10px">
+                                <input name="IgnoreMinutesEarlyleave" class="easyui-numberbox" style="width:30px;" data-options="required:true,missingMessage:'请输入迟到时间',max:60,min:0,value:3,prompt:'3'" />
+                                <label class="edit-label2">分钟内不计</label>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            <div class="edit-field-w2-r1">
+                <div class="easyui-panel" title="加班规则设定" style="width:540px;">
+                    <div class="edit-field-w2" style="height:60px !important">
+                        <div class="edit-field">
+                            <div class="edit-title" style="padding-left:30px">
+                                <label class="edit-label">最低加班分钟：</label>
+                            </div>
+                            <div class="edit-content" style="width:108px !important;padding-left:20px">
+                                <input name="MinOverTimeMinutes" class="easyui-numberbox" style="width:30px;float:left" data-options="required:true,missingMessage:'请输入最低加班时数',max:480,min:0,value:60,prompt:'60'" />
+                                <label class="edit-label2">分钟</label>
+                            </div>
+                        </div>
+                        <div class="edit-field">
+                            <div class="edit-title" style="padding-left:30px">
+                                <label class="edit-label">最小计算分钟：</label>
+                            </div>
+                            <div class="edit-content" style="width:108px !important;padding-left:20px">
+                                <input name="RealCalculateMinutes" class="easyui-numberbox" style="width:30px;float:left" data-options="required:true,missingMessage:'请输入实际加班计算时数',max:480,min:0,value:30,prompt:'30'" />
+                                <label class="edit-label2">分钟</label>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+            </div>
+            <div class="edit-field-w2-r1">
+                <div class="easyui-panel" title="旷工规则设定" style="width:540px;">
+                    <div class="edit-field-w2">
+                        <div class="edit-field">
+                            <div class="edit-title" style="padding-left:20px">
+                                <label class="edit-label">擅自离岗：</label>
+                            </div>
+                            <div class="edit-content" style="width:108px !important;padding-left:5px">
+                                <input name="MinutesAbsent" class="easyui-numberbox" style="width:30px;float:left" data-options="required:true,missingMessage:'请输入旷工分钟数',max:60,min:0,value:30,prompt:'30'" />
+                                <label class="edit-label2">分钟以上</label>
+                            </div>
+                        </div>
+                        <div class="edit-field">
+                            <div class="edit-title">
+                                <label class="edit-label">最小旷工时数：</label>
+                            </div>
+                            <div class="edit-content" style="width:108px !important;padding-left:10px">
+                                <input name="MinAbsentHours" class="easyui-numberbox" style="width:30px;float:left" data-options="required:true,missingMessage:'请输入最小旷工时数',max:60,min:0,value:4,prompt:'4'" />
+                                <label class="edit-label2">小时</label>
+                            </div>
+                        </div>
+
+                        <div class="edit-field">
+                            <div class="edit-title" style="padding-left:30px">
+                                <label class="edit-label">最大旷工时数：</label>
+                            </div>
+                            <div class="edit-content" style="width:108px !important;padding-left:10px">
+                                <input name="MaxAbsentHours" class="easyui-numberbox" style="width:30px;float:left" data-options="required:true,missingMessage:'请输入最大旷工时数',max:60,min:0,value:8,prompt:'8'" />
+                                <label class="edit-label2">小时</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="edit-field-w2-r1">
+                <div class="easyui-panel" title="打卡规则设定" style="width:540px;">
+                    <div class="edit-field-w2" style="height:60px !important">
+                        <div class="edit-field">
+                            <div class="edit-title" style="padding-left:30px;width:98px !important">
+                                <label class="edit-label">每月允许漏打卡：</label>
+                            </div>
+                            <div class="edit-content" style="width:108px !important;">
+                                <input name="MaxForgetCardTimes" class="easyui-numberbox" style="width:30px;float:left" data-options="required:true,missingMessage:'请输入最大漏打卡数',max:60,min:0,value:3,prompt:'3'" />
+                                <label class="edit-label2">次</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="edit-field-w2-r1">
+                <div class="easyui-panel" title="自动离职规则设定" style="width:540px;">
+                    <div class="edit-field-w2" style="height:60px !important">
+                        <div class="edit-field">
+                            <div class="edit-title" style="padding-left:30px;width:98px !important">
+                                <label class="edit-label">当月最大旷工：</label>
+                            </div>
+                            <div class="edit-content" style="width:108px !important;">
+                                <input name="AutoFiredDays" class="easyui-numberbox" style="width:30px;float:left" data-options="required:true,missingMessage:'请输入最大旷工天数',min:0,value:3,prompt:'3'" />
+                                <label class="edit-label2">天</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="edit-field-w2-r1">
+                <div class="easyui-panel" title="考勤截止日期设定" style="width:540px;">
+                    <div class="edit-field-w2" style="height:60px !important">
+                        <div class="edit-field">
+                            <div class="edit-title" style="padding-left:10px;">
+                                <label class="edit-label">每个月：</label>
+                            </div>
+                            <div class="edit-content" style="width:108px !important;">
+                                <input name="MonthClosingDay" class="easyui-numberbox" style="width:30px;float:left" data-options="required:true,missingMessage:'请输入考勤截止日期',max:31,min:1,value:4,prompt:'4'" />
+                                <label class="edit-label2">号</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="edit-field">
+                <div class="showmsg">
+                    <label id="showmsg"></label>
+                </div>
+            </div>
+            </div>
+    </div>
+</form>
+<div id="toolbar" class="dialog-button">
+    <a id="btn-cancel" class="easyui-linkbutton edit-button" data-options="iconCls:'icon-ok'" onclick="submitAct_DGAppend('dataform', '/Page/P01042/Add', 'datagrid')">确定 </a>
+    <a id="btn-cancel" class="easyui-linkbutton edit-button" data-options="iconCls:'icon-cancel'" onclick="cancel()">取消 </a>
+</div>

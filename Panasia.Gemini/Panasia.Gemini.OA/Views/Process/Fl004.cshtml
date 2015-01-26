@@ -1,0 +1,878 @@
+﻿@*----------------------------------------------------------------
+    // Copyright (C) 2004 清风软件
+    // 版权所有。
+    //
+    // 文件名：Fl004.cshtml
+    // 文件功能描述：流程设计视图，包括规则设置页面，签核者设置页面，其他设置页面。
+    //----------------------------------------------------------------*@
+@model Panasia.Gemini.FL.Models.ProcessModel
+@section Header
+{
+    <link href="~/New/zTreeStyle/zTreeStyle.css" rel="stylesheet" />
+    <script src="~/New/jquery.ztree.core-3.5.min.js"></script>
+    <style type="text/css">
+        body {
+            background-color: #fff;
+        }
+        .ui-spinner-input {
+            max-width:150px;
+        }
+    </style>
+    <script>
+        function showdialog(dialogid) {
+            $(dialogid).dialog("open");
+            $(".alert").hide();
+        }
+    </script>
+}
+
+@*<div class="widget-header widget-header-blue widget-header-flat">
+    <h4 class="lighter">
+        <i class="icon-table">​</i>
+        流程设计
+    </h4>
+</div>*@
+<div id="tabs">
+    <ul>
+        <li><a href="#tabs-1">签核者设置</a></li>
+        <li><a href="#tabs-2">规则设置</a></li>
+    </ul>
+    <div id="tabs-1">
+        <div class="alert alert-danger" id="error">
+        </div>
+
+            @*<div class="col-sm-5" >*@
+                <div class="widget-box">
+                    <div class="widget-header">
+                        <h4>签核者设置</h4>
+                    </div>
+
+                    <div class="widget-body" >
+                        <div class="widget-main no-padding">
+                            <form id="form_emp" method="post">
+                                <!-- <legend>Form</legend> -->
+
+                                <table style="height:282px;">
+                                    <tr>
+                                        <td align="right" width="100">
+                                            单据：
+                                        </td>
+                                        <td width="175">@Html.DropDownListFor(m => m.FormID, ViewData["TemplateList_Emp"] as SelectList, new { style = "width:175px;",onchange = "LoadApproveForm();" })</td>
+                                        <td align="right" width="100">
+                                            公司：
+                                        </td>
+                                        <td width="175">
+                                            @Html.DropDownListFor(m => m.CompanyID, ViewData["Company"] as SelectList, new { onchange = "LoadDept();" ,style="width:175px;"})
+                                        </td>
+                                    </tr>
+                                    @*<tr>
+                                        <td align="right"></td>
+                                        <td>
+                                            <table border="0">
+                                                <tr>
+                                                    <td>
+                                                        @Html.CheckBoxFor(m => m.IsFuzzy)
+                                                    </td>
+                                                    <td>
+                                                        @Html.Label("IsFuzzy", "模糊指定")
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>*@
+                                    <tr type="concrete">
+                                        <td align="right" width="100">
+                                            部门：
+                                        </td>
+                                        <td>
+                                            <input id="hdeptid" name="hdeptid" type="text" style="width:140px" readonly="readonly" />
+                                            @Html.TextBoxFor(m => m.dept_id, new Dictionary<string, object> { { "class", "textbox" },
+                       {"style","width:140px;"},{"hidden","hidden"} })
+                                            <a class="btn  btn-primary btn-minier" style="height:28px;margin-bottom: 6px;" onclick="showdialog('#dialog')">
+                                                <i class="icon-search bingger-110 icon-only"></i>
+                                            </a>
+                                            <input id="hDeptIDCondition" name="hDeptIDCondition" type="hidden" />
+                                        </td>
+                                        <td align="right" width="100">
+                                            职位：
+                                        </td>
+                                        <td>
+                                            <input id="hjobid" readonly="readonly" type="text" class="textbox" style="width:140px" />
+                                            @Html.TextBoxFor(m => m.job_id, new Dictionary<string, object> { { "class", "textbox" },
+                       {"style","width:140px;"},{"hidden","hidden"} })
+
+                                            <a class="btn  btn-primary btn-minier" style="height:28px;margin-bottom: 6px;" onclick="showdialog('#dialogjob')">
+                                                <i class="icon-search bingger-110 icon-only"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td type="concrete" align="right" width="100">
+                                            签核者：
+                                        </td>
+                                        <td type="concrete">
+
+                                            @Html.DropDownList("emp_id_emp", new SelectList(new string[] { }), new { style = "width:175px", @class = "form-control", onchange = "LoadCondition();" })
+
+                                            <input id="hEmployeeIDCondition" name="hEmployeeIDCondition" type="hidden" />
+                                        </td>
+                                        <td type="fuzzy" style="display:none;" align="right">上级领导：</td>
+                                        <td type="fuzzy" style="display:none;">
+                                            @Html.DropDownListFor(m => m.FuzzyType, new SelectListItem[] {
+                                           new SelectListItem { Text = "部门主管", Value = "1" },
+                                           new SelectListItem { Text = "部门总监", Value = "2" },
+                                           new SelectListItem { Text = "事业部总监", Value = "3" },
+                                           new SelectListItem { Text = "交接人", Value = "4" }},
+                                           new  { style="width:175px;" })
+                                        </td>
+                                        <td align="right" width="100">
+                                            签核者次序：
+                                        </td>
+                                        <td>
+                                            @*@Html.TextBoxFor(m => m.emp_sort, new Dictionary<string, object> { { "class", "textbox" }, { "data-options", "min:1,max:10,required:true,missingMessage:'请填写次序'" }, { "style", "width:175px;" } })*@
+                                            <input id="emp_sort" name="emp_sort" min=1 max=10 name="value" required="true" increment=1 type="text" class="ui-spinner-input" autocomplete="off" role="spinbutton" style="width:175px;">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td align="right">签核模版：</td>
+                                        <td>@Html.DropDownListFor(m => m.TemplateID, new SelectList(new string[] { }), new { style = "width:175px;" })</td>
+                                        <td align="right" width="100">签核次序：</td>
+                                        <td>@Html.DropDownListFor(m => m.IsGroupApprover, new SelectListItem[] {
+                                           new SelectListItem { Text = "逐一签核", Value = "0" },
+                                           new SelectListItem { Text = "同组签核", Value = "1" }}, new { style = "width:175px;" })</td>
+                                    </tr>
+                                </table>
+
+                                <div class="form-actions center">
+                                    <button type="button" class="btn btn-sm btn-warning" onclick="cancelForm('form_emp')">
+                                        清空
+                                        <i class=" icon-refresh bigger-110"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-sm btn-success" onclick="submitForm_emp()">
+                                        保存
+                                        <i class="icon-arrow-right icon-on-right bigger-110"></i>
+                                    </button>
+
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            @*</div>*@
+      
+
+        @*<div class="col-sm-5" style="width:650px">*@
+            <div class="widget-box">
+                <div class="widget-header">
+                    <h4>表单</h4>
+                </div>
+
+                <div class="widget-body">
+                    <div class="widget-main no-padding">
+                        <form>
+                            <!-- <legend>Form</legend> -->
+
+                            <table id="datagrid_emp"></table>
+
+                            <div class="form-actions center">
+                                <button type="button" class="btn btn-sm btn-danger" onclick="Delete_emp()">
+                                    删除
+                                    <i class="icon-trash bigger-110"></i>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @*</div>*@
+    <div id="tabs-2" style="height:550px">
+        <div class="alert alert-danger" id="error1">
+
+        </div>
+
+        <div class="col-sm-5" style="width:650px">
+            <div class=" widget-box">
+                <div class="widget-header">
+                    <h4>规则设置</h4>
+                </div>
+
+                <div class="widget-body">
+                    <div class="widget-main no-padding">
+                        <form id="form_rule" method="post">
+                            <table style="height:282px;margin-left:40px">
+                                <tr>
+                                    <td colspan="1" width="100">
+                                        <font size="2">单据：</font>
+                                        @Html.DropDownListFor(m => m.Template_Info, ViewData["TemplateList_Rule"] as SelectList, new { onchange = "LoadRule();" })
+                                    </td>
+                                    <td>
+                                        <font size="2">公司：</font>@Html.DropDownList("CompanyID_Rule", ViewData["Company"] as SelectList, new { onchange = "GetEmployeeList();" })
+                                    </td>
+                                </tr>
+                                <tr>
+                                <tr>
+                                    <td align="center" style=" padding-left:50px">列名</td>
+                                   @* <td align="center">操作符</td>*@
+                                   @* <td align="center">值</td>*@
+                                    <td align="center">签核者</td>
+                                </tr>
+                                <tr>
+                                    <td align="center" style=" padding-left:50px">@Html.DropDownListFor(m => m.col_name, new SelectList(new string[] { }), new { style = "width:150px", size = 6, onclick = "clickvalue()" })</td>
+                                    @*<td align="center">@Html.DropDownListFor(m => m.condition, new SelectList(new[] { "=", ">", "<", ">=", "<=", "<>" }, "="), new { style = "width:60px", size = 6 })</td>
+                                    <td align="center">@Html.TextAreaFor(m => m.value, new { style = "width:100px", rows = 6 })</td>*@
+                                    
+                                    <td align="center">@Html.DropDownListFor(m => m.approveform_id, new SelectList(new string[] { }), new { style = "width:150px", size = 6 })</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="4" style=" padding-left:2px">
+                                        规则：
+                                        @Html.TextAreaFor(m => m.value, new { style = "width:460px", rows = 6 })
+                                    </td>
+                                </tr>
+                            </table>
+                            <div class="form-actions center">
+                                <button type="button" class="btn btn-sm btn-success" onclick="submitForm_rule()">
+                                    保存
+                                    <i class="icon-arrow-right icon-on-right bigger-110"></i>
+                                </button>
+
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        @*</div>*@
+
+
+        <div class="col-sm-5" style="width:480px">
+            <div class="widget-box">
+                <div class="widget-header">
+                    <h4>表单</h4>
+                </div>
+
+                <div class="widget-body">
+                    <div class="widget-main no-padding">
+                        <form>
+                            <!-- <legend>Form</legend> -->
+
+                            <table id="datagrid_rule"></table>
+
+                            <div class="form-actions center">
+                                <button type="button" class="btn btn-sm btn-danger" onclick="Delete_rule()">
+                                    删除
+                                    <i class="icon-trash bigger-110"></i>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="dialog">
+    <ul id="depttree" class="ztree"></ul>
+    <div class="alert alert-danger" id="alert">请选择部门！<br /></div>
+</div>
+<div id="dialogjob">
+    <ul id="jobtree" class="ztree"></ul>
+
+    <div class="alert alert-danger" id="alertjob">请选择职位！<br /></div>
+</div>
+<div id="dialog-confirm" title="提示" style="display:none">
+    <div style="padding:0px;margin:0px;">
+        <div style="padding:0px;margin:0px;"><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>确认删除该信息吗？</div>
+    </div>
+</div>
+<div id="dialog-confirm1" title="提示" style="display:none">
+    <div style="padding:0px;margin:0px;">
+        <div style="padding:0px;margin:0px;"><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>确认删除该信息吗？</div>
+    </div>
+</div>
+
+<div id="dialog1" style=" display:none;">
+        <div class="alert alert-danger" id="error1">
+        </div>
+        <h4 class="header green">自定义部门</h4>
+
+        <table cellpadding="5" align="center">
+            <tr>
+                <td align="right" style="width:110px">自定义条件：</td>
+                <td >
+                    <input type="text" id="DeptIDCondition" name="DeptIDCondition" class="textbox" />
+                           </td>
+            </tr>
+
+           
+        </table>
+
+</div>
+
+
+<div id="dialog2" style=" display:none;">
+    <div class="alert alert-danger" id="error1">
+    </div>
+    <h4 class="header green">自定义签核</h4>
+
+    <table cellpadding="5" align="center">
+        <tr>
+            <td align="right" style="width:110px">自定义条件：</td>
+            <td>
+                <input type="text" id="EmployeeIDCondition" name="EmployeeIDCondition" class="textbox" />
+            </td>
+        </tr>
+
+
+    </table>
+
+</div>
+
+@*<div class="easyui-tabs">
+
+        <div title="规则设置" style="padding:10px">
+            <div class="easyui-panel" title="规则设置" style="width:670px">
+
+        </div>
+    </div>*@
+
+<script>
+
+    $(document).ready(function () {
+
+        $("#form_emp").validate_popover({
+            rules: {
+                dept_id: { required: true },
+                emp_sort: { required: true }
+            },
+            messages: {
+                dept_id: { required: '请选择部门' },
+                emp_sort: { required: '请输入签核者次序' }
+            },
+
+            popoverPosition: 'right'
+        });
+
+        LoadJob('');
+        $("#tabs").tabs();
+        $(".alert").hide();
+
+        $("#dialog").dialog({
+            autoOpen: false,
+            modal: true,
+            height:400,
+            buttons: {
+                "确定": function () {
+                    var tree = $.fn.zTree.getZTreeObj("depttree");
+                    var node = tree.getSelectedNodes();
+                    if (node.length == 0) {
+                        $("#alert").show();
+                    }
+                    else {
+                        if (node[0].id == "222222")
+                        {
+                            var dialog1 = $("#dialog1");
+                            dialog1.dialog('open');
+                            $("#dept_id").val(node[0].id);
+                            $("#hdeptid").val(node[0].text);
+                            $(this).dialog('close');
+                        } else {
+                            $("#hDeptIDCondition").val('');
+                            $("#dept_id").val(node[0].id);
+                            $("#hdeptid").val(node[0].text);
+                            $(this).dialog('close');
+                            //LoadJob(node[0].id);
+                            LoadEmployee1(node[0].id);
+                        }
+                       
+                    }
+
+                },
+                "取消": function () {
+                    $(this).dialog('close');
+                }
+            }
+        });
+        $("#dialogjob").dialog({
+            autoOpen: false,
+            modal: true,
+            height:400,
+            buttons: {
+                "确定": function () {
+                    var tree1 = $.fn.zTree.getZTreeObj("jobtree");
+                    var node = tree1.getSelectedNodes();
+                    if (node.length == 0) {
+                        $("#alertjob").show();
+                    }
+                    else {
+                        $("#job_id").val(node[0].id);
+                        $("#hjobid").val(node[0].text);
+                        $(this).dialog('close');
+                    }
+                    LoadEmployee(node[0].id);
+                },
+                "取消": function () {
+                    $(this).dialog('close');
+                }
+            }
+        })
+
+        $("#dialog1").dialog({
+            autoOpen: false,
+            height: 250,
+            width: 350,
+            modal: true,
+            close: function (event, ui) {
+                $(".popover").hide();
+            },
+            buttons: {
+                "确定": function () {
+                    $("#hDeptIDCondition").val($("#DeptIDCondition").val());
+                    $(this).dialog('close');
+                },
+                "取消": function () {
+                    $(this).dialog('close');
+                }
+            },
+            drag: function (event, ui) {
+                console.log(ui.offset.top)
+            }
+        });
+
+        $("#dialog2").dialog({
+            autoOpen: false,
+            height: 250,
+            width: 350,
+            modal: true,
+            close: function (event, ui) {
+                $(".popover").hide();
+            },
+            buttons: {
+                "确定": function () {
+                    $("#hEmployeeIDCondition").val($("#EmployeeIDCondition").val());
+                    $(this).dialog('close');
+                },
+                "取消": function () {
+                    $(this).dialog('close');
+                }
+            },
+            drag: function (event, ui) {
+                console.log(ui.offset.top)
+            }
+        });
+
+
+        $("#datagrid_emp").jqGrid({
+            url: '/Process/ProcessList?tid=' + $('#FormID').val() + '&cid=' + $('#CompanyID').val(),
+            datatype: "json",
+            height: 200,
+            colNames: ['','公司', '部门', '职位', '签核者', '次序', '签核模板', '', '', '', ''],
+            colModel: [
+                { name: 'approveform_id', index: 'approveform_id', autowidth: true, hidden: true },
+                { name: 'CompanyID', index: 'CompanyID', autowidth: true, fixed: false },
+                 { name: 'dept_name', index: 'dept_name', autowidth: true, fixed: false },
+             { name: 'job_name', index: 'job_name', autowidth: true },
+             { name: 'emp_name', index: 'emp_name', autowidth: true },
+              { name: 'emp_sort', index: 'emp_sort', autowidth: true },
+            { name: 'template_name', index: 'template_name', autowidth: true },
+            { name: 'dept_id', index: 'dept_id', autowidth: true, hidden: true },
+            { name: 'job_id', index: 'job_id', autowidth: true, hidden: true },
+            { name: 'emp_id_emp', index: 'emp_id_emp', autowidth: true, hidden: true },
+            { name: 'emp_sort', index: 'emp_sort', autowidth: true, hidden: true }
+            ],
+            viewrecords: true,
+            altRows: true,
+            autowidth: true,
+            caption: "签核者表单",
+        });
+        $("#datagrid_rule").jqGrid({
+            url: '/Process/RuleList?tid=' + $('#Template_Info').val().split('|')[1] + '&cid=' + $('#CompanyID_Rule').val(),
+            datatype: "json",
+            height: 200,
+            colNames: ['', '条件值', '签核者'],
+            colModel: [
+                { name: 'ApproveRulesid', index: 'ApproveRulesid', autowidth: true, hidden: true },
+                 //{ name: 'Col_Name', index: 'Col_Name', autowidth: true, fixed: false },
+             { name: 'Condition', index: 'Condition', autowidth: true },
+             { name: 'ApproveFormName', index: 'ApproveFormName', autowidth: true }
+            ],
+            viewrecords: true,
+            altRows: true,
+            autowidth: true,
+            caption: "规则表单",
+        });
+        //console.log(    $("#datagrid_rule").jqGrid('getGridParam', "url"));
+        $("#emp_sort").spinner({
+            create: function (event, ui) {
+                $(this)
+                .next().addClass('btn btn-success').html('<i class="icon-plus"></i>')
+                .next().addClass('btn btn-danger').html('<i class="icon-minus"></i>')
+            }
+        });
+
+        $("#Template_Info").change(function () {
+            GetColumnList();
+            GetEmployeeList();
+            LoadRule();
+        });
+
+        GetColumnList();
+        GetEmployeeList();
+
+        $("#FormID").change(LoadApproveForm);
+
+        LoadApproveForm();
+       
+
+        $("#IsFuzzy").change(function () { Fuzzy(this) });
+
+        $("#FormID").change(GetTemplateDetailList);
+        GetTemplateDetailList();
+        $("#hdeptid").change(LoadJob);
+        LoadDept();
+    });
+    function showerror(error, id) {
+        $("#" + id).empty();
+        $("#" + id).append(error);
+        $("#" + id).show('slow');
+    }
+    function submitForm_emp() {
+        var rows = $("#datagrid_emp").jqGrid('getRowData');
+        var emp_id = $("#emp_id_emp option:selected").val();
+        var job_id = $("#hjobid").val();
+        var dept_id = $("#hdeptid").val();
+        var emp_sort = $("#emp_sort").val();
+        if (!$("#IsFuzzy").is(":checked") && (job_id == "")) {
+            // $.messager.show("提示", "请选择职位或签核人");
+            showerror("请选择职位", 'error')
+            return;
+        }
+        for (var i = 0 ; i < rows.length; i++) {
+            var exists = false;
+            if (!$("#IsFuzzy").is(":checked")) {
+                if (dept_id == rows[i].dept_id && job_id == rows[i].job_id && emp_id == rows[i].emp_id_emp && emp_sort == rows[i].emp_sort) {
+                    exists = true
+                }
+            }
+            else {
+                if (rows[i].job_name == $("#FuzzyType").find("option:selected").text()) {
+                    exists = true;
+                }
+            }
+            if (exists) {
+                showerror("此项已经添加", 'error');
+                return;
+            }
+        }
+        if ($("#form_emp").valid()) {
+            $("#error").hide('slow')
+            $.ajax({
+                url: "/Process/AddEmployee",
+                type: 'post',
+                data: $("#form_emp").serialize(),
+                success: function (result) {
+                    if (result == "OK") {
+                        $("#datagrid_emp").trigger("reloadGrid");
+                    }
+                    else {
+                        showerror(result, 'error')
+                    }
+                },
+                error: function (d, error) {
+
+                }
+            });
+        }
+    }
+
+    function submitForm_rule() {
+        if (isNaN($("#value").val())) {
+            showerror("值必须是一个数字", 'error1');
+        }
+        else {
+            if ($("#col_name option:selected").text() == "" || $("#value").val() == "" || $("#approveform_id option:selected").text() == "" || $("#condition option:selected").text() == "") {
+                showerror("列名、操作符、值、签核者缺一不可", 'error1');
+                return;
+            }
+            else {
+                $("#error1").hide('slow');
+                $.ajax({
+                    url: "/Process/AddRule",
+                    type: 'post',
+                    data: $("#form_rule").serialize(),
+                    success: function (result) {
+                        if (result == "OK") {
+                            $("#datagrid_rule").trigger("reloadGrid");
+                        }
+                        else {
+                            showerror(result, 'error1')
+                        }
+                    },
+                    error: function (d, error) {
+                        showerror(error, 'error1')
+                    }
+                });
+            }
+        }
+    }
+
+    function cancelForm(formid) {
+        $("#" + formid)[0].reset();
+        if (formid == "form_emp") {
+            $("#emp_id_emp").empty();
+            LoadDept();
+        }
+    }
+
+    function Delete_emp() {
+        // var row = $('#datagrid_emp').datagrid('getSelected');
+        var row = $("#datagrid_emp").jqGrid('getRowData', $("#datagrid_emp").jqGrid('getGridParam', 'selrow'))
+        if (row.approveform_id!=undefined) {
+            $("#error").hide('slow')
+            $("#dialog-confirm").dialog({
+                resizable: false,
+                height: 140,
+                modal: true,
+                buttons: {
+                    "确定": function () {
+                        var id = row.approveform_id;
+                        $.post('/Process/DeleteEmployee', { id: id }, function (result) {
+                            if (result == "OK") {
+                                $("#dialog-confirm").dialog("close")
+                                $("#datagrid_emp").trigger("reloadGrid");   // reload the template data
+                                GetEmployeeList();
+                                // $('#datagrid_rule').trigger('reload');
+
+                            } else {
+                                showerror(result, 'error')
+                            }
+                        });
+
+
+                    },
+                    "取消": function () {
+                        $(this).dialog("close")
+                    }
+                }
+            });
+        } else {
+            showerror("请先选择记录.", 'error')
+        }
+    }
+
+    function Delete_rule() {
+
+        var row = $("#datagrid_rule").jqGrid('getRowData', $("#datagrid_rule").jqGrid('getGridParam', 'selrow'));
+        if (row.ApproveRulesid != undefined) {
+            $("#error1").hide('slow')
+            var id = row.ApproveRulesid;
+            $("#dialog-confirm1").dialog({
+                resizable: false,
+                height: 140,
+                modal: true,
+                buttons: {
+                    "确定": function () {
+                        console.log(id)
+                        $.post('/Process/DeleteRule', { id: id }, function (result) {
+                            if (result == "OK") {
+                                $("#dialog-confirm1").dialog("close")
+                                $("#datagrid_rule").trigger("reloadGrid");   // reload the template data
+                            } else {
+                                showerror(result, 'error1')
+                            }
+                        });
+                    },
+                    "取消": function () {
+                        $(this).dialog("close")
+                    }
+                }
+            });
+            //$.messager.confirm('提示', '确认删除该信息吗？', function (r) {
+            //    if (r) {
+            //        $.post('/Process/DeleteRule', { id: id }, function (result) {
+            //            if (result == "OK") {
+            //                $('#datagrid_rule').datagrid('reload');    // reload the template data
+            //            } else {
+            //                $.messager.show({               // show error message
+            //                    title: '提示',
+            //                    msg: result
+            //                });
+            //            }
+            //        });
+            //    }
+            //});
+        } else {
+            showerror("请先选择记录.", 'error1');
+        }
+    }
+
+
+    function Pagination() {
+        var p = $('#datagrid_emp').datagrid('getPager');
+        $(p).pagination({
+            pageSize: 2, pageList: [10, 20, 30, 40, 50], beforePageText: '第',
+            afterPageText: '页    共 {pages} 页',
+            displayMsg: '当前显示 {from} - {to} 条记录 共 {total} 条记录'
+            /*onBeforeRefresh:function(){              $(this).pagination('loading');              alert('before refresh');              $(this).pagination('loaded');          }*/
+        });
+    }
+
+    function GetColumnList() {
+        $.post('/Process/GetColumnsListByTemplateID', { table_name: $("#Template_Info").val().split("|")[0] }, function (result) {
+            $("#col_name").empty();
+            $("#col_name").html(result);
+            if (result != "") {
+                $("#col_name")[0].selectedIndex = 0;
+            }
+        });
+    }
+
+    function GetEmployeeList() {
+        $.post('/Process/GetEmployeeByTemplateID', { template_id: $("#Template_Info").val().split("|")[1], company_id: $("#CompanyID_Rule").val() }, function (result) {
+            $("#approveform_id").empty();
+            $("#approveform_id").html(result);
+            if (result != "") {
+                $("#approveform_id")[0].selectedIndex = 0;
+            }
+        });
+    }
+
+    function LoadRule() {
+        // $('#datagrid_rule').datagrid({ url: '/Process/RuleList?tid=' + $('#Template_Info').val().split('|')[1] + '&cid=' + $('#CompanyID_Rule').val() });
+        $("#datagrid_rule").jqGrid('setGridParam', { url: '/Process/RuleList?tid=' + $('#Template_Info').val().split('|')[1] + '&cid=' + $('#CompanyID_Rule').val() });
+        $("#datagrid_rule").trigger("reloadGrid");
+        //$('#datagrid_rule').datagrid('reload');
+    }
+
+    function LoadApproveForm() {
+        $("#datagrid_emp").jqGrid('setGridParam', { url: '/Process/ProcessList?tid=' + $('#FormID').val() + '&cid=' + $('#CompanyID').val() });
+        $("#datagrid_emp").trigger("reloadGrid");
+    }
+
+    function Fuzzy(obj) {
+        if ($(obj).is(":checked")) {
+            $("[type='concrete']").css("display", "none");
+            $("[type='fuzzy']").css("display", "");
+        }
+        else {
+            $("[type='concrete']").css("display", "");
+            $("[type='fuzzy']").css("display", "none");
+        }
+    }
+        function diaodong() {
+            
+            $('#FuzzyType option').eq(4).remove();
+            
+            if ($('#FormID').val() == '1013') {
+                
+                $('#FuzzyType').append($('<option></option>').val('5').html("部门主管(调入)"));
+                
+            } 
+        }
+
+    function GetTemplateDetailList() {
+        $.post('/Process/GetTemplateDetailByID', { id: $("#FormID").val() }, function (result) {
+            $("#TemplateID").empty();
+            $("#TemplateID").html(result);
+            if (result != "") {
+                $("#TemplateID")[0].selectedIndex = 0;
+            }
+        });
+    }
+    function AjaxTree(url, treeid) {
+        $.ajax({
+            url: url,
+            type: 'post',
+            success: function (result) {
+                var setting = {
+                    data: {
+                        key: {
+                            name: 'text'
+                        },
+                        simpleData: {
+                            enable: true,
+                            idKey: 'id',
+                            pIdKey: 'parent',
+                            rootPId: ""
+                        }
+                    }, callback: {
+                        onClick: function (event, id, node) {
+                            if (node.length != 0) {
+                                $(".alert").hide();
+                            }
+                        }
+                    }
+                };
+                $.fn.zTree.init($(treeid), setting, result);
+                //var tree = $.fn.zTree.getZTreeObj("depttree");
+                //tree.addNodes(null, { id: 1, pId: 0, isParent: false, name: "new node" });
+            }
+        })
+    }
+
+    function LoadCondition() {
+        if ($("#emp_id_emp").val() == "333333") {
+            var dialog2 = $("#dialog2");
+            dialog2.dialog('open');
+           
+           
+        }
+        else
+        {
+            $("#hEmployeeIDCondition").val('');
+        }
+    }
+    function LoadDept() {
+        AjaxTree('/Org/DepartmentTree?cid=' + $("#CompanyID").val(), "#depttree")
+        
+       
+        
+    }
+    function clickvalue(){
+        $("#value").val($("#value").val()+$("#col_name").val());
+    }
+
+    function LoadJob(data) {
+        AjaxTree('/Org/GetJobByDepartment', "#jobtree")
+        $("#job_id").val('');
+        $("#hjobid").val('');
+        $("#emp_id_emp").empty();
+    }
+    function LoadEmployee(data) {
+        $("#emp_id_emp").empty();
+        $.ajax({
+            url: '/Org/GetEmployeeByDepartmentAndJob?jobID=' + data + '&deptID=' + $("#dept_id").val(),
+            type: 'post',
+            success: function (result) {
+                $("#emp_id_emp").append("<option value=''>不指定</option>");
+                for (var i = 0; i < result.length; i++) {
+                    $("#emp_id_emp").append("<option value='" + result[i].id + "'>" + result[i].text + "</option>");
+                }
+                $("#emp_id_emp").append("<option value='333333'>自定义签核</option>");
+            }
+        })
+        //$("#emp_id_emp").combotree({
+        //    url: '/Org/GetEmployeeByDepartmentAndJob?jobID=' + data + '&deptID=' + $("[name='dept_id']").val()
+        //})
+    }
+    function LoadEmployee1(data) {
+        $("#emp_id_emp").empty();
+        $.ajax({
+            url: '/Org/GetEmployeeByDepartmentAndJob?jobID=' + $("#job_id").val() + '&deptID=' + data,
+            type: 'post',
+            success: function (result) {
+                $("#emp_id_emp").append("<option value=''>不指定</option>");
+                for (var i = 0; i < result.length; i++) {
+                    $("#emp_id_emp").append("<option value='" + result[i].id + "'>" + result[i].text + "</option>");
+                }
+                $("#emp_id_emp").append("<option value='333333'>自定义签核</option>");
+            }
+        })
+        //$("#emp_id_emp").combotree({
+        //    url: '/Org/GetEmployeeByDepartmentAndJob?jobID=' + data + '&deptID=' + $("[name='dept_id']").val()
+        //})
+    }
+</script>

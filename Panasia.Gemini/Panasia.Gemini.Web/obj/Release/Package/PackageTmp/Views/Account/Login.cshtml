@@ -1,0 +1,64 @@
+﻿@model Panasia.Core.Sys.LoginViewModel
+
+@{
+    Layout = null;
+}
+    <!doctype html>
+        <html lang="en">
+        <head>
+             <meta name="viewport" content="width=device-width" />
+            <title>Login</title>
+
+            <script type="text/javascript" src="~/Scripts/jquery.min.js"></script>
+            <script type="text/javascript" src="~/Scripts/jquery.easyui.min.js"></script>
+            <link id="swicth-style" rel="stylesheet" type="text/css" href="~/Content/themes/default/easyui.css">
+            <link rel="stylesheet" type="text/css" href="~/Content/themes/icon.css">
+            <link rel="stylesheet" type="text/css" href="~/Content/Site.css">
+            <script type="text/javascript" src="~/Scripts/jquery.easyui.patch.js"></script>
+            <link rel="Stylesheet" href="~/Content/Login.css" />
+        </head>
+        <body>
+
+            <div class="login-main-body">
+                <div class="login-container">
+                    <div style="float:left;position:relative;margin-top:-80px;margin-left:80px;font-style:italic;">
+                        <span style="color:white;font-weight:800;font-size:2.4em;"></span>
+                    </div>
+                    <div style="float:left;position:relative;left:200px;top:0px;opacity:0.6;"></div>
+                </div>
+
+                <div class="login-panel">
+                    <img src="~/Content/Images/logo.jpg" width="300px" />
+                </div>
+
+                <div class="opacityfixer">
+                    @using (Html.BeginForm("Login", "Account", FormMethod.Post, new { id = "loginForm" }))
+                    { 
+                    <ol style="position:absolute;top:80px;">
+                        <li>
+                            <input type="text" class="login-account" name="UserName" placeholder="用户名" />
+
+                        </li>
+                        <li>
+                            <input type="password" class="login-password"  name="Password" placeholder="密码" />
+                        </li>
+                        <li>
+                            <label for="RememberMe">记住我:</label>
+                            @Html.CheckBoxFor(m => m.RememberMe)
+                        </li>
+                        <li>
+                            <input type="submit" value="登录" class="ap-button" />
+                            <input type="button" value="重置" class="ap-button" />
+                        </li>
+                    </ol>
+                    }
+                    <div class="errorMsg" id="showMsg">@Html.ValidationSummary()</div>
+                </div>
+
+                <div style="text-align:center;position:absolute;bottom:50px;left:50%;width:400px;margin-left:-200px;font-size:0.8em;">
+                    <span style="color:white"><img src="~/Content/Images/logo.png" width="15px" height="15px" />无锡泛亚科技 <br /> Copyright &copy 2014,版权所有</span>
+                </div>
+            </div>
+        </body>
+        </html>
+

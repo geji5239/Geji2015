@@ -1,0 +1,117 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script type="text/javascript">
+
+    //call querySearch('Name','Age','Sex','WorkYear')
+    function querySearch() {
+        var data = "{";
+        for (i = 0; i < arguments.length; i++) {
+            if (i > 0)
+            {
+                data += ",";
+            }
+            data = data + "\"" + arguments[i] + "\":";
+            
+            var compareID = "#compare_" + arguments[i];            
+            var compareValue = $(compareID).combobox('getValue');
+            if(compareValue=="><")
+            {
+                var inputID = "#input_" + arguments[i];
+                var inputID2 = "#input_" + arguments[i] + "2";
+                data = data + "\"" + compareValue + "," + $(inputID).val() + "," + $(inputID2).val()+ "\"";
+            }
+            else
+            {
+                var inputID = "#input_" + arguments[i];
+                data = data + "\"" + compareValue + "," + $(inputID).val() + "\"";
+            }
+        }
+        data += "}";
+        //post 
+    }
+
+    function Demo()
+    {
+        var name = $("#Name").combobox('getValue') + "," + $("input[name='Name']").val();
+        var age = $("#Age").combobox('getValue') + "," + $("input[name='Age']").val();
+        var sex = $("#sex").combobox('getValue') + "," + $("#Sex").combobox('getValue');
+        var workyear = $("#WorkYear").combobox('getValue') + "," + $("input[name='Min']").val() + "," + $("input[name='Max']").val();;
+        var data = { "Name": name, "Age": age, "Sex": sex, "WorkYear": workyear };
+        alert(data.Name)
+        alert(data.Age)
+        alert(data.Sex)
+        alert(data.WorkYear)
+    }
+</script>
+<form method="post" id="Form">
+    <table cellspacing="0" cellpadding="0" class="grid">
+        <tr>
+            <td>姓名</td>
+            <td>
+                <select class="query-state easyui-combobox" id="Name" panelheight="auto">
+                    <option value="%">包含</option>
+                    <option value=">">大于</option>
+                    <option value="=">等于</option>
+                    <option value="><">介于</option>
+                </select>
+            </td>
+            <td colspan="3">
+                <input class="input-dialog" name="Name" />
+            </td>
+        </tr>
+        <tr>
+            <td>年龄</td>
+            <td>
+                <select class="query-state easyui-combobox" id="Age"  panelheight="auto">
+                    <option value="%">包含</option>
+                    <option value=">">大于</option>
+                    <option value="=">等于</option>
+                    <option value="><">介于</option>
+                </select>
+            </td>
+            <td colspan="3">
+                <input class="input-dialog" name="Age" />
+            </td>
+        </tr>
+        <tr>
+            <td>性别</td>
+            <td>
+                <select class="query-state easyui-combobox" id="sex" panelheight="auto">
+                    <option value="%">包含</option>
+                    <option value=">">大于</option>
+                    <option value="=">等于</option>
+                    <option value="><">介于</option>
+                </select>
+            </td>
+            <td colspan="3">
+                <select class="query-state easyui-combobox" id="Sex"  panelheight="auto">
+                    <option value="M">男</option>
+                    <option value="L">女</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>工龄</td>
+            <td>
+                <select class="query-state easyui-combobox" id="WorkYear" panelheight="auto">
+                    <option value="%">包含</option>
+                    <option value=">">大于</option>
+                    <option value="=">等于</option>
+                    <option value="><">介于</option>
+                </select>
+            </td>
+            <td><input class="input-dialog" name="Min" style="width:50px;" /></td>
+            <td>到</td>
+            <td><input class="input-dialog" name="Max" style="width:50px;" /></td>
+        </tr>
+        <tr>
+            <td colspan="5">
+                <div class="btn-dialog">
+                    <a class="easyui-linkbutton btn-padding" data-options="iconCls:'icon-ok'" onclick="Demo()">确定</a>
+                    <a class="easyui-linkbutton btn-padding" data-options="iconCls:'icon-cancel'" onclick="cancel()">取消</a>
+                </div>
+            </td>
+        </tr>
+    </table>
+</form>

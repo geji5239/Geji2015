@@ -1,0 +1,156 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{7AB5D907-1667-4D26-9A29-2EE2FB3E4C20}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Panasia.Core.Sys</RootNamespace>
+    <AssemblyName>Panasia.Core.Sys</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Panasia.Core">
+      <HintPath>..\Documents\Dll\Panasia.Core.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Panasia.Core.Commands, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Documents\Dll\Panasia.Core.Commands.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework">
+      <HintPath>..\Documents\Dll\EntityFramework.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\Documents\Dll\EntityFramework.SqlServer.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="log4net">
+      <HintPath>..\Documents\Dll\log4net.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Documents\Dll\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.ServiceModel.Channels" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Helpers\Caches.cs" />
+    <Compile Include="Helpers\DataHelper.cs" />
+    <Compile Include="Helpers\Exceptions.cs" />
+    <Compile Include="Helpers\RequestExtension.cs" />
+    <Compile Include="Helpers\RequestFunctions.cs" />
+    <Compile Include="Helpers\StringHelper.cs" />
+    <Compile Include="Models\bi_Bank.cs" />
+    <Compile Include="Models\bi_BankRole.cs" />
+    <Compile Include="Models\bi_Payment.cs" />
+    <Compile Include="Models\FL\fl_AbnormalAttendance.cs" />
+    <Compile Include="Models\FL\fl_Addition.cs" />
+    <Compile Include="Models\FL\fl_ApproveFlow.cs" />
+    <Compile Include="Models\FL\fl_ApproveLog.cs" />
+    <Compile Include="Models\FL\fl_Approver.cs" />
+    <Compile Include="Models\FL\fl_ApproveRules.cs" />
+    <Compile Include="Models\FL\fl_ApproveState.cs" />
+    <Compile Include="Models\FL\fl_ConversionForm.cs" />
+    <Compile Include="Models\FL\fl_DimissionForm.cs" />
+    <Compile Include="Models\FL\fl_EmployeeMove.cs" />
+    <Compile Include="Models\FL\fl_Form.cs" />
+    <Compile Include="Models\FL\fl_FormTemplate.cs" />
+    <Compile Include="Models\FL\fl_GoOutForm.cs" />
+    <Compile Include="Models\FL\fl_LeaveApplicationForm.cs" />
+    <Compile Include="Models\FL\fl_MappingForm.cs" />
+    <Compile Include="Models\FL\fl_OvertimeApplicationForm.cs" />
+    <Compile Include="Models\FL\fl_PaidLeaveForm.cs" />
+    <Compile Include="Models\FL\fl_Reimbursement.cs" />
+    <Compile Include="Models\FL\fl_ReimbursementDetail.cs" />
+    <Compile Include="Models\FL\fl_TemplateForm.cs" />
+    <Compile Include="Models\FL\fl_TemplateFormDetail.cs" />
+    <Compile Include="Models\hr\CheckRecord.cs" />
+    <Compile Include="Models\hr\EmployeeMove.cs" />
+    <Compile Include="Models\hr\hr_BU.cs" />
+    <Compile Include="Models\hr\hr_Company.cs" />
+    <Compile Include="Models\hr\hr_ConversionForm.cs" />
+    <Compile Include="Models\hr\hr_Department.cs" />
+    <Compile Include="Models\hr\hr_Job.cs" />
+    <Compile Include="Models\hr\hr_Reimbursement.cs" />
+    <Compile Include="Models\hr\hr_ReimbursementDetail.cs" />
+    <Compile Include="Models\hr\hr_Employee.cs" />
+    <Compile Include="Models\MailServer.cs" />
+    <Compile Include="Models\Order\bi_Order.cs" />
+    <Compile Include="Models\Order\bi_OrderProduct.cs" />
+    <Compile Include="Models\ProductUISettings.cs" />
+    <Compile Include="Models\RolePage.cs" />
+    <Compile Include="Models\SerialCode.cs" />
+    <Compile Include="Models\UserLog.cs" />
+    <Compile Include="Models\UserMessage.cs" />
+    <Compile Include="Models\UserRole.cs" />
+    <Compile Include="Models\SysEntity.cs" />
+    <Compile Include="Models\Role.cs" />
+    <Compile Include="Models\User.cs" />
+    <Compile Include="Models\XmlRawItem.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\Log4NetLogger.cs" />
+    <Compile Include="Services\MailService.cs" />
+    <Compile Include="Services\RoleModels.cs" />
+    <Compile Include="Services\SystemCodes.cs" />
+    <Compile Include="Services\SystemParameterFunctionExports.cs" />
+    <Compile Include="Services\LangTexts.share.cs" />
+    <Compile Include="Services\Messages.cs" />
+    <Compile Include="Services\SerialCodes.cs" />
+    <Compile Include="Services\SysContext.cs" />
+    <Compile Include="Services\SysService.cs" />
+    <Compile Include="Services\SystemConsts.cs" />
+    <Compile Include="Services\SystemRequestFunctions.cs" />
+    <Compile Include="Services\UserLogService.cs" />
+    <Compile Include="Services\UserModels.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

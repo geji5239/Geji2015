@@ -1,0 +1,327 @@
+﻿@*----------------------------------------------------------------
+    // Copyright (C) 2004 清风软件
+    // 版权所有。
+    //
+    // 文件名：Fl012.cshtml
+    // 文件功能描述：签核视图
+    //----------------------------------------------------------------*@
+@section Header
+{
+    <script src="~/javascript/documents_validate.js"></script>
+
+<link href="~/New/zTreeStyle/zTreeStyle.css" rel="stylesheet" />
+<script src="~/New/jquery.ztree.core-3.5.min.js"></script>
+<style type="text/css">
+    body {
+        background-color: #fff;
+    }
+</style>
+
+
+    <script type="text/javascript">
+
+        function showdialog(dialogid) {
+            
+            $(dialogid).dialog("open");
+            $(".alert").hide();
+        }
+        function Submit(status) {
+           
+            if ($("#temp").is(":checked")) {
+                var emp_id = $("#emp_id_emp").val();
+                var job_id = $("#job_id").val();
+                if (emp_id == "" && job_id == "") {
+                    $.messager.alert("提示", "请选择职位或签核人");
+                    return;
+                }
+            }
+            $("#status").val(status);
+           
+            var iframe_id = 'template';
+            if (DocumentsValidate(iframe_id)) {
+                var iframe_document = $("#" + iframe_id).contents();
+                var values = new Array();
+                iframe_document.find("input,textarea").each(function () {
+                    var val = $(this).val();
+                    if ($(this).attr("type") == "checkbox" || $(this).attr("type") == "radio") {
+                        val = $(this).is(":checked");
+                    }
+                    values.push("\"" + $(this).attr("name") + "\":\"" + val + "\"");
+                });
+                $("[name='documentValues']").val("{" + values.join(",") + "}");
+                
+                
+                $.ajax({
+                    url: "/Approve/ApproveDocument" + location.search + "&status=" + status + "&suggestion=" + $("[name='suggestion']").val() + "&documentValues=" + $("[name='documentValues']").val() + '&companyID=' + $("[name='CompanyID']").val(),
+                    type: 'post',
+                    success: function (result) {
+                        if (result == "OK") {
+                            alert("签核成功");
+                            location.href = '/Approve/Fl011?status=' + QueryString("status") + '&table=' + QueryString("table");
+                            //$.messager.alert("提示", "签核成功！", "", function () {
+                            //    location.href = '/Approve/Fl011?status=' + QueryString("status") + '&table=' + QueryString("table");
+                            //});
+                        }
+                        else {
+                            $.messager.alert("提示", "签核失败，请重试");
+                        }
+                    }
+                });
+
+            }
+        }
+
+        $(document).ready(function () {
+            LoadDept();
+            LoadJob('');
+            $("#dialog").dialog({
+                autoOpen: false,
+                modal: true,
+                buttons: {
+                    "确定": function () {
+                        var tree = $.fn.zTree.getZTreeObj("depttree");
+                        var node = tree.getSelectedNodes();
+                        if (node.length == 0) {
+                            $("#alert").show();
+                        }
+                        else {
+                          
+                                $("#dept_id").val(node[0].id);
+                                $("#hdeptid").val(node[0].text);
+                                $(this).dialog('close');
+                                //LoadJob(node[0].id);
+                            
+
+                        }
+
+                    },
+                    "取消": function () {
+                        $(this).dialog('close');
+                    }
+                }
+            });
+            $("#dialogjob").dialog({
+                autoOpen: false,
+                modal: true,
+                buttons: {
+                    "确定": function () {
+                        var tree1 = $.fn.zTree.getZTreeObj("jobtree");
+                        var node = tree1.getSelectedNodes();
+                        if (node.length == 0) {
+                            $("#alertjob").show();
+                        }
+                        else {
+                            $("#job_id").val(node[0].id);
+                            $("#hjobid").val(node[0].text);
+                            $(this).dialog('close');
+                        }
+                        
+                        LoadEmployee(node[0].id);
+                    },
+                    "取消": function () {
+                        $(this).dialog('close');
+                    }
+                }
+            })
+
+
+            $("#dg").jqGrid({
+                url: '/Approve/ApproveFlow',
+                datatype: 'json',
+                colNames: ['公司名称', '部门', '职位', '姓名', '签核状态'],
+                colModel: [
+                { name: 'CompanyName', index: 'CompanyName' },
+
+                { name: 'DepartmentName', index: 'DepartmentName' },
+                { name: 'JobName', index: 'JobName' },
+                { name: 'EmployeeName', index: 'EmployeeName' },
+                {
+                    name: 'Confirm_Stat', index: 'Confirm_Stat', width: 80, formatter: function (value, rowData, rowIndex) {
+                        var text = "";
+                        switch (value) {
+                            case "S": text = "送签"; break;
+                            case "X": text = "待签"; break;
+                            case "A": text = "签核"; break;
+                            case "R": text = "驳回"; break;
+                            case "L": text = "通知"; break;
+                            case "O": text = "结单"; break;
+                        }
+                        return text;
+                    }
+                }],
+                postData: { Key: $("#Key").val(), DataTableName: $("#DataTableName").val() }
+
+            });
+        });
+
+        function AddTemp(cb) {
+            if ($(cb).is(":checked")) {
+                $("#tempInfo").css("display", "");
+            }
+            else {
+                $("#tempInfo").css("display", "none");
+            }
+        }
+
+        function AjaxTree(url, treeid) {
+            $.ajax({
+                url: url,
+                type: 'post',
+                success: function (result) {
+                    var setting = {
+                        data: {
+                            key: {
+                                name: 'text'
+                            },
+                            simpleData: {
+                                enable: true,
+                                idKey: 'id',
+                                pIdKey: 'parent',
+                                rootPId: ""
+                            }
+                        }, callback: {
+                            onClick: function (event, id, node) {
+                                if (node.length != 0) {
+                                    $(".alert").hide();
+                                }
+                            }
+                        }
+                    };
+                    $.fn.zTree.init($(treeid), setting, result);
+                    //var tree = $.fn.zTree.getZTreeObj("depttree");
+                    //tree.addNodes(null, { id: 1, pId: 0, isParent: false, name: "new node" });
+                }
+            })
+        }
+
+        function LoadDept() {
+
+            AjaxTree('/Org/DepartmentTree?cid=' + $("#CompanyID").val(), "#depttree")
+            //$("#dept_id").combotree({
+            //    url: '/Org/DepartmentTree?cid=' + $("#CompanyID").val(),
+            //    //required: true,
+            //    missingMessage: "请选择部门",
+            //    onSelect: function (node) { LoadJob(node.id); }
+            //});
+            //$("#job_id").combotree("clear").combotree("loadData", []);
+            //$("#emp_id_emp").combotree("clear").combotree("loadData", []);
+        }
+
+        function LoadJob(data) {
+            AjaxTree('/Org/GetJobByDepartment', "#jobtree")
+            $("#job_id").val('');
+            $("#hjobid").val('');
+            $("#emp_id_emp").empty();
+            //$("#job_id").combotree({
+            //    url: '/Org/GetJobByDepartment?deptID=' + data,
+            //    onSelect: function (node) { LoadEmployee(node.id); }
+            //})
+        }
+        function LoadEmployee(data) {
+            $("#emp_id_emp").empty();
+            $.ajax({
+                url: '/Org/GetEmployeeByDepartmentAndJob?jobID=' + data + '&deptID=' + $("#dept_id").val(),
+                type: 'post',
+                success: function (result) {
+                    //$("#emp_id_emp").append("<option value=''>不指定</option>");
+                    for (var i = 0; i < result.length; i++) {
+                        $("#emp_id_emp").append("<option value='" + result[i].id + "'>" + result[i].text + "</option>");
+                    }
+                    //$("#emp_id_emp").append("<option value='333333'>自定义签核</option>");
+                }
+            })
+        }
+    </script>
+}
+<body>
+    <div style="margin-left:10%">
+    <form id="form" method="post">
+        <div class="easyui-panel" title="单据详情" style="width:70%">
+            <h3 class="row-fluid header smaller lighter green">单据详情</h3>
+            <iframe id="template" name="template" width="100%" scrolling="no" frameborder="0" src="@ViewBag.TemplateUrl"></iframe>
+            @if (ViewData["Attachment"].ToString() != "")
+            {
+                <div style="padding:5px 5px 5px 5px;font-size:16px;"><a href="@ViewBag.Attachment" target="_blank">附件查看</a></div>
+            }
+            <input type="hidden" id="status" name="status" />
+            @Html.Hidden("Key")
+            @Html.Hidden("DataTableName")
+            @MvcHtmlString.Create(ViewData["values"].ToString())
+        </div>
+        <div class="easyui-panel" style="width:70%">
+            <h3 class="row-fluid header smaller lighter purple">签核进度</h3>
+            <table id="dg" title="签核记录" style="height:auto"></table>
+        </div>
+
+        <div class="easyui-panel" title="签核意见" style="width:70%">
+            <h3 class="row-fluid header smaller lighter blue">签核意见（可填）</h3>
+            <textarea class="autosize-transition form-control" name="suggestion" rows="4" cols="30" maxlength="200"></textarea>
+        </div>
+
+        <div class="easyui-panel" title="增加签核人" style="width:70%">
+            <h3 class="row-fluid header smaller lighter red">
+                <span class="span7"> 临时增加签核者 </span><!-- /span -->
+
+                <span class="span5">
+                    <label class="pull-right inline">
+                        <input type='checkbox' id="temp" class="ace ace-switch ace-switch-5" name="temp" value="1" onclick="AddTemp(this);" title="只有签核时才能增加，驳回时此项无效" />
+                        <span class="lbl"></span>
+                    </label>
+                </span><!-- /span -->
+            </h3>
+            <div id="tempInfo" style="margin-top:5px;width:400px;display:none;">
+               <div>
+                公司：&nbsp;&nbsp;@Html.DropDownList("CompanyID", ViewData["Company"] as SelectList, new { onchange = "LoadDept();" })
+               </div>
+               <div style="margin-top:6px">
+                部门：&nbsp;&nbsp;<input id="hdeptid" name="hdeptid" type="text" style="width:140px" readonly="readonly" />
+                <input type="text" hidden="hidden" style="width:140px;" name="dept_id" id="dept_id" class="textbox">
+                <a class="btn  btn-primary btn-minier" style="height:28px;margin-bottom: 6px;" onclick="showdialog('#dialog')">
+                    <i class="icon-search bingger-110 icon-only"></i>
+                </a>
+                @*部门：@Html.DropDownList("dept_id", new SelectList(new string[] { }), new { style = "width:175px" })*@
+                </div>
+                职位：&nbsp;&nbsp;<input id="hjobid" readonly="readonly" type="text" class="textbox" style="width:140px" />
+                <input type="text" hidden="hidden" style="width:140px;" name="job_id" id="job_id" class="textbox">
+                <a class="btn  btn-primary btn-minier" style="height:28px;margin-bottom: 6px;" onclick="showdialog('#dialogjob')">
+                    <i class="icon-search bingger-110 icon-only"></i>
+                </a>
+                @*职位：@Html.DropDownList("job_id", new SelectList(new string[] { }), new { style = "width:175px", @class = "easyui-combotree" })*@
+                <div>
+                签核者：@Html.DropDownList("emp_id_emp", new SelectList(new string[] { }), new { style = "width:175px", @class = "easyui-combotree" })
+                </div>
+            </div>
+        </div>
+
+        <div class="easyui-panel" title="操作">
+            <button type="button" style="margin-left:30px;margin-top:15px" class="btn  btn-primary " onclick="Submit('A')"><i class="icon-edit"></i>签核</button>
+            <button type="button" style="margin-top:15px" class="btn  btn-danger " onclick="Submit('R')"><i class="icon-reply"></i>驳回</button>
+            <button type="button" style="margin-top:15px;margin-left:100px;" class="btn  btn-warning " onclick="location.href = '/Approve/Fl011?status=' + QueryString('status') + '&table=' + QueryString('table');"><i class="icon-undo"></i>返回</button>
+            @*<a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-ok'" onclick="Submit('A');" style="margin:5px 5px 5px 5px;">&nbsp;签核&nbsp;</a>
+                <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-cancel'" onclick="Submit('R');" style="margin:5px 5px 5px 5px;">&nbsp;驳回&nbsp;</a>
+                <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-undo'" onclick="location.href = '/Approve/Fl011?status=' + QueryString('status') + '&table=' + QueryString('table');" style="margin:5px 5px 5px 5px;">&nbsp;返回&nbsp;</a>*@
+            @Html.Hidden("documentValues")
+            <ul id="validateSummary"></ul>
+        </div>
+        <div id="dialog">
+            <ul id="depttree" class="ztree"></ul>
+            <div class="alert alert-danger" id="alert">请选择部门！<br /></div>
+        </div>
+        <div id="dialogjob">
+            <ul id="jobtree" class="ztree"></ul>
+
+            <div class="alert alert-danger" id="alertjob">请选择职位！<br /></div>
+        </div>
+        <div id="dialog-confirm" title="提示" style="display:none">
+            <div style="padding:0px;margin:0px;">
+                <div style="padding:0px;margin:0px;"><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>确认删除该信息吗？</div>
+            </div>
+        </div>
+        <div id="dialog-confirm1" title="提示" style="display:none">
+            <div style="padding:0px;margin:0px;">
+                <div style="padding:0px;margin:0px;"><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>确认删除该信息吗？</div>
+            </div>
+        </div>
+    </form>
+        </div>
+</body>

@@ -1,0 +1,414 @@
+﻿<script type="text/javascript">
+    var url = "";
+    var formid = "";
+    var objowncompany = {};
+    var objparentdept = {};
+    var curnode = {};
+    var func = "";
+    $(function () {
+       
+        //$("#demo").combobox({
+        //    mode:'remote',
+        //    loader: function (param,success, row)
+        //    {
+        //        var q = param.q;
+        //        if (q == undefined) q = "";
+        //        $.ajax({
+        //            url: "/Share/Query?name=GetDemo&Key=" + encodeURIComponent(q),
+        //            type: 'post',
+        //            success: function (data) {
+        //                var items = $.map(data, function (item) {
+        //                    return { ID: item.ID, Name: item.Name };
+        //                });
+        //                success(items)
+        //            }
+        //        })
+        //    },
+        //    onLoadSuccess: function ()
+        //    {
+        //        $("#demo").next().children("span").remove();
+        //    }
+        //})
+        var flag = 0;
+        var company = "#Company",
+            dept = "#Dept";
+        url = "/Page/P01001/Add";
+        formid = "#form_Company";
+        func = "Add";
+        $('#tt').tree({
+            onClick: function (node) {
+                curnode = node;
+                $("#addDept").linkbutton({ disabled: false })
+
+                if (node.id.charAt(0) == "D") { 
+                    showDept();
+                    $.post('/Page/P01090/GetDeptItem?ID=' + node.id, function (result) {
+                        $("#form_Dept").form('load', result.Data[0]);
+                        var companyid=result.Data[0].CompanyID;
+                        $("#ManagerID").combotree({
+                            url: '/Share/Query?name=GetManager&resultformat=jsontree&root=000000&pid=PID&id=ID&text=Name&CompanyID=' + companyid,
+                            onLoadSuccess: function () { $("#ManagerID").combotree('setValue', result.Data[0].ManagerID) }
+                        });
+                        objowncompany.id = companyid;
+                        objowncompany.name = result.Data[0].JC;
+                        objparentdept.BUID = result.Data[0].BUID
+                    })
+                    url = "/Page/P01002/Update";
+                    formid = "#form_Dept";
+                    func = "Update";
+                    objparentdept.id = node.id;
+                    objparentdept.name = node.text;
+                }
+                else {
+                    showCompany();
+                    if (node.id.charAt(0) != "C") {
+                        url = "/Page/P01001/Add";
+                        func = "Add";
+                    }
+                    else {
+                        $.post('/Page/P01090/GetCompanyItem?ID=' + node.id, function (result) {
+                            $("#form_Company").form('load', result.Data[0]);
+                        })
+                        url = "/Page/P01001/Update";
+                        formid = "#form_Company";
+                        objowncompany.id = node.id;
+                        objowncompany.name = node.text;
+                        objparentdept.id = '';
+                        objparentdept.name = '';
+                        objparentdept.BUID = '';
+                        func = "Update";
+                    }
+                }
+                
+            },
+            onLoadSuccess: function () {
+                if (flag == 0) {
+                    curnode = $("#tt").tree('find', '111111');
+                }
+                flag++;
+            }
+        });
+        $("#addDept").linkbutton({ disabled: true })
+    });
+    function showCompany() {
+        $("#Company").show();
+        $("#Dept").hide();
+    }
+    function addCompany() {
+        showCompany()
+        $("#form_Company").form('reset');
+        url = "/Page/P01001/Add";
+        formid = "#form_Company";
+        func = "Add";
+        curnode = $("#tt").tree('find', '111111');
+    }
+    function showDept() {
+        $("#Company").hide();
+        $("#Dept").show();
+    }
+    function addDept()
+    {
+        showDept();
+        $("#form_Dept").form('reset');
+        $("#ParentID").val(objparentdept.id);
+        $("#Parent").textbox('setValue', objparentdept.name);
+        $("#BUID").combobox('setValue', objparentdept.BUID);
+        $("#JC").textbox('setValue', objowncompany.name);
+        $("#CompanyID").val(objowncompany.id);
+        url = "/Page/P01002/Add";
+        formid = "#form_Dept";
+        func = "Add";
+    }
+    function cancelForm() {
+        $("#form_Company").form('reset');
+        $("#form_Dept").form('reset')
+        func = "Add";
+        if (!$("#Company").is(":hidden")) {
+            url = "/Page/P01001/Add";
+            formid = "#form_Company";
+        } else {
+            $("#ParentID").val(objparentdept.id);
+            $("#Parent").textbox('setValue', objparentdept.name);
+            $("#JC").textbox('setValue', objowncompany.name);
+            $("#CompanyID").val(objowncompany.id);
+            url = "/Page/P01002/Add";
+            formid = "#form_Dept";
+        }
+    }
+
+    function AjaxFunc() {
+        if ($(formid).form('validate')) {
+            $.ajax({
+                url: url,
+                type: 'post',
+                data: $(formid).serialize(),
+                success: function (res) {
+                    if (res.HasError) {
+                        showError(res.ErrorMessage);
+                    }
+                    else {
+                        switch (func) {
+                            case 'Add':
+                                {
+                                    $("#tt").tree('append', { parent: curnode.target, data: res.Data })
+                                    showError("新增成功");
+                                    cancelForm()
+                                    $("#tt1").tree('reload')
+                                }
+                                break;
+                            case 'Update': {
+                                $('#tt').tree('update', { target: curnode.target, text: res.Data[0].text });
+                                showError("更新成功");
+                            } break;
+                        }
+                       // cancelForm();
+                    }
+                }
+            })
+            
+        }
+        
+    }
+    function deleteData() {
+        if (!$("#Company").is(":hidden")) {
+            url = "/Page/P01001/Delete";
+        } else {
+            url = "/Page/P01002/Delete";
+        }
+        $.extend($.messager.defaults, { ok: "确定", cancel: "取消" })
+        $.messager.confirm('提示', '确认删除改选项？', function (r) {
+            if (r) {
+                var id=$("#tt").tree('getSelected').id;
+                $.ajax({
+                    url: url + "?keys=" + id,
+                    type: "post",
+                    success: function (result) {
+                        if (result.HasError) {
+                            showError(result.ErrorMessage);
+                        }
+                        else {
+                            var node = $('#tt').tree('getSelected');
+                            $("#tt").tree('remove', node.target)
+                            showError('删除成功！');
+                        }
+                    },
+                    error: function (xmlhttprequest, text, error) {
+                        showError(error);
+                    }
+                });
+            }
+            else {
+                cancel();
+            }
+        });
+    }
+</script>
+<div style="clear:both;width:100%;position:relative">
+    <div style="float:left;padding:10px;">
+        <div class="easyui-panel" title="组织结构" style="width:250px;height:500px;">
+            <ul id="tt" class="easyui-tree" style="" data-options="url:'/Share/Query?name=GetCompanyAndDeptAll&resultformat=jsontree&root=000000&pid=PID&id=ID&text=Name',valueField:'id',textField:'text',lines:true,animate:true" />
+
+        </div>
+    </div>
+    <div style="float:left"> 
+        <div id="toolbar" class="toolbar-panel" style="position:absolute;left:330px;top:10px;width:500px;">
+            <a id="addCompany" class="easyui-linkbutton edit-button" data-options="" onclick="addCompany()">新增公司 </a>
+            <a id="addDept" class="easyui-linkbutton edit-button" data-options="" onclick="addDept()">新增部门 </a>
+            @*<a id="btn-search" class="easyui-linkbutton edit-button" data-options="iconCls:'icon-add'" onclick="cancelForm()">新增 </a>*@
+            <a id="btn-create" class="easyui-linkbutton edit-button" data-options="iconCls:'icon-cancel'" onclick="deleteData()">删除 </a>
+            <a id="btn-detail" class="easyui-linkbutton edit-button" data-options="iconCls:'icon-ok'" onclick="AjaxFunc()">保存 </a>
+            <a id="btn-detail" class="easyui-linkbutton edit-button" data-options="" onclick="showActDlg('导入公司', '/Page/P01090/Import', 400, 300)">导入公司 </a>
+            <a id="btn-detail" class="easyui-linkbutton edit-button" data-options="" onclick="showActDlg('导入部门', '/Page/P01090/ImportDept', 400, 300)">导入部门 </a>
+        </div>
+        <div style="clear:both;width:380px;position:absolute;left:250px;top:30px;">
+            <div id="Company">
+
+                <form id="form_Company">
+                    <div class="edit-panel-w2">
+                        <div class="edit-field">
+                            <div class="edit-title">
+                                <label class="edit-label">公司名称：</label>
+                            </div>
+                            <div class="edit-content">
+                                <input name="CompanyID" class="edit-input" type="hidden"></input>
+                                <input name="Name"  class="edit-input easyui-textbox" data-options="required:true,missingMessage:'请输入公司名称',required:true,validType:'length[1,50]',invalidMessage:'公司名称不能大于50'"></input>
+                            </div>
+                        </div>
+                        <div class="edit-field">
+                            <div class="edit-title">
+                                <label class="edit-label">简称：</label>
+                            </div>
+                            <div class="edit-content">
+                                <input name="JC" class="edit-input easyui-textbox" data-options="validType:'length[1,10]',invalidMessage:'简称不能大于10',required:true,missingMessage:'请输入简称'"></input>
+                            </div>
+                        </div>
+                        <div class="edit-field">
+                            <div class="edit-title">
+                                <label class="edit-label">负责人：</label>
+                            </div>
+                            <div class="edit-content">
+                                <input name="ManagerID" class="edit-input easyui-combotree" data-options="editable:false,url:'/Share/Query?name=GetAllEmployee&resultformat=jsontree&root=000000&pid=PID&id=DeptID&text=Name',method:'get',idField:'id',textField:'text',onSelect:function(rec){
+var ID=rec.id;
+if(ID!=''&&ID.charAt(0)!='E'){
+$('#Manager').combotree('unselect',id);
+}
+}"></input>
+                            </div>
+                        </div>
+                        <div class="edit-field">
+                            <div class="edit-title">
+                                <label class="edit-label">排序：</label>
+                            </div>
+                            <div class="edit-content">
+                                <input name="SortID" class="edit-input easyui-numberspinner easyui-textbox" data-options="required:true,min:1,max:100,required:true,missingMessage:'请输入排序'"></input>
+                            </div>
+                        </div>
+                        <div class="edit-field">
+                            <div class="edit-title">
+                                <label class="edit-label">网址1：</label>
+                            </div>
+                            <div class="edit-content">
+                                <input name="Url1" class="edit-input easyui-textbox" data-options="validType:'iswebsite'"></input>
+                            </div>
+                        </div>
+                        <div class="edit-field">
+                            <div class="edit-title">
+                                <label class="edit-label">网址2：</label>
+                            </div>
+                            <div class="edit-content">
+                                <input name="Url2" class="edit-input easyui-textbox" data-options="validType:'iswebsite'"></input>
+                            </div>
+                        </div>
+                        <div class="edit-field">
+                            <div class="edit-title">
+                                <label class="edit-label">电话1：</label>
+                            </div>
+                            <div class="edit-content">
+                                <input name="Tel1" class="edit-input easyui-textbox" data-options="validType:'mobile'"></input>
+                            </div>
+                        </div>
+                        <div class="edit-field">
+                            <div class="edit-title">
+                                <label class="edit-label">电话2：</label>
+                            </div>
+                            <div class="edit-content">
+                                <input name="Tel2" class="edit-input easyui-textbox" data-options="validType:'mobile'"></input>
+                            </div>
+                        </div>
+                        <div class="edit-field">
+                            <div class="edit-title">
+                                <label class="edit-label">公司地址：</label>
+                            </div>
+                            <div class="edit-content">
+                                <input name="Address" class="edit-input easyui-textbox" data-options="validType:'length[1,200]',invalidMessage:'公司地址不能大于200'" style="width:444px;"></input>
+                            </div>
+                        </div>
+                        <div class="edit-field-w2">
+                            <div class="edit-title">
+                                <label class="edit-label">公司说明：</label>
+                            </div>
+                            <div class="edit-content">
+                                <input name="Description" class="edit-input easyui-textbox" data-options="multiline:true,validType:'length[1,200]',invalidMessage:'公司说明不能大于200'" style="width:444px;height:90px;"></input>
+                            </div>
+                        </div>
+                        <div class="edit-field-w2">
+                            <div class="edit-title">
+                                <label class="edit-label">备注：</label>
+                            </div>
+                            <div class="edit-content-r2">
+                                <input name="Remark" class="edit-input easyui-textbox" data-options="multiline:true,validType:'length[1,200]',invalidMessage:'备注不能大于200'" style="width:444px;height:90px;"></input>
+                            </div>
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+            <div style="display:none" id="Dept">
+                <form id="form_Dept">
+                    <div class="edit-panel-w2">
+                        <div class="edit-field">
+                            <div class="edit-title">
+                                <label class="edit-label">部门名称：</label>
+                            </div>
+                            <div class="edit-content">
+                                <input name="DeptID" class="edit-input" type="hidden"></input>
+                                <input name="Name" class="edit-input easyui-textbox" data-options="required:true,missingMessage:'请输入部门名称',required:true,validType:'length[1,20]',invalidMessage:'部门名称不能大于20'"></input>
+                            </div>
+                        </div>
+                        <div class="edit-field">
+                            <div class="edit-title">
+                                <label class="edit-label">所属公司：</label>
+                            </div>
+                            <div class="edit-content">
+                                <input name="CompanyID" class="edit-input" id="CompanyID" type="hidden" />
+                                <input id="JC" name="JC" class="edit-input easyui-textbox" readonly="readonly" />
+                
+                            </div>
+                        </div>
+                        <div class="edit-field">
+                            <div class="edit-title">
+                                <label class="edit-label">上级部门：</label>
+                            </div>
+                            <div class="edit-content">
+                                <input id="ParentID" name="ParentID" class="edit-input" type="hidden"></input>
+                                <input id="Parent" name="Parent" class="edit-input easyui-textbox" readonly="readonly"></input>
+                                @*<input id="Parent" name="ParentID" class="edit-input easyui-combotree" data-options="editable:false,url:'/Share/Query?name=GetDeptTreeNoParent&resultformat=jsontree&root=222222&pid=PID&id=ID&text=Name&CompanyID=',method:'get',idField:'id',textField:'text'"></input>*@
+                            </div>
+                        </div>
+                        <div class="edit-field">
+                            <div class="edit-title">
+                                <label class="edit-label">事业部：</label>
+                            </div>
+                            <div class="edit-content">
+                                <input name="BUID" id="BUID" class="edit-input easyui-combobox" data-options="editable:false,url:'/Share/Query?name=GetBUName',method:'get',valueField:'BUID',textField:'Name'"> </input>
+                            </div>
+                        </div>
+                        <div class="edit-field">
+                            <div class="edit-title">
+                                <label class="edit-label">负责人：</label>
+                            </div>
+                            <div class="edit-content">
+                                <input id="ManagerID" name="ManagerID" class="edit-input easyui-combotree" data-options="editable:false,method:'get',idField:'id',textField:'text',onSelect:function(rec){
+var ID=rec.id;
+if(ID!=''){
+if(ID.charAt(0)!='E'){$('#Manager').combotree('unselect',id);}
+}
+}"></input>
+                            </div>
+                        </div>
+                        <input id="Managerurl" class="edit-input" type="hidden"></input>
+                        <div class="edit-field">
+                            <div class="edit-title">
+                                <label class="edit-label">排序：</label>
+                            </div>
+                            <div class="edit-content">
+                                <input name="SortID" class="edit-input easyui-numberspinner easyui-textbox" data-options="min:1,max:100,required:true,missingMessage:'请输入顺序'"></input>
+                            </div>
+                        </div>
+                        <div class="edit-field-r2">
+                            <div class="edit-title">
+                                <label class="edit-label">备注：</label>
+                            </div>
+                            <div class="edit-content-r2">
+                                <input name="Description" class="edit-input easyui-textbox" data-options="multiline:true,validType:'length[1,200]',invalidMessage:'备注不能大于200'" style="width:444px;height:90px;"></input>
+  
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div style="float:left;padding-left: 150px">
+                <div class="showmsg">
+                    <label id="showmsg"></label>
+                </div>
+            </div>
+        </div>
+        @*<input id="demo" class="edit-input easyui-combobox" data-options="required:true,missingMessage:'请选择所属公司',valueField:'ID',textField:'Name',method:'post'"> </input>*@
+    </div>
+    <div style="clear:both;width:250px;position:absolute;left:780px;top:10px;">
+        <div class="easyui-panel" title="事业部" style="width:300px;height:500px;">
+            <ul id="tt1" class="easyui-tree" style="" data-options="url:'/Share/Query?name=GetBUAndDept&resultformat=jsontree&root=000000&pid=PID&id=ID&text=Name',valueField:'id',textField:'text',lines:true,animate:true" />
+
+        </div>
+    </div>
+</div>

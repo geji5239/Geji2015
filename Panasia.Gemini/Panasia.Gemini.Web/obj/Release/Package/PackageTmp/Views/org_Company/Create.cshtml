@@ -1,0 +1,96 @@
+﻿@model Panasia.Gemini.Web.Models.org_Company
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Page.cshtml";
+}
+@*<script type="text/javascript">
+    $(document).ready(function () {
+
+    });
+</script>*@
+<h2>Create</h2>
+
+@*@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)*@
+    
+        <div class="easyui-panel" title="">
+            <div style="padding:10px 60px 20px 60px">
+                <form id="ff" method="post">
+                    <table cellpadding="5">
+                        <tr>
+                            <td>公司名称</td>
+                            <td>
+                                @*@Html.EditorFor(model => model.Company_Name)
+                            @Html.ValidationMessageFor(model => model.Company_Name)*@
+                            <input class="textbox" type="text" name="name" data-options="required:true" id="name"></input>
+                        </td>
+                        <td>是否active</td>
+                        <td>
+                            @*@Html.EditorFor(model => model.Is_Active)
+                            @Html.ValidationMessageFor(model => model.Is_Active)*@
+                            @*<input class="textbox" type="text" name="active" data-options="required:true" id="active"></input>*@
+                            <select class="easyui-combobox" name="state" style="width:200px;">
+                                <option value="0" selected>0</option>
+                                <option value="1">1</option>
+                                </select>
+                    </td>
+                    </tr>
+                    @*<tr>
+                            <td>仓库</td>
+                            <td>
+                                <select class="easyui-combobox" name="language"><option value="ar">Arabic</option><option value="ar">453</option></select>
+                            </td>
+                            <td>计价方式</td>
+                            <td>
+                                <select class="easyui-combobox" name="language"><option value="ar">Arabic</option><option value="ar">453</option></select>
+                            </td>
+                            <td>领料日期</td>
+                            <td><input class="textbox" type="text" name="subject" data-options="required:true"></input></td>
+                        </tr>*@
+                </table>
+            </form>
+            <div style="text-align:right;padding:5px;float:left;padding:20px 0px 10px 20px;">
+                @*<input type="submit" value="添加" />*@
+                <a href="javascript:void(0)" class="easyui-linkbutton"  id="btnadd">添加</a>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+    @*<legend>org_Company</legend>
+
+    <div class="editor-label">
+        @Html.LabelFor(model => model.Company_Name)
+    </div>
+    <div class="editor-field">
+        @Html.EditorFor(model => model.Company_Name)
+        @Html.ValidationMessageFor(model => model.Company_Name)
+    </div>
+
+    <div class="editor-label">
+        @Html.LabelFor(model => model.Is_Active)
+    </div>
+    <div class="editor-field">
+        @Html.EditorFor(model => model.Is_Active)
+        @Html.ValidationMessageFor(model => model.Is_Active)
+    </div>
+
+    <p>
+        <input type="submit" value="Create" />
+    </p>*@
+
+@*}*@
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@*@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}*@

@@ -1,0 +1,184 @@
+﻿@{
+    var item = Model.Parameters["Data"];
+}
+<script type="text/javascript">
+
+    function addClick() {
+        cancleClickRow();
+        $("#datagrid1").datagrid("unselectAll");
+    }
+    function delClick() {
+        $.extend($.messager.defaults, {
+            ok: "确定", cancel: "取消"
+        })
+        $.messager.confirm("提示", "确认停用当前账户？", function (r) {
+            if (r) {
+              //  $("#DeleteCheck").val('on');//删除checkbox选中
+                $('#EDelBtn').linkbutton('disable');//删除不按钮可用
+                $("#ActBtn").linkbutton('disable');
+                var url = "/Page/P01001/DeleteBank?ID=" + $("#datagrid1").datagrid('getSelections')[0]["BankID"];
+                funcForAct(url);
+            }
+        })
+    }
+    function activeClick() {
+        var url = "/Page/P01001/ActiveBank?ID=" + $("#datagrid1").datagrid('getSelections')[0]["BankID"];
+        funcForAct(url);
+    }
+    function onClickRow(rowIndex, rowData) {
+        $("#BankID").val(rowData["BankID"]);
+        $('#BankName').textbox('setValue', rowData['BankName']);
+        $('#Account').textbox('setValue', rowData['Account']);
+        $('#Remaining').numberbox('setValue', rowData['Remaining']);
+        $('#Remark').textbox('setValue', rowData['Remark']);
+        if (rowData["IsActive"] == '启用') {
+            $('#EDelBtn').linkbutton('enable');
+            $("#ActBtn").linkbutton('disable')
+        } else {
+            $('#EDelBtn').linkbutton('disable');
+            $("#ActBtn").linkbutton('enable')
+        }
+        rowData['Remaining'] != "0.00" ? $('#Remaining').numberbox({ readonly: true }) : $('#Remaining').numberbox({ readonly: false });
+    }
+    function cancleClickRow(rowIndex, rowData) {
+        $('#Account,#BankName,#Remark').textbox('setValue', '');
+        $("#Remaining").numberbox('setValue',0)
+        $("#BankID").val("");
+        $('#EDelBtn').linkbutton('disable');
+    }
+    function funcForAct(url) {
+        $.ajax({
+            url: url,
+            type: "post",
+            data: $("#dataform").serialize(),
+            dataType: "json",
+            success: function (result) {
+                if (result.HasError) {
+                    showError(result.ErrorMessage);
+                    if (result.ErrorMessage == '新增成功！' || result.ErrorMessage == '更新成功！' || result.ErrorMessage == '该账号已停用！' || result.ErrorMessage == '该账号已启用！') {
+                        $('#datagrid1').datagrid('reload');
+                        cancleClickRow();
+                    }
+                }
+                else {
+                }
+            },
+            error: function (d, error) {
+                showError(error);
+            }
+        });
+    }
+    function Submit() {
+        if ($("#dataform").form('validate')) {
+            var rows = $("#datagrid1").datagrid('getSelections');
+            var url = "";
+            if (rows.length > 0) {
+                url = "/Page/P01001/UpdateBank";
+            } else { url = "/Page/P01001/AddBank"; }
+            funcForAct(url);
+        }
+    }
+</script>
+
+<style>
+    .edit-panel3 {
+        padding: 5px 0px;
+        margin-top: 5px;
+        width: 530px;
+        height: 20px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+</style>
+
+<form method="post" id="dataform" class="form-dialog">
+
+    <div class="edit-dialog1" style="width:530px">
+
+        <div class="edit-panel3">
+
+            <div class="edit-field1">
+                <div class="edit-title1"><label class="edit-label1">简称：</label></div>
+                <div class="edit-content">
+                    <input class="edit-input easyui-textbox " value="@item["JC"]" readonly="readonly" />
+                    <input value="@item["CompanyID"]" type="hidden" name="CompanyID" />
+
+                </div>
+            </div>
+            <div class="edit-field1">
+                <div class="edit-title1"><label class="edit-label1">公司名称：</label></div>
+                <div class="edit-content">
+                    <input class="edit-input easyui-textbox " value="@item["Name"]" readonly="readonly" />
+                </div>
+            </div>
+        </div>
+        <div class="edit-panel3" style="height:110px;width:434px;margin-left:70px">
+            <table id="datagrid1" style="height:110px;width:434px;" class="easyui-datagrid" data-options="url:'/Page/P01001/GetBank?ID=@item["CompanyID"]',fitColumns:true,fit:true,rownumbers:true,nowrap: true,singleSelect:true,striped: true,collapsible: false,resizable:true, onSelect: onClickRow,onUnselect: cancleClickRow">
+                <thead>
+                    <tr>
+                        <th data-options="field:'BankID',hidden:true"></th>
+                        <th data-options="field:'BankName',fixed:true,">开户行名称</th>
+                        <th data-options="field:'Account',fixed:true,">卡号</th>
+                        <th data-options="field:'Remaining',fixed:true">期初余额</th>
+                        <th data-options="field:'IsActive',fixed:true,">状态</th>
+                        <th data-options="field:'Remark',fixed:true,">备注</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+        <a class="easyui-linkbutton edit-button" style="margin-left:70px" data-options="iconCls:'icon-add'" href="javascript:void(0)" onclick="addClick()">新增</a>
+        <a class="easyui-linkbutton edit-button" data-options="iconCls:'icon-cancel',disabled:true" onclick="delClick()" id="EDelBtn">停用</a>
+        <a class="easyui-linkbutton edit-button" data-options="iconCls:'icon-ok',disabled:true" onclick="activeClick()" id="ActBtn">启用</a>
+        <div class="edit-panel3">
+            <div class="edit-field1">
+                <div class="edit-title"><label class="edit-label">开户行：</label></div>
+                <div class="edit-content">
+                    <input name="BankID" type="hidden" id="BankID" />
+                    <input id="BankName" class="edit-input easyui-textbox" name="BankName" style="width:434px" data-options="missingMessage:'请输入开户行名称',required:true,validType:'length[1,50]',invalidMessage:'开户行名称不得超过50个字符'" />
+                </div>
+            </div>
+        </div>
+
+        <div class="edit-panel3">
+            <div class="edit-field1">
+                <div class="edit-title"><label class="edit-label">卡号：</label></div>
+                <div class="edit-content">
+                    <input id="Account" class="edit-input easyui-textbox" name="Account" data-options="validType:'bankInt[16,19]',invalidMessage:'卡号位数不正确，请重新输入'" />
+                </div>
+            </div>
+
+
+
+            <div class="edit-field1">
+                <div class="edit-title"><label class="edit-label">期初余额：</label></div>
+                <div class="edit-content">
+                    <input id="Remaining" class="edit-input easyui-numberbox" name="Remaining" value="0" data-options="min:0,precision:2,groupSeparator:','" />
+                </div>
+            </div>
+        </div>
+
+        <div class="edit-panel3">
+            <div class="edit-field1">
+                <div class="edit-title"><label class="edit-label">备注：</label></div>
+                <div class="edit-content">
+                    <input id="Remark" class="edit-input easyui-textbox" name="Remark" style="width:434px;height:60px" data-options="validType:'length[1,200]',invalidMessage:'备注不得超过200个字符',multiline:true" />
+                </div>
+            </div>
+            <div class="edit-panel3">
+                <div class="edit-field1">
+                    <div class="edit-content">
+                        <input class="edit-input" name="DeleteCheck" id="DeleteCheck" type="hidden" />
+                    </div>
+                </div>
+                <div class="edit-field1" style="margin-top:30px;">
+                    <div class="showmsg"><label id="showmsg"></label></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<div class="dialog-button">
+    <a class="easyui-linkbutton edit-button" data-options="iconCls:'icon-ok'" href="javascript:void(0)" onclick="Submit()">确定</a>
+    <a class="easyui-linkbutton edit-button" data-options="iconCls:'icon-cancel'" onclick="cancel()">取消</a>
+</div>
+

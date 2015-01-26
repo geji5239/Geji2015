@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Forms xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <!-- 人事单据 -->
+  <Form Code="5" FormName="人员增补单" DataFrom="fl_Addition" ></Form>
+  <Form Code="3" FormName="转正申请单" DataFrom="fl_ConversionForm" ></Form>
+  <Form Code="8" FormName="加班申请单" DataFrom="fl_OvertimeApplicationForm" ></Form>
+  <Form Code="9" FormName="外出申请单" DataFrom="fl_GoOutForm" ></Form>
+  <Form Code="10" FormName="调休申请单" DataFrom="fl_PaidLeaveForm" ></Form>
+  <Form Code="1" FormName="休假申请单" DataFrom="fl_LeaveApplicationForm" ></Form>
+  <Form Code="4" FormName="考勤异常申请单" DataFrom="fl_AbnormalAttendance" ></Form>
+  <Form Code="7" FormName="人员调动单" DataFrom="fl_EmployeeMove" ></Form>
+  <Form Code="6" FormName="离职申请单" DataFrom="fl_DimissionForm" ></Form>
+  <!-- 财务单据 -->
+  <Form Code="2" FormName="报销申请单" DataFrom="fl_Reimbursement" ></Form>
+  <Form Code="10" FormName="付款申请单" DataFrom="fl_Expenditure" ></Form>
+  <Form Code="10" FormName="借款申请单" DataFrom="fl_LoanForm" ></Form>
+  <Form Code="10" FormName="提成申请单" DataFrom="fl_CommissionForm" ></Form>
+  <!-- 业务单据 -->
+  <Form Code="11" FormName="产品规则申请单" DataFrom="fl_ProductCommissionRule" ></Form>
+  <Form Code="11" FormName="产品订单" DataFrom="fl_Order" ></Form>
+  <Form Code="12" FormName="产品退单" DataFrom="fl_ReOrder" ></Form>
+  <Form Code="13" FormName="400电话类-产品流程" DataFrom="fl_OrderProduct" ></Form>
+  <Form Code="14" FormName="备案类-产品流程" DataFrom="fl_OrderProduct" ></Form>
+  <Form Code="15" FormName="充值类-产品流程" DataFrom="fl_OrderProduct" ></Form>
+  <Form Code="16" FormName="服务费类-产品流程" DataFrom="fl_OrderProduct" ></Form>
+  <Form Code="17" FormName="空间类-产品流程" DataFrom="fl_OrderProduct" ></Form>
+  <Form Code="18" FormName="其他类-产品流程" DataFrom="fl_OrderProduct" ></Form>
+  <Form Code="19" FormName="套餐类-产品流程" DataFrom="fl_OrderProduct" ></Form>
+  <Form Code="20" FormName="网建类-产品流程" DataFrom="fl_OrderProduct" ></Form>
+  <Form Code="21" FormName="邮箱类-产品流程" DataFrom="fl_OrderProduct" ></Form>
+  <Form Code="22" FormName="域名类-产品流程" DataFrom="fl_OrderProduct" ></Form>
+</Forms>

@@ -1,0 +1,304 @@
+@functions{
+    public string getParameter(string name)
+    {
+        var value = Model.Parameters[name];
+        return value;
+    }
+}
+
+<div title="" class="panel-body panel-body-noborder window-body">
+    <style type="text/css">
+        .edit-panel {
+            width: auto;
+        }
+
+        .edit-field-right {
+            width: 280px;
+        }
+
+        .edit-title-right {
+            width: 90px;
+        }
+
+        .edit-label-right {
+            width: 90px;
+        }
+
+        .edit-content-r2 {
+            width: 460px;
+        }
+
+        .edit-field-r2 {
+            width: 560px;
+        }
+
+        .edit-input-r2 {
+            width: 460px;
+        }
+
+        .detail td {
+            font: 12px "宋体", helvetica, sans-serif;
+        }
+    </style>
+    <script type="text/javascript">
+        //绑定Combobox
+        function BindPayment(ParentID) {
+            var id = "CostCategories";
+            if (ParentID != "") {
+                id = "Sub" + id;
+            }
+            $("#" + id).combobox({
+                url: '/Combobox/GetOutPayment?ParentID=' + ParentID,
+                valueField: "id",
+                textField: "text",
+                panelHeight: "auto",
+                editable: false,
+                defaultIndex:0,
+                //onLoadSuccess: function () {
+                //    //如果绑定成功，把第一项作为默认项
+                //    var data = $(this).combobox("getData");
+                //    $(this).combobox("select", data[0].id);//select 事件会触发onSelect事件，setValue不会
+                //},
+                onSelect: function (data) {
+                    //选项改变时重新绑定子下拉
+                    if (id.indexOf("Sub") == -1) {
+                        BindPayment(data.id);
+                    }
+                }
+            });
+        }
+        //添加明细项
+        var Identity = 0;//自增数字
+        function addDetail() {
+            if ($("#detailForm").form("validate")) {
+                var data = {
+                    Identity: Identity,
+                    CostCategories: $("#CostCategories").combobox("getValue"),
+                    CostCategoriesName: $("#CostCategories").combobox("getText"),
+                    SubCostCategories: $("#SubCostCategories").combobox("getValue"),
+                    SubCostCategoriesName: $("#SubCostCategories").combobox("getText"),
+                    Amount: $("#Amount_Detail").numberbox("getValue")
+                };
+                $("#dgDetail").datagrid('appendRow', data);
+                Identity++;
+                TotalAmount();
+            }
+        }
+        function deleteDetail() {
+            var rows = $("#dgDetail").datagrid('getSelections');
+            if (rows.length == 0) {
+                $.messager.alert("提示", "请选择需要删除的数据！");
+            }
+            else {
+                $.messager.confirm("提示", "确定要删除所选数据吗？", function (r) {
+                    if (r) {
+                        var ids = [];
+                        getDeleteIDs(ids, rows, "", "dgDetail");
+                        for (var i = 0; i < rows.length; i++) {
+                            var index = $("#dgDetail").datagrid('getRowIndex', rows[i]);
+                            $("#dgDetail").datagrid('deleteRow', index);
+                        }
+                        TotalAmount();
+                    }
+                });
+            }
+        }
+        //串联值成为一个字符串，格式为"|自增数1,值1|自增数2,值2|"
+        function GenerateString() {
+            var data = $("#dgDetail").datagrid("getData");
+
+            var CostCategories_Set = "|";
+            var SubCostCategories_Set = "|";
+            var Amount_Set = "|";
+            for (var i = 0; i < data.total; i++) {
+                CostCategories_Set += (i + 1) + "," + data.rows[i].CostCategories + "|";
+                SubCostCategories_Set += (i + 1) + "," + data.rows[i].SubCostCategories + "|";
+                Amount_Set += (i + 1) + "," + data.rows[i].Amount + "|";
+            }
+            $("#CostCategories_Set").val(CostCategories_Set);
+            $("#SubCostCategories_Set").val(SubCostCategories_Set);
+            $("#Amount_Set").val(Amount_Set);
+
+            TotalAmount();
+        }
+        //计算总金额
+        function TotalAmount() {
+            var data = $("#dgDetail").datagrid("getData");
+
+            var totalAmount = 0;
+            for (var i = 0; i < data.total; i++) {
+                totalAmount += parseFloat(data.rows[i].Amount);
+            }
+
+            $("#Amount").numberbox("setValue", totalAmount.toFixed(2));
+        }
+
+        function InitDetail() {
+            $("#CostCategories_Set").val("");
+            $("#SubCostCategories_Set").val("");
+            $("#Amount_Set").val("");
+            $("#Amount_Detail").numberbox("setValue", "");
+
+            var val = $("#CostCategories").combobox("getData");
+            $("#CostCategories").combobox("select", val[0].id);
+
+            $("#dgDetail").datagrid('loadData', { total: 0, rows: [] });
+        }
+    </script>
+    <div>
+        <div class="form-dialog" style="width:620px;">
+            <div class="edit-dialog">
+                <div class="edit-panel">
+                    <form id="dataform" class="form-dialog" method="post">
+                        <div class="edit-field">
+                            <div class="edit-title">
+                                <label class="edit-label">
+                                    部门：
+                                </label>
+                            </div>
+                            <div class="edit-content">
+                                <input name="DeptName" class="edit-input easyui-textbox" disabled="disabled" value="@getParameter("CompanyName") - @getParameter("DeptName")" />
+                                <input type="hidden" name="DeptID" value="@getParameter("DeptID")" />
+                                <input type="hidden" name="CompanyID" value="@getParameter("CompanyID")" />
+                                <input type="hidden" name="JobID" value="@getParameter("JobID")" />
+                            </div>
+                        </div>
+                        <div class="edit-field edit-field-right">
+                            <div class="edit-title edit-title-right">
+                                <label class="edit-label edit-label-right">
+                                    申请日期：
+                                </label>
+                            </div>
+                            <div class="edit-content">
+                                <input class="edit-input easyui-textbox" disabled="disabled" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
+                                <input name="ApplicationDate" type="hidden" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
+                            </div>
+                        </div>
+                        <div class="edit-field">
+                            <div class="edit-title">
+                                <label class="edit-label">
+                                    申请人：
+                                </label>
+                            </div>
+                            <div class="edit-content">
+                                <input name="EmployeeName" class="edit-input easyui-textbox" disabled="disabled" value="@getParameter("EmployeeName")" />
+                                <input type="hidden" name="EmployeeID" value="@getParameter("EmployeeID")" />
+                            </div>
+                        </div>
+                        <div class="edit-field edit-field-right">
+                            <div class="edit-title edit-title-right">
+                                <label class="edit-label edit-label-right">
+                                    计划报销日期：
+                                </label>
+                            </div>
+                            <div class="edit-content">
+                                <input class="edit-input easyui-datebox" name="ReimbursementDate" data-options="required:true,missingMessage:'请输入计划报销日期'" />
+                                <script type="text/javascript">
+                                    $("[name='ReimbursementDate']").datebox().datebox('calendar').calendar({
+                                        validator: function (date) {
+                                            var now = new Date();
+                                            return date.getDay() == 5 && date >= new Date(now.getFullYear(), now.getMonth(), now.getDate());
+                                        }
+                                    });
+                                </script>
+                            </div>
+                        </div>
+                        <div class="edit-field">
+                            <div class="edit-title">
+                                <label class="edit-label">
+                                    报销总额：
+                                </label>
+                            </div>
+                            <div class="edit-content">
+                                <input id="Amount" class="edit-input easyui-numberbox" data-options="precision:2" readonly="readonly" name="Amount" />
+                            </div>
+                        </div>
+                        <div class="edit-field edit-field-right">
+                            <div class="edit-title edit-title-right">
+                                <label class="edit-label edit-label-right">
+                                    使用基金：
+                                </label>
+                            </div>
+                            <div class="edit-content">
+                                <input type="checkbox" name="Fund" value="1" />
+                            </div>
+                        </div>
+                        <div class="edit-field-r2" style="height: auto;width:490px; margin-left: 70px;">
+                            <table id="dgLoan" class="easyui-datagrid" data-options="url:'/Page/P01040/GetLoanList'" style="width:463px;height:100px;" title="欠款信息">
+                                <thead>
+                                    <tr>
+                                        <th data-options="field:'LoanDate',width:100">申请日期</th>
+                                        <th data-options="field:'PaymentName',width:100">借款用途</th>
+                                        <th data-options="field:'LoanMoney',width:100,align:'right',halign:'center'">借款金额</th>
+                                        <th data-options="field:'PaymentMethod',width:100">还款方式</th>
+                                        <th data-options="field:'Remark',width:110">备注</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                        <div class="edit-field-r2">
+                            <div class="edit-title">
+                                <label class="edit-label">
+                                    备注：
+                                </label>
+                            </div>
+                            <div class="edit-content-r2">
+                                <input class="edit-input-r2 easyui-textbox easyui-validatebox" name="Remark" data-options="multiline:true,validType:'length[1,250]',invalidMessage:'不得超过250个字符'" style="height:80px;" />
+                                <input type="hidden" id="CostCategories_Set" name="CostCategories_Set" />
+                                <input type="hidden" id="SubCostCategories_Set" name="SubCostCategories_Set" />
+                                <input type="hidden" id="Amount_Set" name="Amount_Set" />
+                            </div>
+                        </div>
+                    </form>
+                    <div class="edit-field-r2" style="height: auto; width: 490px; margin-left: 70px;">
+                        <table id="dgDetail" class="easyui-datagrid" style="width: 463px;" title="报销明细">
+                            <thead>
+                                <tr>
+                                    <th data-options="field:'Identity',checkbox:true"></th>
+                                    <th data-options="field:'CostCategoriesName',width:100">费用大类</th>
+                                    <th data-options="field:'SubCostCategoriesName',width:100">费用小类</th>
+                                    <th data-options="field:'Amount',width:100,align:'right',halign:'center'">金额</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                    <div class="edit-field-r2" style="height: auto; width: 490px; margin-left: 70px;">
+                        <a class="edit-button easyui-linkbutton" href="#" onclick="addDetail();" data-options="iconCls:'icon-ok'">新增</a>
+                        <a class="edit-button easyui-linkbutton" href="#" onclick="deleteDetail()" data-options="iconCls:'icon-cancel'">删除</a>
+                    </div>
+                    <div class="edit-field-r2" style="height:auto;">
+                        <form id="detailForm">
+                            <table class="detail">
+                                <tr>
+                                    <td style="width:20px;"></td>
+                                    <td>费用大类 ：</td>
+                                    <td><input class="edit-dropdownlist easyui-combobox" style="width: 118px;" id="CostCategories" name="CostCategories" /></td>
+                                    <td>小类 ：</td>
+                                    <td><input class="edit-dropdownlist easyui-combobox" style="width: 118px;" id="SubCostCategories" name="SubCostCategories" panelmaxheight="235" /></td>
+                                    <td>金额 ：</td>
+                                    <td>
+                                        <input class="edit-input easyui-numberbox" style="width: 118px;" id="Amount_Detail" name="Amount_Detail"
+                                               data-options="required: true,missingMessage: '请填写金额',validType: 'length[1,14]',invalidMessage: '精度不得超过14位',precision: 2" />
+                                </tr>
+                            </table>
+                        </form>
+                        <script type="text/javascript">
+                            BindPayment("");
+                        </script>
+                    </div>
+                    <div class="edit-field">
+                        <div class="showmsg">
+                            <label id="showmsg">
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="dialog-button">
+            <a class="edit-button easyui-linkbutton" href="#" onclick="GenerateString(); submitAct_DGAppend('dataform', '/Page/P01040/Add', 'datagrid'); InitDetail();" data-options="iconCls:'icon-ok'">确定</a>
+            <a class="edit-button easyui-linkbutton" href="#" onclick="cancel()" data-options="iconCls:'icon-cancel'">取消</a>
+        </div>
+    </div>
+</div>

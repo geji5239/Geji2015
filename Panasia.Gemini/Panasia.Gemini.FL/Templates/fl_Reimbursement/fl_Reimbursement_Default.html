@@ -1,0 +1,51 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+    <link rel="Stylesheet" href="../default.css" />
+    <script type="text/javascript" src="../../javascript/jquery-1.4.4.min.js"></script>
+    <script type="text/javascript" src="../../javascript/dateformat.js"></script>
+    <script type="text/javascript" src="../TemplateInit.js"></script>
+</head>
+<body>
+    <table cellspacing="0" class="main">
+        <tr>
+            <td class="label">部门</td>
+            <td><span id="DeptName"></span></td>
+            <td class="label">申请日期</td>
+            <td><span id="ApplicationDate" datatype="date"></span></td>
+        </tr>
+        <tr>
+            <td class="label">申请人</td>
+            <td><span id="EmployeeName"></span></td>
+            <td class="label">计划报销日期</td>
+            <td><span id="ReimbursementDate" datatype="date"></span></td>
+        </tr>
+        <tr>
+            <td class="label">报销总额</td>
+            <td><span id="Amount"></span></td>
+            <td class="label">使用基金</td>
+            <td><span id="Fund" convert="True:√"></span></td>
+        </tr>
+        <tr>
+            <td class="label">备注</td>
+            <td colspan="3"><span id="Remark"></span></td>
+        </tr>
+    </table>
+    <span id="RID" class="hidden"></span>
+    <span id="Version" class="hidden"></span>
+    <p>报销明细：</p>
+    <!-- 直接用View效果更好，每一列不需要额外的访问数据库进行数据转换 -->
+    <table source="fl_ReimbursementDetail" keys="RID,Version" style="width:300px;">
+        <tr>
+            <th field="CostCategories" valueConvert="bi_Payment,Payment_Name,Payment_ID" style="width:90px;text-align:left">费用大类
+            </th>
+            <th field="SubCostCategories" valueConvert="bi_Payment,Payment_Name,Payment_ID" style="width:120px;text-align:left">小类
+            </th>
+            <th field="Amount" style="width:90px;text-align:left">金额
+            </th>
+        </tr>
+    </table>
+</body>
+</html>

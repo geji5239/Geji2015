@@ -1,0 +1,16 @@
+﻿@*----------------------------------------------------------------
+    // Copyright (C) 2004 清风软件
+    // 版权所有。
+    //
+    // 文件名：Fl013.cshtml
+    // 文件功能描述：打印用
+    //----------------------------------------------------------------*@
+<form id="form" method="post">
+    <div class="easyui-panel" title="操作">
+        <a href="javascript:;" onclick="window.frames['template'].print();" class="easyui-linkbutton" data-options="iconCls:'icon-print'" style="margin:5px 5px 5px 5px;">打印</a>
+    </div>
+    <div class="easyui-panel" title="单据打印">
+        <iframe id="template" name="template" width="100%" onload="LoadData(); DynIframeSize(this); " scrolling="no" frameborder="0" src="@ViewBag.TemplateUrl"></iframe>
+        @MvcHtmlString.Create(ViewData["values"].ToString())
+    </div>
+</form>

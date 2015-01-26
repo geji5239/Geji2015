@@ -1,0 +1,198 @@
+﻿@{
+    var item = Model.Parameters["Data"];
+}
+@functions{
+    public string getParameter(string name)
+    {
+        var value = Model.Parameters[name];
+        return value;
+    }
+}
+<script type="text/javascript">
+    var type = "@getParameter("Type")";
+    function delClick() {
+        $.extend($.messager.defaults, {
+            ok: "确定", cancel: "取消"
+        })
+        $.messager.confirm("提示", "确认删除该员工？", function (r) {
+            if (r) {
+                var pageID = "";
+                if (type == "b") {
+                    pageID = "P01062";
+                }
+                else if (type == "s") {
+                    pageID = "P01128";
+                }
+                var selectRow = $("#datagrid1").datagrid('getSelected');
+                $.ajax({
+                    url: "/Page/" + pageID + "/RemoveEmployee",
+                    type: "post",
+                    data: "CustomerID=@item["CustomerID"]&EmployeeID=" + selectRow.EmployeeID,
+                    success: function (result) {
+                        if (result.HasError) {
+                            showError(result.ErrorMessage);
+                        }
+                        else {
+                            $('#datagrid1').datagrid('reload');
+                        }
+                    },
+                    error: function (d, error) {
+                        showError(error);
+                    }
+                });
+            }
+        })
+    }
+    function ClearInput(rowIndex, rowData) {
+        $('#CompanyID').combobox('selectIndex', 0);
+        $("#DeptID").combobox("clear");
+        $("#EmployeeID").combobox("clear").combobox("loadData", []);
+        $("#Contact").textbox("clear");
+    }
+    function AddSales() {
+        var pageID = "";
+        if (type == "b") {
+            pageID = "P01062";
+        }
+        else if (type == "s") {
+            pageID = "P01128";
+        }
+        if ($("#dataform").form('validate')) {
+            $.ajax({
+                url: "/Page/" + pageID + "/GetFromPublic",
+                type: "post",
+                data: $("#dataform").serialize(),
+                success: function (result) {
+                    if (result.HasError) {
+                        showError(result.ErrorMessage);
+                    }
+                    else {
+                        $('#datagrid1').datagrid('reload');
+                        ClearInput();
+                    }
+                },
+                error: function (d, error) {
+                    showError(error);
+                }
+            });
+        }
+    }
+</script>
+
+<style>
+    .edit-panel3 {
+        padding: 5px 0px;
+        margin-top: 5px;
+        width: 530px;
+        height: 20px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+</style>
+
+<div class="edit-dialog1" style="width:530px">
+    <div class="edit-panel3">
+        <div class="edit-field1">
+            <div class="edit-title"><label class="edit-label">客户名称：</label></div>
+            <div class="edit-content">
+                <input class="edit-input easyui-textbox " value="@item["CustomerName"]" readonly="readonly" />
+            </div>
+        </div>
+        <div class="edit-field1">
+            <div class="edit-title"><label class="edit-label">区域：</label></div>
+            <div class="edit-content">
+                <input class="edit-input easyui-textbox " value="@item["Area"]" readonly="readonly" />
+            </div>
+        </div>
+    </div>
+    <div class="edit-panel3">
+        <div class="edit-field1">
+            <div class="edit-title"><label class="edit-label">地址：</label></div>
+            <div class="edit-content">
+                <input id="Bank" class="edit-input easyui-textbox" name="Bank" style="width:434px" value="@item["Address"]" readonly="readonly" />
+            </div>
+        </div>
+    </div>
+    <div class="edit-panel3" style="height: 110px; width: 510px; margin-left: 10px; margin-top: 15px;">
+        <table id="datagrid1" style="height:102px;width:510px;" class="easyui-datagrid" data-options="url:'/Share/Query?name=GetEmployeeByCustomerID&CustomerID=@item["CustomerID"]&t_Type=@getParameter("Type")',fitColumns:true,fit:true,nowrap: true,singleSelect:true,striped: true,resizable:true">
+            <thead>
+                <tr>
+                    <th data-options="field:'AutoKey',checkbox:true"></th>
+                    <th data-options="field:'EmployeeName',fixed:true,width:45">姓名</th>
+                    <th data-options="field:'CompanyName',fixed:true,width:180">所属公司</th>
+                    <th data-options="field:'DeptName',fixed:true,width:85">所属部门</th>
+                    @{
+                        if (getParameter("Type") == "b")
+                        {
+                            <th data-options="field:'Contact',fixed:true,width:90">联系电话</th>
+                        }
+                    }
+                    <th data-options="field:'Remark',fixed:true,width:80">备注</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+    @*<a class="easyui-linkbutton edit-button" style="margin-left:70px" data-options="iconCls:'icon-add'" href="javascript:void(0)" onclick="addClick()">新增</a>*@
+    <a class="easyui-linkbutton edit-button" data-options="iconCls:'icon-cancel'" onclick="delClick()" id="EDelBtn">删除</a>
+
+
+    <form method="post" id="dataform" class="form-dialog">
+        <input value="@item["CustomerID"]" name="CustomerID" type="hidden" />
+        <div class="edit-panel3">
+            <div class="edit-field1">
+                <div class="edit-title"><label class="edit-label">所属公司：</label></div>
+                <div class="edit-content">
+                    <input id="CompanyID" class="edit-input easyui-combobox" name="CompanyID"
+                           data-options="editable:false,url:'/Share/Query?name=GetCompanyByUserID&UserID=@getParameter("UserID")',valueField:'CompanyID',textField:'CompanyName',defaultIndex:0,onSelect:function(data){$('#DeptID').combotree({url:'/Share/Query?name=GetDeptTreeByCompanyID&UserID=@getParameter("UserID")&CompanyID='+data.CompanyID+'&resultformat=jsontree&root='+data.CompanyID+'&pid=PID&id=ID&text=Name'})}" />
+                </div>
+            </div>
+
+            <div class="edit-field1">
+                <div class="edit-title"><label class="edit-label">所属部门：</label></div>
+                <div class="edit-content">
+                    <input id="DeptID" class="edit-input easyui-combotree" name="DeptID" data-options="editable:false,missingMessage:'请选择部门',required:true,valueField:'id',textField:'text',onSelect:function(data){$('#EmployeeID').combobox({url:'/Share/Query?name=GetEmployeeByDepartment&DeptID='+data.id})}" />
+                </div>
+            </div>
+        </div>
+
+        <div class="edit-panel3">
+            <div class="edit-field1">
+                <div class="edit-title"><label class="edit-label">姓名：</label></div>
+                <div class="edit-content">
+                    <input id="EmployeeID" class="edit-input easyui-combobox" name="EmployeeID" data-options="editable:false,missingMessage:'请选择员工',required:true,valueField:'EmployeeID',textField:'Name',onSelect:function(data){$('#Contact').textbox('setValue', data.Contact)}" />
+                </div>
+            </div>
+            @{
+                if (getParameter("Type") == "b")
+                {
+                    <div class="edit-field1">
+                        <div class="edit-title"><label class="edit-label">联系电话：</label></div>
+                        <div class="edit-content">
+                            <input id="Contact" class="edit-input easyui-textbox" name="Contact" data-options="missingMessage:'请填写联系电话',required:true" />
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+
+        <div class="edit-panel3">
+            <div class="edit-field1">
+                <div class="edit-title"><label class="edit-label">备注：</label></div>
+                <div class="edit-content">
+                    <input id="Remark" class="edit-input easyui-textbox" name="Remark" style="width:434px;height:60px" data-options="validType:'length[1,200]',invalidMessage:'备注不得超过200个字符',multiline:true" />
+                </div>
+            </div>
+        </div>
+        <div class="edit-panel3">
+            <div class="edit-field1" style="margin-top:30px;">
+                <div class="showmsg"><label id="showmsg"></label></div>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="dialog-button">
+    @*submitAct_DGOperate('dataform','公海领取','/Page/P01062/GetFromPublic','datagrid')*@
+    <a class="easyui-linkbutton edit-button" data-options="iconCls:'icon-ok'" href="javascript:void(0)" onclick="AddSales()">确定</a>
+    <a class="easyui-linkbutton edit-button" data-options="iconCls:'icon-cancel'" onclick="cancel()">取消</a>
+</div>
+

@@ -1,0 +1,51 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+    <link rel="Stylesheet" href="../default.css" />
+    <script type="text/javascript" src="../../javascript/jquery-1.4.4.min.js"></script>
+    <script type="text/javascript" src="../../javascript/dateformat.js"></script>
+    <script type="text/javascript" src="../TemplateInit.js"></script>
+</head>
+<body>
+    <table cellspacing="0" class="main">
+        <tr>
+            <td class="label">所属公司</td>
+            <td><span id="CompanyID" db="hr_Company,Name,CompanyID"></span></td>
+            <td class="label">姓名</td>
+            <td><span id="EmployeeName"></span></td>
+        </tr>
+        <tr>
+            <td class="label">提交日期</td>
+            <td><span id="ApplicationDate" datatype="date"></span></td>
+            <td class="label">开始日期</td>
+            <td><span id="StartDate" datatype="date"></span></td>
+        </tr>
+        <tr>
+            <td class="label">调动说明</td>
+            <td colspan="3"><span id="Remark"></span></td>
+        </tr>
+        <tr>
+            <td class="label">原部门</td>
+            <td><span id="OldDeptID" db="hr_Department,Name,DeptID"></span></td>
+            <td class="label">原岗位</td>
+            <td><span id="OldJobID" db="hr_Job,Name,JobID"></span></td>
+        </tr>
+        <tr>
+            <td class="label">新部门</td>
+            <td><span id="NewDeptID" db="hr_Department,Name,DeptID"></span></td>
+            <td class="label">新岗位</td>
+            <td><span id="NewJobID" db="hr_Job,Name,JobID"></span></td>
+        </tr>
+        <tr>
+            <td class="label">交接情况</td>
+            <td colspan="3"><span id="JJRemark"></span></td>
+        </tr>
+        <tr>
+            <td class="label">交接人</td>
+            <td colspan="3"><span id="JJPerson" db="hr_Employee,Name,EmployeeID"></span></td>
+        </tr>
+    </table>
+</body>
+</html>

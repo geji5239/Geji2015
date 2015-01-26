@@ -1,0 +1,23 @@
+﻿1、系统列扩展
+通常系统中有当前操作用户名，操作用户ID，操作时间等，这些都是在运行时系统应该提供的参数
+
+        //当前用户名
+        [SystemParameterFunction("CurrentUserName")] 
+        public object CurrentUserName(string parameter="")
+        {
+            return "test";
+        }
+
+        ///当前用户ID
+        [SystemParameterFunction("CurrentUserID")]
+        public object CurrentUserName(string parameter="")
+        {
+            return 0;
+        }
+
+        //当前操作时间
+        [SystemParameterFunction("CurrentDateTime")]
+        public object CurrentUserName(string parameter="")
+        {
+            return DateTime.Now;
+        }

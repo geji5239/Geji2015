@@ -1,0 +1,169 @@
+﻿@{
+    var item = Model.Parameters["Data"];
+}
+
+<div title="" class="panel-body panel-body-noborder window-body">
+    <style type="text/css">
+        .edit-panel {
+            width: auto;
+        }
+
+        .edit-field-right {
+            width: 280px;
+        }
+
+        .edit-title-right {
+            width: 90px;
+        }
+
+        .edit-label-right {
+            width: 90px;
+        }
+
+        .edit-content-r2 {
+            width: 460px;
+        }
+
+        .edit-field-r2 {
+            width: 560px;
+        }
+
+        .edit-input-r2 {
+            width: 460px;
+        }
+
+        .detail td {
+            font: 12px "宋体", helvetica, sans-serif;
+        }
+    </style>
+    <div>
+        <form id="dataform" class="form-dialog" style="width:620px;" method="post">
+            <div class="form-dialog" style="width:620px;">
+                <div class="edit-dialog">
+                    <div class="edit-panel">
+                        <div class="edit-field">
+                            <div class="edit-title">
+                                <label class="edit-label">
+                                    部门：
+                                </label>
+                            </div>
+                            <div class="edit-content">
+                                <input name="DeptName" class="edit-input easyui-textbox" readonly="readonly" value="@item["CompanyName"] - @item["DeptName"]" />
+                            </div>
+                        </div>
+                        <div class="edit-field edit-field-right">
+                            <div class="edit-title edit-title-right">
+                                <label class="edit-label edit-label-right">
+                                    申请日期：
+                                </label>
+                            </div>
+                            <div class="edit-content">
+                                <input class="edit-input easyui-textbox" readonly="readonly" value="@DateTime.Parse(item["ApplicationDate"]).ToString("yyyy-MM-dd")" />
+                            </div>
+                        </div>
+                        <div class="edit-field">
+                            <div class="edit-title">
+                                <label class="edit-label">
+                                    申请人：
+                                </label>
+                            </div>
+                            <div class="edit-content">
+                                <input name="EmployeeName" class="edit-input easyui-textbox" readonly="readonly" value="@item["EmployeeName"]" />
+                            </div>
+                        </div>
+                        <div class="edit-field edit-field-right">
+                            <div class="edit-title edit-title-right">
+                                <label class="edit-label edit-label-right">
+                                    计划报销日期：
+                                </label>
+                            </div>
+                            <div class="edit-content">
+                                <input class="edit-input easyui-textbox" name="ReimbursementDate" readonly="readonly" value="@DateTime.Parse(item["ReimbursementDate"]).ToString("yyyy-MM-dd")" />
+                            </div>
+                        </div>
+                        <div class="edit-field">
+                            <div class="edit-title">
+                                <label class="edit-label">
+                                    报销总额：
+                                </label>
+                            </div>
+                            <div class="edit-content">
+                                <input id="Amount" class="edit-input easyui-numberbox" data-options="precision:2" readonly="readonly" name="Amount" value="@item["Amount"]" />
+                            </div>
+                        </div>
+                        <div class="edit-field edit-field-right">
+                            <div class="edit-title edit-title-right">
+                                <label class="edit-label edit-label-right">
+                                    使用基金：
+                                </label>
+                            </div>
+                            <div class="edit-content">
+                                @{
+                                    string IsCheck = bool.Parse(item["Fund"]) ? "checked=\"checked\"" : "";
+                                }
+                                <input type="checkbox" name="Fund" value="1" @IsCheck disabled="disabled" />
+                            </div>
+                        </div>
+                        <div class="edit-field-r2">
+                            <div class="edit-title">
+                                <label class="edit-label">
+                                    备注：
+                                </label>
+                            </div>
+                            <div class="edit-content-r2">
+                                <input class="edit-input-r2 easyui-textbox easyui-validatebox" name="Remark" data-options="multiline:true" readonly="readonly" style="height:80px;" value="@item["Remark"]" />
+                            </div>
+                        </div>
+                        <div class="edit-field-r2" style="height:auto;">
+                            <div class="edit-title">
+                                <label class="edit-label">
+                                    报销明细：
+                                </label>
+                            </div>
+                        </div>
+                        <div class="edit-field-r2" style="height:auto;">
+                            <table class="detail">
+                                @{
+                                    dynamic data = Model.Parameters["RDData"];
+                                    if (data != null)
+                                    {
+                                        dynamic items = data;
+
+                                        for (int i = 1; i <= items.Count; i++)
+                                        {
+                                            <tr>
+                                                <td style="width:20px;"></td>
+                                                <td>费用大类 ：</td>
+                                                <td><input class="edit-input easyui-textbox" readonly="readonly" style="width: 118px;" value="@items[i-1]["CostCategoriesName"]" /></td>
+                                                <td>小类 ：</td>
+                                                <td><input class="edit-input easyui-textbox" readonly="readonly" style="width: 118px;" value="@items[i-1]["SubCostCategoriesName"]" /></td>
+                                                <td>金额 ：</td>
+                                                <td>
+                                                    <input class="edit-input easyui-textbox" readonly="readonly" style="width: 118px;" value="@items[i-1]["Amount"]"
+                                                           data-options="precision: 2" />
+                                                </td>
+                                            </tr>
+                                        }
+                                    }
+                                }
+                            </table>
+                        </div>
+                        <iframe tb="fl_Reimbursement" id="af" onload="DynIframeSize('af')"></iframe>
+                        <script type="text/javascript">
+                            InitIFrame();
+                        </script>
+                        <div class="edit-field">
+                            <div class="showmsg">
+                                <label id="showmsg">
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+            </div>
+        </form>
+        <div class="dialog-button">
+            <a class="edit-button easyui-linkbutton" href="#" onclick="cancel()" data-options="iconCls:'icon-cancel'">关闭</a>
+        </div>
+    </div>
+</div>

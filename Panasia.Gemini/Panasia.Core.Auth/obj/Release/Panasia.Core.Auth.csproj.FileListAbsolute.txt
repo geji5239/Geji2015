@@ -1,0 +1,5 @@
+E:\Code2014\Panasia.Gemini\bin\Panasia.Core.Auth.dll
+E:\Code2014\Panasia.Gemini\bin\Panasia.Core.Auth.pdb
+E:\Code2014\Panasia.Gemini\Panasia.Core.Auth\obj\Release\Panasia.Core.Auth.csprojResolveAssemblyReference.cache
+E:\Code2014\Panasia.Gemini\Panasia.Core.Auth\obj\Release\Panasia.Core.Auth.dll
+E:\Code2014\Panasia.Gemini\Panasia.Core.Auth\obj\Release\Panasia.Core.Auth.pdb

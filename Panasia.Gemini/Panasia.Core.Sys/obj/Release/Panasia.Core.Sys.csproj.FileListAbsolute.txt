@@ -1,0 +1,4 @@
+E:\Code2014\Panasia.Gemini\bin\Panasia.Core.Sys.dll
+E:\Code2014\Panasia.Gemini\bin\Panasia.Core.Sys.pdb
+E:\Code2014\Panasia.Gemini\Panasia.Core.Sys\obj\Release\Panasia.Core.Sys.dll
+E:\Code2014\Panasia.Gemini\Panasia.Core.Sys\obj\Release\Panasia.Core.Sys.pdb

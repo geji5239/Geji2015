@@ -1,0 +1,72 @@
+<?xml version="1.0"?>
+<MvcPage xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Controller="Log" DefaultAction="Index">
+  <Action ActionID="A01029" Name="Index" Title="列表" ActionValue="1">
+    <Command CommandID="M01004" Name="日志列表" CommandType="FormViewActionCommand"><![CDATA[<FormViewActionCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ContentType="text/html" ViewPath="~/Views/Page/Index.cshtml">
+  <Form>
+    <Controls>
+      <ToolBar ID="toolbar">
+        <Controls>
+          <Button ID="btn-search" Class="easyui-linkbutton" Options="iconCls:'icon-reload'" Title="检索" Action="showActDlg('检索','/Page/P00003/Search',400,300)" />
+        </Controls>
+      </ToolBar>
+      <StackPanel Style="border: 0px;" Options="region:'center'">
+        <Controls>
+          <GridView ID="datagrid" Class="easyui-datagrid" Options="fitColumns:true">
+            <Columns>
+              <Column Title="名称" FieldName="UserName" />
+              <Column Title="功能" FieldName="ActionName" />
+              <Column Title="时间" FieldName="CreatedTime" />
+              <Column Title="创建者" FieldName="CreatedUser" />
+            </Columns>
+          </GridView>
+        </Controls>
+      </StackPanel>
+    </Controls>
+  </Form>
+</FormViewActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="A01030" Name="Search" Title="检索" ActionValue="2">
+    <Command CommandID="M01005" Name="日志查询" CommandType="FormViewActionCommand"><![CDATA[<FormViewActionCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ContentType="text/xml" ViewPath="~/Views/Page/Edit.cshtml">
+  <Form>
+    <Controls>
+      <DataView ID="logqueryform" Class="form-dialog">
+        <Controls>
+          <StackPanel Class="padding-5">
+            <Controls>
+              <StackPanel Class="padding-5">
+                <Controls>
+                  <Label Class="label-title" Title="用户名：" />
+                  <TextBox ID="name" Name="name" Class="input-dialog" />
+                </Controls>
+              </StackPanel>
+            </Controls>
+          </StackPanel>
+          <StackPanel Class="showMsg">
+            <Controls>
+              <Label ID="showMsg" />
+            </Controls>
+          </StackPanel>
+          <StackPanel Class="btn-dialog">
+            <Controls>
+              <Button Class="btn-padding easyui-linkbutton" Title="确定" Action="submitAct_DGReplace('logqueryform','/Page/P00003/Query','datagrid')&quot;" />
+              <Button Class="btn-padding easyui-linkbutton" Title="取消" Action="cancel()" />
+            </Controls>
+          </StackPanel>
+        </Controls>
+      </DataView>
+    </Controls>
+  </Form>
+</FormViewActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="A01031" Name="Query" Title="检索" ActionValue="2">
+    <Command CommandID="M01006" Name="查询日志" CommandType="QuerySqlCommand"><![CDATA[<QueryCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" NextCommand="查询结果返回Json" GroupName="系统安全" TableName="sys_UserLog" CommandName="Query">
+  <Parameter Name="userName" Path="Request[name]" Type="Parameter" />
+</QueryCommand>]]></Command>
+    <Command CommandID="M01007" Name="查询结果返回Json" CommandType="JsonActionCommand"><![CDATA[<JsonActionCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ContentType="application/json">
+  <Parameter Name="Data" Path="Results[查询日志].Items" Type="Parameter" />
+  <Parameter Name="HasError" Path="Results[查询日志].IsError" Type="Parameter" />
+  <Parameter Name="ErrorMessage" Path="Results[查询日志].ErrorMessage" Type="Parameter" />
+  <Parameter Name="" Type="Parameter" />
+</JsonActionCommand>]]></Command>
+  </Action>
+</MvcPage>

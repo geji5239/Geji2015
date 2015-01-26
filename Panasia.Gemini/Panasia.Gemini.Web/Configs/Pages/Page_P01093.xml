@@ -1,0 +1,288 @@
+<?xml version="1.0"?>
+<MvcEditPage xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" PageID="P01093" Controller="" DefaultAction="Index">
+  <Action ActionID="ee7d79fa-7103-453e-a837-3a0cd1fa474d" Name="Index" Title="列表" ActionValue="1">
+    <Command CommandID="M01825" Name="列表页面" Description="这个命令会直接返回到客户端，无需后继命令" CommandType="IndexPageActionCommand"><![CDATA[<IndexPageActionCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ContentType="text/html">
+  <Page SettingType="IndexPage">
+    <ToolBar Tag="div" ID="toolbar" Class="toolbar-panel" PageID="P01093">
+      <Buttons>
+        <UIButton ID="btn-search" Class="easyui-linkbutton" Options="iconCls:'icon-search'" Title="检索" ActionValue="2" Action="showActDlg('检索','/Page/P01093/Search',400,300)" />
+        <UIButton ID="btn-detail" Class="easyui-linkbutton toolradio" Options="iconCls:'icon-add'" Title="查看" ActionValue="4" Action="showActDlg_DGItemActDlg('datagrid','查看','/Page/P01093/Detail',500,300)" />
+        <UIButton ID="btn-create" Class="easyui-linkbutton  toolradio" Options="iconCls:'icon-add'" Title="新增" ActionValue="8" Action="showActDlg_DGItemActDlg('datagrid','查看','/Page/P01093/Detail',500,300)" />
+      </Buttons>
+    </ToolBar>
+    <DataGrid Tag="table" ID="datagrid" Class="easyui-datagrid" Options="fitColumns:true,fit:true,pagination: true,rownumbers: true,nowrap: true,striped: true,collapsible: false,resizable:true,onClickRow:oncheckstate,onSelect:oncheckstate,onCheck:oncheckstate,onCheckAll:oncheckstate,onUncheckAll:oncheckstate,onUncheck:oncheckstate,onUnselect:oncheckstate,singleSelect:true" Key="RePaymentNum">
+      <Column Title="LoanNum" FieldName="LoanNum" IsCheckBox="true" />
+      <Column Title="借款日期" FieldName="LoanDate" />
+      <Column Title="借款申请人" FieldName="LoanName" />
+      <Column Title="金额" FieldName="LoanMoney" />
+      <Column Title="还款方式" FieldName="Method" />
+      <Column Title="备注" FieldName="Remark" />
+    </DataGrid>
+  </Page>
+</IndexPageActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="d7841d8f-ae49-4940-b8d7-8880fb982ab7" Name="Search" Title="检索" ActionValue="2">
+    <Command CommandID="M01826" Name="检索页面" Description="这个命令会直接返回到客户端，无需后继命令" CommandType="EditDialogActionCommand"><![CDATA[<EditDialogActionCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ContentType="text/html">
+  <Page SettingType="EditDialog">
+    <Form ID="dataform" Class="form-dialog" EditPanelClass="edit-panel-w2">
+      <TableLayout />
+      <Fields>
+        <Field Title="部门" FieldType="ComboTree">
+          <ComboTree Tag="input" Name="DeptID" Class="easyui-combotree edit-input" Binding="DeptID" IsRequired="false" Length="6" DataUrl="/Share/Query?name=GetAllComAndDptTree&amp;resultformat=jsontree&amp;root=&amp;pid=PID&amp;id=ID&amp;text=Name" DisplayMember="text" ValueMember="ID" OnSelect="function(node){&#xD;&#xA;       $('#EmployeeID').combobox({&#xD;&#xA;       url:'/Share/Query?name=GetEmpByCmpOrDept&amp;ID='+node.id&#xD;&#xA;    });&#xD;&#xA;}" />
+        </Field>
+        <Field Title="申请人" FieldType="ComboBox">
+          <ComboBox Tag="select" ID="EmployeeID" Name="EmployeeID" Class="easyui-combobox edit-input" Binding="EmployeeID" IsRequired="false" Length="6" DisplayMember="Name" ValueMember="ID" />
+        </Field>
+        <Field Title="借款日期" FieldType="DateBox">
+          <DateBox Tag="input" Name="LoanStartDate" Class="easyui-datebox edit-input" Binding="LoanDate" IsRequired="false" />
+        </Field>
+        <Field Title="至" FieldType="DateBox">
+          <DateBox Tag="input" Name="LoanEndDate" Class="easyui-datebox edit-input" IsRequired="false" Length="6" />
+        </Field>
+        <Field Title="借款金额" FieldType="NumberBox">
+          <NumericBox Tag="input" Name="LoanStartMoney" Class="easyui-numberbox edit-input" Binding="LoanMoney" IsRequired="false" Length="6" />
+        </Field>
+        <Field Title="至" FieldType="NumberBox">
+          <NumericBox Tag="input" Name="LoanEndMoney" Class="easyui-numberbox edit-input" Binding="LoanMoney" IsRequired="false" />
+        </Field>
+      </Fields>
+      <ToolBar Tag="div" ID="toolbar" Class="dialog-button" PageID="P01093">
+        <Buttons>
+          <UIButton ID="btn-query" Class="easyui-linkbutton edit-button" Options="iconCls:'icon-ok'" Title="确定" ActionValue="2" Action="submitAct_DGReplace('dataform','/Page/P01093/Query','datagrid')" />
+          <UIButton ID="btn-cancel" Class="easyui-linkbutton edit-button" Options="iconCls:'icon-cancel'" Title="取消" Action="cancel()" />
+        </Buttons>
+      </ToolBar>
+    </Form>
+  </Page>
+</EditDialogActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="d550a1a2-edc4-478e-872e-817a946eaf6d" Name="Query" Title="检索" ActionValue="2">
+    <Command CommandID="M01827" Name="查询总数" Description="本查询的结果值为JSON，参数路径为Results[检索分页].Json" CommandType="ScalarSqlCommand"><![CDATA[<ScalarCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" NextCommand="分页查询" GroupName="财务管理" TableName="acc_LoanForm" CommandName="QueryCount" SqlType="Scalar">
+  <Parameter Name="DeptID" Path="Request[DeptID]" Type="Parameter" Converter="CreateSearchField" ConverterParameter="DeptID,0" />
+  <Parameter Name="EmployeeID" Path="Request[EmployeeID]" Type="Parameter" Converter="CreateSearchField" ConverterParameter="EmployeeID,0" />
+  <Parameter Name="LoanStartDate" Path="Request[LoanStartDate]" Type="Parameter" />
+  <Parameter Name="LoanEndMoney" Path="Request[LoanEndMoney]" Type="Parameter" />
+  <Parameter Name="LoanStartMoney" Path="Request[LoanStartMoney]" Type="Parameter" />
+  <Parameter Name="LoanEndDate" Path="Request[LoanEndDate]" Type="Parameter" />
+  <Parameter Name="IsActive" Path="Request[IsActive]" Type="Parameter" DefaultValue="1" Converter="CreateSearchField" ConverterParameter="IsActive,0" />
+</ScalarCommand>]]></Command>
+    <Command CommandID="M01828" Name="分页查询" Description="本查询的结果值为JSON，参数路径为Results[检索分页].Json" CommandType="QuerySqlCommand"><![CDATA[<QueryCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" NextCommand="搜索结果" GroupName="财务管理" TableName="acc_LoanForm" CommandName="QueryPage">
+  <Parameter Name="DeptID" Path="Request[DeptID]" Type="Parameter" />
+  <Parameter Name="EmployeeID" Path="Request[EmployeeID]" Type="Parameter" />
+  <Parameter Name="LoanStartDate" Path="Request[LoanStartDate]" Type="Parameter" />
+  <Parameter Name="LoanEndDate" Path="Request[LoanEndDate]" Type="Parameter" />
+  <Parameter Name="LoanStartMoney" Path="Request[LoanStartMoney]" Type="Parameter" />
+  <Parameter Name="LoanEndMoney" Path="Request[LoanEndMoney]" Type="Parameter" />
+  <Parameter Name="IsActive" Path="Request[IsActive]" Type="Parameter" Converter="CreateSearchField" ConverterParameter="IsActive,0" />
+  <Parameter Name="Page" Path="Request[Page]" Type="Parameter" />
+  <Parameter Name="Rows" Path="Request[Rows]" Type="Parameter" />
+  <Parameter Name="OrderBy" Path="Request[OrderBy]" Type="Parameter" />
+</QueryCommand>]]></Command>
+    <Command CommandID="M01829" Name="搜索结果" Description="返回搜索结果" CommandType="JsonActionCommand"><![CDATA[<JsonActionCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ContentType="application/json">
+  <Parameter Name="total" Path="Results[查询总数].Value" Type="Parameter" />
+  <Parameter Name="rows" Path="Results[分页查询].Items" Type="Parameter" />
+  <Parameter Name="HasError" Path="LastResult.IsError" Type="Parameter" />
+  <Parameter Name="ErrorMessage" Path="LastResult.ErrorMessage" Type="Parameter" />
+</JsonActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="bc9774fa-bb51-4d94-8150-b6b877fc7a4e" Name="Detail" Title="查看" ActionValue="4">
+    <Command CommandID="M01830" Name="查询明细" Description="查询明细" CommandType="QuerySqlCommand"><![CDATA[<QueryCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" NextCommand="编辑页面" GroupName="财务管理" TableName="acc_LoanForm" CommandName="GetDetail">
+  <Parameter Name="LoanNum" Path="Request[ID]" Type="Parameter" />
+</QueryCommand>]]></Command>
+    <Command CommandID="M01843" Name="编辑页面" CommandType="RazorContentActionCommand"><![CDATA[<RazorContentActionCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ContentType="text/xml" TemplateFile="\acc_RepaymentForm\RePayment.cshtml" SettingType="IndexPage">
+  <Parameter Name="Data" Path="LastResult.Item" Type="Parameter" />
+</RazorContentActionCommand>]]></Command>
+    <Command CommandID="M01831" Name="查看页面" Description="这个命令会直接返回到客户端，无需后继命令" CommandType="EditDialogActionCommand"><![CDATA[<EditDialogActionCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ContentType="text/html">
+  <Parameter Name="Data" Path="LastResult.Items" Type="Parameter" />
+  <Page SettingType="EditDialog">
+    <Form ID="dataform" Class="form-dialog" DataBinding="Parameters[Data]">
+      <TableLayout />
+      <Fields>
+        <Field Title="RePaymentNum" FieldType="Hidden">
+          <Input Tag="input" Name="RePaymentNum" Class="edit-input" InputType="hidden" Binding="RePaymentNum" IsReadOnly="true" Length="8" IsHidden="true" />
+        </Field>
+        <Field Title="LoanNum" FieldType="TextBox">
+          <Input Tag="input" Name="LoanNum" Class="edit-input" Binding="LoanNum" IsReadOnly="true" Length="8" />
+        </Field>
+        <Field Title="DeptID" FieldType="TextBox">
+          <Input Tag="input" Name="DeptID" Class="edit-input" Binding="DeptID" IsReadOnly="true" Length="6" />
+        </Field>
+        <Field Title="EmployeeID" FieldType="TextBox">
+          <Input Tag="input" Name="EmployeeID" Class="edit-input" Binding="EmployeeID" IsReadOnly="true" Length="6" />
+        </Field>
+        <Field Title="RePaymentDate" FieldType="TextBox">
+          <Input Tag="input" Name="RePaymentDate" Class="edit-input" Binding="RePaymentDate" IsReadOnly="true" />
+        </Field>
+        <Field Title="RePaymentMethod" FieldType="TextBox">
+          <Input Tag="input" Name="RePaymentMethod" Class="edit-input" Binding="RePaymentMethod" IsReadOnly="true" Length="6" />
+        </Field>
+        <Field Title="RePaymentUnit" FieldType="TextBox">
+          <Input Tag="input" Name="RePaymentUnit" Class="edit-input" Binding="RePaymentUnit" IsReadOnly="true" Length="6" />
+        </Field>
+        <Field Title="RePaymentAmount" FieldType="TextBox">
+          <Input Tag="input" Name="RePaymentAmount" Class="edit-input" Binding="RePaymentAmount" IsReadOnly="true" />
+        </Field>
+        <Field Title="Remark" FieldType="TextBox">
+          <Input Tag="input" Name="Remark" Class="edit-input" Binding="Remark" IsReadOnly="true" Length="200" />
+        </Field>
+        <Field Title="IsActive" FieldType="ComboBox">
+          <ComboBox Tag="select" Name="IsActive" Class="easyui-combobox edit-input" Binding="IsActive" IsReadOnly="true" ItemsSource="1:是|0:否" />
+        </Field>
+      </Fields>
+      <ToolBar Tag="div" ID="toolbar" Class="dialog-button" PageID="P01093">
+        <Buttons>
+          <UIButton ID="btn-close" Class="easyui-linkbutton edit-button" Title="确定" Action="cancel()" />
+        </Buttons>
+      </ToolBar>
+    </Form>
+  </Page>
+</EditDialogActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="a6463675-a8d0-46db-a319-edd50123f9bc" Name="GetRePayment" Title="新增" ActionValue="8">
+    <Command CommandID="M01844" Name="检索数据" CommandType="QueryJsonSqlCommand"><![CDATA[<QueryJsonCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" NextCommand="编辑结果" GroupName="财务管理" TableName="acc_RepaymentForm" CommandName="GetEdit" SqlType="QueryJson">
+  <Parameter Name="LoanNum" Path="Request[LoanNum]" Type="Parameter" />
+</QueryJsonCommand>]]></Command>
+    <Command CommandID="M01842" Name="编辑结果" CommandType="ReturnActionCommand"><![CDATA[<ReturnActionCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ContentType="appplication/json">
+  <Parameter Name="json" Path="LastResult.Json" Type="Parameter" />
+</ReturnActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="7b5a6b84-6ae7-43d3-a00a-ff75de917cb6" Name="UpdateRePayment" Title="新增" ActionValue="8" ErrorCommand="新增结果">
+    <Command CommandID="M01846" Name="执行新增" CommandType="QueryJsonSqlCommand"><![CDATA[<QueryJsonCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" NextCommand="新增结果" GroupName="财务管理" TableName="acc_RepaymentForm" CommandName="UpdateRE" SqlType="QueryJson">
+  <Parameter Name="DeleteCheck" Path="Request[DeleteCheck]" Type="Parameter" />
+  <Parameter Name="RePaymentNum" Path="SerialCode" Type="SystemParameter" DefaultValue="RePayment,R,6" />
+  <Parameter Name="RePaymentDate" Path="Request[RePaymentDate]" Type="Parameter" />
+  <Parameter Name="RePaymentMethod" Path="Request[RePaymentMethod]" Type="Parameter" />
+  <Parameter Name="RePaymentAmount" Path="Request[RePaymentAmount]" Type="Parameter" />
+  <Parameter Name="Remark" Path="Request[Remark]" Type="Parameter" />
+  <Parameter Name="LoanNum" Path="Request[LoanNum]" Type="Parameter" />
+  <Parameter Name="IsActive" Path="Request[IsActive]" Type="Parameter" DefaultValue="1" />
+  <Parameter Name="CreatedUser" Path="CurrentUserID" Type="SystemParameter" />
+  <Parameter Name="CreatedTime" Path="CurrentDateTime" Type="SystemParameter" />
+  <Parameter Name="ModifiedUser" Path="CurrentUserID" Type="SystemParameter" />
+  <Parameter Name="ModifiedTime" Path="CurrentDateTime" Type="SystemParameter" />
+  <Parameter Name="AutoKey" Path="Request[AutoKey]" Type="Parameter" />
+</QueryJsonCommand>]]></Command>
+    <Command CommandID="M01834" Name="新增结果" Description="返回新增结果" CommandType="JsonActionCommand"><![CDATA[<JsonActionCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ContentType="application/json">
+  <Parameter Name="Data" Path="Results[执行新增].Json" Type="Parameter" />
+  <Parameter Name="HasError" Path="Results[执行新增].IsError" Type="Parameter" />
+  <Parameter Name="ErrorMessage" Path="Results[执行新增].ErrorMessage" Type="Parameter" />
+</JsonActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="736cb0e8-f48f-4fa9-b51e-65b1e2565d60" Name="Edit" Title="编辑" ActionValue="16">
+    <Command CommandID="M01835" Name="查询编辑" Description="查询编辑" CommandType="QuerySqlCommand"><![CDATA[<QueryCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" NextCommand="编辑页面" GroupName="财务管理" TableName="acc_RepaymentForm" CommandName="GetEdit">
+  <Parameter Name="RePaymentNum" Path="Request[ID]" Type="Parameter" />
+</QueryCommand>]]></Command>
+    <Command CommandID="M01836" Name="编辑页面" Description="这个命令会直接返回到客户端，无需后继命令" CommandType="EditDialogActionCommand"><![CDATA[<EditDialogActionCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ContentType="text/html">
+  <Parameter Name="Data" Path="LastResult.Items" Type="Parameter" />
+  <Page SettingType="EditDialog">
+    <Form ID="dataform" Class="form-dialog" DataBinding="Parameters[Data]">
+      <TableLayout />
+      <Fields>
+        <Field Title="RePaymentNum" FieldType="Hidden">
+          <Input Tag="input" Name="RePaymentNum" Class="edit-input" InputType="hidden" Binding="RePaymentNum" Length="8" IsHidden="true" />
+        </Field>
+        <Field Title="LoanNum" FieldType="TextBox">
+          <Input Tag="input" Name="LoanNum" Class="edit-input" Binding="LoanNum" Length="8" />
+        </Field>
+        <Field Title="DeptID" FieldType="TextBox">
+          <Input Tag="input" Name="DeptID" Class="edit-input" Binding="DeptID" Length="6" />
+        </Field>
+        <Field Title="EmployeeID" FieldType="TextBox">
+          <Input Tag="input" Name="EmployeeID" Class="edit-input" Binding="EmployeeID" Length="6" />
+        </Field>
+        <Field Title="RePaymentDate" FieldType="TextBox">
+          <Input Tag="input" Name="RePaymentDate" Class="edit-input" Binding="RePaymentDate" />
+        </Field>
+        <Field Title="RePaymentMethod" FieldType="TextBox">
+          <Input Tag="input" Name="RePaymentMethod" Class="edit-input" Binding="RePaymentMethod" Length="6" />
+        </Field>
+        <Field Title="RePaymentUnit" FieldType="TextBox">
+          <Input Tag="input" Name="RePaymentUnit" Class="edit-input" Binding="RePaymentUnit" Length="6" />
+        </Field>
+        <Field Title="RePaymentAmount" FieldType="TextBox">
+          <Input Tag="input" Name="RePaymentAmount" Class="edit-input" Binding="RePaymentAmount" />
+        </Field>
+        <Field Title="Remark" FieldType="TextBox">
+          <Input Tag="input" Name="Remark" Class="edit-input" Binding="Remark" Length="200" />
+        </Field>
+        <Field Title="IsActive" FieldType="ComboBox">
+          <ComboBox Tag="select" Name="IsActive" Class="easyui-combobox edit-input" Binding="IsActive" ItemsSource="1:是|0:否" />
+        </Field>
+      </Fields>
+      <ToolBar Tag="div" ID="toolbar" Class="dialog-button" PageID="P01093">
+        <Buttons>
+          <UIButton ID="btn-update" Class="easyui-linkbutton edit-button" Options="iconCls:'icon-ok'" Title="确定" ActionValue="16" Action="submitAct_DGUpdate('dataform','/Page/P01093/Update','datagrid')" />
+          <UIButton ID="btn-cancel" Class="easyui-linkbutton edit-button" Options="iconCls:'icon-cancel'" Title="取消" Action="cancel()" />
+        </Buttons>
+      </ToolBar>
+    </Form>
+  </Page>
+</EditDialogActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="26d626cd-bdf6-4fd0-9855-2aec5d349927" Name="Update" Title="编辑" ActionValue="16">
+    <Command CommandID="M01837" Name="执行更新" Description="本查询的结果值为JSON，参数路径为Results[执行更新].Json" CommandType="QueryJsonSqlCommand"><![CDATA[<QueryJsonCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" NextCommand="编辑结果" GroupName="财务管理" TableName="acc_RepaymentForm" CommandName="Update" SqlType="QueryJson">
+  <Parameter Name="RePaymentNum" Path="Request[RePaymentNum]" Type="Parameter" />
+  <Parameter Name="LoanNum" Path="Request[LoanNum]" Type="Parameter" />
+  <Parameter Name="DeptID" Path="Request[DeptID]" Type="Parameter" />
+  <Parameter Name="EmployeeID" Path="Request[EmployeeID]" Type="Parameter" />
+  <Parameter Name="RePaymentDate" Path="Request[RePaymentDate]" Type="Parameter" DefaultValue="1900-01-01" />
+  <Parameter Name="RePaymentMethod" Path="Request[RePaymentMethod]" Type="Parameter" />
+  <Parameter Name="RePaymentUnit" Path="Request[RePaymentUnit]" Type="Parameter" />
+  <Parameter Name="RePaymentAmount" Path="Request[RePaymentAmount]" Type="Parameter" />
+  <Parameter Name="Remark" Path="Request[Remark]" Type="Parameter" />
+  <Parameter Name="IsActive" Path="Request[IsActive]" Type="Parameter" />
+  <Parameter Name="ModifiedUser" Path="CurrentUserID" Type="SystemParameter" />
+  <Parameter Name="ModifiedTime" Path="CurrentDateTime" Type="SystemParameter" />
+</QueryJsonCommand>]]></Command>
+    <Command CommandID="M01838" Name="编辑结果" Description="返回编辑结果" CommandType="JsonActionCommand"><![CDATA[<JsonActionCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ContentType="application/json">
+  <Parameter Name="Data" Path="Results[执行更新].Json" Type="Parameter" />
+  <Parameter Name="HasError" Path="Results[执行更新].IsError" Type="Parameter" />
+  <Parameter Name="ErrorMessage" Path="Results[执行更新].ErrorMessage" Type="Parameter" />
+</JsonActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="d2d1a0e7-7da7-41a9-bee9-33131b8a5265" Name="Delete" Title="删除" ActionValue="32">
+    <Command CommandID="M01839" Name="执行删除" Description="本查询的结果值为JSON，参数路径为Results[执行删除].Json" CommandType="QueryJsonSqlCommand"><![CDATA[<QueryJsonCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" NextCommand="删除结果" GroupName="财务管理" TableName="acc_RepaymentForm" CommandName="Delete" SqlType="QueryJson">
+  <Parameter Name="Keys" Path="Request[Keys]" Type="Parameter" />
+</QueryJsonCommand>]]></Command>
+    <Command CommandID="M01840" Name="删除结果" Description="返回删除结果" CommandType="JsonActionCommand"><![CDATA[<JsonActionCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ContentType="application/json">
+  <Parameter Name="Data" Path="Results[执行删除].Json" Type="Parameter" />
+  <Parameter Name="HasError" Path="Results[执行删除].IsError" Type="Parameter" />
+  <Parameter Name="ErrorMessage" Path="Results[执行删除].ErrorMessage" Type="Parameter" />
+</JsonActionCommand>]]></Command>
+  </Action>
+  <Layout EditFieldClass="edit-field" />
+  <Buttons>
+    <Button ID="btn-search" Title="检索" ActionValue="2" Action="showActDlg('检索','/Page/P01093/Search',400,300)" Class="easyui-linkbutton" Option="iconCls:'icon-search'" />
+    <Button ID="btn-query" Title="确定" ActionValue="2" Action="submitAct_DGReplace('dataform','/Page/P01093/Query','datagrid')" Class="easyui-linkbutton edit-button" Option="iconCls:'icon-ok'" ShowInToolBar="false" />
+    <Button ID="btn-detail" Title="查看" ActionValue="4" Action="showActDlg_DGItemActDlg('datagrid','查看','/Page/P01093/Detail',400,300)" Class="easyui-linkbutton toolradio" Option="iconCls:'icon-add'" />
+    <Button ID="btn-create" Title="新增" ActionValue="8" Action="showActDlg('新增','/Page/P01093/Create',400,300)" Class="easyui-linkbutton" Option="iconCls:'icon-add'" />
+    <Button ID="btn-add" Title="确定" ActionValue="8" Action="submitAct_DGAppend('dataform','/Page/P01093/Add','datagrid')" Class="easyui-linkbutton edit-button" Option="iconCls:'icon-ok'" ShowInToolBar="false" />
+    <Button ID="btn-edit" Title="修改" ActionValue="16" Action="showActDlg_DGItemActDlg('datagrid','修改','/Page/P01093/Edit',400,300)" Class="easyui-linkbutton toolradio" Option="iconCls:'icon-edit'" />
+    <Button ID="btn-update" Title="确定" ActionValue="16" Action="submitAct_DGUpdate('dataform','/Page/P01093/Update','datagrid')" Class="easyui-linkbutton edit-button" Option="iconCls:'icon-ok'" ShowInToolBar="false" />
+    <Button ID="btn-delete" Title="删除" ActionValue="32" Action="showActDlg_DGItemsConfirm('datagrid','删除','确认删除选择项？','/Page/P01093/Delete',400,300)" Class="easyui-linkbutton toolmultiple" Option="iconCls:'icon-cancel'" />
+    <Button ID="btn-import" Title="导入" ActionValue="64" Action="showActDlg('导入','/Page/P01093/Import',400,300)" Class="easyui-linkbutton" Option="iconCls:'icon-import'" />
+    <Button ID="btn-export" Title="导出" ActionValue="128" Action="showActDlg('导出','/Page/P01093/Export',400,300)" Class="easyui-linkbutton" Option="iconCls:'icon-export'" />
+    <Button ID="btn-cancel" Title="取消" Action="cancel()" Class="easyui-linkbutton edit-button" Option="iconCls:'icon-cancel'" ShowInToolBar="false" />
+    <Button ID="btn-close" Title="确定" Action="cancel()" Class="easyui-linkbutton edit-button" ShowInToolBar="false" />
+  </Buttons>
+  <EditSource GroupName="财务管理" TableName="acc_RepaymentForm" Key="RePaymentNum" LogicDeleteFlag="IsActive=0">
+    <Fields>
+      <EditField Name="RePaymentNum" Title="RePaymentNum" DataType="varchar" Length="8" EditBox="Hidden" />
+      <EditField Name="LoanNum" Title="LoanNum" DataType="varchar" Length="8" />
+      <EditField Name="DeptID" Title="DeptID" DataType="varchar" Length="6" />
+      <EditField Name="EmployeeID" Title="EmployeeID" DataType="varchar" Length="6" />
+      <EditField Name="RePaymentDate" Title="RePaymentDate" DataType="datetime" />
+      <EditField Name="RePaymentMethod" Title="RePaymentMethod" DataType="varchar" Length="6" />
+      <EditField Name="RePaymentUnit" Title="RePaymentUnit" DataType="nvarchar" Length="6" />
+      <EditField Name="RePaymentAmount" Title="RePaymentAmount" DataType="money" />
+      <EditField Name="Remark" Title="Remark" DataType="nvarchar" Length="200" />
+      <EditField Name="IsActive" Title="IsActive" DataType="bit" EditBox="ComboBox" ItemsSource="1:是|0:否" />
+      <EditField Name="CreatedUser" Title="CreatedUser" DataType="varchar" Length="6" ShowInGrid="false" ShowInCreate="false" ShowInEdit="false" ShowInDetail="false" ShowInSearch="false" IsRequired="false" EnableEdit="false" />
+      <EditField Name="CreatedTime" Title="CreatedTime" DataType="datetime" ShowInGrid="false" ShowInCreate="false" ShowInEdit="false" ShowInDetail="false" ShowInSearch="false" IsRequired="false" EnableEdit="false" />
+      <EditField Name="ModifiedUser" Title="ModifiedUser" DataType="varchar" Length="6" ShowInGrid="false" ShowInCreate="false" ShowInEdit="false" ShowInDetail="false" ShowInSearch="false" IsRequired="false" EnableEdit="false" />
+      <EditField Name="ModifiedTime" Title="ModifiedTime" DataType="datetime" ShowInGrid="false" ShowInCreate="false" ShowInEdit="false" ShowInDetail="false" ShowInSearch="false" IsRequired="false" EnableEdit="false" />
+      <EditField Name="AutoKey" Title="AutoKey" DataType="int" ShowInGrid="false" ShowInCreate="false" ShowInEdit="false" ShowInDetail="false" ShowInSearch="false" IsRequired="false" EnableEdit="false" />
+    </Fields>
+    <ChildTables />
+  </EditSource>
+</MvcEditPage>

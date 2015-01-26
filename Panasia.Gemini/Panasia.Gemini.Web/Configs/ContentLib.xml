@@ -1,0 +1,296 @@
+<?xml version="1.0"?>
+<ContentLib xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <FolderRoot>
+    <Folders>
+      <Folder Name="Expenditure">
+        <Folders />
+        <Files>
+          <RazorFile Name="Create.cshtml" Description="自动加载" ID="419b8dec-9e88-4a92-a13e-222ce433e1f3" />
+          <RazorFile Name="Detail.cshtml" Description="自动加载" ID="393f3b32-4787-439b-889f-9f54e04b35fb" />
+          <RazorFile Name="Edit.cshtml" Description="自动加载" ID="5f5b0fc8-d5fd-4228-84fe-851f212cae03" />
+          <RazorFile Name="OADetail.cshtml" Description="自动加载" ID="34014c63-7bb4-4fe5-9353-d1d84a924eaf" />
+          <RazorFile Name="Search.cshtml" Description="自动加载" ID="650084cc-747c-4fe8-9bc7-33b68281597a" />
+        </Files>
+      </Folder>
+      <Folder Name="zz_Employee">
+        <Folders />
+        <Files>
+          <RazorFile Name="CheckResult_Detail.cshtml" Description="自动加载" ID="f57ad0bf-0872-43f8-9e0e-b789ba3f586d" />
+          <RazorFile Name="Edit.cshtml" Description="自动加载" ID="69811a75-2f7a-4de8-a792-cbcafe0fd37c" />
+          <RazorFile Name="Familie_Create.cshtml" Description="自动加载" ID="039a9843-6b70-4e61-b643-cbf864358746" />
+          <RazorFile Name="Familie_Detail.cshtml" Description="自动加载" ID="0edf6711-f591-4e62-aca6-9faf16a681a4" />
+          <RazorFile Name="Familie_Edit.cshtml" Description="自动加载" ID="6f080d98-b3c2-4a1d-a40f-1a8845302f85" />
+          <RazorFile Name="Other_Create.cshtml" Description="自动加载" ID="14e858d8-2f5b-466f-9114-26d26a68ed51" />
+          <RazorFile Name="Other_Detail.cshtml" Description="自动加载" ID="5149c2a2-726f-4553-a496-4b40819cb437" />
+          <RazorFile Name="Other_Edit.cshtml" Description="自动加载" ID="9a0a0e83-ff1b-418d-82c4-d2ead97a7e93" />
+        </Files>
+      </Folder>
+      <Folder Name="hr_Rule">
+        <Folders>
+          <Folder Name="新文件夹">
+            <Folders />
+            <Files />
+          </Folder>
+        </Folders>
+        <Files>
+          <RazorFile Name="Create.cshtml" Description="自动加载" ID="4d627dae-812a-4c25-b3b9-99cd96f9c0aa" ModelType="RazorContentViewModel" />
+          <RazorFile Name="Detail.cshtml" Description="自动加载" ID="1cadead3-26e8-4a18-bde5-43c47490bb6a" />
+          <RazorFile Name="Edit.cshtml" Description="自动加载" ID="7ed2e6eb-769e-41f3-9fa7-a9b0eda8f9e0" />
+        </Files>
+      </Folder>
+      <Folder Name="hr_Attendance">
+        <Folders />
+        <Files>
+          <RazorFile Name="Abnormal_Create.cshtml" Description="自动加载" ID="0a4b2b34-b45a-4637-ac0e-3ec1cf1ff186" ModelType="RazorContentViewModel" />
+          <RazorFile Name="Abnormal_Detail.cshtml" Description="自动加载" ID="8c27f07c-af89-4547-adf0-4bcf664652cd" />
+          <RazorFile Name="Abnormal_Edit.cshtml" Description="自动加载" ID="7445b4a6-eeaf-48f1-b86d-dfe0889880d8" />
+          <RazorFile Name="CheckLog.cshtml" Description="自动加载" ID="c0408e65-eadb-4f72-b713-fb53386c917d" />
+          <RazorFile Name="CheckResultOfDay.cshtml" ID="d71485ec-58b0-48be-b001-7bc3386d9263" ModelType="RazorContentViewModel" />
+        </Files>
+      </Folder>
+      <Folder Name="hr_Conversion">
+        <Folders />
+        <Files>
+          <RazorFile Name="CheckLog.cshtml" Description="自动加载" ID="8ea3e18e-00c6-4b2a-820a-3b4e1f2cea62" />
+          <RazorFile Name="Create.cshtml" Description="自动加载" ID="a0f48a9e-4ea3-4f03-8608-728d10eda942" ModelType="RazorContentViewModel" />
+          <RazorFile Name="Detail.cshtml" Description="自动加载" ID="4b28f08f-21b0-4744-a747-e438135b6a34" />
+          <RazorFile Name="Edit.cshtml" Description="自动加载" ID="eea65925-63a9-4aa8-a3c9-22898b301689" />
+        </Files>
+      </Folder>
+      <Folder Name="Reimbursement">
+        <Folders />
+        <Files>
+          <RazorFile Name="Create.cshtml" Description="自动加载" ID="ab5a45a5-907d-44bc-b6a6-faafd3853c9a" ModelType="RazorContentViewModel" />
+          <RazorFile Name="Detail.cshtml" Description="自动加载" ID="60b178ab-cede-4950-8bc8-7d1001af867b" />
+          <RazorFile Name="Edit.cshtml" Description="自动加载" ID="5f9b3863-ec88-4024-b65f-f08085facdb2" />
+          <RazorFile Name="OADetail.cshtml" Description="自动加载" ID="2264aa8c-dd68-4b09-a20b-9ded596e4e1c" />
+        </Files>
+      </Folder>
+      <Folder Name="rc_ResumeInfoes">
+        <Folders />
+        <Files>
+          <RazorFile Name="AdditionCheckLog.cshtml" Description="自动加载" ID="b9b1bd54-0f2c-45f4-aa07-4c1389c52954" />
+          <RazorFile Name="Detail.cshtml" Description="自动加载" ID="d7c5fafb-b608-462d-acb8-171a398a8e97" />
+          <RazorFile Name="EmailBaoDao.cshtml" Description="自动加载" ID="e184a491-15ce-4f08-9129-9f977f9ed035" />
+          <RazorFile Name="EmailModel.cshtml" Description="自动加载" ID="595333a7-6aa6-46ff-8645-438b702842da" />
+          <RazorFile Name="EmailYuYue.cshtml" Description="自动加载" ID="deb3a789-f6cf-4cfa-8386-2508ab910a22" />
+          <RazorFile Name="Import.cshtml" Description="自动加载" ID="f99f7f82-ef69-4842-9c43-c5fdfb261139" />
+          <RazorFile Name="InterviewInfo.cshtml" Description="自动加载" ID="2c3318fa-3663-45c1-ac24-6608e666c395" />
+          <RazorFile Name="TurnToEmployee.cshtml" Description="自动加载" ID="10aa511a-85f2-4e27-a9ad-84baa07ff94b" />
+          <RazorFile Name="AssignPermissions.cshtml" ID="6beed560-fb9e-4559-b0e0-126e1d75ca86" ModelType="RazorContentViewModel" CompileMode="OnLoaded" />
+        </Files>
+      </Folder>
+      <Folder Name="holiday">
+        <Folders />
+        <Files>
+          <RazorFile Name="Edit.cshtml" Description="自动加载" ID="e4733c33-4dbf-498f-92bc-bd48f1320895" ModelType="RazorContentViewModel" CompileMode="OnLoaded" />
+        </Files>
+      </Folder>
+      <Folder Name="SupplierBank">
+        <Folders />
+        <Files>
+          <RazorFile Name="SupplierBank.cshtml" Description="自动加载" ID="06d6a654-ad60-4f1f-89a7-2d0d15664ebf" ModelType="RazorContentViewModel" CompileMode="OnLoaded" />
+        </Files>
+      </Folder>
+      <Folder Name="Customer">
+        <Folders />
+        <Files>
+          <RazorFile Name="CustomerBank.cshtml" Description="自动加载" ID="d5cff561-a89c-45db-b3d0-43b0ad35eaa8" ModelType="RazorContentViewModel" CompileMode="OnLoaded" />
+          <RazorFile Name="CustomerRule.cshtml" Description="自动加载" ID="5f9f623a-9315-4745-8b76-0a8405408169" ModelType="RazorContentViewModel" CompileMode="OnLoaded" />
+          <RazorFile Name="CustomerAtt.cshtml" Description="自动加载" ID="258e03aa-44ff-4177-99da-a3829f4bd979" ModelType="RazorContentViewModel" CompileMode="OnLoaded" />
+          <RazorFile Name="CustomerAssign.cshtml" Description="自动加载" ID="64efcb1e-abe2-4ea5-bf71-3e1e58205572" ModelType="RazorContentViewModel" CompileMode="OnLoaded" />
+        </Files>
+      </Folder>
+      <Folder Name="ProductCommissionRule">
+        <Folders />
+        <Files>
+          <RazorFile Name="Create.cshtml" Description="自动加载" ID="902bf5f9-8c69-4ffe-95ec-647a264199e4" />
+          <RazorFile Name="Detail.cshtml" Description="自动加载" ID="49e08616-f67d-4a00-87a9-c92588ec32fa" ModelType="RazorContentViewModel" CompileMode="OnLoaded" />
+        </Files>
+      </Folder>
+      <Folder Name="Product">
+        <Folders />
+        <Files>
+          <RazorFile Name="AddCombo.cshtml" Description="自动加载" ID="d6ae2e9a-6db1-4376-beab-246c0df2abf8" />
+          <RazorFile Name="Create.cshtml" Description="自动加载" ID="4f543b90-037a-4153-8e5b-0d2bd4d41f61" />
+          <RazorFile Name="Detail.cshtml" Description="自动加载" ID="5ed8b015-b80a-4611-b1ba-89aaa99c3512" />
+          <RazorFile Name="DetailSubProduct.cshtml" Description="自动加载" ID="46cdac78-9846-4de2-a915-d6efdae102fb" />
+          <RazorFile Name="Edit.cshtml" Description="自动加载" ID="37b2acd9-25a4-4ceb-a586-699c5e839f6d" />
+          <RazorFile Name="EditSubProduct.cshtml" Description="自动加载" ID="0f25b813-1c2f-4100-97b3-975a115b68eb" />
+          <RazorFile Name="Index.cshtml" Description="自动加载" ID="ace6b432-010e-4aeb-a7fd-ee9f9b8bc224" />
+          <RazorFile Name="ProductUI.cshtml" Description="自动加载" ID="bab92487-7c32-4db0-8233-a79ea1d63a0a" ModelType="RazorContentViewModel" CompileMode="OnLoaded" />
+          <RazorFile Name="PriceSet.cshtml" Description="自动加载" ID="fab86af6-4e7f-14f2-2394-d44b8eb60f88" />
+        </Files>
+      </Folder>
+      <Folder Name="Order" Description="订单">
+        <Folders />
+        <Files>
+          <RazorFile Name="Create.cshtml" ID="d11c8992-14a6-4f9d-993b-3c6f19e1d445" ModelType="RazorContentViewModel" />
+          <RazorFile Name="Edit.cshtml" ID="6b25ee45-dc59-4c47-b900-b6e8b3b9c748" />
+          <RazorFile Name="Detail.cshtml" ID="2ee0008c-5ddf-448f-8753-9c5f95b49f83" />
+          <RazorFile Name="OADetail.cshtml" ID="20c6f2b3-e4bb-4e2b-b2da-8a6ad94c5635" />
+          <RazorFile Name="Search.cshtml" ID="0ac6c4ee-6b5b-4262-a9bd-65e6fe657921" />
+          <RazorFile Name="ProductAdd.cshtml" ID="df86aed4-885d-43e6-b300-27bfbdab2b06" />
+          <RazorFile Name="AttachUpload.cshtml" ID="00cad3dd-3fd5-466f-839d-8adb4ca48332" />
+          <RazorFile Name="AttachModify.cshtml" ID="a0cc220b-0582-4dff-8552-ca9408766201" />
+        </Files>
+      </Folder>
+      <Folder Name="org_Employees">
+        <Folders />
+        <Files>
+          <RazorFile Name="Create.cshtml" Description="自动加载" ID="b423e544-3377-47a2-9a6e-ec38ba6ee632" />
+          <RazorFile Name="Delete.cshtml" Description="自动加载" ID="08d66e18-48dc-4b5d-a686-c41642cf499f" />
+          <RazorFile Name="Details.cshtml" Description="自动加载" ID="522cf386-2f95-4dec-b8d0-527a1986e8f2" />
+          <RazorFile Name="Edit.cshtml" Description="自动加载" ID="2a2019d7-3174-4fde-8c80-80d3b9071da1" />
+          <RazorFile Name="Education.cshtml" Description="自动加载" ID="b16279dd-67af-4fc8-b2a1-75262b1daf51" />
+          <RazorFile Name="EmployeeInfo.cshtml" Description="自动加载" ID="c4d26f80-1eea-4990-9b9f-c65534764937" ModelType="RazorContentViewModel" CompileMode="OnLoaded" />
+          <RazorFile Name="Familie.cshtml" Description="自动加载" ID="1c3934a1-3b5e-4c83-94b6-c4b7f7444470" />
+          <RazorFile Name="Import.cshtml" Description="自动加载" ID="e23eaa24-e0f1-457a-b388-5c83665b73c0" />
+          <RazorFile Name="Index.cshtml" Description="自动加载" ID="1367b2f6-2f02-48f7-b89e-d6f9627dc4d5" />
+          <RazorFile Name="Job.cshtml" Description="自动加载" ID="2b496a9b-6e9b-4c92-aa9a-2e0d3f5ee6f1" />
+          <RazorFile Name="Other.cshtml" Description="自动加载" ID="3fc2ba56-18f8-4b49-9726-d57a3458ef0b" />
+          <RazorFile Name="Search.cshtml" Description="自动加载" ID="5291ea23-d499-4868-b070-2d279fa4c2c8" />
+          <RazorFile Name="Skill.cshtml" Description="自动加载" ID="619c6cb7-86b4-40b0-9a44-bca698b0a25d" />
+        </Files>
+      </Folder>
+      <Folder Name="JiaChengType">
+        <Folders />
+        <Files>
+          <RazorFile Name="JiangchengTiaoli.cshtml" ID="45cf6ba9-0995-4faf-a74d-b8e3b4be12fb" />
+          <RazorFile Name="Import.cshtml" ID="94c03983-3799-4ed4-95a0-cc10220ff5a6" ModelType="RazorContentViewModel" />
+        </Files>
+      </Folder>
+      <Folder Name="Receivables">
+        <Folders />
+        <Files>
+          <RazorFile Name="Bank.cshtml" Description="自动加载" ID="fcef0151-8237-44ad-ad7d-98100146a8d4" ModelType="RazorContentViewModel" CompileMode="OnLoaded" />
+          <RazorFile Name="Bank_Role_Set.cshtml" Description="自动加载" ID="b26755c6-e7af-49e1-802a-12317c4e4577" />
+          <RazorFile Name="Import.cshtml" ID="8b905a6a-4b62-4d5d-a0bd-9d9208c1f65a" ModelType="RazorContentViewModel" />
+          <RazorFile Name="ReceivablesQR.cshtml" ID="cd3926e4-f842-4bc0-a0cf-ea80d8c20ce0" ModelType="RazorContentViewModel" />
+          <RazorFile Name="ReceivablesEdit.cshtml" ID="93dee815-d07c-4c81-838c-b5994c4a8509" ModelType="RazorContentViewModel" />
+        </Files>
+      </Folder>
+      <Folder Name="Reports">
+        <Folders />
+        <Files>
+          <RazorFile Name="AssetAlterationJH.cshtml" Description="自动加载" ID="9abd55b9-5e01-462f-8afa-45b89736046c" />
+          <RazorFile Name="AssetAlterationLY.cshtml" Description="自动加载" ID="ef2167d6-fcb7-4c37-910a-c6b7c7ee4a43" />
+          <RazorFile Name="AssetAlterationWX.cshtml" Description="自动加载" ID="49029f2b-937d-487a-9eea-cc7207b653b9" />
+          <RazorFile Name="AssetAlterationZJ.cshtml" Description="自动加载" ID="604ad7ed-0842-43c1-a33a-ecabc60e8435" />
+          <RazorFile Name="AssetbyDept.cshtml" Description="自动加载" ID="b5f647e9-4a23-4f4a-98cd-c69082ce3c9e" />
+          <RazorFile Name="AssetCassify.cshtml" Description="自动加载" ID="84bf588a-712d-4513-935d-c46ca67d50d1" ModelType="RazorContentViewModel" CompileMode="OnLoaded" />
+          <RazorFile Name="AssetRate.cshtml" Description="自动加载" ID="18847049-1a34-48f5-91ad-99ed6a51a2d1" ModelType="RazorContentViewModel" CompileMode="OnLoaded" />
+          <RazorFile Name="CheckResult.cshtml" Description="自动加载" ID="e4fe55ad-0c17-4a11-9515-51648127df0b" />
+          <RazorFile Name="Dimission.cshtml" Description="自动加载" ID="fa06f95b-a791-4550-9793-62b13563a645" />
+          <RazorFile Name="EmployeeJC.cshtml" Description="自动加载" ID="d7e2f162-e3c7-450a-8011-8b2de00d718d" />
+          <RazorFile Name="Payroll.cshtml" Description="自动加载" ID="a11f67bb-9ab9-418b-8ac9-4a792f8cf242" />
+          <RazorFile Name="Rc.cshtml" Description="自动加载" ID="8780b1bf-6ed5-4cdc-8e99-6d036dd684dc" />
+          <RazorFile Name="SocialSecurity.cshtml" Description="自动加载" ID="76659518-a58a-414d-9e0c-6e60a3a1ddcc" />
+        </Files>
+      </Folder>
+      <Folder Name="Payment">
+        <Folders />
+        <Files>
+          <RazorFile Name="Import.cshtml" ID="93d82f56-aa3c-4400-8983-d81d86aba308" ModelType="RazorContentViewModel" CompileMode="OnLoaded" />
+        </Files>
+      </Folder>
+      <Folder Name="org_Company">
+        <Folders />
+        <Files>
+          <RazorFile Name="Add.cshtml" Description="自动加载" ID="ad0edd36-6537-4ad9-96d5-02302d542ca7" />
+          <RazorFile Name="Create.cshtml" Description="自动加载" ID="c8bf6b86-39fb-49c3-93ef-f417f2d2f0d5" />
+          <RazorFile Name="Delete.cshtml" Description="自动加载" ID="d25353ec-fe88-4549-a515-f26600bcf5f8" />
+          <RazorFile Name="Details.cshtml" Description="自动加载" ID="c24f9e06-a1a0-4208-86fd-6dfc7d57818d" />
+          <RazorFile Name="Editing.cshtml" Description="自动加载" ID="b3578bbb-2de1-4056-8be2-26bcee61b1d8" />
+          <RazorFile Name="Import.cshtml" Description="自动加载" ID="ded72afa-716f-4d2d-a214-a978c9b1ebf5" ModelType="RazorContentViewModel" CompileMode="OnLoaded" />
+          <RazorFile Name="Index.cshtml" Description="自动加载" ID="5f9a972e-696d-4452-ab3a-e95fe63d9a22" />
+          <RazorFile Name="List.cshtml" Description="自动加载" ID="3b1ebd7f-7dcb-4e41-993b-3bc37670e588" />
+          <RazorFile Name="Searching.cshtml" Description="自动加载" ID="0119c965-6568-47ec-bb8e-191bb5894962" />
+          <RazorFile Name="ViewDetail.cshtml" Description="自动加载" ID="40958ded-6d63-46b9-a5d8-82c425f31c6e" />
+        </Files>
+      </Folder>
+      <Folder Name="org_Department">
+        <Folders />
+        <Files>
+          <RazorFile Name="Add.cshtml" Description="自动加载" ID="6ffc8190-c883-4cb7-b30b-1c2872562961" />
+          <RazorFile Name="Create.cshtml" Description="自动加载" ID="bd666274-af03-45c9-8885-77ceccef1919" />
+          <RazorFile Name="Delete.cshtml" Description="自动加载" ID="4a9f97c0-c050-4a68-8064-fdb22fc6118b" />
+          <RazorFile Name="Details.cshtml" Description="自动加载" ID="ad455d1d-14fb-42f7-b0c5-2e9e33e2b1e3" />
+          <RazorFile Name="Edit.cshtml" Description="自动加载" ID="d56a0529-bb42-4551-bafb-06cebdd66bb4" />
+          <RazorFile Name="Import.cshtml" Description="自动加载" ID="648d714b-4668-4d77-9de0-281aa909189d" ModelType="RazorContentViewModel" CompileMode="OnLoaded" />
+          <RazorFile Name="Index.cshtml" Description="自动加载" ID="f8fc6572-3131-4d70-bf80-7c401c1f8e2d" />
+        </Files>
+      </Folder>
+      <Folder Name="acc_RepaymentForm">
+        <Folders />
+        <Files>
+          <RazorFile Name="RePaymentForm.cshtml" ID="86e060dd-5263-4734-900e-db2aa078cbf8" ModelType="RazorContentViewModel" />
+          <RazorFile Name="RepaymentForm.cshtml" ID="2d55a1ab-9320-4e6d-942c-18f29762330e" ModelType="RazorContentViewModel" />
+          <RazorFile Name="RePayment.cshtml" ID="4ca61f3a-d27a-4940-9815-aad61ef6b9b7" ModelType="RazorContentViewModel" />
+        </Files>
+      </Folder>
+      <Folder Name="acc_ReiFundRule">
+        <Folders />
+        <Files>
+          <RazorFile Name="ReiFundRuleAdd.cshtml" ID="a855922a-0ff0-4466-b2a8-c0d03c658ef2" ModelType="RazorContentViewModel" />
+          <RazorFile Name="ReiFundRuleEidt.cshtml" ID="2251fe9a-6d42-436f-9e79-3530637136a8" ModelType="RazorContentViewModel" />
+          <RazorFile Name="ReiFundRuleDetail.cshtml" ID="2efeaa04-f063-4080-92f2-4205b5131c9e" ModelType="RazorContentViewModel" />
+        </Files>
+      </Folder>
+      <Folder Name="acc_Expenditure">
+        <Folders />
+        <Files>
+          <RazorFile Name="ExpenditureAdd.cshtml" ID="47fe713d-be4a-45f3-a17e-cbe4eb155449" ModelType="RazorContentViewModel" />
+          <RazorFile Name="ExpenditureDetail.cshtml" ID="b58fade7-c32e-4e35-bb18-c38050f2a524" ModelType="RazorContentViewModel" />
+          <RazorFile Name="ExpenditureEidt.cshtml" ID="cc9457f2-715f-47be-906e-3b300598132f" ModelType="RazorContentViewModel" />
+          <RazorFile Name="Import.cshtml" ID="40f32b88-e8e0-432e-a371-48979f81a273" ModelType="RazorContentViewModel" />
+        </Files>
+      </Folder>
+      <Folder Name="Commission">
+        <Folders />
+        <Files>
+          <RazorFile Name="Create.cshtml" ID="dcb98a51-2b31-4c87-9ba3-b97cfd83bbd9" />
+        </Files>
+      </Folder>
+      <Folder Name="acc_PaiKuan">
+        <Folders />
+        <Files>
+          <RazorFile Name="PaiKuan.cshtml" ID="1906e88c-5885-4077-a5f4-5d04309a9c5b" ModelType="RazorContentViewModel" />
+          <RazorFile Name="PaiKuanDetail.cshtml" ID="1ef62510-0d29-45f8-81ae-f305b4ebe32b" ModelType="RazorContentViewModel" />
+          <RazorFile Name="PaiKuanEidt.cshtml" ID="8df33948-30bd-4015-a301-d464822ddc23" ModelType="RazorContentViewModel" />
+        </Files>
+      </Folder>
+      <Folder Name="Asset">
+        <Folders />
+        <Files>
+          <RazorFile Name="AssetCreate.cshtml" Description="自动加载" ID="1f3cc275-535a-494a-b806-26b7027062e8" />
+          <RazorFile Name="AssetDetail.cshtml" Description="自动加载" ID="3c7c008f-6abc-42a5-bd96-7da9908f1a69" />
+          <RazorFile Name="AssetEdit.cshtml" Description="自动加载" ID="d6cfd1e3-6f72-42a7-bb86-4eb7a968c8dc" />
+          <RazorFile Name="ConsumableAlteration.cshtml" Description="自动加载" ID="28a03769-32bf-4847-90fa-3ce4ca310462" ModelType="RazorContentViewModel" CompileMode="OnLoaded" />
+        </Files>
+      </Folder>
+      <Folder Name="Asset">
+        <Folders />
+        <Files>
+          <RazorFile Name="AssetCreate.cshtml" Description="自动加载" ID="69a38341-4630-4dab-9cfe-0058010b980c" />
+          <RazorFile Name="AssetDetail.cshtml" Description="自动加载" ID="b63caa3f-abe6-46d8-8a5c-b81ee15098c4" />
+          <RazorFile Name="AssetEdit.cshtml" Description="自动加载" ID="b955b1a3-922d-46de-b667-46ba41f06fa0" />
+          <RazorFile Name="ConsumableAlteration.cshtml" Description="自动加载" ID="94a98d17-5d8c-42cd-9dfc-55f862b925cb" ModelType="RazorContentViewModel" CompileMode="OnLoaded" />
+          <RazorFile Name="AssetPanDian.cshtml" Description="自动加载" ID="7461d1fb-143b-4f12-bf79-a7a9b7384f2c" ModelType="RazorContentViewModel" CompileMode="OnLoaded" />
+        </Files>
+      </Folder>
+      <Folder Name="acc_Invoice">
+        <Folders />
+        <Files>
+          <RazorFile Name="InvoiceAdd.cshtml" ID="56ef42e7-0a77-44cf-a706-b8ac8de4a24b" ModelType="RazorContentViewModel" />
+          <RazorFile Name="InvoiceEidt.cshtml" ID="a778ae04-d7f9-4747-949e-35c3f229be8b" ModelType="RazorContentViewModel" />
+          <RazorFile Name="InvoiceKP.cshtml" ID="b7df8690-4b10-473a-b8fb-7962a2c3baec" ModelType="RazorContentViewModel" />
+          <RazorFile Name="InvoiceNoAdd.cshtml" ID="b407ae0f-e483-4017-bfb7-3fcdbe1e0733" ModelType="RazorContentViewModel" />
+          <RazorFile Name="InvoiceBack.cshtml" ID="3cfc18aa-42a9-42bc-b223-6cbf440655ab" ModelType="RazorContentViewModel" />
+          <RazorFile Name="InvoiceBackEidt.cshtml" ID="69bddf88-01b1-44a1-9329-a5fea47eb3e7" ModelType="RazorContentViewModel" />
+        </Files>
+      </Folder>
+    </Folders>
+    <Files />
+  </FolderRoot>
+</ContentLib>

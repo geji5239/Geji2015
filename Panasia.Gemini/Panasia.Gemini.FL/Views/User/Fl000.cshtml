@@ -1,0 +1,144 @@
+﻿@*----------------------------------------------------------------
+// Copyright (C) 2004 清风软件
+// 版权所有。
+//
+// 文件名：Fl000.cshtml
+// 文件功能描述：登录页面视图
+//----------------------------------------------------------------*@
+@{
+    Layout = null;
+}
+@model Panasia.Gemini.FL.Models.LoginModel
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <link rel="shortcut icon" type="image/ico" href="~/Scripts/login/images/favicon.ico" />
+    <title>OA登录</title>
+    <link href="~/Scripts/login/styles.css" type="text/css" media="screen" rel="stylesheet" />
+    <link href="~/Scripts/login/jquery-ui-1.8.16.custom.css" rel="stylesheet">
+    <script src="~/Scripts/login/jquery-1.6.2.min.js"></script>
+    <script src="~/Scripts/login/jquery-ui-1.8.16.custom.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/login/jquery.keyboard.extension-typing.js"></script>
+    <link type="text/css" href="~/Scripts/login/keyboard.css" rel="stylesheet" />
+    <script type="text/javascript" src="~/Scripts/login/jquery.keyboard.js"></script>
+
+
+</head>
+
+<body id="login">
+    <div id="wrappertop">
+    </div>
+    <div id="wrapper">
+        <div id="content">
+            <div id="header">
+                <h1>
+                    <a href="">
+                        <!--logo <img src="logo.png"   height="50"  width="100"  alt="logo">-->
+                    </a>
+                </h1>
+            </div>
+            <div id="darkbanner" class="banner320">
+                <h2>
+                    泛亚OA办公系统
+                </h2>
+            </div>
+            <div id="darkbannerwrap">
+            </div>
+            @{Html.BeginForm("Login", "User", FormMethod.Post);}
+                <fieldset class="form">
+                    <p>
+                        <label class="loginlabel" for="user_name">
+                            用户名:
+                        </label>
+                        @Html.TextBoxFor(m => m.UserName, new { @class = "logininput ui-keyboard-input ui-widget-content ui-corner-all", @style = "width:190px;" })
+                    </p>
+                    <p>
+                        <label class="loginlabel" for="user_password">
+                            密&#12288;码:
+                        </label>
+                        <span>
+                            @Html.TextBoxFor(m => m.Password, new { @id = "user_password", @class = "logininput", @type = "password", @style = "width:190px;" })
+                            <img id="passwd" class="tooltip" alt="Click to open the virtual keyboard" title="Click to open the virtual keyboard"
+                                 src="~/Scripts/login/keyboard.png" />
+                        </span>
+                    </p>
+                    <button id="loginbtn" type="button" class=" positive" name="Submit" onclick="this.form.submit()">
+                        <img src="~/Scripts/login/key.png" alt="Announcement" />登录
+                    </button>
+                    <input type="submit" style="display:none;" />
+
+                    @*<ul id="forgottenpassword">
+                            <li class="boldtext">|</li>
+                            <li>
+                                <input id="remember" type="checkbox" name="remember"><label for="rememberMe">
+                                    Remember
+                                    me
+                                </label>
+                            </li>
+                        </ul>*@
+                </fieldset>
+            @{Html.EndForm();}
+        </div>
+    </div>
+    @*<div id="wrapperbottom_branding">
+        <div id="wrapperbottom_branding_text">
+            Language:<a href="#" style='text-decoration: none'>简体中文</a>|
+            <a href="#" style='text-decoration: none'>English</a>|
+            <a href="#" style='text-decoration: none'>Français</a>|
+            <a href="#" style='text-decoration: none'>Español</a>|
+            <a href="#" style='text-decoration: none'>日本語</a>|
+            <a href="#" style='text-decoration: none'>عربي</a>
+        </div>
+    </div>*@
+
+    <script type="text/javascript">
+    $(document).ready(function () {
+        $('#user_password').keyboard({
+            openOn: null,
+            stayOpen: true,
+            layout: 'qwerty'
+        }).addTyping();
+        $('#passwd').click(function () {
+            $('#user_password').getkeyboard().reveal();
+        })
+
+        $(".logininput").blur(function () {
+            if ($(this).val() == "") {
+                $(this).css("border-color", "red");
+            }
+            else
+                $(this).css("border-color", "#D9D6C4");
+        })
+
+        $("#loginbtn").click(function () {
+            var k = 0;
+            var ajaxhtml = "";
+            $(".logininput").each(function (i, obj) {
+                if ($(obj).val().trim() == "") {
+                    k++;
+                    $(this).css("border-color", "red");
+                    $(this).focus();
+                    return false;
+                }
+            });
+            if (k != 0) return;
+            ajaxhtml = $("#loginbtn").html();
+            $("#loginbtn").html("Loading....  <img src='~/Scripts/login/loading.gif' alt='Announcement' /> ");
+            $("#loginbtn").attr("disabled", "disabled");
+
+        })
+        @if (ViewBag.LoginError != null && ViewBag.LoginError)
+        {
+            @Html.Raw("loginError()")
+        }
+    });
+
+    function loginError() {
+        $("#user_password").val("").focus();
+        alert('用户名或密码错误，请重试！');
+    }
+
+    </script>
+</body>
+</html>

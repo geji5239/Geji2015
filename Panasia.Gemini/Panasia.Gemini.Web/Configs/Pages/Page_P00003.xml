@@ -1,0 +1,88 @@
+<?xml version="1.0"?>
+<MvcEditPage xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" PageID="P00003" Controller="Log" DefaultAction="Index">
+  <Action ActionID="A01029" Name="Index" Title="列表" ActionValue="1">
+    <Command CommandID="M01803" Name="列表页面" CommandType="IndexPageActionCommand"><![CDATA[<IndexPageActionCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ContentType="text/html">
+  <Page SettingType="IndexPage">
+    <ToolBar Tag="div" ID="toolbar" Class="toolbar-panel" PageID="P00003">
+      <Buttons>
+        <UIButton ID="btn-search" Class="easyui-linkbutton normal-button" Options="iconCls:'icon-search',plain:true" Title="检索" ActionValue="2" Action="showActDlg('检索','/Page/P00003/Search',400,300)" />
+      </Buttons>
+    </ToolBar>
+    <DataGrid Tag="table" ID="datagrid" Class="easyui-datagrid" Options="fitColumns:true,fit:true,pagination: true,rownumbers: true,nowrap: true,striped: true,collapsible: false,resizable:true" Key="AutoKey">
+      <Column Title="AutoKey" FieldName="AutoKey" />
+      <Column HAlign="Center" Title="时间" FieldName="CreatedTime" />
+      <Column Title="功能" FieldName="ActionName" />
+      <Column Title="描述" FieldName="Description" />
+      <Column Title="IP" FieldName="ClientIP" />
+      <Column Title="用户" FieldName="UserName" />
+    </DataGrid>
+  </Page>
+</IndexPageActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="A01030" Name="Search" Title="检索" ActionValue="2">
+    <Command CommandID="M01801" Name="日志查询" CommandType="EditDialogActionCommand"><![CDATA[<EditDialogActionCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ContentType="text/html">
+  <Page SettingType="EditDialog">
+    <Form ID="dataform" Class="form-dialog">
+      <TableLayout />
+      <Fields>
+        <Field Title="用户名" FieldType="TextBox">
+          <Input Tag="input" ID="UserName" Name="UserName" Class="edit-input easyui-textbox" IsRequired="false" />
+        </Field>
+        <Field Title="时间起" FieldType="DateTimeBox">
+          <DateTimeBox Tag="input" ID="Starttime" Name="Starttime" Class="easyui-datetimebox" Style="width:185px" />
+        </Field>
+        <Field Title="时间讫" FieldType="DateTimeBox">
+          <DateTimeBox Tag="input" ID="Endtime" Name="Endtime" Class="easyui-datetimebox" Style="width:185px" />
+        </Field>
+      </Fields>
+      <ToolBar Tag="div" ID="toolbar" Class="dialog-button" PageID="P00003">
+        <Buttons>
+          <UIButton ID="btn-query" Class="easyui-linkbutton edit-button" Options="iconCls:'icon-ok'" Title="确定" ActionValue="2" Action="submitAct_DGReplace('dataform','/Page/P00003/Query','datagrid')" />
+          <UIButton ID="btn-cancel" Class="easyui-linkbutton edit-button" Options="iconCls:'icon-cancel'" Title="取消" Action="cancel()" />
+        </Buttons>
+      </ToolBar>
+    </Form>
+  </Page>
+</EditDialogActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="A01031" Name="Query" Title="检索" ActionValue="2">
+    <Command CommandID="M01804" Name="查询总数" CommandType="ScalarSqlCommand"><![CDATA[<ScalarCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" NextCommand="查询日志" GroupName="系统安全" TableName="sys_UserLog" CommandName="QueryCount" SqlType="Scalar">
+  <Parameter Name="UserName" Path="Request[UserName]" Type="Parameter" />
+  <Parameter Name="Starttime" Path="Request[Starttime]" Type="Parameter" />
+  <Parameter Name="Endtime" Path="Request[Endtime]" Type="Parameter" />
+</ScalarCommand>]]></Command>
+    <Command CommandID="M01802" Name="查询日志" CommandType="QueryJsonSqlCommand"><![CDATA[<QueryJsonCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" NextCommand="查询结果返回Json" GroupName="系统安全" TableName="sys_UserLog" CommandName="Query" SqlType="QueryJson">
+  <Parameter Name="UserName" Path="Request[UserName]" Type="Parameter" />
+  <Parameter Name="Starttime" Path="Request[Starttime]" Type="Parameter" />
+  <Parameter Name="Endtime" Path="Request[Endtime]" Type="Parameter" />
+  <Parameter Name="Page" Path="Request[Page]" Type="Parameter" />
+  <Parameter Name="Rows" Path="Request[Rows]" Type="Parameter" />
+</QueryJsonCommand>]]></Command>
+    <Command CommandID="M01007" Name="查询结果返回Json" CommandType="JsonActionCommand"><![CDATA[<JsonActionCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ContentType="application/json">
+  <Parameter Name="rows" Path="Results[查询日志].Json" Type="Parameter" />
+  <Parameter Name="HasError" Path="Results[查询日志].IsError" Type="Parameter" />
+  <Parameter Name="ErrorMessage" Path="Results[查询日志].ErrorMessage" Type="Parameter" />
+  <Parameter Name="total" Path="Results[查询总数].Value" Type="Parameter" />
+</JsonActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="a40d1fab-b48b-4d3f-9850-9dcbe7c6a62d" Name="Export" Title="导出" ActionValue="4">
+    <Command CommandID="M01481" Name="导出日志" CommandType="QuerySqlCommand"><![CDATA[<QueryCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" NextCommand="输出excel" GroupName="系统安全" TableName="sys_UserLog" CommandName="ExportTest" />]]></Command>
+    <Command CommandID="M01482" Name="输出excel" CommandType="ExportToHtmlExcel"><![CDATA[<ExportToHtmlExcel xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" FileName="testfile.xls" ContentType="application/ms-excel" ItemsSource="Results[导出日志].Items">
+  <Field Name="UserName" Title="用户名" />
+  <Field Name="ActionName" Title="功能" />
+  <Field Name="Url" Title="地址" />
+</ExportToHtmlExcel>]]></Command>
+  </Action>
+  <Action ActionID="f93c9959-6fd6-4d41-bd9c-614b9dd0325f" Name="GetData" Title="自动加载" ErrorCommand="初始加载">
+    <Command CommandID="M01805" Name="初始加载" CommandType="QueryJsonSqlCommand"><![CDATA[<QueryJsonCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" NextCommand="返回数据" GroupName="系统安全" TableName="sys_UserLog" CommandName="GetData" SqlType="QueryJson" />]]></Command>
+    <Command CommandID="M01807" Name="返回数据" CommandType="ReturnActionCommand"><![CDATA[<ReturnActionCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ContentType="appplication/json">
+  <Parameter Name="json" Path="LastResult.Json" Type="Parameter" />
+</ReturnActionCommand>]]></Command>
+  </Action>
+  <Layout EditFieldClass="edit-field" />
+  <Buttons />
+  <EditSource>
+    <Fields />
+    <ChildTables />
+  </EditSource>
+</MvcEditPage>

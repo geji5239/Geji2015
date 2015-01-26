@@ -1,0 +1,464 @@
+<?xml version="1.0"?>
+<MvcEditPage xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" PageID="P01023" Controller="" DefaultAction="Index">
+  <Action ActionID="A01061" Name="Index" Title="列表" ActionValue="1">
+    <Command CommandID="M01205" Name="Index" CommandType="IndexPageActionCommand"><![CDATA[<IndexPageActionCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ContentType="text/html">
+  <Page SettingType="IndexPage">
+    <ToolBar Tag="div" ID="toolbar" Class="toolbar-panel" PageID="P01023">
+      <Buttons>
+        <UIButton Tag="a" ID="btn-search" Class="easyui-linkbutton normal-button" Options="iconCls:'icon-search',plain:true" Title="检索" ActionValue="2" Action="showActDlg('检索','/Page/P01023/Search',400,300)" />
+        <UIButton Tag="a" ID="btn-detail" Class="easyui-linkbutton toolradio normal-button" Options="iconCls:'icon-detail',plain:true" Title="查看" ActionValue="4" Action="showActDlg_DGItemActDlg('datagrid','查看','/Page/P01023/Detail',400,300)" />
+        <UIButton Tag="a" ID="btn-create" Class="easyui-linkbutton normal-button" Options="iconCls:'icon-add',plain:true" Title="新增" ActionValue="8" Action="showActDlg('新增','/Page/P01023/Create',400,300)" />
+        <UIButton Tag="a" ID="btn-edit" Class="easyui-linkbutton toolradio normal-button hide_Approved_申请中_已核准_招聘中_已结束" Options="iconCls:'icon-edit',plain:true" Title="修改" ActionValue="16" Action="showActDlg_DGUpd('datagrid','修改','/Page/P01023/Edit',400,300)" />
+        <UIButton ID="btn-delete" Class="easyui-linkbutton toolmultiple normal-button hide_Approved_申请中_已核准_招聘中_已结束" Options="iconCls:'icon-cancel',plain:true" Title="删除" ActionValue="32" Action="showActDlg_DGItemsConfirm('datagrid','删除','确认删除选择项？','/Page/P01023/Delete',400,300)" />
+        <UIButton Tag="a" ID="btn-sendCheck" Class="easyui-linkbutton toolmultiple normal-button hide_Approved_申请中_已核准_招聘中_已结束" Options="iconCls:'icon-import',plain:true" Title="送签" ActionValue="64" Action="showActDlg_DGItemsMultiApprove('datagrid','送签','确认送签选择项？','Addition','/Approve/IntoApproveFlow')" />
+        <UIButton Tag="a" ID="btn-checkLog" Class="easyui-linkbutton toolradio normal-button hide_Approved_草稿" Options="iconCls:'icon-export',plain:true" Title="送签追踪" ActionValue="128" Action="showActDlg_DGItemActDlgLog('datagrid','送签追踪','/Page/P01023/CheckLog',400,300)" />
+        <UIButton Tag="a" ID="btn-over" Class="easyui-linkbutton toolmultiple normal-button hide_Approved_草稿_申请中_已结束" Options="iconCls:'icon-remove',plain:true" Title="结束招聘" ActionValue="26" Action="showActDlg_DGItemsOver('datagrid','结束','确认结束选择项？','/Page/P01023/Over',400,300)" />
+      </Buttons>
+    </ToolBar>
+    <DataGrid Tag="table" ID="datagrid" Class="easyui-datagrid" Options="url:'/Page/P01023/Query',fitColumns:true,fit:true,pagination: true,rownumbers: true,nowrap: true,striped: true,collapsible: false,resizable:true,onClickRow:oncheckstate,onSelect:oncheckstate,onCheck:oncheckstate,onCheckAll:oncheckstate,onUncheckAll:oncheckstate,onUncheck:oncheckstate,onUnselect:oncheckstate" Key="AID">
+      <Column FieldName="AID" IsCheckBox="true" IsFixed="true" />
+      <Column Title="部门" FieldName="DeptName" />
+      <Column Title="职位" FieldName="Position" />
+      <Column HAlign="Right" Title="需求人数" FieldName="Need" />
+      <Column Title="申请理由" FieldName="Reason" />
+      <Column HAlign="Center" Title="期望到职日期" FieldName="AvailableDate" />
+      <Column Title="性别" FieldName="Sex" />
+      <Column Title="学历" FieldName="Degree" />
+      <Column Title="薪资范围" FieldName="SalaryRange" />
+      <Column Title="表单状态" FieldName="Approved" />
+      <Column Title="申请人" FieldName="UserName" />
+      <Column HAlign="Center" Title="申请日期" FieldName="ApplicationDate" />
+    </DataGrid>
+  </Page>
+</IndexPageActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="A01062" Name="Search" Title="检索" ActionValue="2" ErrorCommand="Search">
+    <Command CommandID="M01204" Name="Search" CommandType="EditDialogActionCommand"><![CDATA[<EditDialogActionCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ContentType="text/html">
+  <Parameter Name="CompanyID" Path="CurrentUserProfiles" Type="SystemParameter" DefaultValue="CompanyID" />
+  <Parameter Name="State" Type="Const" DefaultValue="全部" />
+  <Parameter Name="DeptID" Path="CurrentUserProfiles" Type="SystemParameter" DefaultValue="DeptID" />
+  <Page SettingType="EditDialog">
+    <Form ID="dataform" Class="form-dialog">
+      <TableLayout TableClass="grid" />
+      <Fields>
+        <Field Title="职位" FieldType="ComboBox">
+          <ComboBox Tag="input" Name="Position" Class="easyui-combobox edit-input" Options="editable:false" IsRequired="false" DisplayMember="Name" ValueMember="ID" DataUrl="/Share/Query?name=LGetPosition&amp;DeptID={@/Parameters[DeptID]}" />
+        </Field>
+        <Field Title="招聘结果" FieldType="ComboBox">
+          <ComboBox Tag="input" Name="AuditionRresult" Class="easyui-combobox edit-input" Options="editable:false" Binding="/Parameters[State]" IsRequired="false" DisplayMember="Name" ValueMember="Name" DataUrl="/Share/GetSystemCodes?code=C023" />
+        </Field>
+      </Fields>
+      <ToolBar Tag="div" ID="toolbar" Class="dialog-button" PageID="P01023">
+        <Buttons>
+          <UIButton Tag="a" Class="easyui-linkbutton edit-button" Options="iconCls:'icon-ok'" Title="确定" Action="submitAct_DGReplace('dataform','/Page/P01023/Query','datagrid')" />
+          <UIButton Tag="a" Class="easyui-linkbutton edit-button" Options="iconCls:'icon-cancel'" Title="取消" Action="cancel()" />
+        </Buttons>
+      </ToolBar>
+    </Form>
+  </Page>
+</EditDialogActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="A01063" Name="Query" Title="检索" ActionValue="2" ErrorCommand="返回结果">
+    <Command CommandID="M01808" Name="查询总数" CommandType="ScalarSqlCommand"><![CDATA[<ScalarCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" NextCommand="查询" GroupName="人才管理" TableName="rc_Addition" CommandName="QueryCount" SqlType="Scalar">
+  <Parameter Name="DeptID" Path="CurrentUserProfiles" Type="SystemParameter" DefaultValue="DeptID" />
+  <Parameter Name="CompanyID" Path="CurrentUserProfiles" Type="SystemParameter" DefaultValue="CompanyID" />
+  <Parameter Name="CreatedUser" Path="CurrentUserID" Type="SystemParameter" />
+  <Parameter Name="EmployeeID" Path="CurrentUserProfiles" Type="SystemParameter" DefaultValue="EmployeeID" />
+  <Parameter Name="AuditionRresult" Path="Request[AuditionRresult]" Type="Parameter" />
+  <Parameter Name="Position" Path="Request[Position]" Type="Parameter" />
+</ScalarCommand>]]></Command>
+    <Command CommandID="M01229" Name="查询" CommandType="QuerySqlCommand"><![CDATA[<QueryCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" NextCommand="返回结果" GroupName="人才管理" TableName="rc_Addition" CommandName="QueryPage">
+  <Parameter Name="DeptID" Path="CurrentUserProfiles" Type="SystemParameter" DefaultValue="DeptID" />
+  <Parameter Name="CompanyID" Path="CurrentUserProfiles" Type="SystemParameter" DefaultValue="CompanyID" />
+  <Parameter Name="CreatedUser" Path="CurrentUserID" Type="SystemParameter" />
+  <Parameter Name="EmployeeID" Path="CurrentUserProfiles" Type="SystemParameter" DefaultValue="EmployeeID" />
+  <Parameter Name="AuditionRresult" Path="Request[AuditionRresult]" Type="Parameter" />
+  <Parameter Name="Page" Path="Request[Page]" Type="Parameter" />
+  <Parameter Name="Rows" Path="Request[Rows]" Type="Parameter" />
+  <Parameter Name="Position" Path="Request[Position]" Type="Parameter" />
+</QueryCommand>]]></Command>
+    <Command CommandID="M01214" Name="返回结果" CommandType="JsonActionCommand"><![CDATA[<JsonActionCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ContentType="application/json">
+  <Parameter Name="rows" Path="Results[查询].Items" Type="Parameter" />
+  <Parameter Name="HasError" Path="Results[查询].IsError" Type="Parameter" />
+  <Parameter Name="ErrorMessage" Path="Results[查询].ErrorMessage" Type="Parameter" />
+  <Parameter Name="total" Path="Results[查询总数].Value" Type="Parameter" />
+</JsonActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="A01068" Name="Detail" Title="查看" ActionValue="4">
+    <Command CommandID="M01237" Name="查看" CommandType="QuerySqlCommand"><![CDATA[<QueryCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" NextCommand="Detail" GroupName="人才管理" TableName="rc_Addition" CommandName="GetDetail">
+  <Parameter Name="AID" Path="Request[ID]" Type="Parameter" />
+</QueryCommand>]]></Command>
+    <Command CommandID="M01212" Name="Detail" CommandType="EditDialogActionCommand"><![CDATA[<EditDialogActionCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ContentType="text/html">
+  <Parameter Name="Data" Path="Results[查看].Items" Type="Parameter" />
+  <Page SettingType="EditDialog">
+    <Form ID="dataform" Class="form-dialog" DataBinding="Parameters[Data]" EditPanelClass="edit-panel-w2">
+      <TableLayout />
+      <Fields>
+        <Field Title="部门" FieldType="TextBox">
+          <Input Tag="input" Name="DeptName" Class="edit-input easyui-textbox" Binding="DeptName" IsReadOnly="true" IsRequired="false" />
+        </Field>
+        <Field Title="申请人" FieldType="TextBox">
+          <Input Tag="input" Name="UserName" Class="edit-input easyui-textbox" Binding="UserName" IsReadOnly="true" IsRequired="false" />
+        </Field>
+        <Field Title="招聘职位" FieldType="TextBox">
+          <Input Tag="input" Name="Position" Class="edit-input easyui-textbox" Binding="Position" IsReadOnly="true" IsRequired="false" />
+        </Field>
+        <Field Title="申请理由" FieldType="TextBox">
+          <Input Tag="input" Name="Reason" Class="edit-input easyui-textbox" Binding="Reason" IsReadOnly="true" IsRequired="false" />
+        </Field>
+        <Field Title="需求人数" FieldType="TextBox">
+          <Input Tag="input" Name="Need" Class="edit-input easyui-textbox" Binding="Need" IsReadOnly="true" IsRequired="false" />
+        </Field>
+        <Field Title="申请日期" FieldType="TextBox">
+          <Input Tag="input" Name="ApplicationDate" Class="easyui-datebox edit-input" Binding="ApplicationDate" IsReadOnly="true" IsRequired="false" />
+        </Field>
+        <Field Title="期望到职" FieldType="TextBox">
+          <DateBox Tag="input" Name="AvailableDate" Class="easyui-datebox edit-input" Binding="AvailableDate" IsReadOnly="true" IsRequired="false" />
+        </Field>
+        <Field Title="性别" FieldType="TextBox">
+          <Input Tag="input" Name="Sex" Class="edit-input easyui-textbox" Binding="Sex" IsReadOnly="true" IsRequired="false" />
+        </Field>
+        <Field Title="学历" FieldType="TextBox">
+          <Input Tag="input" Name="Degree" Class="edit-input easyui-textbox" Binding="Degree" IsReadOnly="true" IsRequired="false" />
+        </Field>
+        <Field Title="工作经验" FieldType="TextBox">
+          <Input Tag="input" Name="YearsOfWorking" Class="edit-input easyui-textbox" Binding="YearsOfWorking" IsReadOnly="true" IsRequired="false" />
+        </Field>
+        <Field Title="薪资范围" FieldType="TextBox">
+          <Input Tag="input" Name="SalaryRange" Class="edit-input easyui-textbox" Binding="SalaryRange" IsReadOnly="true" IsRequired="false" />
+        </Field>
+        <Field Title="职位职责" FieldClass="edit-field-w2" ContentClass="edit-content-w2" FieldType="TextBox">
+          <Input Tag="input" Name="Duty" Class="edit-input-w2 easyui-textbox" Style="height:90px" Options="multiline:true" Binding="Duty" IsReadOnly="true" IsRequired="false" />
+        </Field>
+        <Field Title="备注" FieldClass="edit-field-w2" ContentClass="edit-content-w2" FieldType="TextBox">
+          <Input Tag="input" Name="Remark" Class="edit-input-w2 easyui-textbox" Style="height:90px" Options="multiline:true" Binding="Remark" IsReadOnly="true" IsRequired="false" />
+        </Field>
+      </Fields>
+      <ToolBar Tag="div" ID="toolbar" Class="dialog-button" PageID="P01023">
+        <Buttons>
+          <UIButton Tag="a" Class="easyui-linkbutton edit-button" Options="iconCls:'icon-cancel'" Title="关闭" Action="cancel()" />
+        </Buttons>
+      </ToolBar>
+    </Form>
+  </Page>
+</EditDialogActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="A01064" Name="Create" Title="新增" ActionValue="8">
+    <Command CommandID="M01208" Name="Create" CommandType="EditDialogActionCommand"><![CDATA[<EditDialogActionCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ContentType="text/html">
+  <Parameter Name="CurrentDate" Path="CurrentDateTime" Type="SystemParameter" />
+  <Parameter Name="UserName" Path="CurrentUserProfiles" Type="SystemParameter" DefaultValue="EmployeeName" />
+  <Parameter Name="DeptName" Path="CurrentUserProfiles" Type="SystemParameter" DefaultValue="DepartmentName" />
+  <Parameter Name="DeptID" Path="CurrentUserProfiles" Type="SystemParameter" DefaultValue="DeptID" />
+  <Page SettingType="EditDialog">
+    <Form ID="dataform" Class="form-dialog" EditPanelClass="edit-panel-w2">
+      <TableLayout TableClass="grid" />
+      <Fields>
+        <Field ColumnSpan="2" Title="部门" FieldType="TextBox">
+          <Input Tag="input" Class="edit-input easyui-textbox" Binding="/Parameters[DeptName]" IsReadOnly="true" />
+        </Field>
+        <Field ColumnIndex="2" ColumnSpan="2" Title="申请人" FieldType="TextBox">
+          <Input Tag="input" Class="edit-input easyui-textbox" Binding="/Parameters[UserName]" IsReadOnly="true" />
+        </Field>
+        <Field RowIndex="1" ColumnSpan="2" Title="职位" FieldType="ComboBox">
+          <ComboBox Tag="input" Name="Position" Class="edit-input easyui-combobox" Options="mode:'remote',missingMessage:'请输入职位',invalidMessage:'职位不得超过20个字符',validType:'length[1,20]'" DisplayMember="Name" ValueMember="ID" DataUrl="/Share/Query?name=LGetPosition&amp;DeptID={@/Parameters[DeptID]}" IsAutoHeight="false" OnSelect="function(rec){&#xD;&#xA;var url='/Page/P01023/GetDutyByPosition?Position='+rec.ID;&#xD;&#xA; $.ajax({&#xD;&#xA;            url: url,&#xD;&#xA;            type: 'post',&#xD;&#xA;            success: function (result)&#xD;&#xA;            {&#xD;&#xA;var r=result.Data[0];&#xD;&#xA;$('#Duty').textbox('setValue',r['Duty']);&#xD;&#xA;            },&#xD;&#xA;            error: function (d, error) {&#xD;&#xA;                showError(error);&#xD;&#xA;            }&#xD;&#xA;      });&#xD;&#xA;}" />
+        </Field>
+        <Field RowIndex="1" ColumnIndex="2" ColumnSpan="2" Title="申请理由" FieldType="ComboBox">
+          <ComboBox Tag="input" Name="Reason" Class="easyui-combobox edit-input" Options="editable:false,missingMessage:'请选择申请理由'" DisplayMember="Name" ValueMember="Name" DataUrl="/Share/GetSystemCodes?code=C009" />
+        </Field>
+        <Field RowIndex="2" ColumnSpan="2" Title="需求人数" FieldType="TextBox">
+          <Input Tag="input" Name="Need" Class="edit-input easyui-numberbox" Options="missingMessage:'请输入人数',min:1,max:50,invalidMessage:'人数上限为50',validType:'length[1,2]'" />
+        </Field>
+        <Field RowIndex="2" ColumnIndex="2" ColumnSpan="2" Title="申请日期" FieldType="DateBox">
+          <DateBox Tag="input" ID="ApplicationDate" Name="ApplicationDate" Class="edit-input easyui-datebox " Binding="/Parameters[CurrentDate]" IsReadOnly="true" />
+        </Field>
+        <Field RowIndex="3" ColumnSpan="2" Title="期望到职" FieldType="TextBox">
+          <Input Tag="input" ID="AvailableDate" Name="AvailableDate" Class="edit-input easyui-datebox" Options="missingMessage:'请选择预计到期日期',invalidMessage:'预计到期日期不得小于申请日期',validType:'dateCompare[\'#ApplicationDate\']'" />
+        </Field>
+        <Field RowIndex="3" ColumnIndex="2" ColumnSpan="2" Title="性别" FieldType="ComboBox">
+          <ComboBox Tag="input" Name="Sex" Class="edit-input easyui-combobox" Options="editable:false,missingMessage:'请选择性别'" DisplayMember="Name" ValueMember="Name" DataUrl="/Share/GetSystemCodes?code=C039" />
+        </Field>
+        <Field RowIndex="4" ColumnSpan="2" Title="学历" FieldType="ComboBox">
+          <ComboBox Tag="input" Name="Degree" Class="easyui-combobox edit-input" Options="editable:false,missingMessage:'请选择学历'" DisplayMember="Name" ValueMember="Name" DataUrl="/Share/GetSystemCodes?code=C006" />
+        </Field>
+        <Field RowIndex="4" ColumnIndex="2" ColumnSpan="2" Title="工作经验" FieldType="ComboBox">
+          <ComboBox Tag="input" Name="YearsOfWorking" Class="easyui-combobox edit-input" Options="editable:false,missingMessage:'请选择工作年限'" DisplayMember="Name" ValueMember="Name" DataUrl="/Share/GetSystemCodes?code=C022" />
+        </Field>
+        <Field RowIndex="5" ColumnSpan="2" Title="薪资范围" FieldType="ComboBox">
+          <ComboBox Tag="input" Name="SalaryRange" Class="easyui-combobox edit-input" Options="editable:false,missingMessage:'请选择薪资范围'" DisplayMember="Name" ValueMember="Name" DataUrl="/Share/GetSystemCodes?code=C010" />
+        </Field>
+        <Field RowIndex="5" ColumnIndex="2" ColumnSpan="2" Title="职位职责" FieldClass="edit-field-w2" ContentClass="edit-content-w2" FieldType="TextBox">
+          <Input Tag="input" ID="Duty" Name="Duty" Class="edit-input-w2 easyui-textbox" Style="height:90px" Options="prompt:'职位职责不得超过500个字符',missingMessage:'请输入职位职责',invalidMessage:'职位职责不得超过500个字符',validType:'length[1,500]',multiline:true" />
+        </Field>
+        <Field RowIndex="6" ColumnSpan="2" Title="备注" FieldClass="edit-field-w2" ContentClass="edit-content-w2" FieldType="TextBox">
+          <Input Tag="input" Name="Remark" Class="edit-input-w2 easyui-textbox" Style="height:90px" Options="prompt:'备注不得超过500个字符',invalidMessage:'备注不得超过500个字符',required:false,validType:'length[1,500]',multiline:true" IsRequired="false" />
+        </Field>
+      </Fields>
+      <ToolBar Tag="div" ID="toolbar" Class="dialog-button" PageID="P01023">
+        <Buttons>
+          <UIButton Tag="a" Class="easyui-linkbutton edit-button" Options="iconCls:'icon-ok'" Title="确定" Action="submitAct_DGAppend('dataform', '/Page/P01023/Add', 'datagrid')" />
+          <UIButton Tag="a" Class="easyui-linkbutton edit-button" Options="iconCls:'icon-cancel'" Title="取消" Action="cancel()" />
+        </Buttons>
+      </ToolBar>
+    </Form>
+  </Page>
+</EditDialogActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="A01065" Name="Add" Title="新增" ActionValue="8" ErrorCommand="新增人员返回数据">
+    <Command CommandID="M01209" Name="新增人员" CommandType="QuerySqlCommand"><![CDATA[<QueryCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" NextCommand="新增人员返回数据" GroupName="人才管理" TableName="rc_Addition" CommandName="Add">
+  <Parameter Name="AID" Path="SerialCode" Type="SystemParameter" DefaultValue="Addition,A,6" />
+  <Parameter Name="CompanyID" Path="CurrentUserProfiles" Type="SystemParameter" DefaultValue="CompanyID" />
+  <Parameter Name="DeptID" Path="CurrentUserProfiles" Type="SystemParameter" DefaultValue="DeptID" />
+  <Parameter Name="Position" Path="Request[Position]" Type="Parameter" />
+  <Parameter Name="Reason" Path="Request[Reason]" Type="Parameter" />
+  <Parameter Name="Need" Path="Request[Need]" Type="Parameter" />
+  <Parameter Name="ApplicationDate" Path="Request[ApplicationDate]" Type="Parameter" />
+  <Parameter Name="AvailableDate" Path="Request[AvailableDate]" Type="Parameter" />
+  <Parameter Name="Sex" Path="Request[Sex]" Type="Parameter" />
+  <Parameter Name="Degree" Path="Request[Degree]" Type="Parameter" />
+  <Parameter Name="YearsOfWorking" Path="Request[YearsOfWorking]" Type="Parameter" />
+  <Parameter Name="SalaryRange" Path="Request[SalaryRange]" Type="Parameter" />
+  <Parameter Name="Duty" Path="Request[Duty]" Type="Parameter" />
+  <Parameter Name="Remark" Path="Request[Remark]" Type="Parameter" />
+  <Parameter Name="IsActive" Path="Request[IsActive]" Type="Parameter" DefaultValue="1" />
+  <Parameter Name="CreatedUser" Path="CurrentUserID" Type="SystemParameter" />
+  <Parameter Name="CreatedTime" Path="CurrentDateTime" Type="SystemParameter" />
+  <Parameter Name="ModifiedUser" Path="CurrentUserID" Type="SystemParameter" />
+  <Parameter Name="ModifiedTime" Path="CurrentDateTime" Type="SystemParameter" />
+</QueryCommand>]]></Command>
+    <Command CommandID="M01212" Name="新增人员返回数据" CommandType="JsonActionCommand"><![CDATA[<JsonActionCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ContentType="application/json">
+  <Parameter Name="Data" Path="Results[新增人员].Items" Type="Parameter">
+    <Validator />
+    <Validator />
+    <Validator />
+  </Parameter>
+  <Parameter Name="HasError" Path="Results[新增人员].IsError" Type="Parameter" />
+  <Parameter Name="ErrorMessage" Path="Results[新增人员].ErrorMessage" Type="Parameter" />
+</JsonActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="A01066" Name="Edit" Title="修改" ActionValue="16" ErrorCommand="Edit">
+    <Command CommandID="M01233" Name="编辑" CommandType="QuerySqlCommand"><![CDATA[<QueryCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" NextCommand="Edit" GroupName="人才管理" TableName="rc_Addition" CommandName="GetEdit">
+  <Parameter Name="AID" Path="Request[ID]" Type="Parameter" />
+</QueryCommand>]]></Command>
+    <Command CommandID="M01205" Name="Edit" CommandType="EditDialogActionCommand"><![CDATA[<EditDialogActionCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ContentType="text/html">
+  <Parameter Name="Data" Path="Results[编辑].Items" Type="Parameter" />
+  <Parameter Name="DeptID" Path="CurrentUserProfiles" Type="SystemParameter" DefaultValue="DeptID" />
+  <Page SettingType="EditDialog">
+    <Form ID="dataform" Class="form-dialog" DataBinding="Parameters[Data]" EditPanelClass="edit-panel-w2">
+      <TableLayout />
+      <Fields>
+        <Field Title="部门" FieldType="TextBox">
+          <Input Tag="input" Name="DeptName" Class="edit-input easyui-textbox" Binding="DeptName" IsReadOnly="true" />
+        </Field>
+        <Field Title="申请人" FieldType="TextBox">
+          <Input Tag="input" Name="UserName" Class="edit-input easyui-textbox" Binding="UserName" IsReadOnly="true" />
+        </Field>
+        <Field Title="职位" FieldType="ComboBox">
+          <ComboBox Tag="input" Name="Position" Class="edit-input easyui-combobox" Options="mode:'remote',missingMessage:'请输入职位',invalidMessage:'职位不得超过20个字符',validType:'length[1,20]'" Binding="Position" DisplayMember="Name" ValueMember="ID" DataUrl="/Share/Query?name=LGetPosition&amp;DeptID={@/Parameters[DeptID]}" IsAutoHeight="false" OnSelect="function(rec){&#xD;&#xA;var url='/Page/P01023/GetDutyByPosition?Position='+rec.ID;&#xD;&#xA; $.ajax({&#xD;&#xA;            url: url,&#xD;&#xA;            type: 'post',&#xD;&#xA;            success: function (result)&#xD;&#xA;            {&#xD;&#xA;var r=result.Data[0];&#xD;&#xA;$('#Duty').textbox('setValue',r['Duty']);&#xD;&#xA;            },&#xD;&#xA;            error: function (d, error) {&#xD;&#xA;                showError(error);&#xD;&#xA;            }&#xD;&#xA;      });&#xD;&#xA;}" />
+        </Field>
+        <Field RowIndex="1" ColumnIndex="2" ColumnSpan="2" Title="申请理由" FieldType="ComboBox">
+          <ComboBox Tag="input" Name="Reason" Class="easyui-combobox edit-input" Options="editable:false,missingMessage:'请选择申请理由'" Binding="Reason" DisplayMember="Name" ValueMember="Name" DataUrl="/Share/GetSystemCodes?code=C009" />
+        </Field>
+        <Field Title="需求人数" FieldType="TextBox">
+          <Input Tag="input" Name="Need" Class="edit-input easyui-numberbox" Options="missingMessage:'请输入人数',min:1,max:50,invalidMessage:'人数不得超过50',validType:'length[1,2]'" Binding="Need" />
+        </Field>
+        <Field Title="申请日期" FieldType="DateBox">
+          <DateBox Tag="input" ID="ApplicationDate" Name="ApplicationDate" Class="easyui-datebox edit-input" Binding="ApplicationDate" IsReadOnly="true" />
+        </Field>
+        <Field Title="期望到职" FieldType="DateBox">
+          <DateBox Tag="input" ID="AvailableDate" Name="AvailableDate" Class="edit-input easyui-datebox" Options="missingMessage:'请选择入职到期日期',invalidMessage:'预计到期日期不得小于申请日期',validType:'dateCompare[\'#ApplicationDate\']'" Binding="AvailableDate" />
+        </Field>
+        <Field Title="性别" FieldType="ComboBox">
+          <ComboBox Tag="input" Name="Sex" Class="edit-input easyui-combobox" Options="editable:false,missingMessage:'请选择性别'" Binding="Sex" DisplayMember="Name" ValueMember="Name" DataUrl="/Share/GetSystemCodes?code=C039" />
+        </Field>
+        <Field Title="学历" FieldType="ComboBox">
+          <ComboBox Tag="input" Name="Degree" Class="easyui-combobox edit-input" Options="editable:false,missingMessage:'请选择学历'" Binding="Degree" DisplayMember="Name" ValueMember="Name" DataUrl="/Share/GetSystemCodes?code=C006" />
+        </Field>
+        <Field Title="工作经验" FieldType="ComboBox">
+          <ComboBox Tag="input" Name="YearsOfWorking" Class="easyui-combobox edit-input" Options="editable:false,missingMessage:'请选择工作经验'" Binding="YearsOfWorking" IsRequired="false" DisplayMember="Name" ValueMember="Name" DataUrl="/Share/GetSystemCodes?code=C022" />
+        </Field>
+        <Field Title="薪资范围" FieldType="ComboBox">
+          <ComboBox Tag="input" Name="SalaryRange" Class="easyui-combobox edit-input" Options="editable:false,missingMessage:'请选择薪资范围'" Binding="SalaryRange" DisplayMember="Name" ValueMember="Name" DataUrl="/Share/GetSystemCodes?code=C010" />
+        </Field>
+        <Field Title="职位职责" FieldClass="edit-field-w2" ContentClass="edit-content-w2" FieldType="TextBox">
+          <Input Tag="input" ID="Duty" Name="Duty" Class="edit-input-w2 easyui-textbox" Style="height:90px" Options="prompt:'职位职责不得超过500个字符',missingMessage:'请输入职责',invalidMessage:'职位职责不得超过500个字符',validType:'length[1,500]',multiline:true" Binding="Duty" />
+        </Field>
+        <Field Title="备注" FieldClass="edit-field-w2" ContentClass="edit-content-w2" FieldType="TextBox">
+          <Input Tag="input" Name="Remark" Class="edit-input-w2 easyui-textbox" Style="height:90px" Options="prompt:'备注不得超过500个字符',invalidMessage:'备注不得超过500个字符',required:false,validType:'length[1,500]',multiline:true" Binding="Remark" />
+        </Field>
+        <Field>
+          <Input Tag="input" Name="AID" InputType="hidden" Binding="AID" IsHidden="true" />
+        </Field>
+      </Fields>
+      <ToolBar Tag="div" ID="toolbar" Class="dialog-button" PageID="P01023">
+        <Buttons>
+          <UIButton Tag="a" Class="easyui-linkbutton edit-button" Options="iconCls:'icon-ok'" Title="确定" Action="submitAct_DGUpdate('dataform', '/Page/P01023/Update', 'datagrid')" />
+          <UIButton Tag="a" Class="easyui-linkbutton edit-button" Options="iconCls:'icon-cancel'" Title="取消" Action="cancel()" />
+        </Buttons>
+      </ToolBar>
+    </Form>
+  </Page>
+</EditDialogActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="A01067" Name="Update" Title="修改" ActionValue="16" ErrorCommand="更新返回">
+    <Command CommandID="M01239" Name="更新" CommandType="QuerySqlCommand"><![CDATA[<QueryCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" NextCommand="更新返回" GroupName="人才管理" TableName="rc_Addition" CommandName="Update">
+  <Parameter Name="AID" Path="Request[AID]" Type="Parameter" />
+  <Parameter Name="AvailableDate" Path="Request[AvailableDate]" Type="Parameter" />
+  <Parameter Name="ApplicationDate" Path="Request[ApplicationDate]" Type="Parameter" />
+  <Parameter Name="Position" Path="Request[Position]" Type="Parameter" />
+  <Parameter Name="Reason" Path="Request[Reason]" Type="Parameter" />
+  <Parameter Name="Need" Path="Request[Need]" Type="Parameter" />
+  <Parameter Name="Sex" Path="Request[Sex]" Type="Parameter" />
+  <Parameter Name="Degree" Path="Request[Degree]" Type="Parameter" />
+  <Parameter Name="YearsOfWorking" Path="Request[YearsOfWorking]" Type="Parameter" />
+  <Parameter Name="SalaryRange" Path="Request[SalaryRange]" Type="Parameter" />
+  <Parameter Name="Duty" Path="Request[Duty]" Type="Parameter" />
+  <Parameter Name="Remark" Path="Request[Remark]" Type="Parameter" />
+  <Parameter Name="IsActive" Path="Request[IsActive]" Type="Parameter" DefaultValue="1" />
+  <Parameter Name="ModifiedUser" Path="CurrentUserID" Type="SystemParameter" />
+  <Parameter Name="ModifiedTime" Path="CurrentDateTime" Type="SystemParameter" />
+</QueryCommand>]]></Command>
+    <Command CommandID="M01211" Name="更新返回" CommandType="JsonActionCommand"><![CDATA[<JsonActionCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ContentType="application/json">
+  <Parameter Name="Data" Path="Results[更新].Items" Type="Parameter">
+    <Validator />
+  </Parameter>
+  <Parameter Name="HasError" Path="Results[更新].IsError" Type="Parameter" />
+  <Parameter Name="ErrorMessage" Path="Results[更新].ErrorMessage" Type="Parameter" />
+</JsonActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="bc1f7498-496e-4e5e-893e-dc0334427f61" Name="Delete" Title="删除" ActionValue="32" ErrorCommand="删除结果">
+    <Command CommandID="M01510" Name="执行删除" CommandType="QueryJsonSqlCommand"><![CDATA[<QueryJsonCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" NextCommand="删除结果" GroupName="人才管理" TableName="rc_Addition" CommandName="Delete" SqlType="QueryJson">
+  <Parameter Name="AID" Path="Request[keys]" Type="Parameter" />
+  <Parameter Name="ModifiedUser" Path="CurrentUserID" Type="SystemParameter" />
+  <Parameter Name="ModifiedTime" Path="CurrentDateTime" Type="SystemParameter" />
+</QueryJsonCommand>]]></Command>
+    <Command CommandID="M01511" Name="删除结果" CommandType="JsonActionCommand"><![CDATA[<JsonActionCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ContentType="application/json">
+  <Parameter Name="Data" Path="Results[执行删除].Json" Type="Parameter" />
+  <Parameter Name="HasError" Path="Results[执行删除].IsError" Type="Parameter" />
+  <Parameter Name="ErrorMessage" Path="Results[执行删除].ErrorMessage" Type="Parameter" />
+</JsonActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="A01069" Name="SendCheck" Title="送签" ActionValue="64">
+    <Command CommandID="M01229" Name="送签" CommandType="QuerySqlCommand"><![CDATA[<QueryCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" NextCommand="返回" GroupName="人才管理" TableName="rc_Addition" CommandName="SendCheck">
+  <Parameter Name="AID" Path="Request[ID]" Type="Parameter" />
+  <Parameter Name="IsActive" Path="Request[IsActive]" Type="Parameter" DefaultValue="1" />
+  <Parameter Name="CreatedUser" Path="CurrentUserID" Type="SystemParameter" />
+  <Parameter Name="CreatedTime" Path="CurrentDateTime" Type="SystemParameter" />
+  <Parameter Name="ModifiedUser" Path="CurrentUserID" Type="SystemParameter" />
+  <Parameter Name="ModifiedTime" Path="CurrentDateTime" Type="SystemParameter" />
+</QueryCommand>]]></Command>
+    <Command CommandID="M01228" Name="返回" CommandType="JsonActionCommand"><![CDATA[<JsonActionCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ContentType="application/json">
+  <Parameter Name="Data" Path="Results[送签].Items" Type="Parameter" />
+  <Parameter Name="HasError" Path="Results[送签].IsError" Type="Parameter" />
+  <Parameter Name="ErrorMessage" Path="Results[送签].ErrorMessage" Type="Parameter" />
+</JsonActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="3fa5dac5-150f-4e79-9877-25dbce88d7a5" Name="CheckLog" Title="送签追踪" ActionValue="128">
+    <Command CommandID="M01237" Name="查看" CommandType="QuerySqlCommand"><![CDATA[<QueryCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" NextCommand="Detail" GroupName="人才管理" TableName="rc_Addition" CommandName="GetDetail">
+  <Parameter Name="AID" Path="Request[ID]" Type="Parameter" />
+</QueryCommand>]]></Command>
+    <Command CommandID="M01212" Name="Detail" CommandType="EditDialogActionCommand"><![CDATA[<EditDialogActionCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ContentType="text/html">
+  <Parameter Name="Data" Path="Results[查看].Items" Type="Parameter" />
+  <Page SettingType="EditDialog">
+    <ContentFooter>&lt;iframe tb="fl_EmployeeMove" id="af" onload="DynIframeSize('af')"&gt;&lt;/iframe&gt;
+&lt;script type="text/javascript"&gt;
+    InitIFrame();
+&lt;/script&gt;</ContentFooter>
+    <Form ID="dataform" Class="form-dialog" DataBinding="Parameters[Data]" EditPanelClass="edit-panel-w2">
+      <TableLayout />
+      <Fields>
+        <Field Title="部门" FieldType="TextBox">
+          <Input Tag="input" Name="DeptName" Class="edit-input easyui-textbox" Binding="DeptName" IsReadOnly="true" IsRequired="false" />
+        </Field>
+        <Field Title="申请人" FieldType="TextBox">
+          <Input Tag="input" Name="UserName" Class="edit-input easyui-textbox" Binding="UserName" IsReadOnly="true" IsRequired="false" />
+        </Field>
+        <Field Title="招聘职位" FieldType="TextBox">
+          <Input Tag="input" Name="Position" Class="edit-input easyui-textbox" Binding="Position" IsReadOnly="true" IsRequired="false" />
+        </Field>
+        <Field Title="申请理由" FieldType="TextBox">
+          <Input Tag="input" Name="Reason" Class="edit-input easyui-textbox" Binding="Reason" IsReadOnly="true" IsRequired="false" />
+        </Field>
+        <Field Title="需求人数" FieldType="TextBox">
+          <Input Tag="input" Name="Need" Class="edit-input easyui-textbox" Binding="Need" IsReadOnly="true" IsRequired="false" />
+        </Field>
+        <Field Title="申请日期" FieldType="TextBox">
+          <Input Tag="input" Name="ApplicationDate" Class="easyui-datebox edit-input" Binding="ApplicationDate" IsReadOnly="true" IsRequired="false" />
+        </Field>
+        <Field Title="期望到职日" FieldType="TextBox">
+          <DateBox Tag="input" Name="AvailableDate" Class="easyui-datebox edit-input" Binding="AvailableDate" IsReadOnly="true" IsRequired="false" />
+        </Field>
+        <Field Title="性别" FieldType="TextBox">
+          <Input Tag="input" Name="Sex" Class="edit-input easyui-textbox" Binding="Sex" IsReadOnly="true" IsRequired="false" />
+        </Field>
+        <Field Title="学历" FieldType="TextBox">
+          <Input Tag="input" Name="Degree" Class="edit-input easyui-textbox" Binding="Degree" IsReadOnly="true" IsRequired="false" />
+        </Field>
+        <Field Title="工作经验" FieldType="TextBox">
+          <Input Tag="input" Name="YearsOfWorking" Class="edit-input easyui-textbox" Binding="YearsOfWorking" IsReadOnly="true" IsRequired="false" />
+        </Field>
+        <Field Title="薪资范围" FieldType="TextBox">
+          <Input Tag="input" Name="SalaryRange" Class="edit-input easyui-textbox" Binding="SalaryRange" IsReadOnly="true" IsRequired="false" />
+        </Field>
+        <Field Title="职位职责" FieldClass="edit-field-w2" ContentClass="edit-content-w2" FieldType="TextBox">
+          <Input Tag="input" Name="Duty" Class="edit-input-w2 easyui-textbox" Style="height:90px" Options="multiline:true" Binding="Duty" IsReadOnly="true" IsRequired="false" />
+        </Field>
+        <Field Title="备注" FieldClass="edit-field-w2" ContentClass="edit-content-w2" FieldType="TextBox">
+          <Input Tag="input" Name="Remark" Class="edit-input-w2 easyui-textbox" Style="height:90px" Options="multiline:true" Binding="Remark" IsReadOnly="true" IsRequired="false" />
+        </Field>
+      </Fields>
+      <ToolBar Tag="div" ID="toolbar" Class="dialog-button" PageID="P01023">
+        <Buttons>
+          <UIButton Tag="a" Class="easyui-linkbutton edit-button" Options="iconCls:'icon-cancel'" Title="关闭" Action="cancel()" />
+        </Buttons>
+      </ToolBar>
+    </Form>
+  </Page>
+</EditDialogActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="cd16cf97-dc52-4004-b782-ffbdb337b8c0" Name="GetDutyByPosition" Title="检索">
+    <Command CommandID="M01229" Name="查询" CommandType="QuerySqlCommand"><![CDATA[<QueryCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" NextCommand="返回结果" GroupName="人才管理" TableName="rc_Addition" CommandName="GetDutyByPosition">
+  <Parameter Name="Position" Path="Request[Position]" Type="Parameter" />
+</QueryCommand>]]></Command>
+    <Command CommandID="M01214" Name="返回结果" CommandType="JsonActionCommand"><![CDATA[<JsonActionCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ContentType="application/json">
+  <Parameter Name="Data" Path="Results[查询].Items" Type="Parameter" />
+  <Parameter Name="HasError" Path="Results[查询].IsError" Type="Parameter" />
+  <Parameter Name="ErrorMessage" Path="Results[查询].ErrorMessage" Type="Parameter" />
+</JsonActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="f55385eb-52c6-45a3-b4f9-594b04e183c6" Name="Over" Title="结束招聘" ActionValue="256" ErrorCommand="返回结果">
+    <Command CommandID="M01545" Name="结束招聘" CommandType="QuerySqlCommand"><![CDATA[<QueryCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" NextCommand="返回结果" GroupName="人才管理" TableName="rc_Addition" CommandName="Over">
+  <Parameter Name="ModifiedUser" Path="CurrentUserID" Type="SystemParameter" />
+  <Parameter Name="ModifiedTime" Path="CurrentDateTime" Type="SystemParameter" />
+  <Parameter Name="AID" Path="Request[keys]" Type="Parameter" />
+</QueryCommand>]]></Command>
+    <Command CommandID="M01510" Name="结束招聘" CommandType="QueryJsonSqlCommand"><![CDATA[<QueryJsonCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" NextCommand="返回结果" GroupName="人才管理" TableName="rc_Addition" CommandName="Over" SqlType="QueryJson">
+  <Parameter Name="AID" Path="Request[keys]" Type="Parameter" />
+  <Parameter Name="ModifiedUser" Path="CurrentUserID" Type="SystemParameter" />
+  <Parameter Name="ModifiedTime" Path="CurrentDateTime" Type="SystemParameter" />
+</QueryJsonCommand>]]></Command>
+    <Command CommandID="M01511" Name="返回结果" CommandType="JsonActionCommand"><![CDATA[<JsonActionCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ContentType="application/json">
+  <Parameter Name="Data" Path="Results[结束招聘].Items" Type="Parameter" />
+  <Parameter Name="HasError" Path="Results[结束招聘].IsError" Type="Parameter" />
+  <Parameter Name="ErrorMessage" Path="Results[结束招聘].ErrorMessage" Type="Parameter" />
+</JsonActionCommand>]]></Command>
+  </Action>
+  <Layout EditFieldClass="edit-field" />
+  <Buttons>
+    <Button ID="btn-search" Title="检索" ActionValue="2" Action="showActDlg('检索','/Page/P01023/Search',400,300)" Class="easyui-linkbutton" Option="iconCls:'icon-search'" />
+    <Button ID="btn-query" Title="确定" ActionValue="2" Action="submitAct_DGReplace('dataform','/Page/P01023/Query','datagrid')" Class="easyui-linkbutton edit-button" Option="iconCls:'icon-ok'" />
+    <Button ID="btn-detail" Title="查看" ActionValue="4" Action="showActDlg('datagrid','查看','/Page/P01023/Detail',400,300)" Class="easyui-linkbutton toolradio" Option="iconCls:'icon-add'" />
+    <Button ID="btn-create" Title="新增" ActionValue="8" Action="showActDlg('新增','/Page/P01023/Create',400,300)" Class="easyui-linkbutton" Option="iconCls:'icon-add'" />
+    <Button ID="btn-add" Title="确定" ActionValue="8" Action="submitAct_DGAppend('dataform','/Page/P01023/Add','datagrid')" Class="easyui-linkbutton edit-button" Option="iconCls:'icon-ok'" />
+    <Button ID="btn-edit" Title="修改" ActionValue="16" Action="showActDlg_DGItemActDlg('datagrid','修改','/Page/P01023/Edit',400,300)" Class="easyui-linkbutton toolradio" Option="iconCls:'icon-edit'" />
+    <Button ID="btn-update" Title="确定" ActionValue="16" Action="submitAct_DGUpdate('dataform','/Page/P01023/Update','datagrid')" Class="easyui-linkbutton edit-button" Option="iconCls:'icon-ok'" />
+    <Button ID="btn-delete" Title="删除" ActionValue="32" Action="showActDlg_DGItemsConfirm('datagrid','删除','确认删除选择项？','/Page/P01023/Delete',400,300)" Class="easyui-linkbutton toolmultiple" Option="iconCls:'icon-cancel'" />
+    <Button ID="btn-import" Title="导入" ActionValue="64" Action="showActDlg('导入','/Page/P01023/Import',400,300)" Class="easyui-linkbutton" Option="iconCls:'icon-import'" />
+    <Button ID="btn-export" Title="导出" ActionValue="128" Action="showActDlg('导出','/Page/P01023/Export',400,300)" Class="easyui-linkbutton" Option="iconCls:'icon-export'" ShowInToolBar="false" />
+    <Button ID="btn-cancel" Title="取消" Action="cancel()" Class="easyui-linkbutton edit-button" ShowInToolBar="false" />
+    <Button ID="btn-close" Title="确定" Action="cancel()" Class="easyui-linkbutton edit-button" ShowInToolBar="false" />
+  </Buttons>
+  <EditSource LogicDeleteFlag="IsActive:0">
+    <Fields />
+    <ChildTables />
+  </EditSource>
+</MvcEditPage>

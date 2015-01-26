@@ -1,0 +1,174 @@
+﻿@*----------------------------------------------------------------
+    // Copyright (C) 2004 清风软件
+    // 版权所有。
+    //
+    // 文件名：Fl003.cshtml
+    // 文件功能描述：表单映射视图
+    //----------------------------------------------------------------*@
+@model Panasia.Gemini.FL.Models.MappingModel
+
+@section Header
+{
+    <style type="text/css">
+        .fitem td {
+            font-size: 12px;
+        }
+    </style>
+    <script type="text/javascript">
+        $(function () {
+            jQuery("#list").jqGrid({
+                url: '/Template/MappingList',
+                datatype: "json",
+                height: 400,
+                colNames: ['序号', 'Table名称', '单据id', '签核状态标志'],
+                colModel: [
+                    { name: 'MappingFormID', index: 'MappingFormID', autowidth: true },
+                     { name: 'Table_Name', index: 'Table_Name', autowidth: true, fixed: false },
+                 { name: 'FormID', index: 'FormID', autowidth: true },
+                 { name: 'Approved', index: 'Approved', autowidth: true, formatter: rowformatter }
+                ],
+                viewrecords: true,
+                altRows: true,
+                autowidth: true,
+                caption: "表单映射",
+            });
+        });
+
+        function rowformatter(value, options, rowobj) {
+            var text = "";
+            console.log(value)
+            switch (value) {
+                case "1":
+                    text = "<span style='color: black; font-weight: bold;'>未结案</span>"; break;
+                case "2":
+                    text = "<span style='color: green; font-weight: bold;'>已结案</span>"; break;
+                case "0":
+                    text = "<span style='color: red; font-weight: bold;'>已驳回</span>"; break;
+            }
+            return text;
+        }
+    </script>
+    <script type="text/javascript">
+
+    var url;
+    var id=1;
+
+    function Add() {
+        $('#dlg').dialog('open').dialog('setTitle', '新增');
+        $('#frm').form('clear');
+        $('#Approved').val('1');
+        url = '/Template/AddMapping';
+        
+    }
+
+    function Edit() {
+        var row = $('#dg').datagrid('getSelected');
+        if (row) {
+            $('#dlg').dialog('open').dialog('setTitle', '修改');
+            $('#frm').form('load', row);
+            url = '/Template/EditMapping';
+           
+
+        } else {
+            $.messager.alert("提示", "请先选择记录.");
+        }
+    }
+
+    function Delete() {
+        var row = $('#dg').datagrid('getSelected');
+        if (row) {
+            var id = row.MappingFormID;
+            $.messager.confirm('提示', '确认删除该信息吗？', function (r) {
+                if (r) {
+                    $.post('/Template/DeleteMapping', { id: id }, function (result) {
+                        if (result == "OK") {
+                            $('#dg').datagrid('reload');    // reload the template data
+                        } else {
+                            $.messager.show({               // show error message
+                                title: '提示',
+                                msg: result
+                            });
+                        }
+                    });
+                }
+            });
+        } else {
+            $.messager.alert("提示", "请先选择记录.");
+        }
+    }
+
+    function Save() {
+        $('#frm').form('submit', {
+            url: url,
+            onSubmit: function () {
+                return $(this).form('validate');
+            },
+            success: function (result) {
+                if (result == "OK") {
+                    $('#dlg').dialog('close');
+                    $("#dg").datagrid("reload");
+                }
+                else {
+                    $.messager.alert("提示", result);
+                }
+}
+        });
+    }
+
+    function Close() {
+        $('#dlg').dialog('close');
+    }
+
+    function Search() {
+        $("#dg").datagrid({
+            queryParams: {
+                keyword: $("#keyword").val()
+            }
+        });
+    }
+    </script>
+    <style>
+    body {
+        background-color: #fff;
+        margin: 0px;
+    }
+
+    .ui-jqgrid-view > .ui-jqgrid-titlebar {
+        border-radius: 0;
+    }
+</style>
+
+}
+
+
+@*<div class="widget-header widget-header-blue widget-header-flat">
+    <h4 class="lighter">
+        <i class="icon-table">​</i>
+        表单映射
+    </h4>
+</div>*@
+<div class="container" style="margin-top:5px;">
+    <div id="content">
+        <table id="list"></table>
+        @*<table id="dg" class="easyui-datagrid" title="表单映射" style="width:550px;height:auto"
+                   data-options="
+                        iconCls: 'icon-edit',
+                        singleSelect: true,
+                        pagination:true,
+                        url: '/Template/MappingList',
+                        method: 'get',
+                        pagination: true,
+                        pageNumber: 1,
+                        pageList: [10, 20, 30]
+                    ">
+                <thead>
+                    <tr>
+                        <th data-options="field:'MappingFormID',width:80">序号</th>
+                        <th data-options="field:'Table_Name',width:200">Table名称</th>
+                        <th data-options="field:'FormID',width:160">单据id</th>
+                        <th data-options="field:'Approved',width:100,formatter:rowformatter">签核状态标志</th>
+                    </tr>
+                </thead>
+            </table>*@
+    </div>
+</div>

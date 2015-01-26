@@ -1,0 +1,188 @@
+﻿@{
+    var item = Model.Parameters["Data"];
+}
+<script type="text/javascript">
+    function addClick() {
+        cancleClickRow();
+        $('#EDelBtn').linkbutton('disable');//删除按钮不可用
+        $("#datagrid1").datagrid("unselectAll");
+    }
+    function delClick() {
+        $.extend($.messager.defaults, {
+            ok: "确定", cancel: "取消"
+        })
+        $.messager.confirm("提示", "确认删除选择项？", function (r) {
+            if (r) {
+                $("#DeleteCheck").val('on');//删除checkbox选中
+                $('#EDelBtn').linkbutton('disable');//删除不按钮可用
+                Submit();//执行
+            }
+        })
+    }
+    function onClickRow(rowIndex, rowData) {
+        $('#StartDate').textbox('setValue', rowData['StartDate']);
+        $('#EndDate').textbox('setValue', rowData['EndDate']);
+        $('#SkillUnit').textbox('setValue', rowData['SkillUnit']);
+        $('#SkillName').textbox('setValue', rowData['SkillName']);
+        $('#Certificate').textbox('setValue', rowData['Certificate']);
+        $('#EDelBtn').linkbutton('enable');//删除按钮可用
+    }
+    function cancleClickRow(rowIndex, rowData) {
+        $('#StartDate').textbox('setValue', '');
+        $('#EndDate').textbox('setValue', '');
+        $('#SkillUnit').textbox('setValue', '');
+        $('#SkillName').textbox('setValue', '');
+        $('#Certificate').textbox('setValue', '');
+        $("#DeleteCheck").val('');//删除checkbox取消选中
+        $('#EDelBtn').linkbutton('disable');//删除不按钮可用
+    }
+    function Submit() {
+        if ($("#dataform").form('validate')) {
+            $.ajax({
+                url: "/Page/P01011/UpdateSkill",
+                type: "post",
+                data: $("#dataform").serialize(),
+                dataType: "json",
+                success: function (result) {
+                    if (result.HasError) {
+                        showError(result.ErrorMessage);
+                        if (result.ErrorMessage == '新增成功！' || result.ErrorMessage == '更新成功！' || result.ErrorMessage == '删除成功！') {
+                            $('#datagrid1').datagrid('reload');
+                            cancleClickRow();
+                        }
+                    }
+                    else {
+                    }
+                },
+                error: function (d, error) {
+                    showError(error);
+                }
+            });
+        }
+    }
+</script>
+
+<style>
+    .edit-panel3 {
+        padding: 5px 0px;
+        margin-top: 5px;
+        width: 530px;
+        height: 20px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+</style>
+
+<form method="post" id="dataform" class="form-dialog">
+
+    <div class="edit-dialog1" style="width:530px">
+
+        <div class="edit-panel3">
+
+            <div class="edit-field1">
+                <div class="edit-title1"><label class="edit-label1">公司：</label></div>
+                <div class="edit-content">
+                    <input class="edit-input easyui-textbox " value="@item["CompanyName"]" readonly="readonly" />
+                    <input value="@item["EmployeeID"]" readonly="readonly" type="hidden" name="EmployeeID" />
+                </div>
+            </div>
+            <div class="edit-field1">
+                <div class="edit-title1"><label class="edit-label1">部门：</label></div>
+                <div class="edit-content">
+                    <input class="edit-input easyui-textbox " value="@item["DeptName"]" readonly="readonly" />
+                </div>
+            </div>
+        </div>
+        <div class="edit-panel3">
+
+            <div class="edit-field1">
+                <div class="edit-title1"><label class="edit-label1">职位：</label></div>
+                <div class="edit-content">
+                    <input class="edit-input easyui-textbox " value="@item["JobName"]" readonly="readonly" />
+                </div>
+            </div>
+
+            <div class="edit-field1">
+                <div class="edit-title1"><label class="edit-label1">姓名：</label></div>
+                <div class="edit-content">
+                    <input class="edit-input easyui-textbox " value="@item["Name"]" readonly="readonly" />
+                </div>
+            </div>
+
+        </div>
+
+        <div class="edit-panel3" style="height:110px;width:434px;margin-left:70px">
+            <table id="datagrid1" style="height:110px;width:434px;" class="easyui-datagrid" data-options="url:'/Page/P01011/GetSkillData?EmployeeID=@item["EmployeeID"]',fitColumns:true,fit:true,rownumbers:true,singleSelect:true,nowrap: true,striped: true,collapsible: false,resizable:true, onSelect: onClickRow,onUnselect: cancleClickRow">
+                <thead>
+                    <tr>
+                        <th data-options="field:'Esid',checkbox:true" hidden></th>
+                        <th data-options="field:'SkillUnit',fixed:true,">机构名称</th>
+                        <th data-options="field:'SkillName',fixed:true,">专业技能</th>
+                        <th data-options="field:'StartDate',fixed:true,">起始日期</th>
+                        <th data-options="field:'EndDate',fixed:true,">结束日期</th>
+                        <th data-options="field:'Certificate',fixed:true,">证书</th>
+                    </tr>
+                </thead>
+            </table>
+
+        </div>
+        <a class="easyui-linkbutton edit-button" style="margin-left:70px" data-options="iconCls:'icon-add'" href="javascript:void(0)" onclick="addClick()">新增</a>
+        <a class="easyui-linkbutton edit-button" data-options="iconCls:'icon-cancel',disabled:true" onclick="delClick()" id="EDelBtn">删除</a>
+        <div class="edit-panel3">
+
+            <div class="edit-field1">
+                <div class="edit-title1"><label class="edit-label1">起始日期：</label></div>
+                <div class="edit-content">
+                    <input id="StartDate" class="edit-input easyui-datebox" name="StartDate" data-options="missingMessage:'请选择起始日期',required:true" />
+                </div>
+            </div>
+
+            <div class="edit-field1">
+                <div class="edit-title1"><label class="edit-label1">结束日期：</label></div>
+                <div class="edit-content">
+                    <input id="EndDate" class="edit-input easyui-datebox" name="EndDate" data-options="missingMessage:'请选择结束日期',validType:'dateCompare[\'#StartDate\']',invalidMessage:'结束日期必须大于开始日期',required:true" />
+                </div>
+            </div>
+        </div>
+
+        <div class="edit-panel3">
+
+            <div class="edit-field1">
+                <div class="edit-title1"><label class="edit-label1">机构名称：</label></div>
+                <div class="edit-content">
+                    <input id="SkillUnit" class="edit-input easyui-textbox " name="SkillUnit" data-options="missingMessage:'请输入机构名称',required:true,validType:'length[1,50]',invalidMessage:'名称不得超过50个字符'" />
+                </div>
+            </div>
+
+            <div class="edit-field1">
+                <div class="edit-title1"><label class="edit-label1">专业技能：</label></div>
+                <div class="edit-content">
+                    <input id="SkillName" class="edit-input easyui-textbox " name="SkillName" data-options="missingMessage:'请输入专业技能',required:true,validType:'length[1,20]',invalidMessage:'名称不得超过20个字符'" />
+                </div>
+            </div>
+
+        </div>
+
+        <div class="edit-panel3">
+            <div class="edit-field1">
+                <div class="edit-title1"><label class="edit-label1">证书：</label></div>
+                <div class="edit-content">  <input id="Certificate" class="edit-input easyui-textbox " name="Certificate" data-options="missingMessage:'请输入证书',required:true,validType:'length[1,20]',invalidMessage:'名称不得超过20个字符'" /></div>
+            </div>
+        </div>
+        <div class="edit-panel3">
+            <div class="edit-field1">
+                <div class="edit-content">
+                    <input class="edit-input" name="DeleteCheck" id="DeleteCheck" type="hidden" />
+                </div>
+            </div>
+            <div class="edit-field1">
+                <div class="showmsg"><label id="showmsg"></label></div>
+            </div>
+        </div>
+
+    </div>
+</form>
+<div class="dialog-button">
+    <a class="easyui-linkbutton edit-button" data-options="iconCls:'icon-ok'" onclick="Submit()">确定</a>
+    <a class="easyui-linkbutton edit-button" data-options="iconCls:'icon-cancel'" onclick="cancel()">取消</a>
+</div>

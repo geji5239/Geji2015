@@ -1,0 +1,143 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{27223D17-AC36-44E6-AEAA-51A34A706937}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ConfigTools</RootNamespace>
+    <AssemblyName>ConfigTools</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>false</DebugSymbols>
+    <DebugType>none</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>.\</OutputPath>
+    <DefineConstants>
+    </DefineConstants>
+    <ErrorReport>none</ErrorReport>
+    <WarningLevel>0</WarningLevel>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="appsettings.xml" />
+    <None Include="ConfigTool.exe.config" />
+    <None Include="EntityFramework.dll" />
+    <None Include="EntityFramework.SqlServer.dll" />
+    <None Include="FirstFloor.ModernUI.dll" />
+    <None Include="log4net.dll" />
+    <None Include="Microsoft.Windows.Shell.dll" />
+    <None Include="Newtonsoft.Json.dll" />
+    <None Include="Script.NET.chm" />
+    <None Include="System.Web.Mvc.dll" />
+    <None Include="Telerik.Windows.Controls.Data.dll" />
+    <None Include="Telerik.Windows.Controls.dll" />
+    <None Include="Telerik.Windows.Controls.GridView.dll" />
+    <None Include="Telerik.Windows.Controls.Input.dll" />
+    <None Include="Telerik.Windows.Data.dll" />
+    <None Include="Telerik.Windows.Themes.Office2013.dll" />
+    <None Include="Panasia.Core.Web.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Images\accept.png" />
+    <None Include="Images\button.png" />
+    <None Include="Images\checkbox.png" />
+    <None Include="Images\combobox.png" />
+    <None Include="Images\date.png" />
+    <None Include="Images\error.png" />
+    <None Include="Images\form.png" />
+    <None Include="Images\groupbox.png" />
+    <None Include="Images\image.png" />
+    <None Include="Images\label.png" />
+    <None Include="Images\panel.png" />
+    <None Include="Images\pickbox.png" />
+    <None Include="Images\test.png" />
+    <None Include="Images\table.png" />
+    <None Include="Images\textbox.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Antlr3.Runtime.dll" />
+    <Content Include="ConfigTool.exe" />
+    <Content Include="LinqToExcel.dll" />
+    <Content Include="Microsoft.CSharp.dll" />
+    <Content Include="Microsoft.ReportViewer.Common.dll" />
+    <Content Include="Microsoft.ReportViewer.DataVisualization.DLL" />
+    <Content Include="Microsoft.ReportViewer.Design.DLL" />
+    <Content Include="Microsoft.ReportViewer.ProcessingObjectModel.DLL" />
+    <Content Include="Microsoft.ReportViewer.WebDesign.DLL" />
+    <Content Include="Microsoft.ReportViewer.WebForms.DLL" />
+    <Content Include="Microsoft.ReportViewer.WinForms.DLL" />
+    <Content Include="Microsoft.SqlServer.Types.dll" />
+    <Content Include="Microsoft.Web.Infrastructure.dll" />
+    <Content Include="Microsoft.Windows.Design.Extensibility.dll" />
+    <Content Include="Microsoft.Windows.Design.Interaction.dll" />
+    <Content Include="Panasia.Core.App.dll" />
+    <Content Include="Panasia.Core.AppUI.dll" />
+    <Content Include="Panasia.Core.Auth.dll" />
+    <Content Include="Panasia.Core.Commands.dll" />
+    <Content Include="Panasia.Core.Commands.UI.dll" />
+    <Content Include="Panasia.Core.Contents.dll" />
+    <Content Include="Panasia.Core.dll" />
+    <Content Include="Panasia.Core.Email.dll" />
+    <Content Include="Panasia.Core.Sys.dll" />
+    <Content Include="Panasia.Core.Web.WpfUI.dll" />
+    <Content Include="Panasia.Core.Wpf.dll" />
+    <Content Include="RazorEngine.dll" />
+    <Content Include="Remotion.Data.Linq.dll" />
+    <Content Include="Remotion.dll" />
+    <Content Include="Remotion.Interfaces.dll" />
+    <Content Include="Scripting.SSharp.dll" />
+    <Content Include="System.ComponentModel.Composition.dll" />
+    <Content Include="System.ComponentModel.DataAnnotations.dll" />
+    <Content Include="System.Data.DataSetExtensions.dll" />
+    <Content Include="System.Data.dll" />
+    <Content Include="System.dll" />
+    <Content Include="System.Net.Http.dll" />
+    <Content Include="System.Net.Http.Formatting.dll" />
+    <Content Include="System.Net.Http.WebRequest.dll" />
+    <Content Include="System.Web.dll" />
+    <Content Include="System.Web.Extensions.dll" />
+    <Content Include="System.Web.Helpers.dll" />
+    <Content Include="System.Web.Http.dll" />
+    <Content Include="System.Web.Http.WebHost.dll" />
+    <Content Include="System.Web.Optimization.dll" />
+    <Content Include="System.Web.Providers.dll" />
+    <Content Include="System.Web.Razor.dll" />
+    <Content Include="System.Web.WebPages.Deployment.dll" />
+    <Content Include="System.Web.WebPages.dll" />
+    <Content Include="System.Web.WebPages.Razor.dll" />
+    <Content Include="System.Xml.dll" />
+    <Content Include="System.Xml.Linq.dll" />
+    <Content Include="Telerik.Windows.Controls.Navigation.dll" />
+    <Content Include="WebGrease.dll" />
+    <Content Include="WebMatrix.Data.dll" />
+    <Content Include="what%27s new.txt" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

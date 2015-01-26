@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<MvcEditPage xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" PageID="P01123" Controller="" DefaultAction="Index">
+  <Layout EditFieldClass="edit-field" />
+  <Buttons />
+  <EditSource>
+    <Fields />
+    <ChildTables />
+  </EditSource>
+</MvcEditPage>

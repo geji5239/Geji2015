@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Data Type="EmailSendItem">
+	<SendItem Name="名称，这个不重要，随便" Priority="High" Remark="">
+		<From>
+			<EmailItem Name="发送者名字" Email="发送者的邮箱地址，这个要和下面的服务器登录对应" Encoding="utf-8" />
+		</From>
+		<To>
+			<EmailItem Name="接收者的名字" Email="接收者的邮箱地址" Encoding="utf-8" />
+		</To>
+		<Cc>
+			<EmailItem Name="抄送者的名字" Email="抄送者的邮箱地址" Encoding="utf-8" />
+		</Cc>
+		<BCc />
+		<Subject Content="this is a title" Encoding="utf-8" />
+		<Host Type="Exchange" Address="这里填邮箱服务器地址，一般是smtp.xxxxx.com，也可以是IP等等" 
+          Port="" EnableSsl="false" />
+		<Credentials UserID="这里填邮箱用户名" Password="这里填邮箱密码" />
+		<Body IsBodyHtml="true" Encoding="utf-8" Content="" />
+		<Attachments />
+	</SendItem>
+</Data>

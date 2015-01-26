@@ -1,0 +1,334 @@
+<?xml version="1.0"?>
+<MvcEditPage xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" PageID="P01107" Controller="" DefaultAction="Index">
+  <Action ActionID="3f885406-72ee-432a-957a-6cdf1637453c" Name="Index" Title="列表" ActionValue="1">
+    <Command CommandID="M01825" Name="列表页面" Description="这个命令会直接返回到客户端，无需后继命令" CommandType="IndexPageActionCommand"><![CDATA[<IndexPageActionCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ContentType="text/html">
+  <Page SettingType="IndexPage">
+    <ToolBar Tag="div" ID="toolbar" Class="toolbar-panel" PageID="P01107">
+      <Buttons>
+        <UIButton ID="btn-search" Class="easyui-linkbutton normal-button" Options="iconCls:'icon-search',plain:true" Title="检索" ActionValue="2" Action="showActDlg('检索','/Page/P01107/Search',400,300)" />
+        <UIButton ID="btn-detail" Class="easyui-linkbutton toolradio normal-button" Options="iconCls:'icon-detail',plain:true" Title="查看" ActionValue="4" Action="showActDlg_DGItemActDlg('datagrid','查看','/Page/P01107/Detail',400,300)" />
+        <UIButton ID="btn-edit" Class="easyui-linkbutton toolradio normal-button" Options="iconCls:'icon-import',plain:true" Title="归还" ActionValue="8" Action="showActDlg_DGItemActDlg('datagrid','修改','/Page/P01107/Edit',400,300)" />
+        <UIButton />
+      </Buttons>
+    </ToolBar>
+    <DataGrid Tag="table" ID="datagrid" Class="easyui-datagrid" Options="url:'/Page/P01107/Query',fit:true,pagination: true,rownumbers: true,nowrap: true,striped: true,collapsible: false,resizable:true,onClickRow:oncheckstate,onSelect:oncheckstate,onCheck:oncheckstate,onCheckAll:oncheckstate,onUncheckAll:oncheckstate,onUncheck:oncheckstate,onUnselect:oncheckstate" Key="AssetID">
+      <Column Title="编号" FieldName="AssetID" ColumnWidth="29" IsCheckBox="true" />
+      <Column Title="资产名称" FieldName="AssetName" />
+      <Column Title="资产类别" FieldName="Category" />
+      <Column Title="条码编号" FieldName="BarCard" ColumnWidth="100" />
+      <Column Title="规格型号" FieldName="SpecificationsModel" />
+      <Column HAlign="Center" Title="单位" FieldName="UnitName" ColumnWidth="38" />
+      <Column HAlign="Center" Title="增加方式" FieldName="AddType" ColumnWidth="62" />
+      <Column Title="所属公司" FieldName="CName" />
+      <Column Title="使用部门" FieldName="DName" />
+      <Column Title="使用员工" FieldName="EName" ColumnWidth="62" />
+      <Column Options="hidden:true" Title="仓库名称" FieldName="WHName" />
+      <Column Options="hidden:true" HAlign="Center" Title="储位编号" FieldName="LOCNO" ColumnWidth="62" />
+      <Column HAlign="Right" Title="购入价格" FieldName="Price" ColumnWidth="62" />
+      <Column HAlign="Center" Title="购置时间" FieldName="BuyDate" ColumnWidth="76" />
+      <Column Title="供应商" FieldName="SupplierName" />
+      <Column Title="质保说明" FieldName="QualityDescription" />
+      <Column HAlign="Right" Title="使用年限" FieldName="UseYear" ColumnWidth="62" />
+      <Column HAlign="Center" Title="使用情况" FieldName="UseCondition" ColumnWidth="70" />
+      <Column HAlign="Center" Title="领用时间" FieldName="AADATE" ColumnWidth="76" />
+      <Column Options="hidden:true" HAlign="Right" Title="月折旧率" FieldName="Monatsquote" ColumnWidth="62" />
+      <Column Options="hidden:true" HAlign="Right" Title="月折旧额" FieldName="MonthDepreciation" ColumnWidth="62" />
+      <Column Options="hidden:true" HAlign="Right" Title="累计折旧" FieldName="AccumulatedDepreciation" ColumnWidth="62" />
+      <Column Options="hidden:true" HAlign="Right" Title="净值" FieldName="NetAsset" ColumnWidth="62" />
+      <Column Options="hidden:true" HAlign="Center" Title="报废类型" FieldName="ScrapType" ColumnWidth="62" />
+      <Column Options="hidden:true" HAlign="Center" Title="维修类型" FieldName="RepairType" ColumnWidth="62" />
+      <Column Options="hidden:true" Title="状态" FieldName="Status" ColumnWidth="62" />
+      <Column Title="备注" FieldName="Remark" />
+    </DataGrid>
+  </Page>
+</IndexPageActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="02b7b319-bbe1-43c3-96c6-448c34c8928f" Name="Search" Title="检索" ActionValue="2">
+    <Command CommandID="M01845" Name="检索页面" Description="这个命令会直接返回到客户端，无需后继命令" CommandType="EditDialogActionCommand"><![CDATA[<EditDialogActionCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ContentType="text/html">
+  <Page SettingType="EditDialog">
+    <Form ID="dataform" Class="form-dialog" EditPanelClass="edit-panel-w2">
+      <TableLayout />
+      <Fields>
+        <Field Title="条码编号" FieldType="TextBox">
+          <Input Tag="input" Name="BarCard" Class="easyui-textbox edit-input" Binding="BarCard" IsRequired="false" Length="20" />
+        </Field>
+        <Field Title="资产名称" FieldType="TextBox">
+          <Input Tag="input" Name="AssetName" Class="easyui-textbox edit-input" Binding="AssetName" IsRequired="false" Length="50" />
+        </Field>
+        <Field Title="资产类别" FieldType="ComboTree">
+          <ComboTree Tag="input" Name="CategoryID" Class="edit-input easyui-combotree" Binding="CategoryID" IsRequired="false" Length="6" DataUrl="/Share/Query?name=CategoryTreeForQuery&amp;resultformat=jsontree&amp;root=000000&amp;pid=PID&amp;id=ID&amp;text=Name" DisplayMember="text" ValueMember="id" IsAutoHeight="false" />
+        </Field>
+        <Field Title="增加方式" FieldType="ComboBox">
+          <ComboBox Tag="input" Name="AddType" Class="easyui-combobox edit-input" Options="editable:false" Binding="AddType" IsRequired="false" DisplayMember="Name" ValueMember="Code" DataUrl="/Share/GetSystemCodes?code=C074" />
+        </Field>
+        <Field Title="所属公司" FieldType="ComboBox">
+          <ComboBox Tag="input" Name="CompanyID" Class="edit-input easyui-combobox" Options="editable:false" Binding="CompanyID" IsRequired="false" Length="8" DisplayMember="Name" ValueMember="ID" DataUrl="/Share/Query?name=GetAllAreaCode" IsAutoHeight="false" OnSelect="function(rec){&#xD;&#xA;var url='/Share/Query?name=GetDeptTreeByCompanyID&amp;resultformat=jsontree&amp;root='+rec.ID+'&amp;pid=PID&amp;id=ID&amp;text=Name&amp;CompanyID='+rec.ID;&#xD;&#xA;var url1='/Share/Query?name=GetEmpByDeptAndJob&amp;JobID=xxxxxx&amp;DeptID=xxxxxx';&#xD;&#xA;var url2='/Share/Query?name=GetWHByCompany&amp;CompanyID='+rec.ID&#xD;&#xA;$('#EmployeeID').textbox('setValue','');&#xD;&#xA;$('#Department').combotree({url:url});&#xD;&#xA;$('#EmployeeID').combobox({url:url1});&#xD;&#xA;$('#WhCd').combobox({url:url2});&#xD;&#xA;}" />
+        </Field>
+        <Field Title="仓库名称" FieldType="ComboBox">
+          <ComboBox Tag="input" ID="WhCd" Name="WhCd" Class="easyui-combobox edit-input" Options="editable:false" Binding="WhCd" IsRequired="false" Length="4" DisplayMember="Name" ValueMember="ID" DataUrl="/Share/Query?name=GetWHByCompany&amp;CompanyID=XXXXXX" IsAutoHeight="false" OnSelect="function(rec){&#xD;&#xA;var url='/Share/Query?name=GetLocByWH&amp;WhCd='+rec.ID;&#xD;&#xA;$('#LOCNO').combobox({url:url});&#xD;&#xA;}" />
+        </Field>
+        <Field Title="使用部门" FieldType="ComboTree">
+          <ComboTree Tag="input" ID="Department" Name="DeptID" Class="edit-input easyui-combotree" Binding="DeptID" IsRequired="false" Length="8" DataUrl="/Share/Query?name=GetDeptTreeByCompanyID&amp;resultformat=jsontree&amp;root=000000&amp;pid=PID&amp;id=ID&amp;text=Name&amp;CompanyID=xxxxxx" DisplayMember="text" ValueMember="id" IsAutoHeight="false" OnSelect="function(rec){&#xD;&#xA;var url='/Share/Query?name=GetEmpByDeptAndJob&amp;JobID=&amp;DeptID='+rec.id;&#xD;&#xA;$('#EmployeeID').combobox({url:url});&#xD;&#xA;}" />
+        </Field>
+        <Field Title="使用情况" FieldType="ComboBox">
+          <ComboBox Tag="input" Name="UseCondition" Class="easyui-combobox edit-input" Options="editable:false" Binding="UseCondition" IsRequired="false" Length="10" DisplayMember="Name" ValueMember="Code" DataUrl="/Share/GetSystemCodes?code=C075" />
+        </Field>
+        <Field Title="使用员工" FieldType="ComboBox">
+          <ComboBox Tag="input" ID="EmployeeID" Name="EmployeeID" Class="edit-input easyui-combobox" Binding="EmployeeID" IsRequired="false" Length="8" DisplayMember="Name" ValueMember="ID" DataUrl="/Share/Query?name=GetEmpByDeptAndJob&amp;DeptID=xxxxxx&amp;JobID=xxxxxx" IsAutoHeight="false" />
+        </Field>
+        <Field Title="供应商" FieldType="ComboBox">
+          <ComboBox Tag="input" Name="SupplierID" Class="easyui-combobox edit-input" Binding="SupplierID" IsRequired="false" Length="8" DisplayMember="Name" ValueMember="ID" DataUrl="/Share/Query?name=GetAssetSupplier" />
+        </Field>
+        <Field Title="购置时间" FieldType="DateBox">
+          <DateBox Tag="input" Name="BuyDateBegin" Class="easyui-datebox edit-input" Binding="BuyDateBegin" IsRequired="false" Length="100" />
+        </Field>
+        <Field Title="至" FieldType="DateBox">
+          <DateBox Tag="input" Name="BuyDateEnd" Class="easyui-datebox edit-input" Binding="BuyDateEnd" IsRequired="false" Length="100" />
+        </Field>
+        <Field Title="状态" FieldType="Hidden">
+          <Input Tag="input" Name="Status" Class="edit-input" InputType="hidden" Binding="Status" IsRequired="false" IsHidden="true" />
+        </Field>
+      </Fields>
+      <ToolBar Tag="div" ID="toolbar" Class="dialog-button" PageID="P01107">
+        <Buttons>
+          <UIButton ID="btn-query" Class="easyui-linkbutton edit-button" Options="iconCls:'icon-ok'" Title="确定" ActionValue="2" Action="submitAct_DGReplace('dataform','/Page/P01107/Query','datagrid')" />
+          <UIButton ID="btn-cancel" Class="easyui-linkbutton edit-button" Options="iconCls:'icon-cancel'" Title="取消" Action="cancel()" />
+        </Buttons>
+      </ToolBar>
+    </Form>
+  </Page>
+</EditDialogActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="40fe6600-f6d8-450e-bdc1-02550c675428" Name="Query" Title="检索" ActionValue="2" ErrorCommand="搜索结果">
+    <Command CommandID="M01846" Name="查询总数" Description="本查询的结果值为JSON，参数路径为Results[检索分页].Json" CommandType="ScalarSqlCommand"><![CDATA[<ScalarCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" NextCommand="分页查询" GroupName="固定资产" TableName="zc_Asset" CommandName="QueryCount" SqlType="Scalar">
+  <Parameter Name="BuyDateBegin" Path="Request[BuyDateBegin]" Type="Parameter" Converter="Trim" />
+  <Parameter Name="BuyDateEnd" Path="Request[BuyDateEnd]" Type="Parameter" Converter="Trim" />
+  <Parameter Name="BarCard" Path="Request[BarCard]" Type="Parameter" Converter="Trim" />
+  <Parameter Name="AssetName" Path="Request[AssetName]" Type="Parameter" Converter="Trim" />
+  <Parameter Name="CategoryID" Path="Request[CategoryID]" Type="Parameter" Converter="Trim" />
+  <Parameter Name="AddType" Path="Request[AddType]" Type="Parameter" Converter="Trim" />
+  <Parameter Name="CompanyID" Path="Request[CompanyID]" Type="Parameter" Converter="Trim" />
+  <Parameter Name="DeptID" Path="Request[DeptID]" Type="Parameter" Converter="Trim" />
+  <Parameter Name="EmployeeID" Path="Request[EmployeeID]" Type="Parameter" Converter="Trim" />
+  <Parameter Name="WhCd" Path="Request[WhCd]" Type="Parameter" Converter="Trim" />
+  <Parameter Name="LOCNO" Path="Request[LOCNO]" Type="Parameter" Converter="Trim" />
+  <Parameter Name="SupplierID" Path="Request[SupplierID]" Type="Parameter" Converter="Trim" />
+  <Parameter Name="UseCondition" Path="Request[UseCondition]" Type="Const" DefaultValue="LY,JY" Converter="Trim" />
+  <Parameter Name="Depreciation" Path="Request[Depreciation]" Type="Parameter" Converter="Trim" />
+  <Parameter Name="ScrapType" Path="Request[ScrapType]" Type="Parameter" Converter="Trim" />
+  <Parameter Name="RepairType" Path="Request[RepairType]" Type="Parameter" Converter="Trim" />
+  <Parameter Name="Status" Path="Request[Status]" Type="Parameter" Converter="Trim" />
+  <Parameter Name="UserID" Path="CurrentUserID" Type="SystemParameter" />
+</ScalarCommand>]]></Command>
+    <Command CommandID="M01847" Name="分页查询" Description="本查询的结果值为JSON，参数路径为Results[检索分页].Json" CommandType="QuerySqlCommand"><![CDATA[<QueryCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" NextCommand="搜索结果" GroupName="固定资产" TableName="zc_Asset" CommandName="QueryPage">
+  <Parameter Name="BuyDateBegin" Path="Request[BuyDateBegin]" Type="Parameter" Converter="Trim" />
+  <Parameter Name="BuyDateEnd" Path="Request[BuyDateEnd]" Type="Parameter" Converter="Trim" />
+  <Parameter Name="BarCard" Path="Request[BarCard]" Type="Parameter" Converter="Trim" />
+  <Parameter Name="AssetName" Path="Request[AssetName]" Type="Parameter" Converter="Trim" />
+  <Parameter Name="CategoryID" Path="Request[CategoryID]" Type="Parameter" Converter="Trim" />
+  <Parameter Name="AddType" Path="Request[AddType]" Type="Parameter" Converter="Trim" />
+  <Parameter Name="CompanyID" Path="Request[CompanyID]" Type="Parameter" Converter="Trim" />
+  <Parameter Name="DeptID" Path="Request[DeptID]" Type="Parameter" Converter="Trim" />
+  <Parameter Name="EmployeeID" Path="Request[EmployeeID]" Type="Parameter" Converter="Trim" />
+  <Parameter Name="WhCd" Path="Request[WhCd]" Type="Parameter" Converter="Trim" />
+  <Parameter Name="LOCNO" Path="Request[LOCNO]" Type="Parameter" Converter="Trim" />
+  <Parameter Name="SupplierID" Path="Request[SupplierID]" Type="Parameter" Converter="Trim" />
+  <Parameter Name="UseCondition" Path="Request[UseCondition]" Type="Const" DefaultValue="LY,JY" Converter="Trim" />
+  <Parameter Name="Depreciation" Path="Request[Depreciation]" Type="Parameter" Converter="Trim" />
+  <Parameter Name="ScrapType" Path="Request[ScrapType]" Type="Parameter" Converter="Trim" />
+  <Parameter Name="RepairType" Path="Request[RepairType]" Type="Parameter" Converter="Trim" />
+  <Parameter Name="Status" Path="Request[Status]" Type="Parameter" Converter="Trim" />
+  <Parameter Name="Page" Path="Request[Page]" Type="Parameter" />
+  <Parameter Name="Rows" Path="Request[Rows]" Type="Parameter" />
+  <Parameter Name="UserID" Path="CurrentUserID" Type="SystemParameter" />
+</QueryCommand>]]></Command>
+    <Command CommandID="M01848" Name="搜索结果" Description="返回搜索结果" CommandType="JsonActionCommand"><![CDATA[<JsonActionCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ContentType="application/json">
+  <Parameter Name="total" Path="Results[查询总数].Value" Type="Parameter" />
+  <Parameter Name="rows" Path="Results[分页查询].Items" Type="Parameter" />
+  <Parameter Name="HasError" Path="LastResult.IsError" Type="Parameter" />
+  <Parameter Name="ErrorMessage" Path="LastResult.ErrorMessage" Type="Parameter" />
+</JsonActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="16b61243-3d56-4704-9703-da60cede5993" Name="Detail" Title="查看" ActionValue="4" ErrorCommand="查看页面">
+    <Command CommandID="M01830" Name="查询明细" Description="查询明细" CommandType="QuerySqlCommand"><![CDATA[<QueryCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" NextCommand="查看页面" GroupName="固定资产" TableName="zc_Asset" CommandName="GetDetail">
+  <Parameter Name="AssetID" Path="Request[ID]" Type="Parameter" />
+</QueryCommand>]]></Command>
+    <Command CommandID="M01845" Name="查看信息" CommandType="RazorContentActionCommand"><![CDATA[<RazorContentActionCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ContentType="text/xml" TemplateFile="\Asset\AssetDetail.cshtml" SettingType="EditDialog">
+  <Parameter Name="Data" Path="LastResult.Item" Type="Parameter" />
+</RazorContentActionCommand>]]></Command>
+    <Command CommandID="M01831" Name="查看页面" Description="这个命令会直接返回到客户端，无需后继命令" CommandType="EditDialogActionCommand"><![CDATA[<EditDialogActionCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ContentType="text/html">
+  <Parameter Name="Data" Path="LastResult.Items" Type="Parameter" />
+  <Page SettingType="EditDialog">
+    <Form ID="dataform" Class="form-dialog" DataBinding="Parameters[Data]" EditPanelClass="edit-panel-w2">
+      <TableLayout />
+      <Fields>
+        <Field Title="条码编号" FieldType="TextBox">
+          <Input Tag="input" Name="BarCard" Class="edit-input easyui-textbox " Binding="BarCard" IsReadOnly="true" IsRequired="false" Length="20" />
+        </Field>
+        <Field Title="资产类别" FieldType="TextBox">
+          <Input Tag="input" Name="CategoryID" Class="edit-input easyui-textbox " Binding="Category" IsReadOnly="true" IsRequired="false" Length="6" />
+        </Field>
+        <Field Title="资产名称" FieldType="TextBox">
+          <Input Tag="input" Name="AssetName" Class="edit-input easyui-textbox " Binding="AssetName" IsReadOnly="true" IsRequired="false" Length="50" />
+        </Field>
+        <Field Title="增加方式" FieldType="TextBox">
+          <ComboBox Tag="input" Name="AddType" Class="edit-input easyui-textbox " Binding="AddType" IsReadOnly="true" IsRequired="false" DisplayMember="Name" ValueMember="Code" DataUrl="/Share/GetSystemCodes?code=C074" />
+        </Field>
+        <Field Title="规格型号" FieldType="TextBox">
+          <Input Tag="input" Name="SpecificationsModel" Class="edit-input easyui-textbox " Binding="SpecificationsModel" IsReadOnly="true" IsRequired="false" Length="20" />
+        </Field>
+        <Field Title="单位" FieldType="TextBox">
+          <ComboBox Tag="input" Name="UnitID" Class="edit-input easyui-textbox " Binding="UnitName" IsReadOnly="true" IsRequired="false" Length="6" DisplayMember="Name" ValueMember="ID" DataUrl="/Share/Query?name=GetUnit" IsAutoHeight="false" />
+        </Field>
+        <Field Title="所属公司 " FieldType="TextBox">
+          <Input Tag="input" Name="CompanyID" Class="edit-input easyui-textbox " Binding="CName" IsReadOnly="true" IsRequired="false" Length="8" />
+        </Field>
+        <Field Title="仓库名称" FieldType="TextBox">
+          <Input Tag="input" ID="WhCd" Name="WhCd" Class="edit-input easyui-textbox " Binding="WHName" IsReadOnly="true" IsRequired="false" Length="4" />
+        </Field>
+        <Field Title="使用部门" FieldType="TextBox">
+          <Input Tag="input" ID="Department" Name="DeptID" Class="edit-input easyui-textbox " Binding="DName" IsReadOnly="true" IsRequired="false" Length="8" />
+        </Field>
+        <Field Title="使用员工" FieldType="TextBox">
+          <Input Tag="input" ID="EmployeeID" Name="EmployeeID" Class="edit-input easyui-textbox " Binding="EName" IsReadOnly="true" IsRequired="false" Length="8" />
+        </Field>
+        <Field Title="购入价格" FieldType="NumberBox">
+          <NumericBox Tag="input" Name="Price" Class="edit-input easyui-numberbox" Options="precision:2,groupSeparator:',',decimalSeparator:'.',min:0,max:99999999.99" Binding="Price" IsReadOnly="true" IsRequired="false" />
+        </Field>
+        <Field Title="购置日期" FieldType="TextBox">
+          <DateBox Tag="input" Name="BuyDate" Class="edit-input easyui-textbox " Binding="BuyDate" IsReadOnly="true" IsRequired="false" Length="100" />
+        </Field>
+        <Field Title="供应商" FieldType="TextBox">
+          <Input Tag="input" Name="SupplierID" Class="edit-input easyui-textbox " Binding="SupplierName" IsReadOnly="true" IsRequired="false" Length="8" />
+        </Field>
+        <Field Title="保修期(月)" FieldType="NumberBox">
+          <NumericBox Tag="input" Name="QualityMonth" Class="edit-input easyui-numberbox" Options="precision:0,groupSeparator:',',decimalSeparator:'.',min:0,max:120" Binding="QualityMonth" IsRequired="false" />
+        </Field>
+        <Field Title="使用年限" FieldType="TextBox">
+          <Input Tag="input" Name="UseYear" Class="edit-input easyui-textbox " Binding="UseYear" IsReadOnly="true" IsRequired="false" Length="50" />
+        </Field>
+        <Field Title="使用情况" FieldType="TextBox">
+          <Input Tag="input" Name="UseCondition" Class="edit-input easyui-textbox " Binding="UseCondition" IsReadOnly="true" IsRequired="false" Length="10" />
+        </Field>
+        <Field Title="状态" FieldType="Hidden">
+          <Input Tag="input" Name="Status" Class="edit-input" InputType="hidden" Binding="Status" IsEnable="false" IsReadOnly="true" IsRequired="false" IsHidden="true" />
+        </Field>
+        <Field Title="质保说明" FieldClass="edit-field-w2" ContentClass="edit-content-w2" FieldType="TextArea">
+          <Input Tag="input" Name="QualityDescription" Class="edit-input easyui-textbox " Style="width:444px;height:90px" Binding="Remark" IsReadOnly="true" IsRequired="false" Length="200" />
+        </Field>
+        <Field Title="备注" FieldClass="edit-field-w2" ContentClass="edit-content-w2" FieldType="TextArea">
+          <TextArea Tag="input" Name="Remark" Class="edit-input easyui-textbox " Style="width:444px;height:90px" Binding="Remark" IsReadOnly="true" IsRequired="false" Length="200" />
+        </Field>
+      </Fields>
+      <ToolBar Tag="div" ID="toolbar" Class="dialog-button" PageID="P01107">
+        <Buttons>
+          <UIButton Tag="a" ID="btn-close" Class="easyui-linkbutton edit-button" Options="iconCls:'icon-cancel'" Title="关闭" Action="cancel()" />
+        </Buttons>
+      </ToolBar>
+    </Form>
+  </Page>
+</EditDialogActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="8aa6b5f8-deae-40aa-a7c6-d0ffe5500803" Name="Edit" Title="归还" ErrorCommand="编辑页面">
+    <Command CommandID="M01835" Name="查询编辑" Description="查询编辑" CommandType="QuerySqlCommand"><![CDATA[<QueryCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" NextCommand="编辑页面" GroupName="固定资产" TableName="zc_Asset" CommandName="GetDetail">
+  <Parameter Name="AssetID" Path="Request[ID]" Type="Parameter" />
+</QueryCommand>]]></Command>
+    <Command CommandID="M01836" Name="编辑页面" Description="这个命令会直接返回到客户端，无需后继命令" CommandType="EditDialogActionCommand"><![CDATA[<EditDialogActionCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ContentType="text/html">
+  <Parameter Name="Data" Path="LastResult.Item" Type="Parameter" />
+  <Parameter Name="ConfirmedName" Path="CurrentUserProfiles" Type="SystemParameter" DefaultValue="EmployeeName" />
+  <Parameter Name="Date" Path="CurrentDateTime" Type="SystemParameter" />
+  <Page SettingType="EditDialog">
+    <Form ID="dataform" Class="form-dialog" DataBinding="Parameters[Data]" EditPanelClass="edit-panel-w2">
+      <TableLayout />
+      <Fields>
+        <Field Title="编号" FieldType="Hidden">
+          <Input Tag="input" Name="AssetID" Class="edit-input" InputType="hidden" Binding="AssetID" IsRequired="false" Length="20" IsHidden="true" />
+        </Field>
+        <Field Title="资产名称" FieldType="TextBox">
+          <Input Tag="input" Name="AssetName" Class="edit-input easyui-textbox " Binding="AssetName" IsReadOnly="true" IsRequired="false" Length="50" />
+        </Field>
+        <Field Title="条码编号" FieldType="TextBox">
+          <Input Tag="input" Name="BarCard" Class="edit-input easyui-textbox " Binding="BarCard" IsReadOnly="true" IsRequired="false" Length="20" />
+        </Field>
+        <Field Title="资产类别" FieldType="TextBox">
+          <Input Tag="input" Name="Category" Class="edit-input easyui-textbox " Binding="Category" IsReadOnly="true" IsRequired="false" Length="6" />
+        </Field>
+        <Field Title="规格型号" FieldType="TextBox">
+          <Input Tag="input" Name="SpecificationsModel" Class="edit-input easyui-textbox " Binding="SpecificationsModel" IsReadOnly="true" IsRequired="false" Length="20" />
+        </Field>
+        <Field Title="所属公司" FieldType="TextBox">
+          <Input Tag="input" Name="CName" Class="edit-input easyui-textbox " Binding="CName" IsReadOnly="true" IsRequired="false" Length="50" />
+        </Field>
+        <Field Title="领取日期" FieldType="DateBox">
+          <DateBox Tag="input" Class="edit-input easyui-datebox" Binding="AADATE" IsReadOnly="true" IsRequired="false" Length="100" />
+        </Field>
+        <Field Title="领取部门" FieldType="TextBox">
+          <Input Tag="input" Class="edit-input easyui-textbox " Options="missingMessage:'请选择部门'" Binding="DName" IsReadOnly="true" IsRequired="false" Length="8" />
+        </Field>
+        <Field Title="领取人" FieldType="TextBox">
+          <Input Tag="input" Class="edit-input easyui-textbox " Binding="EName" IsReadOnly="true" IsRequired="false" />
+        </Field>
+        <Field Title="归还日期" FieldType="DateBox">
+          <DateBox Tag="input" Name="AADATE" Class="edit-input easyui-datebox" Options="validType:'dateCompareNow[\'&lt;\']',invalidMessage:'归还日期必须早于当前日期'" Binding="/Parameters[Date]" />
+        </Field>
+        <Field Title="归还部门" FieldType="ComboTree">
+          <ComboTree Tag="input" Name="DeptID" Class="edit-input easyui-combotree" Options="missingMessage:'请选择部门'" Binding="DeptID" Length="8" DataUrl="/Share/Query?name=GetCompanyAndDeptAll&amp;resultformat=jsontree&amp;root=111111&amp;pid=PID&amp;id=ID&amp;text=Name" DisplayMember="text" ValueMember="id" IsAutoHeight="false" OnSelect="function(rec){&#xD;&#xA;var ID=rec.id;&#xD;&#xA;if(ID!=''){&#xD;&#xA;if(ID.charAt(0)!='D'){$('#Department').combotree('unselect',id);}&#xD;&#xA;else{&#xD;&#xA;var url='/Share/Query?name=GetEmpByDeptAndJob&amp;JobID=&amp;DeptID='+rec.id;&#xD;&#xA;$('#ScrapPerson').combobox({url:url});}&#xD;&#xA;}&#xD;&#xA;}" />
+        </Field>
+        <Field Title="归还人" FieldType="ComboBox">
+          <ComboBox Tag="input" ID="ScrapPerson" Name="ScrapPerson" Class="edit-input easyui-combobox" Options="editable:false" IsRequired="false" Length="8" DisplayMember="Name" ValueMember="ID" DataUrl="/Share/Query?name=GetEmpByDeptAndJob&amp;DeptID={@/Parameters[Data].DeptID}&amp;JobID=" IsAutoHeight="false" />
+        </Field>
+        <Field Title="仓库名称" FieldType="ComboBox">
+          <ComboBox Tag="input" Name="WhCd" Class="easyui-combobox edit-input" Options="editable:false" Binding="WhCd" IsRequired="false" Length="4" DisplayMember="Name" ValueMember="ID" DataUrl="/Share/Query?name=GetWHByCompany&amp;CompanyID={@/Parameters[Data].CompanyID}" />
+        </Field>
+        <Field Title="备注" FieldClass="edit-field-w2" ContentClass="edit-content-w2" FieldType="TextArea">
+          <TextArea Tag="input" Name="Remark" Class="edit-input easyui-textbox " Style="height:90px;width:444px" Options="invalid:'Length[1,200]',validMessage:'备注不得超过200字符',prompt:'备注不得超过200字符'" Binding="Remark" IsRequired="false" Length="200" />
+        </Field>
+        <Field Title="确认人" FieldType="TextBox">
+          <Input Tag="input" Name="ConfirmedName" Class="edit-input easyui-textbox " Binding="/Parameters[ConfirmedName]" IsReadOnly="true" IsRequired="false" Length="8" />
+        </Field>
+        <Field Title="确认时间" FieldType="TextBox">
+          <Input Tag="input" Name="ConfirmedDt" Class="edit-input easyui-textbox " Binding="/Parameters[Date]" IsReadOnly="true" IsRequired="false" Length="100" />
+        </Field>
+        <Field FieldType="Hidden">
+          <Input Tag="input" Name="CompanyID" Class="edit-input" InputType="hidden" Binding="CompanyID" IsRequired="false" IsHidden="true" />
+        </Field>
+      </Fields>
+      <ToolBar Tag="div" ID="toolbar" Class="dialog-button" PageID="P01107">
+        <Buttons>
+          <UIButton Tag="a" ID="btn-update" Class="easyui-linkbutton edit-button" Options="iconCls:'icon-ok'" Title="确定" ActionValue="16" Action="submitAct_DGUpdate('dataform','/Page/P01107/Update','datagrid')" />
+          <UIButton Tag="a" ID="btn-cancel" Class="easyui-linkbutton edit-button" Options="iconCls:'icon-cancel'" Title="取消" Action="cancel()" />
+        </Buttons>
+      </ToolBar>
+    </Form>
+  </Page>
+</EditDialogActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="eed4a27e-57e8-401c-88fe-54693d82bd61" Name="Update" Title="领用" ErrorCommand="结果">
+    <Command CommandID="M01839" Name="执行" Description="本查询的结果值为JSON，参数路径为Results[执行].Json" CommandType="QueryJsonSqlCommand"><![CDATA[<QueryJsonCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" NextCommand="结果" GroupName="固定资产" TableName="zc_AssetAlteration" CommandName="GuiHuan" SqlType="QueryJson">
+  <Parameter Name="AssetID" Path="Request[AssetID]" Type="Parameter" />
+  <Parameter Name="AADATE" Path="Request[AADATE]" Type="Parameter" />
+  <Parameter Name="WhCd" Path="Request[WhCd]" Type="Parameter" />
+  <Parameter Name="DeptID" Path="Request[DeptID]" Type="Parameter" />
+  <Parameter Name="ScrapPerson" Path="Request[ScrapPerson]" Type="Parameter" />
+  <Parameter Name="Remark" Path="Request[Remark]" Type="Parameter" />
+  <Parameter Name="ConfirmedBy" Path="CurrentUserProfiles" Type="SystemParameter" DefaultValue="EmployeeID" />
+  <Parameter Name="ConfirmedDt" Path="Request[ConfirmedDt]" Type="Parameter" />
+  <Parameter Name="CreatedUser" Path="CurrentUserID" Type="SystemParameter" />
+  <Parameter Name="CreatedTime" Path="CurrentDateTime" Type="SystemParameter" />
+  <Parameter Name="ModifiedUser" Path="CurrentUserID" Type="SystemParameter" />
+  <Parameter Name="ModifiedTime" Path="CurrentDateTime" Type="SystemParameter" />
+  <Parameter Name="CompanyID" Path="Request[CompanyID]" Type="Parameter" />
+</QueryJsonCommand>]]></Command>
+    <Command CommandID="M01840" Name="结果" Description="返回结果" CommandType="JsonActionCommand"><![CDATA[<JsonActionCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ContentType="application/json">
+  <Parameter Name="Data" Path="Results[执行].Json" Type="Parameter" />
+  <Parameter Name="HasError" Path="Results[执行].IsError" Type="Parameter" />
+  <Parameter Name="ErrorMessage" Path="Results[执行].ErrorMessage" Type="Parameter" />
+</JsonActionCommand>]]></Command>
+  </Action>
+  <Layout EditFieldClass="edit-field" />
+  <Buttons />
+  <EditSource>
+    <Fields />
+    <ChildTables />
+  </EditSource>
+</MvcEditPage>

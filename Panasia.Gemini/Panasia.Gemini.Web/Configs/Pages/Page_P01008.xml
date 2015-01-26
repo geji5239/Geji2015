@@ -1,0 +1,424 @@
+<?xml version="1.0"?>
+<MvcEditPage xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Controller="" DefaultAction="Index">
+  <Action ActionID="A01034" Name="Index" Title="列表" ActionValue="1">
+    <Command CommandID="M01134" Name="列表页面" Description="这个命令会直接返回到客户端，无需后继命令" CommandType="FormViewActionCommand"><![CDATA[<FormViewActionCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ContentType="text/html" ViewPath="~/Views/Page/Index.cshtml" SettingType="IndexPage">
+  <Form Style="border: 0px;top:40px;margin:10px;" Options="region:'center'" IsContainer="false">
+    <Controls>
+      <StackPanel Class="content-padding" Options="region:'north'">
+        <Controls>
+          <ToolBar ID="toolbar" Class="toolbar-panel">
+            <Controls>
+              <StackPanel Class="toolbutton">
+                <Controls>
+                  <Button ID="btn-search" Class="easyui-linkbutton normal-button" Options="iconCls:'icon-search',plain:true" Title="检索" Action="showActDlg('检索','/Page/P01008/Search', 400, 300)" ActionValue="2" />
+                  <StackPanel Class="datagrid-btn-separator">
+                    <Controls />
+                  </StackPanel>
+                </Controls>
+              </StackPanel>
+              <StackPanel Class="toolbutton">
+                <Controls>
+                  <Button ID="btn-detail" Class="easyui-linkbutton toolradio normal-button" Options="iconCls:'icon-detail',plain:true" Title="查看" Action="showActDlg_DGItemActDlg('datagrid','查看','/Page/P01008/Detail',400,300)" />
+                  <StackPanel Class="datagrid-btn-separator">
+                    <Controls />
+                  </StackPanel>
+                </Controls>
+              </StackPanel>
+              <StackPanel Class="toolbutton">
+                <Controls>
+                  <Button ID="btn-create" Class="easyui-linkbutton normal-button" Options="iconCls:'icon-add',plain:true" Title="新增" Action="showActDlg('新增','/Page/P01008/Create',400,300)" ActionValue="4" />
+                  <StackPanel Class="datagrid-btn-separator">
+                    <Controls />
+                  </StackPanel>
+                </Controls>
+              </StackPanel>
+              <StackPanel Class="toolbutton">
+                <Controls>
+                  <Button ID="btn-edit" Class="easyui-linkbutton toolradio normal-button" Options="iconCls:'icon-edit',plain:true" Title="修改" Action="showActDlg_DGItemActDlg('datagrid','编辑','/Page/P01008/Edit',400,300)" ActionValue="8" />
+                  <StackPanel Class="datagrid-btn-separator">
+                    <Controls />
+                  </StackPanel>
+                </Controls>
+              </StackPanel>
+              <StackPanel Class="toolbutton">
+                <Controls>
+                  <Button ID="btn-delete" Class="easyui-linkbutton toolmultiple normal-button" Options="iconCls:'icon-cancel',plain:true" Title="删除" Action="showActDlg_DGItemsConfirm('datagrid','删除','确认删除选择项？','/Page/P01008/Delete',400,300)" ActionValue="16" />
+                  <StackPanel Class="datagrid-btn-separator">
+                    <Controls />
+                  </StackPanel>
+                </Controls>
+              </StackPanel>
+              <StackPanel Class="toolbutton">
+                <Controls>
+                  <Button ID="btn-import" Class="easyui-linkbutton normal-button" Options="iconCls:'icon-import',plain:true" Title="导入" />
+                  <StackPanel Class="datagrid-btn-separator">
+                    <Controls />
+                  </StackPanel>
+                </Controls>
+              </StackPanel>
+              <StackPanel Class="toolbutton">
+                <Controls>
+                  <Button ID="btn-export" Class="easyui-linkbutton normal-button" Options="iconCls:'icon-export',plain:true" Title="导出" />
+                  <StackPanel Class="datagrid-btn-separator">
+                    <Controls />
+                  </StackPanel>
+                </Controls>
+              </StackPanel>
+              <StackPanel Class="toolbutton">
+                <Controls>
+                  <StackPanel Class="datagrid-btn-separator">
+                    <Controls />
+                  </StackPanel>
+                </Controls>
+              </StackPanel>
+            </Controls>
+          </ToolBar>
+        </Controls>
+      </StackPanel>
+      <StackPanel ID="contian" Class="content-padding" Options="region:'center',title:'客户类别'">
+        <Controls>
+          <GridView ID="datagrid" Class="easyui-datagrid" Options="fitColumns:true,fit:true,pagination: true,rownumbers: true,nowrap: true,striped: true,collapsible: false,resizable:true,onClickRow:oncheckstate,onSelect:oncheckstate,onCheck:oncheckstate,onCheckAll:oncheckstate,onUncheckAll:oncheckstate,onUncheck:oncheckstate,onUnselect:oncheckstate" Key="CustomerType_ID">
+            <Columns>
+              <Column Title="客户类别" FieldName="CustomerType_Name" Options="width:100px" />
+              <Column Title="备注" FieldName="Remark" Options="width:100px" />
+            </Columns>
+          </GridView>
+        </Controls>
+      </StackPanel>
+    </Controls>
+  </Form>
+</FormViewActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="A01035" Name="Search" Title="检索" ActionValue="2">
+    <Command CommandID="M01135" Name="搜索页面" Description="这个命令会直接返回到客户端，无需后继命令" CommandType="FormViewActionCommand"><![CDATA[<FormViewActionCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ContentType="text/html" ViewPath="~/Views/Page/Edit.cshtml" SettingType="EditDialog">
+  <Parameter Name="ItemsSource_IsActive" Type="Const" DefaultValue=":全部|1:有效|0:无效" />
+  <Form>
+    <Controls>
+      <DataView ID="dataform" Class="form-dialog">
+        <Controls>
+          <StackPanel Class="edit-dialog">
+            <Controls>
+              <StackPanel Class="edit-panel">
+                <Controls>
+                  <StackPanel Class="edit-field">
+                    <Controls>
+                      <StackPanel Class="edit-title">
+                        <Controls>
+                          <Label Class="edit-label" Title="客户类别：" />
+                        </Controls>
+                      </StackPanel>
+                      <StackPanel Class="edit-content">
+                        <Controls>
+                          <TextBox ID="CustomerType_Name" Name="CustomerType_Name" Class="edit-input easyui-textbox easyui-validatebox" />
+                        </Controls>
+                      </StackPanel>
+                    </Controls>
+                  </StackPanel>
+                  <StackPanel Class="edit-field">
+                    <Controls>
+                      <StackPanel Class="edit-title">
+                        <Controls>
+                          <Label Class="edit-label" Title="状态：" />
+                        </Controls>
+                      </StackPanel>
+                      <StackPanel Class="edit-content">
+                        <Controls>
+                          <ComboBox ID="Is_Active" Name="Is_Active" Class="edit-dropdownlist easyui-combobox" Options="editable:false" Binding="Is_Active" ItemsSource="/Parameters[ItemsSource_IsActive]" />
+                        </Controls>
+                      </StackPanel>
+                    </Controls>
+                  </StackPanel>
+                  <StackPanel Class="edit-field">
+                    <Controls />
+                  </StackPanel>
+                </Controls>
+              </StackPanel>
+            </Controls>
+          </StackPanel>
+        </Controls>
+      </DataView>
+      <StackPanel Class=" dialog-button">
+        <Controls>
+          <Button ID="btn-query" Class="easyui-linkbutton edit-button" Options="iconCls:'icon-ok'" Title="确定" Action="submitAct_DGReplace('dataform','/Page/P01008/Query','datagrid')" />
+          <Button ID="btn-cancel" Class="easyui-linkbutton edit-button" Options="iconCls:'icon-cancel'" Title="取消" Action="cancel()" />
+        </Controls>
+      </StackPanel>
+    </Controls>
+  </Form>
+</FormViewActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="A01036" Name="Query" Title="检索" ActionValue="2">
+    <Command CommandID="M01147" Name="查询" CommandType="QuerySqlCommand"><![CDATA[<QueryCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" NextCommand="搜索结果" GroupName="业务模块" TableName="bi_CustomerType" CommandName="Search">
+  <Parameter Name="CustomerType_Name" Path="Request[CustomerType_Name]" Type="Parameter" />
+  <Parameter Name="Is_Active" Path="Request[Is_Active]" Type="Parameter" />
+</QueryCommand>]]></Command>
+    <Command CommandID="M01137" Name="搜索结果" Description="返回搜索结果" CommandType="JsonActionCommand"><![CDATA[<JsonActionCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ContentType="application/json">
+  <Parameter Name="Data" Path="Results[查询].Items" Type="Parameter" />
+  <Parameter Name="HasError" Path="Results[查询].IsError" Type="Parameter" />
+  <Parameter Name="ErrorMessage" Path="Results[查询].ErrorMessage" Type="Parameter" />
+</JsonActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="A01037" Name="Create" Title="新增" ActionValue="4">
+    <Command CommandID="M01138" Name="新增页面" Description="这个命令会直接返回到客户端，无需后继命令" CommandType="FormViewActionCommand"><![CDATA[<FormViewActionCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ContentType="text/html" ViewPath="~/Views/Page/Edit.cshtml" SettingType="EditDialog">
+  <Form>
+    <Controls>
+      <DataView ID="dataform" Class="form-dialog">
+        <Controls>
+          <StackPanel Class="edit-dialog">
+            <Controls>
+              <StackPanel Class="edit-panel">
+                <Controls>
+                  <StackPanel Class="edit-field">
+                    <Controls>
+                      <StackPanel Class="edit-title">
+                        <Controls>
+                          <Label Class="edit-label" Title="客户类别：" />
+                        </Controls>
+                      </StackPanel>
+                      <StackPanel Class="edit-content">
+                        <Controls>
+                          <TextBox Name="CustomerType_Name" Class="edit-input easyui-textbox easyui-validatebox" Options="missingMessage:'请输入客户类别',required:true,validType:'length[1,20]',invalidMessage:'客户类别字数不得超过20个字符'" />
+                        </Controls>
+                      </StackPanel>
+                    </Controls>
+                  </StackPanel>
+                  <StackPanel Class="edit-field-r2">
+                    <Controls>
+                      <StackPanel Class="edit-title">
+                        <Controls>
+                          <Label Class="edit-label" Title="备注：" />
+                        </Controls>
+                      </StackPanel>
+                      <StackPanel Class="edit-content">
+                        <Controls>
+                          <TextBox Name="Remark" Class="edit-input-r2 easyui-textbox easyui-validatebox" Style="height:90px" Options="multiline:true,validType:'length[0,150]',invalidMessage:'备注字数不得超过150个字符'" IsMutiLine="true" />
+                        </Controls>
+                      </StackPanel>
+                    </Controls>
+                  </StackPanel>
+                  <StackPanel Class="edit-field">
+                    <Controls>
+                      <StackPanel Class="showmsg">
+                        <Controls>
+                          <Label ID="showmsg" />
+                        </Controls>
+                      </StackPanel>
+                    </Controls>
+                  </StackPanel>
+                </Controls>
+              </StackPanel>
+            </Controls>
+          </StackPanel>
+        </Controls>
+      </DataView>
+      <StackPanel Class="dialog-button">
+        <Controls>
+          <Button ID="btn-add" Class="easyui-linkbutton edit-button" Options="iconCls:'icon-ok'" Title="确定" Action="submitAct_DGAppend('dataform','/Page/P01008/Add','datagrid')" />
+          <Button ID="btn-cancel" Class="easyui-linkbutton edit-button" Options="iconCls:'icon-cancel'" Title="取消" Action="cancel()" />
+        </Controls>
+      </StackPanel>
+    </Controls>
+  </Form>
+</FormViewActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="A01038" Name="Add" Title="新增" ActionValue="4" ErrorCommand="新增结果">
+    <Command CommandID="M01076" Name="执行新增" CommandType="QuerySqlCommand"><![CDATA[<QueryCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" NextCommand="新增结果" GroupName="业务模块" TableName="bi_CustomerType" CommandName="Add">
+  <Parameter Name="CustomerType_Name" Path="Request[CustomerType_Name]" Type="Parameter" Converter="Trim" />
+  <Parameter Name="Remark" Path="Request[Remark]" Type="Parameter" />
+  <Parameter Name="Is_Active" Path="Request[Is_Active]" Type="Const" DefaultValue="1" />
+  <Parameter Name="CreatedUser" Path="CurrentUserID" Type="SystemParameter" />
+  <Parameter Name="CreatedTime" Path="CurrentDateTime" Type="SystemParameter" />
+  <Parameter Name="ModifiedUser" Path="CurrentUserID" Type="SystemParameter" />
+  <Parameter Name="ModifiedTime" Path="CurrentDateTime" Type="SystemParameter" />
+  <Parameter Name="CustomerType_ID" Path="SerialCode" Type="SystemParameter" DefaultValue="CustmType,C,6" />
+</QueryCommand>]]></Command>
+    <Command CommandID="M01140" Name="新增结果" Description="返回新增结果" CommandType="JsonActionCommand"><![CDATA[<JsonActionCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ContentType="application/json">
+  <Parameter Name="Data" Path="Results[执行新增].Items" Type="Parameter" />
+  <Parameter Name="HasError" Path="Results[执行新增].IsError" Type="Parameter" />
+  <Parameter Name="ErrorMessage" Path="Results[执行新增].ErrorMessage" Type="Parameter" />
+</JsonActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="A01039" Name="Edit" Title="编辑" ActionValue="8">
+    <Command CommandID="M01146" Name="编辑信息" CommandType="QuerySqlCommand"><![CDATA[<QueryCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" NextCommand="编辑页面" GroupName="业务模块" TableName="bi_CustomerType" CommandName="GetItem">
+  <Parameter Name="CustomerType_ID" Path="Request[ID]" Type="Parameter" />
+</QueryCommand>]]></Command>
+    <Command CommandID="M01141" Name="编辑页面" Description="这个命令会直接返回到客户端，无需后继命令" CommandType="FormViewActionCommand"><![CDATA[<FormViewActionCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ContentType="text/html" ViewPath="~/Views/Page/Edit.cshtml" SettingType="EditDialog">
+  <Parameter Name="Data" Path="LastResult.Items" Type="Parameter" />
+  <Parameter Name="ItemsSource_IsActive" Type="Const" DefaultValue="1:有效|0:无效" />
+  <Form>
+    <Controls>
+      <DataView ID="dataform" Class="form-dialog" Binding="Parameters[Data]">
+        <Controls>
+          <StackPanel Class="edit-dialog">
+            <Controls>
+              <StackPanel Class="edit-panel">
+                <Controls>
+                  <StackPanel Class="edit-field">
+                    <Controls>
+                      <StackPanel Class="edit-title">
+                        <Controls>
+                          <Label Class="edit-label" Title="客户类别：" />
+                        </Controls>
+                      </StackPanel>
+                      <StackPanel Class="edit-content">
+                        <Controls>
+                          <TextBox Name="CustomerType_Name" Class="edit-input easyui-textbox easyui-validatebox" Options="missingMessage:'请输入客户类别',required:true,validType:'length[1,20]',invalidMessage:'客户类别字数不得超过20个字符'" Binding="CustomerType_Name" />
+                        </Controls>
+                      </StackPanel>
+                      <TextBox Name="CustomerType_ID" Class="edit-input" Binding="CustomerType_ID" IsHidden="true" />
+                    </Controls>
+                  </StackPanel>
+                  <StackPanel Class="edit-field-r2">
+                    <Controls>
+                      <StackPanel Class="edit-title">
+                        <Controls>
+                          <Label Class="edit-lable" Title="备注：" />
+                        </Controls>
+                      </StackPanel>
+                      <StackPanel Class="edit-content">
+                        <Controls>
+                          <TextBox Name="Remark" Class="edit-input-r2  easyui-textbox easyui-validatebox" Style="height:90px" Options="multiline:true,validType:'length[0,150]',invalidMessage:'备注字数不得超过150个字符'" Binding="Remark" IsMutiLine="true" />
+                        </Controls>
+                      </StackPanel>
+                    </Controls>
+                  </StackPanel>
+                  <StackPanel Class="edit-field">
+                    <Controls>
+                      <StackPanel Class="showmsg">
+                        <Controls>
+                          <Label ID="showmsg" />
+                        </Controls>
+                      </StackPanel>
+                    </Controls>
+                  </StackPanel>
+                </Controls>
+              </StackPanel>
+            </Controls>
+          </StackPanel>
+        </Controls>
+      </DataView>
+      <StackPanel Class=" dialog-button">
+        <Controls>
+          <Button ID="btn-update" Class="easyui-linkbutton edit-button" Options="iconCls:'icon-ok'" Title="确定" Action="submitAct_DGUpdate('dataform','/Page/P01008/Update','datagrid')" />
+          <Button ID="btn-cancel" Class="easyui-linkbutton edit-button" Options="iconCls:'icon-cancel'" Title="取消" Action="cancel()" />
+        </Controls>
+      </StackPanel>
+    </Controls>
+  </Form>
+</FormViewActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="A01040" Name="Update" Title="编辑" ActionValue="8" ErrorCommand="编辑结果">
+    <Command CommandID="M01095" Name="执行更新" CommandType="QuerySqlCommand"><![CDATA[<QueryCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" NextCommand="编辑结果" GroupName="业务模块" TableName="bi_CustomerType" CommandName="Update">
+  <Parameter Name="CustomerType_ID" Path="Request[CustomerType_ID]" Type="Parameter" />
+  <Parameter Name="CustomerType_Name" Path="Request[CustomerType_Name]" Type="Parameter" Converter="Trim" />
+  <Parameter Name="Remark" Path="Request[Remark]" Type="Parameter" />
+  <Parameter Name="ModifiedUser" Path="CurrentUserID" Type="SystemParameter" />
+  <Parameter Name="ModifiedTime" Path="CurrentDateTime" Type="SystemParameter" />
+</QueryCommand>]]></Command>
+    <Command CommandID="M01143" Name="编辑结果" Description="返回编辑结果" CommandType="JsonActionCommand"><![CDATA[<JsonActionCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ContentType="application/json">
+  <Parameter Name="Data" Path="Results[执行更新].Items" Type="Parameter" />
+  <Parameter Name="HasError" Path="Results[执行更新].IsError" Type="Parameter" />
+  <Parameter Name="ErrorMessage" Path="Results[执行更新].ErrorMessage" Type="Parameter" />
+</JsonActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="A01041" Name="Delete" Title="删除" ActionValue="16">
+    <Command CommandID="M01144" Name="执行删除" Description="本查询的结果值为JSON，参数路径为Results[执行删除].Json" CommandType="QueryJsonSqlCommand"><![CDATA[<QueryJsonCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" NextCommand="删除结果" GroupName="业务模块" TableName="bi_CustomerType" CommandName="Delete">
+  <Parameter Name="CustomerType_ID" Path="Request[keys]" Type="Parameter" />
+  <Parameter Name="ModifiedUser" Path="CurrentUserID" Type="SystemParameter" />
+  <Parameter Name="ModifiedTime" Path="CurrentDateTime" Type="SystemParameter" />
+</QueryJsonCommand>]]></Command>
+    <Command CommandID="M01145" Name="删除结果" Description="返回删除结果" CommandType="JsonActionCommand"><![CDATA[<JsonActionCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ContentType="application/json">
+  <Parameter Name="HasError" Path="Results[执行删除].IsError" Type="Parameter" />
+  <Parameter Name="ErrorMessage" Path="Results[执行删除].ErrorMessage" Type="Parameter" />
+</JsonActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="A01044" Name="Detail" Title="查看" ActionValue="128">
+    <Command CommandID="M01146" Name="编辑信息" CommandType="QuerySqlCommand"><![CDATA[<QueryCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" NextCommand="编辑页面" GroupName="业务模块" TableName="bi_CustomerType" CommandName="GetItem">
+  <Parameter Name="CustomerType_ID" Path="Request[ID]" Type="Parameter" />
+</QueryCommand>]]></Command>
+    <Command CommandID="M01141" Name="编辑页面" Description="这个命令会直接返回到客户端，无需后继命令" CommandType="FormViewActionCommand">
+							<![CDATA[<FormViewActionCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ContentType="text/html" ViewPath="~/Views/Page/Edit.cshtml" SettingType="EditDialog">
+  <Parameter Name="Data" Path="LastResult.Items" Type="Parameter" />
+  <Parameter Name="ItemsSource_IsActive" Type="Const" DefaultValue="1:有效|0:无效" />
+  <Form>
+    <Controls>
+      <DataView ID="dataform" Class="form-dialog" Binding="Parameters[Data]">
+        <Controls>
+          <StackPanel Class="edit-dialog">
+            <Controls>
+              <StackPanel Class="edit-panel">
+                <Controls>
+                  <StackPanel Class="edit-field">
+                    <Controls>
+                      <StackPanel Class="edit-title">
+                        <Controls>
+                          <Label Class="edit-label" Title="客户类别：" />
+                        </Controls>
+                      </StackPanel>
+                      <StackPanel Class="edit-content">
+                        <Controls>
+                          <TextBox Name="CustomerType_Name" Class="edit-input easyui-textbox easyui-validatebox" Binding="CustomerType_Name"  IsReadOnly="true"  />
+                        </Controls>
+                      </StackPanel>
+                    </Controls>
+                  </StackPanel>
+                  <StackPanel Class="edit-field-r2">
+                    <Controls>
+                      <StackPanel Class="edit-title">
+                        <Controls>
+                          <Label Class="edit-label" Title="备注：" />
+                        </Controls>
+                      </StackPanel>
+                      <StackPanel Class="edit-content">
+                        <Controls>
+                          <TextBox Name="Remark" Class="edit-input-r2 easyui-textbox easyui-validatebox" Style="height:90px" Options="multiline:true " Binding="Remark"  IsReadOnly="true"  IsMutiLine="true" />
+                        </Controls>
+                      </StackPanel>
+                    </Controls>
+                  </StackPanel>
+                  <StackPanel Class="edit-field">
+                    <Controls />
+                  </StackPanel>
+                </Controls>
+              </StackPanel>
+            </Controls>
+          </StackPanel>
+        </Controls>
+      </DataView>
+      <StackPanel Class=" dialog-button">
+        <Controls>
+          <Button ID="btn-cancel" Class="easyui-linkbutton edit-button" Options="iconCls:'icon-cancel'" Title="关闭" Action="cancel()" />
+        </Controls>
+      </StackPanel>
+    </Controls>
+  </Form>
+</FormViewActionCommand>]]></Command>
+  </Action>
+  <Layout EditFieldClass="edit-field" EditLabelClass="edit-label" />
+  <Buttons>
+    <Button ID="btn-create" Title="新增" ActionValue="4" Action="showActDlg('新增','/Page/P01008/Create',400,300)" Class="easyui-linkbutton" Option="iconCls:'icon-add'" />
+    <Button ID="btn-search" Title="检索" ActionValue="2" Action="showActDlg('检索','/Page/P01008/Search',400,300)" Class="easyui-linkbutton" Option="iconCls:'icon-search'" />
+    <Button ID="btn-edit" Title="修改" ActionValue="8" Action="showActDlg_DGItemActDlg('datagrid','修改','/Page/P01008/Edit',400,300)" Class="easyui-linkbutton toolradio" Option="iconCls:'icon-edit'" />
+    <Button ID="btn-delete" Title="删除" ActionValue="16" Action="showActDlg_DGItemsConfirm('datagrid','删除','确认删除选择项？','/Page/P01008/Delete',400,300)" Class="easyui-linkbutton toolmultiple" Option="iconCls:'icon-cancel'" />
+    <Button ID="btn-import" Title="导入" ActionValue="32" Action="showActDlg('导入','/Page/P01008/Import',400,300)" Class="easyui-linkbutton" Option="iconCls:'icon-import'" />
+    <Button ID="btn-export" Title="导出" ActionValue="64" Action="showActDlg('导出','/Page/P01008/Export',400,300)" Class="easyui-linkbutton" Option="iconCls:'icon-export'" />
+    <Button ID="btn-add" Title="确定" Action="submitAct_DGAppend('dataform','/Page/P01008/Add','datagrid')" Class="easyui-linkbutton" Option="iconCls:'icon-ok'" ShowInToolBar="false" />
+    <Button ID="btn-query" Title="确定" Action="submitAct_DGReplace('dataform','/Page/P01008/Query','datagrid')" Class="easyui-linkbutton" Option="iconCls:'icon-ok'" ShowInToolBar="false" />
+    <Button ID="btn-update" Title="确定" Action="submitAct_DGUpdate('dataform','/Page/P01008/Update','datagrid')" Class="easyui-linkbutton" Option="iconCls:'icon-ok'" ShowInToolBar="false" />
+    <Button ID="btn-cancel" Title="取消" Action="cancel()" Class="easyui-linkbutton" ShowInToolBar="false" />
+  </Buttons>
+  <EditSource GroupName="业务模块" TableName="bi_CustomerType" Key="CustomerType_ID" LogicDeleteFlag="IsActive:0">
+    <Fields>
+      <EditField Name="CustomerType_ID" Title="CustomerType_ID" DataType="System.String" ShowInEdit="false" ShowInSearch="false" EnableEdit="false" />
+      <EditField Name="CustomerType_Name" Title="CustomerType_Name" DataType="System.String" />
+      <EditField Name="Remark" Title="Remark" DataType="System.String" ShowInSearch="false" IsRequired="false" />
+      <EditField Name="Is_Active" Title="Is_Active" DataType="System.Boolean" ShowInCreate="false" />
+      <EditField Name="CreatedUser" Title="CreatedUser" DataType="System.String" ShowInGrid="false" ShowInCreate="false" ShowInEdit="false" ShowInDetail="false" ShowInSearch="false" IsRequired="false" EnableEdit="false" />
+      <EditField Name="CreatedTime" Title="CreatedTime" DataType="System.DateTime" ShowInGrid="false" ShowInCreate="false" ShowInEdit="false" ShowInDetail="false" ShowInSearch="false" IsRequired="false" EnableEdit="false" />
+      <EditField Name="ModifiedUser" Title="ModifiedUser" DataType="System.String" ShowInGrid="false" ShowInCreate="false" ShowInEdit="false" ShowInDetail="false" ShowInSearch="false" IsRequired="false" EnableEdit="false" />
+      <EditField Name="ModifiedTime" Title="ModifiedTime" DataType="System.DateTime" ShowInGrid="false" ShowInCreate="false" ShowInEdit="false" ShowInDetail="false" ShowInSearch="false" IsRequired="false" EnableEdit="false" />
+      <EditField Name="AutoKey" Title="AutoKey" DataType="System.Int32" ShowInGrid="false" ShowInCreate="false" ShowInEdit="false" ShowInDetail="false" ShowInSearch="false" IsRequired="false" EnableEdit="false" />
+    </Fields>
+    <ChildTables />
+  </EditSource>
+</MvcEditPage>

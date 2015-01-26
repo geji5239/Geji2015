@@ -1,0 +1,281 @@
+﻿
+<script type="text/javascript">
+
+    //function addClick() {
+    //    cancleClickRow();
+    //    $('#EDelBtn').linkbutton('disable');//删除按钮不可用
+    //    $("#datagrid1").datagrid("unselectAll");
+    //}
+    //function parent() {
+    //    //alert($('#ParentID').combobox('getValue'));
+    //    $('#PaymentID').combobox({
+    //        url: '/Share/Query?name=GetPaymentbyParentID&ParentID=' + $('#ParentID').combobox('getValue')
+    //    });
+    //}
+    //function delClick() {
+    //    $.extend($.messager.defaults, {
+    //        ok: "确定", cancel: "取消"
+
+    //    })
+    //    $.messager.confirm("提示","确认删除选择项？", function (r) {
+    //        if (r) {
+    //            $("#DeleteCheck").val('on');//删除checkbox选中
+    //            $('#EDelBtn').linkbutton('disable');//删除不按钮可用
+    //            Submit();//执行
+    //        }
+    //    })
+    //}
+    function onClickRow(rowIndex, rowData) {
+        $('#OrderID').textbox('setValue', rowData['OrderID']);
+        var cAmount = "";
+        if (rowData['ContractAmount'] == 0) {
+            cAmount = "0";
+        }
+        else {
+            cAmount = rowData['ContractAmount']
+        }
+
+        $('#ContractAmount').textbox('setValue', cAmount);
+        $('#ConfirmDate').textbox('setValue', rowData['ConfirmDate']);
+
+        var rAmount = "";
+        if (rowData['InvoiceRealAmount'] == undefined) {
+            rAmount = "0";
+        }
+        else {
+            rAmount = rowData['InvoiceRealAmount']
+        }
+        $('#InvoiceRealAmount').textbox('setValue', rAmount);
+        var pAmount = "";
+        if (rowData['ConfirmAmount'] == undefined) {
+            pAmount = "0";
+        }
+        else {
+            pAmount = rowData['ConfirmAmount']
+        }
+        $('#ConfirmAmount').textbox('setValue', pAmount);
+        $('#InvoiceCanAmount').textbox('setValue', eval(rowData['ReciveAmount']) - eval(rAmount));
+        //$('#EDelBtn').linkbutton('enable');//删除按钮可用
+        //$('.edit-field1:eq(11)').show();
+    }
+    function cancleClickRow(rowIndex, rowData) {
+        //$('#JCName').textbox('setValue', '');
+        //$('#Remark').textbox('setValue', '');
+        //$("#DeleteCheck").val('');//删除checkbox取消选中
+        //$('#EDelBtn').linkbutton('disable');//删除不按钮可用
+        //$('.edit-field1:eq(11)').hide();
+    }
+    function IsSingleClick(checkbox) {
+        if (checkbox.checked == true) {
+            $(this).val('True')
+
+
+        } else {
+            $(this).val('False')
+
+        }
+    }
+
+    function Submit() {
+        
+            if (eval($("#InvoiceAmount").textbox('getValue')) > eval($("#InvoiceCanAmount").textbox('getValue'))) {
+                showError("申请开票金额不得大于可开票金额");
+
+                return false;
+            }
+            else {
+
+                return true;
+            }
+        
+       
+    }
+
+    function showdvDialog1(url, title, width, height) {
+        var boarddiv = "<div id=dvMain_org1></div>";
+        $(document.body).append(boarddiv);
+        $("#dvMain_org1").dialog({
+            title: title,
+            shadow: false,
+            closed: false,
+            cache: false,
+            href: url,
+            modal: true,
+            width: width,
+            height: height,
+            onLoadSuccess: function (data) {
+                $(":input:eq(0)").focus();
+            },
+            onLoad: function () {
+
+                //$(".datebox :text").attr("readonly", "readonly");
+                $("#dvMain_org1").dialog('center');//居中
+                //$('.easyui-textbox:first').combobox().next('span').find('input').focus()//通用设置第一个input焦点
+                //$(".easyui-filebox[readonly!='readonly']:first").next('span').find('input').focus()//.combobox()会把第一个变成combobox，是失误还是有特别的用意？加入只读过滤  --杨磊 2014-9-18
+            }
+        });
+    }
+
+    function dvcancel1() {
+        $("#dvMain_org1").dialog('close');
+        $("#dvMain_org1").children().remove();
+
+        //$(".combo-panel").hide();
+    }
+    function customer() {
+
+        $("#datagrid1").datagrid({
+            iconCls: 'icon-edit',
+            singleSelect: true,
+            url: '/Page/P01129/GetOrder?CustomerID=' + $("#CustomerID").combobox("getValue"),
+        });
+    }
+   
+   
+</script>
+
+<style>
+    .edit-panel3 {
+    padding:5px 0px;
+    margin-top:5px;
+    width:530px;
+    height:20px;
+    margin-left: auto;
+    margin-right: auto;
+    }
+</style>
+
+<form method="post" id="dataform" class="form-dialog">
+
+    <div class="edit-dialog1" style="width:530px;margin-left:0px;">
+
+        <div class="edit-panel3">
+
+            <div class="edit-field1">
+                <div class="edit-title1"><label class="edit-label1">客户名称：</label></div>
+                <div class="edit-content">
+                    <input id="CustomerID" class="edit-input easyui-combobox" name="CustomerID" panelheight="auto" data-options="required:true,missingMessage:'请选择客户',editable:false,url:'/Share/Query?name=GetAllCustomer',valueField:'ID',textField:'Name',onSelect:customer" />
+
+                </div>
+            </div>
+
+            <div class="edit-field1">
+                <div class="edit-title1"><label class="edit-label1"></label></div>
+                <div class="edit-content">
+                    
+                </div>
+            </div>
+        </div>
+ 
+            <div class="edit-panel3" style="height:110px;width:434px; margin-top:-14px;text-align:left; " >
+                <table id="datagrid1" style=" text-align:left; height:110px;width:434px;" class="easyui-datagrid" data-options="fitColumns:true,fit:true,rownumbers:true,nowrap: true,singleSelect:true,striped: true,collapsible: false,resizable:true, onSelect: onClickRow,onUnselect: cancleClickRow">
+                    <thead>
+                        <tr>
+                            <th data-options="field:'OrderID',checkbox:true,hidden:true"></th>
+                            <th data-options="field:'OrderDate',fixed:true,">下单日期</th>
+                            <th data-options="field:'OrderID',fixed:true,">订单编号</th>
+                            <th data-options="field:'ConfirmAmount',fixed:true,">结转收入金额</th>
+                            <th data-options="field:'InvoiceRealAmount',fixed:true,">已开票金额</th>
+                            <th data-options="field:'InvoiceNoAmount',fixed:true,">可无票申报金额</th>
+                            <th data-options="field:'Remark',fixed:true,">备注</th>
+                        </tr>
+                    </thead>
+                </table>
+           
+            </div>
+
+            <div class="edit-panel3">
+
+                <div class="edit-field1">
+                    <div class="edit-title1"><label class="edit-label1">订单编号：</label></div>
+                    <div class="edit-content">
+                        <input id="OrderID" class="edit-input  easyui-textbox" name="OrderID" data-options="required:true,missingMessage:'请选择订单'" readonly="readonly" />
+                    </div>
+                </div>
+                <div class="edit-field1">
+                    <div class="edit-title1"><label class="edit-label1">合同金额：</label></div>
+                    <div class="edit-content">
+                        <input id="ContractAmount" class="edit-input easyui-textbox" name="ContractAmount" readonly="readonly" />
+                    </div>
+                </div>
+            </div>
+
+
+        <div class="edit-panel3">
+
+            <div class="edit-field1">
+                <div class="edit-title1"><label class="edit-label1">收入结转金额：</label></div>
+                <div class="edit-content">
+                    <input id="ConfirmAmount" class="edit-input  easyui-textbox" name="ConfirmAmount" readonly="readonly" />
+                </div>
+            </div>
+            <div class="edit-field1">
+                <div class="edit-title1"><label class="edit-label1">收入结转日期：</label></div>
+                <div class="edit-content">
+                    <input id="ConfirmDate" class="edit-input easyui-textbox" name="ConfirmDate" readonly="readonly" />
+                </div>
+            </div>
+        </div>
+
+        <div class="edit-panel3">
+
+            <div class="edit-field1">
+                <div class="edit-title1"><label class="edit-label1">已开票金额：</label></div>
+                <div class="edit-content">
+                    <input id="InvoiceRealAmount" class="edit-input  easyui-textbox" name="InvoiceRealAmount" readonly="readonly" />
+                </div>
+            </div>
+            <div class="edit-field1">
+                <div class="edit-title1"><label class="edit-label1">可无票申报金额：</label></div>
+                <div class="edit-content">
+                    <input id="InvoiceCanAmount" class="edit-input easyui-textbox" name="InvoiceCanAmount" readonly="readonly" />
+                </div>
+            </div>
+        </div>
+
+        <div class="edit-panel3">
+
+            <div class="edit-field1">
+                <div class="edit-title1"><label class="edit-label1" id="lab1">申请开票金额：</label></div>
+                <div class="edit-content">
+                    <input id="InvoiceAmount" class="edit-input  easyui-textbox" name="InvoiceAmount" data-options="required:true,missingMessage:'请输入申请开票金额'" />
+                </div>
+            </div>
+            <div class="edit-field1">
+                <div class="edit-title1"><label class="edit-label1"></label></div>
+                <div class="edit-content">
+                    
+                </div>
+            </div>
+        </div>
+
+        <div class="edit-panel3">
+            <div class="edit-field1">
+                <div class="edit-title"><label class="edit-label">开票内容：</label></div>
+                <div class="edit-content">
+                    <input id="ReceiverInfomation" class="edit-input easyui-textbox" name="ReceiverInfomation" style="width:434px;height:60px" data-options="validType:'length[1,200]',invalidMessage:'开票内容不得超过200个字符',multiline:true" />
+                </div>
+            </div>
+            <div class="edit-panel3">
+                <div class="edit-field1">
+                    <div class="edit-content">
+                        <input class="edit-input" name="DeleteCheck" id="DeleteCheck" type="hidden" />
+                    </div>
+                </div>
+                <div class="edit-field1" style="margin-top:30px;">
+                    <div class="showmsg"><label id="showmsg"></label></div>
+                </div>
+            </div>
+        </div>
+        </div>
+    
+</form>
+<div class="dialog-button">
+    <a id="btn-add" class="easyui-linkbutton edit-button" href="#" onclick="Submit();submitAct_DGAppend('dataform','/Page/P01129/Add','datagrid')" data-options="iconCls:'icon-ok'">确定</a>
+    <a id="btn-cancel" class="easyui-linkbutton edit-button" href="#" onclick="cancel()" data-options="iconCls:'icon-cancel'">取消</a>
+</div>
+
+
+
+
+

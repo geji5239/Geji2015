@@ -1,0 +1,35 @@
+﻿@model Panasia.Gemini.Web.Models.DetailCompanyModel
+@using AF.Core
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Page.cshtml";
+}
+<form id="detailForm" class="form-dialog">
+    <label class="label-title" >公司名称：</label>
+    <input class="input-dialog" disabled="true" name="Company_Name"/>
+    <br />
+    <label class="label-title">公司说明：</label>
+    <textarea class="input-dialog" disabled="true" name="Is_Active"></textarea>
+    <br />
+    <label class="label-title">状态：</label>
+    <input class="input-dialog" disabled="true" />
+    <br />
+</form>
+<div class="showMsg"><label id="showMsg"></label></div>
+<div class="btn-add">
+    <input type="button" value="返回" class="btn-padding easyui-linkbutton" onclick="cancel()" />
+</div>
+@section scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var result=@Html.Raw(@Model.Company.ToJson());
+        if ("False" == "@Model.Error.HasError") {
+            $("#detailForm").form('load', result);
+        }
+        else {
+            $("#showMsg").empty();
+            $("#showMsg").append("@Model.Error.ErrorMessage");
+        }
+    });
+</script>
+}

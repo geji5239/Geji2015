@@ -1,0 +1,283 @@
+﻿
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $('#file').filebox({
+            onChange: function () {
+                importExcel();
+            }
+        })
+    });
+
+    function importExcel() {
+        $('#myForm').form('submit', {
+            url: "/org_Employees/OpenExcel",
+            onSubmit: function () {
+                if ($('#file').filebox('getValue') == "") {
+                    $.messager.alert("提示", "请选择文件！");
+                    return false;
+                }
+                var isValid = $(this).form('validate');//验证不通过
+                if (!isValid) {
+                    return isValid;
+                }
+            },
+            success: function (data) {
+                reSet();
+                var result = $.parseJSON(data);
+                if (!result.HasError) {
+                    $('#sheet').combobox({
+                        url: '/org_Employees/GetSheetNames',
+                        valueField: 'id',
+                        textField: 'text',
+                        onSelect: function (rec) {
+                            reSet();
+                            var i = 1
+                            if (i == 0) {
+                                //放开表列名注释
+                                var url = '/org_Employees/OpenExcelTable?id=' + rec.id;
+                                console.info(url)
+                                $('#datagrid1').datagrid({ url: url });
+                                $('#linkbuttonImport').linkbutton('enable');
+                            }
+                            else {
+                                var url = '/org_Employees/GetTableCols?id=' + rec.id;
+                                $.ajax({
+                                    url: url,
+                                    type: 'post',
+                                    success: function (data) {
+                                        var result = $.parseJSON(data);
+                                        var cols = result.Cols;
+                                        var s = "";
+                                        s = "[[";
+                                        for (var i = 0; i < cols.length; i++) {
+                                            s = s + "{field:'" + cols[i] + "',title:'" + cols[i] + "',width:100,background:'#fff'},";
+                                        }
+                                        s = s + "]]";
+                                        var options = {};
+                                        options.columns = eval(s);
+                                        options.url = '/org_Employees/OpenTable';
+                                        $('#datagrid1').datagrid(options);
+                                        $('#linkbuttonImport').linkbutton('enable');
+                                    },
+                                    error: function (d, error) {
+                                        showError(error);
+                                    }
+                                });
+                            }
+                        }
+                    });
+                }
+                else {
+                    $.messager.alert("提示", result);
+                }
+            }
+        });
+    }
+    function reSet() {
+        $('#tishi').empty();
+        $('#linkbuttonImport').linkbutton('disable');
+        $('#datagrid1').datagrid('loadData', { total: 0, rows: [] });
+        $('#datagrid1').datagrid({
+            url: null,
+            columns: [[]],
+            rowStyler: function (index, row) {
+                return 'background-color:#fff';
+            }
+        });
+    }
+    function EmpImport() {
+        $.ajax({
+            url: '/org_Employees/EmpImport',
+            type: "post",
+            success: function (date) {
+                var result = $.parseJSON(date)
+                if (result.HasError) {
+                    $.messager.alert("错误信息", result.ErrorMessage);
+                }
+                else {
+                    setColor(result.Data);
+                    $.messager.alert("提示", '导入' + result.Data[9] + '条,取消' + result.Data[10] + '条');
+                }
+            },
+            error: function (xmlhttprequest, text, error) {
+                showError(error);
+            }
+        });
+    }
+    //为不同的结果显示不同颜色
+    function setColor(data) {
+        var arr = [
+            ['#f19199', 'clickCompany()', '无公司', toArr(data[1])],
+            ['#daf57f', 'clickDept()', '无部门', toArr(data[2])],
+            ['#f6cfa5', 'clickJob()', '无职位', toArr(data[3])],
+            ['#ccacf5', 'clickName()', '无姓名', toArr(data[4])],
+            ['#a3f5f0', 'clickCardNo()', '身份证相同', toArr(data[5])],
+            ['#ffa6f5', 'clickCardID()', '卡号相同或无', toArr(data[6])],
+            ['#cacfc5', 'clickImo()', 'Imo相同', toArr(data[7])],
+            ['#5fa3f0', 'clickEmail()', '邮箱相同', toArr(data[8])]
+        ]
+        $('#datagrid1').datagrid({
+            rowStyler: function (index, row) {
+                for (var i = 0; i < arr.length; i++) {
+                    if (arr[i][3].indexOf(index) > -1) {
+                        return 'background-color:' + arr[i][0];
+                        break;
+                    }
+                }
+            }
+        });
+        $('#tishi').empty();
+        for (var i = 0; i < arr.length; i++) {
+            if (arr[i][3].length > 0) {
+                $('#tishi').append('<span class="span1" style="background:' + arr[i][0] + '" onclick="' + arr[i][1] + '"></span>&nbsp;' + arr[i][2] + '(' + arr[i][3].length + '条)&nbsp;&nbsp;&nbsp;');
+            }
+        }
+    }
+    //索引字符串提取索引
+    function toArr(indexs) { //字符串转数组
+        var ind = indexs.split(',')
+        var arr = [];
+        for (var i = 0; i < ind.length; i++) {
+            if (ind[i] != '') {
+                arr.push(parseInt(ind[i]))
+            }
+        }
+        return arr;
+    }
+    function clickCompany() {
+        alert('无公司')
+    }
+    function clickDept() {
+        alert('无部门')
+    }
+    function clickJob() {
+        alert('无职位')
+    }
+    function clickName() {
+        alert('无姓名')
+    }
+    function clickCardNo() {
+        alert('身份证相同')
+    }
+    function clickCardID() {
+        alert('卡号相同或无')
+    }
+    function clickImo() {
+        alert('Imo相同')
+    }
+    function clickEmail() {
+        alert('邮箱相同')
+    }
+</script>
+<style>
+    .span1 {
+        padding:0px 8px;
+    }
+    .button {
+        display: inline-block;
+        zoom: 1; /* zoom and *display = ie7 hack for display:inline-block */
+        *display: inline;
+        vertical-align: baseline;
+        margin: 0 2px;
+        outline: none;
+        cursor: pointer;
+        text-align: center;
+        text-decoration: none;
+        font: 14px/100% Arial, Helvetica, sans-serif;
+        padding: .5em 2em .55em;
+        text-shadow: 0 1px 1px rgba(0,0,0,.3);
+        -webkit-border-radius: .5em;
+        -moz-border-radius: .5em;
+        border-radius: .5em;
+        -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.2);
+        -moz-box-shadow: 0 1px 2px rgba(0,0,0,.2);
+        box-shadow: 0 1px 2px rgba(0,0,0,.2);
+    }
+
+    .button:hover {
+        text-decoration: none;
+    }
+
+    .button:active {
+        position: relative;
+        top: 1px;
+    }
+
+    .medium {
+        font-size: 12px;
+        padding: .4em 1.5em .42em;
+    }
+
+    .white {
+        color: #606060;
+        border: solid 1px #b7b7b7;
+        background: #fff;
+        background: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#ededed));
+        background: -moz-linear-gradient(top, #fff, #ededed);
+        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#ededed');
+    }
+
+    .white:hover {
+        background: #ededed;
+        background: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#dcdcdc));
+        background: -moz-linear-gradient(top, #fff, #dcdcdc);
+        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#dcdcdc');
+    }
+
+    .white:active {
+        color: #999;
+        background: -webkit-gradient(linear, left top, left bottom, from(#ededed), to(#fff));
+        background: -moz-linear-gradient(top, #ededed, #fff);
+        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ededed', endColorstr='#ffffff');
+    }
+</style>
+
+<form method="post" enctype="multipart/form-data" id="myForm" style="width:950px;height:310px">
+    <div class="edit-dialog" style="width:900px">
+        <div class="edit-panel" style="width:890px;">
+            <table id="datagrid1" style="width:890px;height:260px" class="easyui-datagrid" data-options="nowrap:true,
+                   rownumbers:true,resizable:true,iconCls:'icon-detail',title:'导入预览',toolbar:'#tb'">
+                <thead>
+                <tr>
+                    @*<th data-options="field:'部门'," style="width:100px;">部门</th>
+                    <th data-options="field:'职务'," style="width:100px">职务</th>
+                    <th data-options="field:'姓名'," style="width:100px">姓名</th>
+                    <th data-options="field:'性别'," style="width:100px">性别</th>
+                    <th data-options="field:'身份证号'," style="width:100px">身份证号</th>
+                    <th data-options="field:'出生日期'," style="width:100px">出生日期</th>
+                    <th data-options="field:'民族'," style="width:100px">民族</th>
+                    <th data-options="field:'婚姻状况'," style="width:100px">婚姻状况</th>
+                    <th data-options="field:'政治面貌'," style="width:100px">政治面貌</th>
+                    <th data-options="field:'籍贯'," style="width:100px">籍贯</th>
+                    <th data-options="field:'家庭住址'," style="width:100px">家庭住址</th>
+                    <th data-options="field:'联系电话'," style="width:100px">联系电话</th>
+                    <th data-options="field:'学历'," style="width:100px">学历</th>
+                    <th data-options="field:'社保号码'," style="width:100px">社保号码</th>
+                    <th data-options="field:'入职日期'," style="width:100px">入职日期</th>
+                    <th data-options="field:'离职日期'," style="width:100px">离职日期</th>
+                    <th data-options="field:'电子邮箱'," style="width:100px">电子邮箱</th>
+                    <th data-options="field:'毕业院校'," style="width:100px">毕业院校</th>
+                    <th data-options="field:'专业'," style="width:100px">专业</th>
+                    <th data-options="field:'毕业时间'," style="width:100px">毕业时间</th>
+                    <th data-options="field:'合同生效日期'," style="width:100px">合同生效日期</th>*@
+                </tr>
+            </thead>
+            </table>
+            <div id="tb" style="padding:3px">
+                <a class="button white medium" id="download" href='~/DownLoad/花名册模板.xls'>下载导入模板</a>
+                <span>Excel文件路径:</span>
+                <input id="file" style="height:26px;border:2px solid #ccc" class="easyui-filebox" name="File" data-options="validType:'onlyExcel',buttonText:'选择'" />
+                <span>按工作表查看:</span>
+                <input id="sheet" name="sheet" style="height:26px;border:2px solid #ccc" data-options="editable:false" class=" edit-input easyui-combobox" />
+                <a href="#" id="linkbuttonImport" class="easyui-linkbutton" style="float:right;font-weight:bolder" data-options="iconCls:'icon-import',plain:true,disabled:true" onclick="EmpImport()">确认导入</a>
+            </div>
+            <div id="tishi" style="width:850px;">
+            </div>
+        </div>
+    </div>  
+</form>
+
+<div class="dialog-button">
+    <a class="easyui-linkbutton edit-button" data-options="iconCls:'icon-cancel'" onclick="cancel()">关闭</a>
+</div>

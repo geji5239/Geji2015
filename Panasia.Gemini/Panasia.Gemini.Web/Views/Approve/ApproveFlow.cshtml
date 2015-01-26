@@ -1,0 +1,107 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="Page-Enter" content="revealtrans(duration=2,transition=23)" />
+    <meta http-equiv="pragma" content="no-cache" />
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate" />
+    <meta http-equiv="expires" content="0" />
+    <title>双子星系统</title>
+    <link rel="shortcut icon" href="/Content/Images/logo.ico" />
+    <script type="text/javascript" src="/jquery-easyui-1.4/jquery.min.js"></script>
+    <script type="text/javascript" src="/jquery-easyui-1.4/jquery.easyui.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/Content/oldSite.css" />
+    <link rel="stylesheet" type="text/css" href="/Content/Site.css" />
+    <style type="text/css">
+        .detail td {
+            font: 12px "宋体", helvetica, sans-serif;
+        }
+
+        .edit-panel {
+            width: auto;
+            padding: 0;
+        }
+
+        .edit-dialog {
+            padding: 0;
+        }
+    </style>
+</head>
+<body>
+    <form id="dataform" class="form-dialog" style="width:100%;" method="post">
+        <div class="form-dialog">
+            <div class="edit-dialog" style="width: 100%;">
+                <div class="edit-panel">
+                    @{
+                        dynamic data = ViewBag.ApproveFlows;
+                        if (data != null && data.Rows.Count>0)
+                        {
+
+                            <div class="edit-field-r2" style="height: auto;">
+                                <div class="edit-title">
+                                    <label class="edit-label">
+                                        签核列表：
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="edit-field-r2" style="height: auto; width: 100%; ">
+                                <table class="detail">
+                                    @foreach (var item in data.Rows)
+                            {
+                                <tr>
+                                    <td style="width:20px;"></td>
+                                    <td style="width:120px;">@item["Confirm_Time"]</td>
+                                    <td style="width:100px;">@item["DepartmentName"]</td>
+                                    <td style="width:80px;">@item["JobName"]</td>
+                                    <td style="width:60px;">@item["EmployeeName"]</td>
+                                    <td style="width:40px;">@item["Confirm_Stat"]</td>
+                                    <td>@item["Suggestion"]</td>
+                                </tr>
+                            }
+                                 
+                                </table>
+                            </div>
+                        }
+                    }
+                    @{
+                        dynamic data1 = ViewBag.ApproverLog;
+                        if (data1 != null && data1.Rows.Count > 0)
+                        {
+                            <div class="edit-field-r2" style="height: auto;">
+                                <div class="edit-title">
+                                    <label class="edit-label">
+                                        签核历程：
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="edit-field-r2" style="height: auto; width: 100%; ">
+                                <table class="detail">
+
+                                    @foreach (var item in data1.Rows)
+                                    {
+                            <tr>
+                                <td style="width:20px;"></td>
+                                <td style="width:120px;">@item["Confirm_Time"]</td>
+                                <td style="width:100px;">@item["DepartmentName"]</td>
+                                <td style="width:80px;">@item["JobName"]</td>
+                                <td style="width:60px;">@item["EmployeeName"]</td>
+                                <td style="width:40px;">@item["Confirm_Stat"]</td>
+                                <td>@item["Suggestion"]</td>
+                            </tr>
+                                    }
+                                </table>
+                            </div>
+
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+    </form>
+</body>
+</html>

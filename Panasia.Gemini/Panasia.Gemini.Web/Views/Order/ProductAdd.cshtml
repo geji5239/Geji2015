@@ -1,0 +1,125 @@
+﻿<script type="text/javascript">
+    function BindProductType() {
+        var shift = false;
+        $("#ProductTypeID").combotree({
+            url: "/Share/Query?name=GetProductTypeParentID&resultformat=jsontree&root=P001&pid=ParentID&id=ProductTypeID&text=ProductType",
+            valueField: "id",
+            textField: "text",
+            onSelect: function (item) {
+                var url = '/Share/Query?name=GetProductByType&resultformat=json&ProductTypeID=' + item.id;
+                $('#ProductID').combobox({
+                    url: url,
+                    valueField: "ProductID",
+                    textField: "Product",
+                    onLoadSuccess: function () {
+                        if (!shift) {
+                            var data = $(this).combobox("getData");
+                            data.shift();
+                            shift = true;
+                            $(this).combobox("loadData", data);
+                        }
+                    },
+                    onSelect: function (p) {
+                        $.ajax({
+                            url: "/Page/P01075/QueryProductUI",
+                            type: "post",
+                            data: "ProductID=" + p.ProductID,
+                            dataType: "json",
+                            success: function (data) {
+                                $("#ProductInfo").empty();
+                                for (var i = 0; i < data.length; i++) {
+                                    $("#ProductInfo").append(
+                                        '<div class="edit-field">' +
+                                            '<div class="edit-title">' +
+                                                '<label class="edit-label">' +
+                                                    $.trim(data[i].ItemName) + '：' +
+                                                '</label>' +
+                                            '</div>' +
+                                            '<div class="edit-content">' +
+                                                $.trim(data[i].Html) +
+                                            '</div>' +
+                                        '</div>');
+
+                                    eval('$("#ProductForm [name=\'' + $.trim(data[i].Field) + '\'").' + $.trim(data[i].FieldType) + '();');
+                                }
+                                //$.parser.parse();
+                            },
+                            error: function (d, error) {
+                                _showMessage(formID,error);
+                            }
+                        });
+                    }
+                });
+            }
+        });
+    }
+
+    function SubmitProduct() {
+        checkOnline();
+        var formID = "ProductForm";
+        if ($("#ProductForm").form("validate")) {
+            var data = $("#ProductForm").serialize();
+            var url = "/Page/P01075/AddOrderProduct";
+            $.ajax({
+                url: url,
+                type: "post",
+                data: data + "&OrderID=" + $("#OrderID").textbox("getValue"),
+                dataType: "json",
+                success: function (result) {
+                    if (!result.HasError) {
+                        Insert("dgProduct", result, formID);
+                        $("#Product").dialog("close");
+                    }
+                    else {
+                        $.messager.alert('提示', result.ErrorMessage);
+                    }
+                },
+                error: function (d, error) {
+                    _showMessage(formID, error);
+                }
+            });
+        }
+    }
+</script>
+<div style="width:650px;height:300px;overflow:auto;">
+    <form id="ProductForm" class="form-dialog" method="post">
+        <div class="form-dialog">
+            <div class="edit-dialog">
+                <div class="edit-panel-w2">
+                    <div class="edit-field">
+                        <div class="edit-title">
+                            <label class="edit-label">
+                                产品类型：
+                            </label>
+                        </div>
+                        <div class="edit-content">
+                            <input id="ProductTypeID" name="ProductTypeID" class="edit-input easyui-combotree" data-options="editable:false,required:false" />
+                            <script type="text/javascript">
+                                BindProductType();
+                            </script>
+                        </div>
+                    </div>
+                    <div class="edit-field">
+                        <div class="edit-title">
+                            <label class="edit-label">
+                                产品名称：
+                            </label>
+                        </div>
+                        <div class="edit-content">
+                            <input class="edit-input easyui-combobox" id="ProductID" name="ProductID" data-options="editable:false,required:false,panelHeight:'auto'" />
+                        </div>
+                    </div>
+                    <span id="ProductInfo"></span>
+                    <div class="edit-field">
+                        <div class="showmsg">
+                            <label id="showmsg_ProductForm"></label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="dialog-button">
+            <a class="edit-button easyui-linkbutton" href="#" onclick="SubmitProduct();" data-options="iconCls:'icon-edit'">添加</a>
+        </div>
+    </form>
+</div>

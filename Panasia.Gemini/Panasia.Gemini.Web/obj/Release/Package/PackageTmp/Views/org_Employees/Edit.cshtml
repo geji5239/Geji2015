@@ -1,0 +1,126 @@
+﻿@model Panasia.Gemini.Web.Models.org_Employees
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Edit</h2>
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>org_Employees</legend>
+
+        @Html.HiddenFor(model => model.Employees_ID)
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Company_ID)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Company_ID)
+            @Html.ValidationMessageFor(model => model.Company_ID)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Department_ID)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Department_ID)
+            @Html.ValidationMessageFor(model => model.Department_ID)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Employees_Name)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Employees_Name)
+            @Html.ValidationMessageFor(model => model.Employees_Name)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Employees_LoginName)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Employees_LoginName)
+            @Html.ValidationMessageFor(model => model.Employees_LoginName)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Employees_PWD)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Employees_PWD)
+            @Html.ValidationMessageFor(model => model.Employees_PWD)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Position_ID)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Position_ID)
+            @Html.ValidationMessageFor(model => model.Position_ID)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Roles)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Roles)
+            @Html.ValidationMessageFor(model => model.Roles)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Employees_Email)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Employees_Email)
+            @Html.ValidationMessageFor(model => model.Employees_Email)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Employees_Mobile)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Employees_Mobile)
+            @Html.ValidationMessageFor(model => model.Employees_Mobile)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Employees_Tel)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Employees_Tel)
+            @Html.ValidationMessageFor(model => model.Employees_Tel)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Employees_OtherContact)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Employees_OtherContact)
+            @Html.ValidationMessageFor(model => model.Employees_OtherContact)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Is_Active)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Is_Active)
+            @Html.ValidationMessageFor(model => model.Is_Active)
+        </div>
+
+        <p>
+            <input type="submit" value="Save" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

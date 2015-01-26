@@ -1,0 +1,103 @@
+﻿@{
+    var item = Model.Parameters["Data"];
+}
+<script type="text/javascript">
+    $(function () {
+        searchBankName();
+        searchEmployeeName();
+    })
+    function searchEmployeeName() {
+        var str = $("#Search_EmployeeName").val();
+        $.post('/Page/P01001/SearchEmployeeName?Name=' + str, function (result) {
+            var html = "";
+            for (i in result.Data) {
+                html += "<li><input type='checkbox' value=" + result.Data[i].EmployeeID + "/><label>" + result.Data[i].Name + "</label></li>";
+            }
+            $("#EmployeeName").empty();
+            $("#EmployeeName").append(html);
+        });
+    }
+    function searchBankName() {
+        var str = $("#Search_BankName").val();
+        var companyid=$("#CompanyID").val();
+        $.post('/Page/P01001/SearchBankName?CompanyID='+companyid+'&Name=' + str, function (result) {
+            var html = "";
+            for (i in result.Data) {
+                html += "<li><input type='checkbox' value=" + result.Data[i].BankID + "/><label>" + result.Data[i].BankName + "</label></li>";
+            }
+            $("#BankName").empty();
+            $("#BankName").append(html);
+        });
+    }
+</script>
+<style>
+    .listul{
+        padding:0px;
+      
+    }
+    .listul li {
+        list-style: none;
+        margin: 0px;
+        padding: 0px;
+        float:left;
+        width:100px;
+    }
+     .listul li input,.listul li label{
+         float:left;
+     }
+</style>
+
+<form method="post" id="dataform" class="form-dialog">
+    <div class="edit-dialog1">
+        <div class="edit-panel3">
+
+            <div class="edit-field1">
+                <div class="edit-title1"><label class="edit-label1">简称：</label></div>
+                <div class="edit-content">
+                    <input class="edit-input easyui-textbox " value="@item["JC"]" readonly="readonly" />
+                    <input value="@item["CompanyID"]" type="hidden" name="CompanyID" id="CompanyID" />
+
+                </div>
+            </div>
+            <div class="edit-field1">
+                <div class="edit-title1"><label class="edit-label1">公司名称：</label></div>
+                <div class="edit-content">
+                    <input class="edit-input easyui-textbox " value="@item["Name"]" readonly="readonly" />
+                </div>
+            </div>
+        </div>
+
+        <div  id="contian" class="content-padding" style="float:left;">
+            <table cellpadding="2" style="width:760px;">
+                <tr>
+                    <td align="center"><input type="text" onkeyup="searchBankName()" name="Search_BankName" placeholder="银行关键字检索" id="Search_BankName" /></td>
+                    <td align="center"><input type="text" onkeyup="searchEmployeeName()" name="Search_EmployeeName" placeholder="姓名关键字检索" id="Search_EmployeeName" /></td>
+                    @*<td align="center"><input type="text" name="Search_BankName" placeholder="银行账号关键字检索" /></td>*@
+                </tr>
+                <tr>
+                    <td align="center">
+                        <div style="width:120px;min-height:256px;border:inset 1px gray;overflow-y:auto;">
+                            <ul class="listul" id="BankName" style="overflow-y:auto;overflow-x:hidden;height:280px;max-height:280px;margin:0px;"></ul>
+                        </div>
+                    </td>
+                    <td align="center">
+                        <div style="width:120px;min-height:256px;border:inset 1px gray;overflow-y:auto;">
+                            <ul class="listul" id="EmployeeName" style="overflow-y:auto;overflow-x:hidden;height:280px;max-height:280px;margin:0px;">
+                            </ul>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                </tr>
+                <tr>
+                    <td colspan="4"></td>
+                </tr>
+            </table>
+        </div>
+        </div>
+</form>
+        <div class="dialog-button">
+            <a class="easyui-linkbutton edit-button" data-options="iconCls:'icon-ok'" href="javascript:void(0)" onclick="Submit()">确定</a>
+            <a class="easyui-linkbutton edit-button" data-options="iconCls:'icon-cancel'" onclick="cancel()">取消</a>
+        </div>
+

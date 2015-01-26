@@ -1,0 +1,40 @@
+﻿
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Page.cshtml";
+}
+@model Panasia.Gemini.Web.Models.EditingCompanyModel
+@using Panasia.Core
+
+
+<form id="editForm" class="form-dialog" method="post">
+    <label class="label-title">公司名称：</label>
+    <input class="input-dialog" name="Company_Name" required="true" /><span style="color:red">*</span>
+    <br />
+    <label class="label-title">公司说明：</label>
+    <textarea class="input-dialog" name="Is_Active"></textarea>
+    <br />
+    <label class="label-title">状态：</label>
+    <input class="input-dialog" />
+    <br />
+
+    <div class="showMsg"><label id="showMsg"></label></div>
+    <div class="btn-add">
+        <input type="button" value="确定" class="btn-padding easyui-linkbutton " onclick="editCompany(@Model.Company.Company_ID)"/>
+        <input type="button" value="取消" class="btn-padding easyui-linkbutton" onclick="cancel()"  />
+    </div>
+</form>
+@section scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var result=@Html.Raw(@Model.Company.ToJson());
+            if ("False" == "@Model.Error.HasError") {
+                $("#editForm").form('load', result);
+            }
+            else {
+                $("#showMsg").empty();
+                $("#showMsg").append("@Model.Error.ErrorMessage");
+            }
+        });
+    </script>
+}

@@ -1,0 +1,51 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+    <link rel="Stylesheet" href="../default.css" />
+    <script type="text/javascript" src="../../javascript/jquery-1.4.4.min.js"></script>
+    <script type="text/javascript" src="../../javascript/dateformat.js"></script>
+    <script type="text/javascript" src="../TemplateInit.js"></script>
+</head>
+<body>
+    <table cellspacing="0" class="main">
+        <tr>
+            <td class="label">部门</td>
+            <td><span id="DeptName"></span></td>
+            <td class="label">姓名</td>
+            <td><span id="EmployeeName"></span></td>
+        </tr>
+        <tr>
+            <td class="label">入职日期</td>
+            <td><span id="HireDate" datatype="date"></span></td>
+            <td class="label">职位</td>
+            <td><span id="JobName"></span></td>
+        </tr>
+        <tr>
+            <td class="label">联系电话</td>
+            <td><span id="Tel"></span></td>
+            <td class="label">申请日期</td>
+            <td><span id="ApplicationDate" datatype="date"></span></td>
+        </tr>
+        <tr>
+            <td class="label">离职日期</td>
+            <td><span id="DimissionDate" datatype="date"></span></td>
+            <td class="label">离职类型</td>
+            <td><span id="DimissionType"></span></td>
+        </tr>
+        <tr>
+            <td class="label">事由</td>
+            <td colspan="3"><span id="Reason"></span></td>
+        </tr>
+        <tr>
+            <td class="label">工作交接</td>
+            <td colspan="3"><span id="AssociateContent"></span></td>
+        </tr>
+        <tr>
+            <td class="label">交接人</td>
+            <td colspan="3"><span id="AssociateEmployeeID" db="hr_Employee,Name,EmployeeID"></span></td>
+        </tr>
+    </table>
+</body>
+</html>

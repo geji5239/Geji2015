@@ -1,0 +1,4 @@
+E:\Code2014\Panasia.Gemini\bin\Panasia.Core.Web.dll
+E:\Code2014\Panasia.Gemini\bin\Panasia.Core.Web.pdb
+E:\Code2014\Panasia.Gemini\Panasia.Core.Web\obj\Release\Panasia.Core.Web.dll
+E:\Code2014\Panasia.Gemini\Panasia.Core.Web\obj\Release\Panasia.Core.Web.pdb

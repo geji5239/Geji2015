@@ -1,0 +1,23 @@
+﻿@{
+    ViewBag.Title = "Add";
+    Layout = "~/Views/Shared/_Page.cshtml";
+}
+@model Panasia.Gemini.Web.Models.DepartmentPageModel.DepartmentAddModel
+<h2>Add</h2>
+<div class="container">
+    <div class="left-nav">
+        <div class="easyui-panel" title="泛亚信息技术江苏有限公司" style="padding:5px; width:250px;height:500px; margin-top:0px;">
+            <ul class="easyui-tree" id="tree" data-options="url:'/org_Company/AjaxList',method:'get',animate:true"></ul>
+        </div>
+    </div>
+    <div class="main-nav">
+       @Html.Partial("_ToolsBar", Model)
+    </div>
+    <div class="forme">
+        <label class="label-title">分支名称</label><input class="textbox" type="text" name="name" data-options="required:true" id="name"></input></p>
+        <label class="label-title">分支地址</label><input class="textbox" type="text" name="adree" data-options="required:true" id="adree"></input></p>
+        <label class="label-title">分支电话</label><input class="textbox" type="text" name="tel" data-options="required:true" id="tel"></input></p>
+        <label class="label-title">分支网址</label><input class="textbox" type="text" name="net" data-options="required:true" id="net"></input></p>
+        <label class="label-title">分支名称</label><input class="textbox" type="text" name="name" data-options="required:true" id="name"></input></p>
+    </div>
+</div>

@@ -1,0 +1,428 @@
+<?xml version="1.0"?>
+<SqlData xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" DefaultPath="Request[{0}]">
+  <Connections>
+    <Connection Name="Auth" ProviderName="System.Data.SqlClient" ConnectionString="Server=10.1.15.235;Database=PA_Sys;User Id=sa;Password=sa123456;" />
+    <Connection Name="Org" ProviderName="System.Data.SqlClient" ConnectionString="Server=10.1.15.235;Database=PA_HR;User Id=sa;Password=sa123456;" />
+    <Connection Name="PA" ProviderName="System.Data.SqlClient" ConnectionString="Server=10.1.15.235;Database=PA;User Id=sa;Password=sa123456;" />
+  </Connections>
+  <Groups>
+    <Group Name="组织结构">
+      <Table Name="hr_BU" ConnectionName="Org" TableName="hr_BU">
+        <Sql Name="Add" ConnectionName="Org" Description="Add">
+          INSERT INTO [hr_BU]
+          ([BUID],[Name],[ManagerID],[Description],[IsActive],[SortID],[CreatedUser],[CreatedTime],[ModifiedUser],[ModifiedTime])
+          VALUES(@BUID,@Name,@ManagerID,@Description,@IsActive,@SortID,@CreatedUser,@CreatedTime,@ModifiedUser,@ModifiedTime);
+          SELECT [hr_BU].[BUID],[hr_BU].[Name],[hr_Employee].[Name] AS ManagerName,[hr_BU].[Description],CASE [hr_BU].[IsActive] WHEN 1 THEN '有效' WHEN 0 THEN '无效' END IsActive ,[hr_BU].[SortID] FROM
+          [hr_BU] LEFT JOIN [hr_Employee] ON [hr_BU].[ManagerID] = [hr_Employee].UserID
+          WHERE [hr_BU].[AutoKey]=scope_identity();
+        </Sql>
+        <Sql Name="Update" ConnectionName="Org" SqlType="Execute" Description="Update">
+          UPDATE [hr_BU]
+          SET  [Name]=@Name,[ManagerID]=@ManagerID,[Description]=@Description,[SortID]=@SortID,[ModifiedUser]=@ModifiedUser,[ModifiedTime]=@ModifiedTime WHERE [BUID]=@BUID;
+          SELECT [hr_BU].[BUID],[hr_BU].[Name],[hr_Employee].[Name] AS ManagerName,[hr_BU].[Description],CASE [hr_BU].[IsActive] WHEN 1 THEN '有效' WHEN 0 THEN '无效' END IsActive ,[hr_BU].[SortID] FROM
+          [hr_BU] LEFT JOIN [hr_Employee] ON [hr_BU].[ManagerID] = [hr_Employee].UserID
+          WHERE [BUID]=@BUID;
+        </Sql>
+        <Sql Name="Delete" ConnectionName="Org" SqlType="Execute" Description="Delete">
+          DECLARE @sql varchar(max);
+          SET @sql='UPDATE [hr_BU]
+          SET [ModifiedUser]='''+@ModifiedUser+''',[ModifiedTime]='''+@ModifiedTime+''',[IsActive]=0 WHERE [BUID] in ('''+replace(@BUIDs,',',''',''')+''') ;'
+          EXEC(@sql);
+        </Sql>
+        <Sql Name="GetItem" ConnectionName="Org" SqlType="Execute" Description="GetItem">
+          SELECT [hr_BU].[BUID],[hr_BU].[Name],[hr_BU].[ManagerID], [hr_Employee].[Name] ManagerName,[hr_BU].[Description],[hr_BU].[IsActive],
+          CASE [hr_BU].[IsActive] WHEN 1 THEN '1' WHEN 0 THEN '0' END IsActive_INT,
+          [hr_BU].[SortID],[hr_BU].[CreatedUser],[hr_BU].[CreatedTime],[hr_BU].[ModifiedUser],[hr_BU].[ModifiedTime],[hr_BU].[AutoKey] FROM
+          [hr_BU] LEFT JOIN [hr_Employee] ON [hr_BU].[ManagerID] = [hr_Employee].UserID
+          WHERE [hr_BU].[BUID]=@BUID;
+        </Sql>
+        <Sql Name="GetItem_View" ConnectionName="Org" SqlType="Execute" Description="GetItem_View">
+          SELECT [hr_BU].[Name],[hr_Employee].[Name] AS ManagerName,[hr_BU].[Description],CASE [hr_BU].[IsActive] WHEN 1 THEN '有效' WHEN 0 THEN '无效' END IsActive ,[hr_BU].[SortID] FROM
+          [hr_BU] LEFT JOIN [hr_Employee] ON [hr_BU].[ManagerID] = [hr_Employee].UserID
+          WHERE [BUID]=@BUID;
+        </Sql>
+        <Sql Name="GetAll" ConnectionName="Org" SqlType="Execute" Description="GetAll">SELECT [BUID],[Name],[ManagerID],[Description],[IsActive],[SortID],[CreatedUser],[CreatedTime],[ModifiedUser],[ModifiedTime],[AutoKey] FROM [hr_BU];</Sql>
+        <Sql Name="GetAll_Search" ConnectionName="Org" SqlType="Execute" Description="GetAll_Search">
+          SELECT [hr_BU].[BUID],[hr_BU].[Name],[hr_Employee].[Name] AS ManagerName,[hr_BU].[Description],CASE [hr_BU].[IsActive] WHEN 1 THEN '有效' WHEN 0 THEN '无效' END IsActive,[SortID]
+          FROM [hr_BU] LEFT JOIN [hr_Employee] ON [hr_BU].[ManagerID] = [hr_Employee].UserID
+          WHERE [hr_BU].[Name] LIKE '%'+@Name+'%' AND [hr_BU].IsActive=@IsActive
+          ORDER BY [hr_BU].[SortID];
+        </Sql>
+        <Sql Name="GetName" ConnectionName="Org" Description="GetBUName">select [Name],[BUID] FROM [hr_BU] union select '无','';</Sql>
+      </Table>
+      <Table Name="hr_Company" ConnectionName="Org" TableName="hr_Company">
+        <Sql Name="Add" ConnectionName="Org" Description="Add">INSERT INTO [hr_Company]
+([CompanyID],[Name],[ManagerID],[Description],[IsActive],[SortID],[CreatedUser],[CreatedTime],[ModifiedUser],[ModifiedTime]) 
+VALUES(@CompanyID,@Name,@ManagerID,@Description,@IsActive,@SortID,@CreatedUser,@CreatedTime,@ModifiedUser,@ModifiedTime);
+ SELECT a.[CompanyID],a.[Name],b.[Name] as ManagerName,[Description],a.[IsActive],[SortID],a.[CreatedUser],a.[CreatedTime],
+ a.[ModifiedUser],a.[ModifiedTime],a.[AutoKey] 
+FROM [hr_Company] a
+left join hr_Employee b on a.ManagerID=b.EmployeeID
+WHERE a.[AutoKey]=scope_identity();</Sql>
+        <Sql Name="Update" ConnectionName="Org" SqlType="Execute" Description="Update">UPDATE [hr_Company]
+ SET  [Name]=@Name,[Description]=@Description,[ModifiedUser]=@ModifiedUser,[ModifiedTime]=@ModifiedTime,ManagerID=@ManagerID WHERE [CompanyID]=@CompanyID;
+SELECT a.[CompanyID],a.[Name],isnull(b.[Name],'') as ManagerName,[Description],a.[IsActive],[SortID],a.[CreatedUser],a.[CreatedTime],
+ a.[ModifiedUser],a.[ModifiedTime],a.[AutoKey] 
+FROM [hr_Company] a
+left join hr_Employee b on a.ManagerID=b.EmployeeID
+ WHERE [CompanyID]=@CompanyID;</Sql>
+        <Sql Name="Delete" ConnectionName="Org" SqlType="Execute" Description="Delete">declare @sql varchar(max);
+
+set @sql='UPDATE [hr_Company]
+ SET [ModifiedUser]='''+@ModifiedUser+''',[ModifiedTime]='''+@ModifiedTime+''',[IsActive]=0 WHERE [CompanyID] in ('''+replace(@CompanyIDs,',',''',''')+''') ;'
+exec(@sql);
+</Sql>
+        <Sql Name="GetItem" ConnectionName="Org" SqlType="Execute" Description="GetItem">SELECT [CompanyID],a.[Name],[ManagerID],[Description],a.[IsActive],[SortID],a.[CreatedUser],a.[CreatedTime],a.[ModifiedUser],a.[ModifiedTime],a.[AutoKey] 
+FROM [hr_Company] a 
+left join hr_Employee b on a.ManagerID=b.EmployeeID
+ WHERE [CompanyID]=@CompanyID;</Sql>
+        <Sql Name="GetAll" ConnectionName="Org" SqlType="Execute" Description="GetAll"> SELECT a.[CompanyID],a.[Name],b.[Name] as ManagerName,[Description],CASE a.[IsActive] WHEN 1 THEN '有效' WHEN 0 THEN '无效' END IsActive ,[SortID],a.[CreatedUser],a.[CreatedTime],
+ a.[ModifiedUser],a.[ModifiedTime],a.[AutoKey] 
+FROM [hr_Company] a
+left join hr_Employee b on a.ManagerID=b.EmployeeID 
+ WHERE [CompanyID]=@CompanyID;</Sql>
+        <Sql Name="Search" ConnectionName="Org" Description="Search">SELECT a.[CompanyID],a.[Name],b.[Name] as ManagerName,[Description],a.[IsActive],[SortID],a.[CreatedUser],a.[CreatedTime],
+ a.[ModifiedUser],a.[ModifiedTime],a.[AutoKey] 
+FROM [hr_Company] a
+left join hr_Employee b on a.ManagerID=b.EmployeeID
+WHERE a.[Name] like '%' + @Name + '%' and a.[IsActive] like '%'+@IsActive+'%';</Sql>
+        <Sql Name="GetName" ConnectionName="Org" Description="GetCompanyName">select [Name],[CompanyID] FROM [hr_Company] union select '无','';</Sql>
+      </Table>
+      <Table Name="hr_Department" ConnectionName="Org" TableName="hr_Department">
+        <Sql Name="Add" ConnectionName="Org" Description="Add">INSERT INTO [hr_Department]
+([DeptID],[Name],[ManagerID],[ParentID],[CompanyID],[BUID],[Description],[IsActive],[SortID],[CreatedUser],[CreatedTime],[ModifiedUser],[ModifiedTime]) 
+VALUES(@DeptID,@Name,@ManagerID,@ParentID,@CompanyID,@BUID,@Description,@IsActive,@SortID,@CreatedUser,@CreatedTime,@ModifiedUser,@ModifiedTime);
+select a.[Name] as DeptName,d.[Name] as ParentName,b.[Name] as CompanyName,c.[Name] as BUName,a.[ManagerID] as ManagerName,a.[IsActive] 
+from [hr_Department] a 
+left join [hr_Department] d on a.[ParentID]=d.[DeptID] 
+left join [hr_Company] b on a.[CompanyID]=b.[CompanyID]
+left join [hr_BU] c on a.[BUID]=c.[BUID]
+ where a.[AutoKey]=scope_identity();
+</Sql>
+        <Sql Name="Update" ConnectionName="Org" SqlType="Execute" Description="Update">UPDATE [hr_Department]
+ SET  [Name]=@Name,[ManagerID]=@ManagerID,[ParentID]=@ParentID,[CompanyID]=@CompanyID,[BUID]=@BUID,[Description]=@Description,[ModifiedUser]=@ModifiedUser,[ModifiedTime]=@ModifiedTime WHERE [DeptID]=@DeptID;
+select a.[Name] as DeptName,isnull(d.[Name],'') as ParentName,isnull(b.[Name],'') as CompanyName,isnull(c.[Name],'') as BUName,isnull(a.[ManagerID],''),a.[IsActive],a.[Description]
+ from [hr_Department] a 
+left join [hr_Department] d on a.[ParentID]=d.[DeptID] 
+left join [hr_Company] b on a.[CompanyID]=b.[CompanyID] 
+left join [hr_BU] c on a.[BUID]=c.[BUID] 
+WHERE a.[DeptID]=@DeptID;</Sql>
+        <Sql Name="Delete" ConnectionName="Org" SqlType="Execute" Description="Delete">declare @sql varchar(max);
+
+set @sql='UPDATE [hr_Department]
+ SET [ModifiedUser]='''+@ModifiedUser+''',[ModifiedTime]='''+@ModifiedTime+''',[IsActive]=0 WHERE [DeptID] in ('''+replace(@DeptIDs,',',''',''')+''') ;'
+exec(@sql);</Sql>
+        <Sql Name="GetItem" ConnectionName="Org" SqlType="Execute" Description="GetItem">select a.[DeptID],a.[Name] as DeptName,a.[ParentID] ,a.[CompanyID],a.[BUID],a.[ManagerID],a.[IsActive],a.[Description]
+from [hr_Department] a 
+left join [hr_Department] d on a.[ParentID]=d.[DeptID] 
+left join [hr_Company] b on a.[CompanyID]=b.[CompanyID]
+left join [hr_BU] c on a.[BUID]=c.[BUID]
+WHERE a.[DeptID]=@DeptID;</Sql>
+        <Sql Name="GetAll" ConnectionName="Org" SqlType="Execute" Description="GetAll">SELECT [DeptID],[Name],[ManagerID],[ParentID],[CompanyID],[BUID],[Description],[IsActive],[SortID],[CreatedUser],[CreatedTime],[ModifiedUser],[ModifiedTime],[AutoKey] FROM [hr_Department];</Sql>
+        <Sql Name="GetName" ConnectionName="Org" Description="GeDeptName">select [Name],[DeptID] from [hr_Department] union select '无','';</Sql>
+        <Sql Name="Query" ConnectionName="Org" Description="Query">select a.[DeptID],a.[Name] as DeptName,d.[Name] as ParentName,b.[Name] as CompanyName,c.[Name] as BUName,a.[ManagerID],a.[IsActive],a.[Description]
+ from [hr_Department] a 
+left join [hr_Department] d on a.[ParentID]=d.[DeptID] 
+left join [hr_Company] b on a.[CompanyID]=b.[CompanyID]
+left join [hr_BU] c on a.[BUID]=c.[BUID] 
+WHERE a.[Name] LIKE '%'+@Name+'%' AND a.[IsActive]=@IsActive and a.[ParentID] like '%'+@ParentID+'%' and a.[CompanyID] like '%'+@CompanyID+'%' 
+and a.[BUID] like '%'+@BUID+'%' and a.[ManagerID] like '%'+@ManagerID+'%';</Sql>
+      </Table>
+      <Table Name="hr_Employee" ConnectionName="Org" TableName="hr_Employee">
+        <Sql Name="Add" ConnectionName="Org" Description="Add">INSERT INTO [hr_Employee]
+([EmployeeID],[DeptID],[UserID],[Name],[DepartmentID],[JobID],[Email],[CardID],[EnName],[Sex],[Birthday],[Marriage],[Nation],[NativeProvince],[NativeCounty],[IdentityType],[IdentityCode],[RegisterAddress],[LiveAddress],[Education],[Telephone],[JobState],[State],[HireDate],[RegularDate],[Terminate],[IsActive],[CreatedUser],[CreatedTime],[ModifiedUser],[ModifiedTime]) 
+VALUES(@EmployeeID,@DeptID,@UserID,@Name,@DepartmentID,@JobID,@Email,@CardID,@EnName,@Sex,@Birthday,@Marriage,@Nation,@NativeProvince,@NativeCounty,@IdentityType,@IdentityCode,@RegisterAddress,@LiveAddress,@Education,@Telephone,@JobState,@State,@HireDate,@RegularDate,@Terminate,@IsActive,@CreatedUser,@CreatedTime,@ModifiedUser,@ModifiedTime);
+ SELECT [EmployeeID],[DeptID],[UserID],[Name],[DepartmentID],[JobID],[Email],[CardID],[EnName],[Sex],[Birthday],[Marriage],[Nation],[NativeProvince],[NativeCounty],[IdentityType],[IdentityCode],[RegisterAddress],[LiveAddress],[Education],[Telephone],[JobState],[State],[HireDate],[RegularDate],[Terminate],[IsActive],[CreatedUser],[CreatedTime],[ModifiedUser],[ModifiedTime],[AutoKey] FROM [hr_Employee] 
+WHERE [AutoKey]=scope_identity();</Sql>
+        <Sql Name="Update" ConnectionName="Org" SqlType="Execute" Description="Update">UPDATE [hr_Employee]
+ SET  [DeptID]=@DeptID,[UserID]=@UserID,[Name]=@Name,[DepartmentID]=@DepartmentID,[JobID]=@JobID,[Email]=@Email,[CardID]=@CardID,[EnName]=@EnName,[Sex]=@Sex,[Birthday]=@Birthday,[Marriage]=@Marriage,[Nation]=@Nation,[NativeProvince]=@NativeProvince,[NativeCounty]=@NativeCounty,[IdentityType]=@IdentityType,[IdentityCode]=@IdentityCode,[RegisterAddress]=@RegisterAddress,[LiveAddress]=@LiveAddress,[Education]=@Education,[Telephone]=@Telephone,[JobState]=@JobState,[State]=@State,[HireDate]=@HireDate,[RegularDate]=@RegularDate,[Terminate]=@Terminate,[IsActive]=@IsActive,[ModifiedUser]=@ModifiedUser,[ModifiedTime]=@ModifiedTime WHERE [EmployeeID]=@EmployeeID;</Sql>
+        <Sql Name="Delete" ConnectionName="Org" SqlType="Execute" Description="Delete">DELETE FROM [hr_Employee]
+ WHERE [EmployeeID]=@EmployeeID;</Sql>
+        <Sql Name="GetItem" ConnectionName="Org" SqlType="Execute" Description="GetItem">SELECT [EmployeeID],[DeptID],[UserID],[Name],[DepartmentID],[JobID],[Email],[CardID],[EnName],[Sex],[Birthday],[Marriage],[Nation],[NativeProvince],[NativeCounty],[IdentityType],[IdentityCode],[RegisterAddress],[LiveAddress],[Education],[Telephone],[JobState],[State],[HireDate],[RegularDate],[Terminate],[IsActive],[CreatedUser],[CreatedTime],[ModifiedUser],[ModifiedTime],[AutoKey] FROM [hr_Employee]
+ WHERE [EmployeeID]=@EmployeeID;</Sql>
+        <Sql Name="GetAll" ConnectionName="Org" SqlType="Execute" Description="GetAll">SELECT [EmployeeID],[DeptID],[UserID],[Name],[DepartmentID],[JobID],[Email],[CardID],[EnName],[Sex],[Birthday],[Marriage],[Nation],[NativeProvince],[NativeCounty],[IdentityType],[IdentityCode],[RegisterAddress],[LiveAddress],[Education],[Telephone],[JobState],[State],[HireDate],[RegularDate],[Terminate],[IsActive],[CreatedUser],[CreatedTime],[ModifiedUser],[ModifiedTime],[AutoKey] FROM [hr_Employee];</Sql>
+        <Sql Name="GetName" ConnectionName="Org" Description="GetEmployeeName">select [Name],[EmployeeID] FROM [hr_Employee] union select '无','';</Sql>
+      </Table>
+      <Table Name="hr_Job" ConnectionName="Org" TableName="hr_Job">
+        <Sql Name="Add" ConnectionName="Org" Description="Add">
+          INSERT INTO [hr_Job]
+          ([JobID],[Name],[Description],[IsActive],[SortID],[CreatedUser],[CreatedTime],[ModifiedUser],[ModifiedTime])
+          VALUES(@JobID,@Name,@Description,@IsActive,@SortID,@CreatedUser,@CreatedTime,@ModifiedUser,@ModifiedTime);
+          SELECT [JobID],[Name],[Description],CASE [IsActive] WHEN 1 THEN '有效' WHEN 0 THEN '无效' END IsActive ,[SortID] FROM
+          [hr_Job]
+          WHERE [AutoKey]=scope_identity();
+        </Sql>
+        <Sql Name="Update" ConnectionName="Org" SqlType="Execute" Description="Update">
+          UPDATE [hr_Job]
+          SET  [Name]=@Name,[Description]=@Description,[SortID]=@SortID,[ModifiedUser]=@ModifiedUser,[ModifiedTime]=@ModifiedTime WHERE [JobID]=@JobID;
+          SELECT [JobID],[Name],[Description],CASE [IsActive] WHEN 1 THEN '有效' WHEN 0 THEN '无效' END IsActive ,[SortID]
+          FROM [hr_Job]
+          WHERE [JobID]=@JobID;
+        </Sql>
+        <Sql Name="Delete" ConnectionName="Org" SqlType="Execute" Description="Delete">
+          DECLARE @sql varchar(max);
+          SET @sql='UPDATE [hr_Job]
+          SET [ModifiedUser]='''+@ModifiedUser+''',[ModifiedTime]='''+@ModifiedTime+''',[IsActive]=0 WHERE [JobID] in ('''+replace(@JobIDs,',',''',''')+''') ;'
+          EXEC(@sql);
+        </Sql>
+        <Sql Name="GetItem" ConnectionName="Org" SqlType="Execute" Description="GetItem">
+          SELECT [JobID],[Name],[Description],[IsActive],
+          CASE [IsActive] WHEN 1 THEN '1' WHEN 0 THEN '0' END IsActive_INT,
+          [SortID],[CreatedUser],[CreatedTime],[ModifiedUser],[ModifiedTime],[AutoKey] FROM [hr_Job]
+          WHERE [JobID]=@JobID;
+        </Sql>
+        <Sql Name="GetItem_View" ConnectionName="Org" SqlType="Execute" Description="GetItem_View">
+          SELECT [Name],[Description],CASE [IsActive] WHEN 1 THEN '有效' WHEN 0 THEN '无效' END IsActive ,[SortID]
+          FROM [hr_Job]
+          WHERE [JobID]=@JobID;
+        </Sql>
+        <Sql Name="GetAll" ConnectionName="Org" SqlType="Execute" Description="GetAll">SELECT [JobID],[Name],[Description],[IsActive],[SortID],[CreatedUser],[CreatedTime],[ModifiedUser],[ModifiedTime],[AutoKey] FROM [hr_Job];</Sql>
+        <Sql Name="GetAll_Search" ConnectionName="Org" SqlType="Execute" Description="GetAll_Search">
+          SELECT [JobID],[Name],[Description],CASE [IsActive] WHEN 1 THEN '有效' WHEN 0 THEN '无效' END IsActive,[SortID]
+          FROM [hr_Job]
+          WHERE [Name] LIKE '%'+@Name+'%' AND IsActive=@IsActive
+          ORDER BY [SortID];
+        </Sql>
+      </Table>
+    </Group>
+    <Group Name="系统安全">
+      <Table Name="sys_Role" ConnectionName="Auth" TableName="sys_Role">
+        <Sql Name="Add" ConnectionName="Auth" Description="Add">INSERT INTO [sys_Role]
+([RoleID],[Name],[Description],[CreatedUser],[CreatedTime],[ModifiedUser],[ModifiedTime]) 
+VALUES(@RoleID,@Name,@Description,@CreatedUser,@CreatedTime,@ModifiedUser,@ModifiedTime);
+ SELECT [RoleID],[Name],[Description],[CreatedUser],[CreatedTime],[ModifiedUser],[ModifiedTime],[AutoKey] FROM [sys_Role] 
+WHERE [AutoKey]=scope_identity();</Sql>
+        <Sql Name="Update" ConnectionName="Auth" SqlType="Execute" Description="Update">UPDATE [sys_Role]
+ SET  [Name]=@Name,[Description]=@Description,[ModifiedUser]=@ModifiedUser,[ModifiedTime]=@ModifiedTime WHERE [RoleID]=@RoleID;</Sql>
+        <Sql Name="Delete" ConnectionName="Auth" SqlType="Execute" Description="Delete">DELETE FROM [sys_Role]
+ WHERE [RoleID]=@RoleID;</Sql>
+        <Sql Name="GetItem" ConnectionName="Auth" SqlType="Execute" Description="GetItem">SELECT [RoleID],[Name],[Description],[CreatedUser],[CreatedTime],[ModifiedUser],[ModifiedTime],[AutoKey] FROM [sys_Role]
+ WHERE [RoleID]=@RoleID;</Sql>
+        <Sql Name="GetAll" ConnectionName="Auth" SqlType="Execute" Description="GetAll">SELECT [RoleID],[Name],[Description],[CreatedUser],[CreatedTime],[ModifiedUser],[ModifiedTime],[AutoKey] FROM [sys_Role];</Sql>
+      </Table>
+      <Table Name="sys_RolePage" ConnectionName="Auth" TableName="sys_RolePage">
+        <Sql Name="Add" ConnectionName="Auth" Description="Add">INSERT INTO [sys_RolePage]
+([RoleID],[PageID],[ActionValue],[DataFilter],[CreatedUser],[CreatedTime],[ModifiedUser],[ModifiedTime],[AutoKey]) 
+VALUES(@RoleID,@PageID,@ActionValue,@DataFilter,@CreatedUser,@CreatedTime,@ModifiedUser,@ModifiedTime,@AutoKey);
+ SELECT [RoleID],[PageID],[ActionValue],[DataFilter],[CreatedUser],[CreatedTime],[ModifiedUser],[ModifiedTime],[AutoKey] FROM [sys_RolePage] 
+WHERE [RoleID]=@RoleID AND [PageID]=@PageID;</Sql>
+        <Sql Name="Update" ConnectionName="Auth" SqlType="Execute" Description="Update">UPDATE [sys_RolePage]
+ SET  [RoleID]=@RoleID,[PageID]=@PageID,[ActionValue]=@ActionValue,[DataFilter]=@DataFilter,[ModifiedUser]=@ModifiedUser,[ModifiedTime]=@ModifiedTime,[AutoKey]=@AutoKey WHERE [RoleID]=@RoleID AND [PageID]=@PageID;</Sql>
+        <Sql Name="Delete" ConnectionName="Auth" SqlType="Execute" Description="Delete">DELETE FROM [sys_RolePage]
+ WHERE [RoleID]=@RoleID AND [PageID]=@PageID;</Sql>
+        <Sql Name="GetItem" ConnectionName="Auth" SqlType="Execute" Description="GetItem">SELECT [RoleID],[PageID],[ActionValue],[DataFilter],[CreatedUser],[CreatedTime],[ModifiedUser],[ModifiedTime],[AutoKey] FROM [sys_RolePage]
+ WHERE [RoleID]=@RoleID AND [PageID]=@PageID;</Sql>
+        <Sql Name="GetAll" ConnectionName="Auth" SqlType="Execute" Description="GetAll">SELECT [RoleID],[PageID],[ActionValue],[DataFilter],[CreatedUser],[CreatedTime],[ModifiedUser],[ModifiedTime],[AutoKey] FROM [sys_RolePage];</Sql>
+      </Table>
+      <Table Name="sys_SerialCode" ConnectionName="Auth" TableName="sys_SerialCode">
+        <Sql Name="Add" ConnectionName="Auth" Description="Add">INSERT INTO [sys_SerialCode]
+([CodeType],[Prefix],[NextIndex],[FixedLength],[CreatedUser],[CreatedTime],[ModifiedUser],[ModifiedTime]) 
+VALUES(@CodeType,@Prefix,@NextIndex,@FixedLength,@CreatedUser,@CreatedTime,@ModifiedUser,@ModifiedTime);
+ SELECT [CodeType],[Prefix],[NextIndex],[FixedLength],[CreatedUser],[CreatedTime],[ModifiedUser],[ModifiedTime],[AutoKey] FROM [sys_SerialCode] 
+WHERE [AutoKey]=scope_identity();</Sql>
+        <Sql Name="Update" ConnectionName="Auth" SqlType="Execute" Description="Update">UPDATE [sys_SerialCode]
+ SET  [CodeType]=@CodeType,[Prefix]=@Prefix,[NextIndex]=@NextIndex,[FixedLength]=@FixedLength,[ModifiedUser]=@ModifiedUser,[ModifiedTime]=@ModifiedTime WHERE [CodeType]=@CodeType AND [Prefix]=@Prefix;</Sql>
+        <Sql Name="Delete" ConnectionName="Auth" SqlType="Execute" Description="Delete">DELETE FROM [sys_SerialCode]
+ WHERE [CodeType]=@CodeType AND [Prefix]=@Prefix;</Sql>
+        <Sql Name="GetItem" ConnectionName="Auth" SqlType="Execute" Description="GetItem">SELECT [CodeType],[Prefix],[NextIndex],[FixedLength],[CreatedUser],[CreatedTime],[ModifiedUser],[ModifiedTime],[AutoKey] FROM [sys_SerialCode]
+ WHERE [CodeType]=@CodeType AND [Prefix]=@Prefix;</Sql>
+        <Sql Name="GetAll" ConnectionName="Auth" SqlType="Execute" Description="GetAll">SELECT [CodeType],[Prefix],[NextIndex],[FixedLength],[CreatedUser],[CreatedTime],[ModifiedUser],[ModifiedTime],[AutoKey] FROM [sys_SerialCode];</Sql>
+      </Table>
+      <Table Name="sys_User" ConnectionName="Auth" TableName="sys_User">
+        <Sql Name="Add" ConnectionName="Auth" Description="Add">INSERT INTO [sys_User]
+([UserID],[UserName],[FullName],[Email],[Password],[IsValid],[CreatedUser],[CreatedTime],[ModifiedUser],[ModifiedTime]) 
+VALUES(@UserID,@UserName,@FullName,@Email,@Password,@IsValid,@CreatedUser,@CreatedTime,@ModifiedUser,@ModifiedTime);
+ SELECT [UserID],[UserName],[FullName],[Email],[Password],[IsValid],[CreatedUser],[CreatedTime],[ModifiedUser],[ModifiedTime],[AutoKey] FROM [sys_User] 
+WHERE [AutoKey]=scope_identity();</Sql>
+        <Sql Name="Update" ConnectionName="Auth" SqlType="Execute" Description="Update">UPDATE [sys_User]
+ SET  [UserName]=@UserName,[FullName]=@FullName,[Email]=@Email,[Password]=@Password,[IsValid]=@IsValid,[ModifiedUser]=@ModifiedUser,[ModifiedTime]=@ModifiedTime WHERE [UserID]=@UserID;</Sql>
+        <Sql Name="Delete" ConnectionName="Auth" SqlType="Execute" Description="Delete">DELETE FROM [sys_User]
+ WHERE [UserID]=@UserID;</Sql>
+        <Sql Name="GetItem" ConnectionName="Auth" SqlType="Execute" Description="GetItem">SELECT [UserID],[UserName],[FullName],[Email],[Password],[IsValid],[CreatedUser],[CreatedTime],[ModifiedUser],[ModifiedTime],[AutoKey] FROM [sys_User]
+ WHERE [UserID]=@UserID;</Sql>
+        <Sql Name="GetAll" ConnectionName="Auth" SqlType="Execute" Description="GetAll">SELECT [UserID],[UserName],[FullName],[Email],[Password],[IsValid],[CreatedUser],[CreatedTime],[ModifiedUser],[ModifiedTime],[AutoKey] FROM [sys_User];</Sql>
+      </Table>
+      <Table Name="sys_UserLog" ConnectionName="Auth" TableName="sys_UserLog">
+        <Sql Name="Add" ConnectionName="Auth" Description="Add">INSERT INTO [sys_UserLog]
+([UserName],[ActionName],[Description],[Url],[ClientIP],[CreatedUser],[CreatedTime],[ModifiedUser],[ModifiedTime]) 
+VALUES(@UserName,@ActionName,@Description,@Url,@ClientIP,@CreatedUser,@CreatedTime,@ModifiedUser,@ModifiedTime);
+ SELECT [AutoKey],[UserName],[ActionName],[Description],[Url],[ClientIP],[CreatedUser],[CreatedTime],[ModifiedUser],[ModifiedTime] FROM [sys_UserLog] 
+WHERE [AutoKey]=scope_identity();</Sql>
+        <Sql Name="Update" ConnectionName="Auth" SqlType="Execute" Description="Update">UPDATE [sys_UserLog]
+ SET  [UserName]=@UserName,[ActionName]=@ActionName,[Description]=@Description,[Url]=@Url,[ClientIP]=@ClientIP,[ModifiedUser]=@ModifiedUser,[ModifiedTime]=@ModifiedTime WHERE [AutoKey]=@AutoKey;</Sql>
+        <Sql Name="Delete" ConnectionName="Auth" SqlType="Execute" Description="Delete">DELETE FROM [sys_UserLog]
+ WHERE [AutoKey]=@AutoKey;</Sql>
+        <Sql Name="GetItem" ConnectionName="Auth" SqlType="Execute" Description="GetItem">SELECT [AutoKey],[UserName],[ActionName],[Description],[Url],[ClientIP],[CreatedUser],[CreatedTime],[ModifiedUser],[ModifiedTime] FROM [sys_UserLog]
+ WHERE [AutoKey]=@AutoKey;</Sql>
+        <Sql Name="GetAll" ConnectionName="Auth" SqlType="Execute" Description="GetAll">SELECT [AutoKey],[UserName],[ActionName],[Description],[Url],[ClientIP],[CreatedUser],[CreatedTime],[ModifiedUser],[ModifiedTime] FROM [sys_UserLog];</Sql>
+        <Sql Name="Query" ConnectionName="Auth" Description="Query获取查询结果">SELECT [AutoKey],[UserName],[ActionName],[Description],[Url],[ClientIP],[CreatedUser],[CreatedTime],[ModifiedUser],[ModifiedTime] FROM [sys_UserLog]
+where [UserName] like '%'+@UserName+'%';</Sql>
+      </Table>
+      <Table Name="sys_UserRole" ConnectionName="Auth" TableName="sys_UserRole">
+        <Sql Name="Add" ConnectionName="Auth" Description="Add">INSERT INTO [sys_UserRole]
+([UserID],[RoleID],[CreatedUser],[CreatedTime],[ModifiedUser],[ModifiedTime],[AutoKey]) 
+VALUES(@UserID,@RoleID,@CreatedUser,@CreatedTime,@ModifiedUser,@ModifiedTime,@AutoKey);
+ SELECT [UserID],[RoleID],[CreatedUser],[CreatedTime],[ModifiedUser],[ModifiedTime],[AutoKey] FROM [sys_UserRole] 
+WHERE [UserID]=@UserID AND [RoleID]=@RoleID;</Sql>
+        <Sql Name="Update" ConnectionName="Auth" SqlType="Execute" Description="Update">UPDATE [sys_UserRole]
+ SET  [UserID]=@UserID,[RoleID]=@RoleID,[ModifiedUser]=@ModifiedUser,[ModifiedTime]=@ModifiedTime,[AutoKey]=@AutoKey WHERE [UserID]=@UserID AND [RoleID]=@RoleID;</Sql>
+        <Sql Name="Delete" ConnectionName="Auth" SqlType="Execute" Description="Delete">DELETE FROM [sys_UserRole]
+ WHERE [UserID]=@UserID AND [RoleID]=@RoleID;</Sql>
+        <Sql Name="GetItem" ConnectionName="Auth" SqlType="Execute" Description="GetItem">SELECT [UserID],[RoleID],[CreatedUser],[CreatedTime],[ModifiedUser],[ModifiedTime],[AutoKey] FROM [sys_UserRole]
+ WHERE [UserID]=@UserID AND [RoleID]=@RoleID;</Sql>
+        <Sql Name="GetAll" ConnectionName="Auth" SqlType="Execute" Description="GetAll">SELECT [UserID],[RoleID],[CreatedUser],[CreatedTime],[ModifiedUser],[ModifiedTime],[AutoKey] FROM [sys_UserRole];</Sql>
+      </Table>
+    </Group>
+    <Group Name="业务模块">
+      <Table Name="bi_CustomerType" ConnectionName="PA" TableName="bi_CustomerType">
+        <Sql Name="Add" ConnectionName="PA" Description="Add">
+          declare @id  nvarchar(6) ;
+          exec PA_Sys.dbo.sp_CreateSerialCode 'CustomerType','C','6',@id output;
+          INSERT INTO [bi_CustomerType]
+          ([CustomerType_ID],[CustomerType_Name],[Remark],[Is_Active],[CreatedUser],[CreatedTime],[ModifiedUser],[ModifiedTime])
+          VALUES(@id,@CustomerType_Name,@Remark,@Is_Active,@CreatedUser,@CreatedTime,@ModifiedUser,@ModifiedTime);
+          SELECT [CustomerType_ID],[CustomerType_Name],[Remark],[Is_Active],[CreatedUser],[CreatedTime],[ModifiedUser],[ModifiedTime],[AutoKey] FROM [bi_CustomerType]
+          WHERE [AutoKey]=scope_identity();
+        </Sql>
+        <Sql Name="Update" ConnectionName="PA" SqlType="Execute" Description="Update">
+          UPDATE [bi_CustomerType]
+          SET  [CustomerType_Name]=@CustomerType_Name,[Remark]=@Remark,[ModifiedUser]=@ModifiedUser,[ModifiedTime]=@ModifiedTime WHERE [CustomerType_ID]=@CustomerType_ID;
+          SELECT [CustomerType_ID],[CustomerType_Name],[Remark],[Is_Active],[CreatedUser],[CreatedTime],[ModifiedUser],[ModifiedTime],[AutoKey] FROM [bi_CustomerType]
+          WHERE [CustomerType_ID]=@CustomerType_ID;
+        </Sql>
+        <Sql Name="Delete" ConnectionName="PA" SqlType="Execute" Description="Delete">
+          declare @sql varchar(max);
+
+          set @sql='UPDATE [bi_CustomerType]
+          SET [ModifiedUser]='''+@ModifiedUser+''',[ModifiedTime]='''+@ModifiedTime+''',[Is_Active]=0 WHERE [CustomerType_ID] in ('''+replace(@CustomerType_ID,',',''',''')+''') ;'
+          exec(@sql);
+        </Sql>
+        <Sql Name="GetItem" ConnectionName="PA" SqlType="Execute" Description="GetItem">
+          SELECT [CustomerType_ID],[CustomerType_Name],[Remark],[Is_Active],[CreatedUser],[CreatedTime],[ModifiedUser],[ModifiedTime],[AutoKey] FROM [bi_CustomerType]
+          WHERE [CustomerType_ID]=@CustomerType_ID;
+        </Sql>
+        <Sql Name="GetAll" ConnectionName="PA" SqlType="Execute" Description="GetAll">SELECT [CustomerType_ID],[CustomerType_Name],[Remark],[Is_Active],[CreatedUser],[CreatedTime],[ModifiedUser],[ModifiedTime],[AutoKey] FROM [bi_CustomerType];</Sql>
+        <Sql Name="Search" ConnectionName="PA" Description="Search">
+          SELECT [CustomerType_ID],[CustomerType_Name],[Remark],[Is_Active],[CreatedUser],[CreatedTime],[ModifiedUser],[ModifiedTime],[AutoKey] FROM [bi_CustomerType]
+          WHERE [CustomerType_Name] like '%'+@CustomerType_Name+'%' and [Is_Active]=@Is_Active;
+        </Sql>
+        <Sql Name="Select" ConnectionName="PA" Description="Select">
+          SELECT [CustomerType_ID],[CustomerType_Name],[Remark],[Is_Active],[CreatedUser],[CreatedTime],[ModifiedUser],[ModifiedTime],[AutoKey] FROM [bi_CustomerType]
+          WHERE [CustomerType_ID]=@CustomerType_ID;
+        </Sql>
+        <Sql Name="Detail" ConnectionName="PA" Description="Detail">
+          SELECT [CustomerType_ID],[CustomerType_Name],[Remark],[Is_Active],[CreatedUser],[CreatedTime],[ModifiedUser],[ModifiedTime],[AutoKey] FROM [bi_CustomerType]
+          WHERE [CustomerType_ID]=@CustomerType_ID;
+        </Sql>
+      </Table>
+      <Table Name="bi_Payment" ConnectionName="PA" TableName="bi_Payment">
+        <Sql Name="Add" ConnectionName="PA" Description="Add">
+          declare @id  nvarchar(6) ;
+          exec PA_Sys.dbo.sp_CreateSerialCode 'Payment','P','6',@id output;
+          INSERT INTO [bi_Payment]
+          ([Payment_ID],[Payment_Name],[Parent_Payment_ID],[Type],[Remark],[Is_Active],[CreatedUser],[CreatedTime],[ModifiedUser],[ModifiedTime])
+          VALUES(@id,@Payment_Name,@Parent_Payment_ID,@Type,@Remark,@Is_Active,@CreatedUser,@CreatedTime,@ModifiedUser,@ModifiedTime);
+          SELECT a.[Payment_ID],a.[Payment_Name],case when (a.[Type]=0) then '收入' when  (a.[Type]=1)  then '支出' end as Type,a.[Parent_Payment_ID],isnull(b.[Payment_Name],'无') as Parent_Payment_Name,a.[Remark] FROM [bi_Payment] a left join [bi_Payment] b on a.Parent_Payment_ID=b.Payment_ID
+          WHERE a.[AutoKey]=scope_identity();
+        </Sql>
+        <Sql Name="Update" ConnectionName="PA" SqlType="Execute" Description="Update">
+          UPDATE [bi_Payment]
+          SET [Payment_Name]=@Payment_Name,[Parent_Payment_ID]=@Parent_Payment_ID,[Type]=@Type,[Remark]=@Remark,[ModifiedUser]=@ModifiedUser,[ModifiedTime]=@ModifiedTime WHERE [Payment_ID]=@Payment_ID;
+          SELECT a.[Payment_ID],a.[Payment_Name],case when (a.[Type]=0) then '收入' when  (a.[Type]=1)  then '支出' end as Type,a.[Parent_Payment_ID],isnull(b.[Payment_Name],'无') as Parent_Payment_Name,a.[Remark] FROM [bi_Payment] a left join [bi_Payment] b on a.Parent_Payment_ID=b.Payment_ID
+          WHERE a.[Payment_ID]=@Payment_ID;
+        </Sql>
+        <Sql Name="Delete" ConnectionName="PA" SqlType="Execute" Description="Delete">
+          declare @sql varchar(max);
+
+          set @sql='UPDATE  [bi_Payment]
+          SET [ModifiedUser]='''+@ModifiedUser+''',[ModifiedTime]='''+@ModifiedTime+''',[Is_Active]=0 WHERE [Payment_ID] in ('''+replace(@Payment_ID,',',''',''')+''') and  [Payment_ID] not in (SELECT a.[Payment_ID] FROM [bi_Payment] a join [bi_Payment] b on a.Payment_ID=b.Parent_Payment_ID group by a.[Payment_ID]) ;'
+          exec(@sql);
+        </Sql>
+        <Sql Name="GetItem" ConnectionName="PA" Description="GetItem">
+          SELECT [Payment_ID],[Payment_Name],[Type],[Remark] FROM [bi_Payment]
+          WHERE [Payment_Name] like '%'+@Payment_Name+'%' and [Type] like '%'+@Type+'%' and [Is_Active] like '%'+@Is_Active+'%' and [Payment_Name] in (SELECT [Payment_Name]  FROM [bi_Payment] WHERE [Payment_ID] like '%'+@Parent_Payment_ID+'%' );
+        </Sql>
+        <Sql Name="GetAll" ConnectionName="PA" SqlType="Execute" Description="GetAll">SELECT [Payment_ID],[Payment_Name],[Parent_Payment_ID],[Type],[Remark],[Is_Active],[CreatedUser],[CreatedTime],[ModifiedUser],[ModifiedTime],[AutoKey] FROM [bi_Payment];</Sql>
+        <Sql Name="Select" ConnectionName="PA" Description="Select"> SELECT a.[Payment_ID],a.[Payment_Name],case when (a.[Type]=0) then '收入' when  (a.[Type]=1)  then '支出' end as Type,a.[Parent_Payment_ID],isnull(b.[Payment_Name],'无') as Parent_Payment_Name,a.[Remark] FROM [bi_Payment] a left join [bi_Payment] b on a.Parent_Payment_ID=b.Payment_ID
+          WHERE  a.[Payment_ID]=@Payment_ID;
+        </Sql>
+        <Sql Name="SPP" ConnectionName="PA" Description="SPP">SELECT [Payment_ID],[Payment_Name] FROM [bi_Payment]  union select '0','无';</Sql>
+        <Sql Name="CPN" ConnectionName="PA" Description="CPN">
+          SELECT a.[Payment_ID],a.[Payment_Name],case when (a.[Type]=0) then '收入' when  (a.[Type]=1)  then '支出' end as Type,a.[Parent_Payment_ID],isnull(b.[Payment_Name],'无') as Parent_Payment_Name,a.[Remark] FROM [bi_Payment] a left join [bi_Payment] b on a.Parent_Payment_ID=b.Payment_ID
+          WHERE a.[Payment_Name] like '%'+@Payment_Name+'%' and a.[Type]  like '%'+@Type+'%'  and a.[Is_Active]  like '%'+@Is_Active+'%'  and a.[Payment_Name] in (SELECT [Payment_Name]  FROM [bi_Payment] WHERE [Parent_Payment_ID] like '%'+@Parent_Payment_ID+'%' );
+        </Sql>
+        <Sql Name="SPP2" ConnectionName="PA" Description="SPP2">SELECT [Payment_ID],[Payment_Name] FROM [bi_Payment]  union select '0','无' union select '','全部';</Sql>
+        <Sql Name="SType" ConnectionName="PA" Description="SType">SELECT [Type],case when ([Type]=0) then '收入' when  ([Type]=1)  then '支出' end as TypeName FROM [bi_Payment] group by [Type];</Sql>
+        <Sql Name="Detail" ConnectionName="PA" Description="Detail">
+          SELECT a.[Payment_ID],a.[Payment_Name],case when (a.[Type]=0) then '收入' when  (a.[Type]=1)  then '支出' end as Type,a.[Parent_Payment_ID],isnull(b.[Payment_Name],'无') as Parent_Payment_Name,a.[Remark] FROM [bi_Payment] a left join [bi_Payment] b on a.Parent_Payment_ID=b.Payment_ID
+          WHERE a.[Payment_ID]=@Payment_ID;
+        </Sql>
+      </Table>
+      <Table Name="bi_Unit" ConnectionName="PA" TableName="bi_Unit">
+        <Sql Name="Add" ConnectionName="PA" Description="Add">
+          INSERT INTO [bi_Unit]
+          ([Unit_ID],[Unit_Name],[Is_Active],[CreatedUser],[CreatedTime],[ModifiedUser],[ModifiedTime])
+          VALUES(@Unit_ID,@Unit_Name,@Is_Active,@CreatedUser,@CreatedTime,@ModifiedUser,@ModifiedTime);
+          SELECT [Unit_ID],[Unit_Name],[CreatedUser],[CreatedTime],[ModifiedUser],[ModifiedTime] FROM [bi_Unit]
+          WHERE [AutoKey]=scope_identity();
+        </Sql>
+        <Sql Name="Update" ConnectionName="PA" SqlType="Execute" Description="Update">
+          UPDATE [bi_Unit]
+          SET  [Unit_ID]=@Unit_ID,[Unit_Name]=@Unit_Name,[ModifiedUser]=@ModifiedUser,[ModifiedTime]=@ModifiedTime WHERE [Unit_ID]=@Unit_ID;
+          SELECT [Unit_ID],[Unit_Name],[CreatedUser],[CreatedTime],[ModifiedUser],[ModifiedTime] FROM [bi_Unit]
+          WHERE [Unit_ID]=@Unit_ID;
+
+        </Sql>
+        <Sql Name="Delete" ConnectionName="PA" SqlType="Execute" Description="Delete">
+          declare @sql varchar(max);
+
+          set @sql='UPDATE [bi_Unit]
+          SET [ModifiedUser]='''+@ModifiedUser+''',[ModifiedTime]='''+@ModifiedTime+''',[Is_Active]=0 WHERE [Unit_ID] in ('''+replace(@Unit_IDs,',',''',''')+''') ;'
+          exec(@sql);
+        </Sql>
+        <Sql Name="GetItem" ConnectionName="PA" SqlType="Execute" Description="GetItem">
+          SELECT [Unit_ID],[Unit_Name],[Is_Active],[CreatedUser],[CreatedTime],[ModifiedUser],[ModifiedTime],[AutoKey] FROM [bi_Unit]
+          WHERE [Unit_ID]=@Unit_ID;
+        </Sql>
+        <Sql Name="GetAll" ConnectionName="PA" SqlType="Execute" Description="GetAll">SELECT [Unit_ID],[Unit_Name],[Is_Active],[CreatedUser],[CreatedTime],[ModifiedUser],[ModifiedTime],[AutoKey] FROM [bi_Unit];</Sql>
+        <Sql Name="Search" ConnectionName="PA" Description="Search">
+          SELECT [Unit_ID],[Unit_Name],[CreatedUser],[CreatedTime],[ModifiedUser],[ModifiedTime],[AutoKey]
+          FROM [bi_Unit]
+          WHERE [Unit_Name] like '%' + @Unit_Name + '%' and [Is_Active]=@Is_Active;
+        </Sql>
+      </Table>
+      <Table Name="pct_ProductType" ConnectionName="PA" TableName="pct_ProductType">
+        <Sql Name="Add" ConnectionName="PA" Description="Add">
+          INSERT INTO [pct_ProductType]
+          ([ProductType_ID],[ProductType_Name],[Product_Parent_Type_ID],[Is_Active],[CreatedUser],[CreatedTime],[ModifiedUser],[ModifiedTime])
+          VALUES(@ProductType_ID,@ProductType_Name,@Product_Parent_Type_ID,@Is_Active,@CreatedUser,@CreatedTime,@ModifiedUser,@ModifiedTime);
+          SELECT a.* ,b.[ProductType_Name] as [ParentType_Name]
+          FROM [pct_ProductType] a left join  [pct_ProductType] b on a.[Product_Parent_Type_ID]=b.[ProductType_ID]
+          WHERE a.[ProductType_Name] like '%' + @ProductType_Name + '%'  and a.[Product_Parent_Type_ID]!=0;
+        </Sql>
+        <Sql Name="Update" ConnectionName="PA" SqlType="Execute" Description="Update">
+          UPDATE [pct_ProductType]
+          SET  [ProductType_ID]=@ProductType_ID,[ProductType_Name]=@ProductType_Name,[Product_Parent_Type_ID]=@Product_Parent_Type_ID,[ModifiedUser]=@ModifiedUser,[ModifiedTime]=@ModifiedTime WHERE [ProductType_ID]=@ProductType_ID;
+SELECT a.* ,b.[ProductType_Name] as [ParentType_Name]
+          FROM [pct_ProductType] a left join  [pct_ProductType] b on a.[Product_Parent_Type_ID]=b.[ProductType_ID]
+          WHERE a.[ProductType_Name] like '%' + @ProductType_Name + '%'  and a.[Product_Parent_Type_ID]!=0;
+        </Sql>
+        <Sql Name="Delete" ConnectionName="PA" SqlType="Execute" Description="Delete"> declare @sql varchar(max);
+
+          set @sql='UPDATE [pct_ProductType]
+          SET [ModifiedUser]='''+@ModifiedUser+''',[ModifiedTime]='''+@ModifiedTime+''',[Is_Active]=0 WHERE [ProductType_ID] in ('''+replace(@ProductType_IDs,',',''',''')+''') ;'
+          exec(@sql);</Sql>
+        <Sql Name="GetItem" ConnectionName="PA" SqlType="Execute" Description="GetItem">SELECT [ProductType_ID],[ProductType_Name],[Product_Parent_Type_ID],[Is_Active],[CreatedUser],[CreatedTime],[ModifiedUser],[ModifiedTime],[AutoKey] FROM [pct_ProductType] where [ProductType_ID] in (SELECT [Product_Parent_Type_ID] from [pct_ProductType] group by [Product_Parent_Type_ID]);</Sql>
+        <Sql Name="GetAll" ConnectionName="PA" SqlType="Execute" Description="GetAll">
+          SELECT [ProductType_ID],[ProductType_Name],[Product_Parent_Type_ID],[Is_Active],[CreatedUser],[CreatedTime],[ModifiedUser],[ModifiedTime],[AutoKey] FROM [pct_ProductType]
+          WHERE [ProductType_ID]=@ProductType_ID;
+        </Sql>
+        <Sql Name="Search" ConnectionName="PA" Description="Search">
+          SELECT a.* ,b.[ProductType_Name] as [ParentType_Name]
+          FROM [pct_ProductType] a left join  [pct_ProductType] b on a.[Product_Parent_Type_ID]=b.[ProductType_ID]
+          WHERE a.[ProductType_Name] like '%' + @ProductType_Name + '%'  and a.[Product_Parent_Type_ID]!=0 and a.[Is_Active]=@Is_Active ;
+        </Sql>
+      </Table>
+    </Group>
+  </Groups>
+</SqlData>

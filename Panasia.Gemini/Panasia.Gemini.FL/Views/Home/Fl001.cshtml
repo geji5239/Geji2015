@@ -1,0 +1,405 @@
+﻿@*----------------------------------------------------------------
+    // Copyright (C) 2004 清风软件
+    // 版权所有。
+    //
+    // 文件名：Fl001.cshtml
+    // 文件功能描述：系统首页视图
+    //----------------------------------------------------------------*@
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+    <title>OA管理系统</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="~/New/bootstrap.min.css" rel="stylesheet" />
+
+
+    <link href="~/New/ace.min.css" rel="stylesheet" />
+    <link href="~/New/font-awesome.min.css" rel="stylesheet" />
+
+    <link href="~/New/jquery-ui.css" rel="stylesheet" />
+    @*<link href="~/New/jquery-ui-1.10.3.custom.min.css" rel="stylesheet" />*@
+
+    @*<link href="~/New/ui.jqgrid.css" rel="stylesheet" />*@
+    <script src="~/EasyUI/jquery.min.js"></script>
+    <script src="~/New/jquery-ui.min.js"></script>
+    <script src="~/New/bootstrap.min.js"></script>
+    <script src="~/New/ace.min.js"></script>
+    @*<script src="~/New/jquery-ui-1.10.3.custom.min.js"></script>*@
+    @*<script src="~/New/jquery.jqGrid.min.js"></script>*@
+
+    <script src="~/New/ace-extra.min.js"></script>
+    <script src="~/New/jquery.validate.min.js"></script>
+    <script src="~/New/jquery.validate.bootstrap.popover.js"></script>
+    <script type="text/javascript">
+        var tabCounter = 2;
+        var tabTemplate = "<li ><a href='#{href}'>#{label}</a> <span class='ui-icon ui-icon-close' role='presentation'>Remove Tab</span></li>";
+        $(function () {
+            $("#frm").validate_popover({
+                popoverPosition: 'top'
+            });
+
+            //console.log(tabContent)
+            var tabs = $("#tabs").tabs();
+
+
+            tabs.delegate("span.ui-icon-close", "click", function () {
+                var panelId = $(this).closest("li").remove().attr("aria-controls");
+                $("#" + panelId).remove();
+                tabs.tabs("refresh");
+            });
+            $.post('/User/GetSideBar', function (res) {
+                var list = "";
+                if (res.length == 0)
+                {
+                    $("#Appro").hide();
+                } else {
+                    for (var i = 0; i < res.length; i++) {
+                        list += "<li class='cs-navi-tab' src='/Approve/Fl011?DataForm=" + res[i].DataForm + "'><a href='javascript:void(0)'><i class='icon-double-angle-right'></i>" + res[i].FormName + "</a></li>";
+                    }
+                    $("#ul_sidebar").empty();
+                    $("#ul_sidebar").append(list);
+                    bind_Click()
+                }
+            });
+            bind_Click()
+            $.ajax({
+                url: '/User/MessagesCount',
+                type: 'post',
+                dataType: "json",
+                success: function (msg) {
+                    var list = '';
+                    var count = 0;
+                    if (msg.length == 0)
+                    {
+                        $("#ul").hide();
+                    } else {
+                        for (var i = 0; i < msg.length; i++) {
+                            list += "<li><a title=" + msg[i].MsgTitle + " rel='" + msg[i].MsgUrl + "?DataForm=" + msg[i].MsgType + "' href='#'><div class='clearfix'><span class='pull-left'><i class='btn btn-xs no-hover btn-pink icon-comment'></i>" + msg[i].MsgTitle + "</span><span class='pull-right badge badge-info'>" + msg[i].Count + "</span></div></a></li>";
+                            count += msg[i].Count;
+                        }
+                        $("#ul").empty();
+                        $("#ul").append(list)
+                        $("#ul>li>a").click(function () {
+                            addTab($(this)[0].title, $(this)[0].rel)
+                        });
+                        $("#info_count").html('')
+                        $("#info_count").html(count)
+                    }
+                },
+                error: function (d, error) {
+                  //  showError(error);
+                }
+            });
+        });
+        function bind_Click()
+        {
+            $('.cs-navi-tab').click(function () {
+                var $this = $(this);
+                $('.cs-navi-tab').removeClass("active");
+                $(this).addClass("active");
+                var href = $this.attr('src');
+                var title = $this.text();
+                addTab(title, href);
+            });
+        }
+        function addTab(title, url) {
+
+            var elemnta = $("#tabs").find("a");
+            var flag = 0;
+            var zindex = 0;
+            for (var i = 0; i < elemnta.length; i++) {
+                if ($.trim($(elemnta[i]).html()) == $.trim(title)) {
+                    flag++;
+                    zindex = i;
+                }
+            }
+
+            if (flag == 0) {
+                var id = "tabs-" + tabCounter,
+                   li = $(tabTemplate.replace(/#\{href\}/g, "#" + id).replace(/#\{label\}/g, title));
+
+                var tabs = $("#tabs").tabs();
+                $(".ui-tabs-nav").append(li);
+
+                $("#tabs").append(createFrame(title, url, id));
+                tabs.tabs("refresh");
+                $("#tabs").tabs("option", "active", $("#tabs ul li").length - 1);
+
+                tabCounter++;
+            } else {
+                $("#tabs").tabs("option", "active", zindex);
+            }
+
+
+        }
+        function createFrame(title, href, id) {
+            var s = '<div id="' + id + '"style="height:550px"><iframe scrolling="auto" frameborder="0" id="frame_' + title + '" src="' + href + '" style="width:100%;height:100%;"></iframe></div>' ;
+            return s;
+        }
+    </script>
+</head>
+
+<body>
+    <style>
+
+        .navbar {
+            background-color:#2A3956
+        }
+        #dialog label, #dialog input {
+            display: block;
+        }
+
+        #dialog label {
+            margin-top: 0.5em;
+        }
+
+        #dialog input, #dialog textarea {
+            width: 95%;
+        }
+        #tabs ul {
+            height: 42px;
+            border-color: #ffffff;
+            border-bottom: 1px solid #ddd;
+            border-radius: 0;
+        }
+
+        .ui-icon {
+            position: relative;
+        }
+
+        #add_tab {
+            cursor: pointer;
+        }
+
+        .ui-widget-header {
+            background: none;
+        }
+
+        .ui-tabs .ui-tabs-nav li.ui-tabs-active > a {
+            box-shadow: none;
+            top: 1px;
+        }
+            .ui-widget-content {
+        border:none;
+    }
+    </style>
+    <style>
+        .ui-tabs .ui-tabs-nav li.ui-state-default > a {
+            border: none;
+        }
+
+        .ui-tabs .ui-tabs-nav li {
+            margin-bottom: -1px;
+            padding-bottom: 1px;
+            float: left;
+            margin: 1px .2em 0 0;
+            
+            border-radius: 0;
+            box-shadow: none;
+            border-color: #4c8fbd #c5d0dc transparent;
+            border-top-width: 2px;
+            box-shadow: 0 -2px 3px 0 rgba(0, 0, 0, 0.15);
+            color: #576373;
+            top: 1px;
+        }
+       
+        .ui-tabs .ui-tabs-panel {
+                padding: 0;
+            }
+        #tabs li .ui-icon-close {
+            margin-right:5px;
+            margin-top:9px;
+            padding:0;
+            float: left;
+        }
+    </style>
+    <div class="navbar navbar-default">
+        <div class="navbar-contanier">
+            <div class="navbar-header pull-left">
+                <a href="#" class="navbar-brand">
+                    <small><i class=""></i>双子星OA系统</small>
+                </a>
+            </div>
+            <div class="navbar-header pull-right" role="navigation" style="padding-right:10px;">
+                <ul class="nav ace-nav">
+                    @*<li class="grey">
+                        <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                            <i class="icon-tasks"></i>
+                            <span class="badge badge-grey">4</span>
+                        </a>
+
+                    </li>*@
+                    <li class="purple">
+                        <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                            <i class="icon-bell-alt icon-animated-bell"></i>
+                            <span class="badge badge-important" id="info_count">0</span>
+                        </a>
+                        <ul class="pull-right dropdown-navbar navbar-pink dropdown-menu dropdown-caret dropdown-close" id="ul">
+                        </ul>
+                    </li>
+                    <li class="green">
+                        <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                            <i class="icon-envelope icon-animated-vertical"></i>
+                            <span class="badge badge-success">0</span>
+                        </a>
+                    </li>
+                    <li class="light-blue">
+                        <a data-toggle="dropdown" href="#" class="dropdown-toggle">
+                            <span class="user-info">
+                                <small>欢迎你,</small>
+                                @(Panasia.Gemini.FL.LoginInfo.EmployeeName)
+                            </span>
+
+                            <i class="icon-caret-down"></i>
+                        </a>
+                        <ul class="user-menu pull-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
+                            @*<li>
+                                <a href="#">
+                                    <i class="icon-cog"></i>
+                                    设置
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <i class="icon-user"></i>
+                                    个人信息
+                                </a>
+                            </li>*@
+                            <li class="divider"></li>
+                            <li>
+                                <a href="~/User/Logout">
+                                    <i class="icon-off"></i>
+                                    登出
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="main-container" id="main-container">
+        <div class="main-container-inner">
+            <div class="sidebar-shortcuts" id="sidebar-shortcuts"></div>
+            <div class="sidebar" id="sidebar">
+                <script type="text/javascript">
+                    try { ace.settings.check('sidebar', 'fixed') } catch (e) { }
+                </script>
+                <div class="sidebar-shortcuts" id="sidebar-shortcuts">
+                    <div class="sidebar-shortcuts-large" id="sidebar-shortcuts-large">
+                        <button class="btn btn-success">
+                            <i class="icon-signal"></i>
+                        </button>
+
+                        <button class="btn btn-info">
+                            <i class="icon-pencil"></i>
+                        </button>
+
+                        <button class="btn btn-warning">
+                            <i class="icon-group"></i>
+                        </button>
+
+                        <button class="btn btn-danger">
+                            <i class="icon-cogs"></i>
+                        </button>
+                    </div>
+
+                    <div class="sidebar-shortcuts-mini" id="sidebar-shortcuts-mini">
+                        <span class="btn btn-success"></span>
+
+                        <span class="btn btn-info"></span>
+
+                        <span class="btn btn-warning"></span>
+
+                        <span class="btn btn-danger"></span>
+                    </div>
+                </div><!-- #sidebar-shortcuts -->
+                <ul class="nav nav-list" id="Appro">
+                    <li>
+                        <a href="javascript:void(0)" class="dropdown-toggle">
+                            <i class="icon-edit"></i>
+                            <span class="menu-text">单据签核</span>
+                            <b class="arrow icon-angle-down"></b>
+                        </a>
+                        <ul class="submenu" id="ul_sidebar">
+                            @*<li class="cs-navi-tab" src="/Approve/Fl011">
+                                <a href="javascript:void(0)">
+                                    <i class="icon-double-angle-right"></i>
+                                    单据签核
+                                </a>
+                            </li>*@
+
+                        </ul>
+                    </li>
+                </ul>
+                <ul class="nav nav-list">
+                    <li>
+                        <a href="javascript:void(0)" class="dropdown-toggle">
+                            <i class="icon-desktop"></i>
+                            <span class="menu-text">单据模板</span>
+                            <b class="arrow icon-angle-down"></b>
+                        </a>
+                        <ul class="submenu">
+                            <li class="cs-navi-tab" src="/Template/Fl002">
+                                <a href="javascript:void(0)">
+                                    <i class="icon-double-angle-right"></i>
+                                    模板表单
+                                </a>
+                            </li>
+                            <li class="cs-navi-tab" src="/Template/Fl003">
+                                <a href="javascript:void(0)">
+                                    <i class="icon-double-angle-right"></i>
+                                    表单映射
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+                <ul class="nav nav-list">
+                    <li>
+                        <a href="javascript:void(0)" class="dropdown-toggle">
+                            <i class="icon-list"></i>
+                            <span class="menu-text">工作流管理</span>
+                            <b class="arrow icon-angle-down"></b>
+                        </a>
+                        <ul class="submenu">
+                            <li class="cs-navi-tab" src="/Process/Fl006">
+                                <a href="javascript:void(0)">
+                                    <i class="icon-double-angle-right"></i>
+                                    流程设计
+                                </a>
+                            </li>
+                            <li class="cs-navi-tab" src="/Process/Fl005">
+                                <a href="javascript:void(0)">
+                                    <i class="icon-double-angle-right"></i>
+                                    流程监控
+                                </a>
+                            </li>
+
+                        </ul>
+                    </li>
+                </ul>
+                <div class="sidebar-collapse" id="sidebar-collapse">
+                    <i class="icon-double-angle-left" data-icon1="icon-double-angle-left" data-icon2="icon-double-angle-right"></i>
+                </div>
+                <script type="text/javascript">
+                    try { ace.settings.check('sidebar', 'collapsed') } catch (e) { }
+                </script>
+            </div>
+            <div class="main-content">
+                <div class="tabbable">
+                    <div id="tabs">
+                        <ul></ul>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,105 @@
+﻿@model IEnumerable<Panasia.Gemini.Web.Models.org_Employees>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Page.cshtml";
+}
+
+<h2>Index</h2>
+@*<input style="display:none" id="displayValue" />
+<a id="add" href="#" class="easyui-linkbutton" iconcls="icon-add" plain="true">新增</a>
+<a id="edit" href="#" class="easyui-linkbutton" iconcls="icon-edit" plain="true">编辑</a>
+<a id="delete" href="#" class="easyui-linkbutton" iconcls="icon-cancel" plain="true" onclick="getSelected()">删除</a>
+<a href="#" class="easyui-linkbutton" iconcls="icon-redo" plain="true">导出</a>
+<a href="#" class="easyui-linkbutton" iconcls="icon-save" plain="true">保存</a>*@
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Company_ID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Department_ID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Employees_Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Employees_LoginName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Employees_PWD)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Position_ID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Roles)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Employees_Email)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Employees_Mobile)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Employees_Tel)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Employees_OtherContact)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Is_Active)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Company_ID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Department_ID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Employees_Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Employees_LoginName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Employees_PWD)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Position_ID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Roles)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Employees_Email)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Employees_Mobile)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Employees_Tel)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Employees_OtherContact)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Is_Active)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Employees_ID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Employees_ID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Employees_ID })
+        </td>
+    </tr>
+}
+
+</table>

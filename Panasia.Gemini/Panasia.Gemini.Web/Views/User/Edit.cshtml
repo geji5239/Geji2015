@@ -1,0 +1,70 @@
+﻿@model Panasia.Core.Sys.UserModel
+
+@using Panasia.Core
+
+<form class="form-dialog" method="post" id="userEditForm">
+    <div class="edit-dialog">
+        <div class="edit-panel">
+            <div class="edit-field">
+                <div class="edit-title"><label class="edit-label">用户名：</label></div>
+                <div class="edit-content">
+                    <input class="edit-input easyui-textbox" name="UserName" value="@Model.UserName" data-options="missingMessage:'请输入用户名',required:true,validType:'length[1,20]',invalidMessage:'名称不得超过20个字符'" />
+                </div>
+            </div>
+            <div class="edit-field">
+                <div class="edit-title"><label class="edit-label">邮箱：</label></div>
+                <div class="edit-content">
+                    <input class="edit-input easyui-textbox" name="Email" value="@Model.Email" data-options="required:true,validType:'email',missingMessage:'请输入邮箱',invalidMessage:'请输入正确的邮箱格式'" />
+                </div>
+            </div>
+            <div class="edit-field">
+                <div class="edit-title"><label class="edit-label">姓名：</label></div>
+                <div class="edit-content">
+                    <input class="edit-input easyui-textbox" name="FullName" value="@Model.FullName" data-options="required:true,missingMessage:'请输入姓名',validType:'length[1,20]',invalidMessage:'名称不得超过20个字符'" />
+                </div>
+            </div>
+            <div class="edit-field">
+                <div class="showmsg"><label id="showmsg"></label></div>
+                <input name="UserID" value="@Model.UserID" type="hidden" />
+                <input name="IsValid" value="@Html.Raw(Model.IsValid)" type="hidden" />
+            </div>
+        </div>
+    </div>
+</form>
+<div class="dialog-button">
+    <a class="easyui-linkbutton edit-button" data-options="iconCls:'icon-ok'" onclick="submitAct_DGUpdate('userEditForm', '/User/Update', 'datagrid')">确定</a>
+    <a class="easyui-linkbutton edit-button" data-options="iconCls:'icon-cancel'" onclick="cancel()">取消</a>
+</div>
+@*<form method="post" id="userEditForm">
+    <table class="grid">
+        <tr>
+            <th>用户名:</th>
+            <td>
+                <input class="input-dialog" name="UserID" value="@Model.UserID" hidden />
+                <input class="input-dialog easyui-validatebox" name="UserName" value="@Model.UserName" data-options="missingMessage:'请输入用户名',required: true,validType:'length[1,20]',invalidMessage:'名称不得超过20个字符'" />
+            </td>
+        </tr>
+        <tr>
+            <th>邮箱:</th>
+            <td>
+                <input class="input-dialog easyui-validatebox" name="Email" value="@Model.Email" data-options="required: true,missingMessage:'请输入邮箱',invalidMessage:'电子邮箱格式不正确，例如：myname@sohu.com',validType:'email'"/>
+            </td>
+        </tr>
+        <tr>
+            <th>姓名:</th>
+            <td>
+                <input class="input-dialog easyui-validatebox" name="FullName" value="@Model.FullName" data-options="required: true" />
+                <input class="input-dialog" name="IsValid" value="@Model.IsValid.ToString()" hidden />
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <div class="btn-dialog">
+                    <a class="easyui-linkbutton btn-padding" data-options="iconCls:'icon-ok'" onclick="submitAct_DGUpdate('userEditForm', '/User/Update', 'datagrid')">确定</a>
+                    <a class="easyui-linkbutton btn-padding" data-options="iconCls:'icon-cancel'" onclick="cancel()">取消</a>
+                </div>
+            </td>
+        </tr>
+    </table>
+    <div class="showMsg"><label id="showMsg"></label></div>
+</form>*@

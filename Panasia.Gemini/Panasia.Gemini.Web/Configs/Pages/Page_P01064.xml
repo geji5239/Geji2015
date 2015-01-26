@@ -1,0 +1,427 @@
+<?xml version="1.0"?>
+<MvcEditPage xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" PageID="P01064" Controller="" DefaultAction="Index">
+  <Action ActionID="52c38011-1096-4ec7-8a5f-ef5bda2a93bc" Name="Index" Title="列表" ActionValue="1">
+    <Command CommandID="M01662" Name="列表页面" Description="这个命令会直接返回到客户端，无需后继命令" CommandType="IndexPageActionCommand">
+          <![CDATA[<IndexPageActionCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ContentType="text/html">
+  <Page SettingType="IndexPage">
+    <ContentHeader>&lt;script type="text/javascript"&gt;
+function showDlgByType()
+{
+  var row= $("#datagrid").datagrid('getSelected');
+var type=row["ProductType"]
+if(type!="套餐组合类")
+{
+  showActDlg_DGItemActDlg('datagrid','修改','/Page/P01064/Edit',400,300)
+}
+else
+{
+    showActDlg_DGItemActDlg('datagrid','修改','/Page/P01064/EditSubProduct',400,300)
+}
+}
+
+function showActDlg_DGItemActDlgByType()
+{
+  var row= $("#datagrid").datagrid('getSelected');
+var type=row["ProductType"]
+if(type!="套餐组合类")
+{
+showActDlg_DGItemActDlg('datagrid','查看','/Page/P01064/Detail',400,300)
+}
+else
+{
+showActDlg_DGItemActDlg('datagrid','查看','/Page/P01064/DetailSubProduct',400,300)
+}
+}
+&lt;/script&gt;</ContentHeader>
+    <ToolBar Tag="div" ID="toolbar" Class="toolbar-panel" PageID="P01064">
+      <Buttons>
+        <UIButton Tag="a" ID="btn-search" Class="easyui-linkbutton normal-button" Options="iconCls:'icon-search',plain:true" Title="检索" ActionValue="2" Action="showActDlg('检索','/Page/P01064/Search',400,300)" />
+        <UIButton Tag="a" ID="btn-detail" Class="easyui-linkbutton toolradio normal-button" Options="iconCls:'icon-detail',plain:true" Title="查看" ActionValue="4" Action=" showActDlg_DGItemActDlgByType()" />
+        <UIButton Tag="a" ID="btn-create" Class="easyui-linkbutton normal-button" Options="iconCls:'icon-add',plain:true" Title="新增" ActionValue="8" Action="showActDlg('新增','/Page/P01064/Create',400,300)" />
+        <UIButton Tag="a" ID="btn-edit" Class="easyui-linkbutton toolradio normal-button" Options="iconCls:'icon-edit',plain:true" Title="修改" ActionValue="16" Action="showDlgByType()" />
+        <UIButton Tag="a" ID="btn-delete" Class="easyui-linkbutton toolmultiple normal-button" Options="iconCls:'icon-cancel',plain:true" Title="删除" ActionValue="32" Action="showActDlg_DGItemsConfirm('datagrid','删除','确认删除选择项？','/Page/P01064/Delete',400,300)" />
+        <UIButton Tag="a" Class="easyui-linkbutton normal-button toolradio hide_ProductTypeID_P024" Options="plain:true" Title="价格设定" ActionValue="256" Action="showActDlg_DGItemActDlg('datagrid','价格设定','/Page/P01064/PriceSet',400,300)" />
+        <UIButton Tag="a" Class="easyui-linkbutton normal-button" Options="plain:true" Title="新增套餐" ActionValue="64" Action="showActDlg('新增套餐','/Page/P01064/Addcombo',400,300)" />
+        <UIButton Tag="a" Class="easyui-linkbutton normal-button toolradio" Options="plain:true" Title="界面设定" ActionValue="128" Action="showActDlg_DGItemActDlg('datagrid','界面设定','/Page/P01064/ProductUI',400,300)" />
+      </Buttons>
+    </ToolBar>
+    <DataGrid Tag="table" ID="datagrid" Class="easyui-datagrid" Options="url:'/Page/P01064/Query',fitColumns:true,fit:true,pagination: true,rownumbers: true,nowrap: true,striped: true,collapsible: false,resizable:true,onClickRow:oncheckstate,onSelect:oncheckstate,onCheck:oncheckstate,onCheckAll:oncheckstate,onUncheckAll:oncheckstate,onUncheck:oncheckstate,onUnselect:oncheckstate" Key="ProductID">
+      <Column Title="产品编号" FieldName="ID" IsCheckBox="true" />
+      <Column Title="产品编号" FieldName="ProductID" />
+      <Column Title="产品名称" FieldName="ProductName" />
+      <Column Title="产品类型" FieldName="ProductType" />
+      <Column HAlign="Right" Title="产品单价" FieldName="UnitPrice" />
+      <Column Title="状态" FieldName="PState" />
+      <Column Title="备注" FieldName="Remark" />
+    </DataGrid>
+  </Page>
+</IndexPageActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="ac3a795e-0204-416b-832f-6da1b9c04d7a" Name="Search" Title="检索" ActionValue="2">
+    <Command CommandID="M01663" Name="检索页面" Description="这个命令会直接返回到客户端，无需后继命令" CommandType="EditDialogActionCommand"><![CDATA[<EditDialogActionCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ContentType="text/html">
+  <Page SettingType="EditDialog">
+    <Form ID="dataform" Class="form-dialog">
+      <TableLayout />
+      <Fields>
+        <Field Title="产品名称" FieldType="TextBox">
+          <Input Tag="input" Name="ProductName" Class="edit-input easyui-textbox" Options="invalidMessage:'产品名称不能大于50',validType:'length[0,50]'" Binding="ProductName" IsRequired="false" Length="50" />
+        </Field>
+        <Field Title="产品类型" FieldType="ComboTree">
+          <ComboTree Tag="input" Name="ProductTypeID" Class="edit-input easyui-combotree" Options="editable:false" IsRequired="false" Length="4" DataUrl="/Share/Query?name=GetProductTypeParentID&amp;resultformat=jsontree&amp;root=P001&amp;pid=ParentID&amp;id=ProductTypeID&amp;text=ProductType" DisplayMember="ProductType" ValueMember="ProductTypeID" IsAutoHeight="false" />
+        </Field>
+      </Fields>
+      <ToolBar Tag="div" ID="toolbar" Class="dialog-button" PageID="P01064">
+        <Buttons>
+          <UIButton ID="btn-query" Class="easyui-linkbutton edit-button" Options="iconCls:'icon-ok'" Title="确定" ActionValue="2" Action="submitAct_DGReplace('dataform','/Page/P01064/Query','datagrid')" />
+          <UIButton ID="btn-cancel" Class="easyui-linkbutton edit-button" Options="iconCls:'icon-cancel'" Title="取消" Action="cancel()" />
+        </Buttons>
+      </ToolBar>
+    </Form>
+  </Page>
+</EditDialogActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="b7ab344e-065b-43dd-94e9-055fd42ea398" Name="Query" Title="检索" ActionValue="2" ErrorCommand="搜索结果">
+    <Command CommandID="M01789" Name="查询总数" CommandType="ScalarSqlCommand">
+      <![CDATA[<ScalarCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" NextCommand="执行查询" GroupName="业务模块" TableName="bi_Product" CommandName="QueryCount" SqlType="Scalar">
+  <Parameter Name="ProductName" Path="Request[ProductName]" Type="Parameter" Converter="CreateSearchField" ConverterParameter="ProductName,0,M" />
+  <Parameter Name="ProductTypeID" Path="Request[ProductTypeID]" Type="Parameter" Converter="CreateSearchField" ConverterParameter="ProductTypeID,0,M" />
+</ScalarCommand>]]></Command>
+    <Command CommandID="M01664" Name="执行查询" Description="本查询的结果值为JSON，参数路径为Results[执行查询].Json" CommandType="QueryJsonSqlCommand">
+    <![CDATA[<QueryJsonCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" NextCommand="搜索结果" GroupName="业务模块" TableName="bi_Product" CommandName="QueryPage" SqlType="QueryJson">
+  <Parameter Name="ProductName" Path="Request[ProductName]" Type="Parameter" Converter="CreateSearchField" ConverterParameter="ProductName,0,M" />
+  <Parameter Name="ProductTypeID" Path="Request[ProductTypeID]" Type="Parameter" Converter="CreateSearchField" ConverterParameter="ProductTypeID,0,M" />
+  <Parameter Name="OrderBy" Path="Request[OrderBy]" Type="Const" DefaultValue="M.ModifiedTime " />
+  <Parameter Name="Page" Path="Request[Page]" Type="Parameter" />
+  <Parameter Name="Rows" Path="Request[Rows]" Type="Parameter" />
+</QueryJsonCommand>]]></Command>
+    <Command CommandID="M01665" Name="搜索结果" Description="返回搜索结果" CommandType="JsonActionCommand"><![CDATA[<JsonActionCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ContentType="application/json">
+  <Parameter Name="rows" Path="Results[执行查询].Json" Type="Parameter" />
+  <Parameter Name="HasError" Path="Results[执行查询].IsError" Type="Parameter" />
+  <Parameter Name="ErrorMessage" Path="Results[执行查询].ErrorMessage" Type="Parameter" />
+  <Parameter Name="total" Path="Results[查询总数].Value" Type="Parameter" />
+</JsonActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="3952a3af-53f5-4e2f-a0d2-0b2e61ba58ec" Name="Detail" Title="查看" ActionValue="4">
+    <Command CommandID="M01666" Name="查询明细" Description="查询明细" CommandType="QuerySqlCommand"><![CDATA[<QueryCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" NextCommand="查看产品" GroupName="业务模块" TableName="bi_Product" CommandName="GetDetail">
+  <Parameter Name="ProductID" Path="Request[ID]" Type="Parameter" />
+</QueryCommand>]]></Command>
+    <Command CommandID="M01679" Name="查看产品" CommandType="RazorContentActionCommand"><![CDATA[<RazorContentActionCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ContentType="text/html" TemplateFile="\Product\Detail.cshtml" SettingType="EditDialog">
+  <Parameter Name="Data" Path="LastResult.Item" Type="Parameter" />
+</RazorContentActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="05bf502b-cd8a-4883-ba68-e81a5ab55290" Name="Create" Title="新增" ActionValue="8">
+    <Command CommandID="M01677" Name="新增产品" CommandType="RazorContentActionCommand"><![CDATA[<RazorContentActionCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ContentType="text/html" TemplateFile="\Product\Create.cshtml" SettingType="EditDialog" />]]></Command>
+  </Action>
+  <Action ActionID="c0010502-fbfe-41f5-be58-49c82f7d00a4" Name="Add" Title="新增" ActionValue="8" ErrorCommand="新增结果">
+    <Command CommandID="M01669" Name="执行新增" Description="本查询的结果值为JSON，参数路径为Results[执行新增].Json" CommandType="QueryJsonSqlCommand">
+    <![CDATA[<QueryJsonCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" NextCommand="新增结果" GroupName="业务模块" TableName="bi_Product" CommandName="Add" SqlType="QueryJson">
+  <Parameter Name="CreatedUser" Path="CurrentUserID" Type="SystemParameter" />
+  <Parameter Name="CreatedTime" Path="CurrentDateTime" Type="SystemParameter" />
+  <Parameter Name="ModifiedUser" Path="CurrentUserID" Type="SystemParameter" />
+  <Parameter Name="ModifiedTime" Path="CurrentDateTime" Type="SystemParameter" />
+  <Parameter Name="ProductID" Path="SerialCode" Type="SystemParameter" DefaultValue="ProductName,P,8" />
+  <Parameter Name="ProductName" Path="Request[ProductName]" Type="Parameter" Converter="Trim" />
+  <Parameter Name="ProductTypeID" Path="Request[ProductTypeID]" Type="Parameter" />
+  <Parameter Name="UnitPrice" Path="Request[UnitPrice]" Type="Parameter" Converter="Trim" />
+  <Parameter Name="CostPrice" Path="Request[CostPrice]" Type="Parameter" Converter="Trim" />
+  <Parameter Name="TaxRate" Path="Request[TaxRate]" Type="Parameter" Converter="Trim" />
+  <Parameter Name="RebateRate" Path="Request[RebateRate]" Type="Parameter" Converter="Trim" />
+  <Parameter Name="Discount" Path="Request[Discount]" Type="Parameter" Converter="Trim" />
+  <Parameter Name="SupplierID" Path="Request[SupplierID]" Type="Parameter" Converter="Trim" />
+  <Parameter Name="PState" Path="Request[PState]" Type="Parameter" Converter="Trim" />
+  <Parameter Name="Remark" Path="Request[Remark]" Type="Parameter" Converter="Trim" />
+  <Parameter Name="SortID" Path="Request[SortID]" Type="Parameter" Converter="Trim" />
+  <Parameter Name="IsBiOrder" Path="Request[IsBiOrder]" Type="Parameter" Converter="Trim" DefaultValue="0" />
+  <Parameter Name="IsSeOrder" Path="Request[IsSeOrder]" Type="Parameter" Converter="Trim" DefaultValue="0" />
+  <Parameter Name="Unit" Path="Request[Unit]" Type="Parameter" />
+  <Parameter Name="PriceID" Path="SerialCode" Type="SystemParameter" DefaultValue="ProductPrice,PP,8" />
+  <Parameter Name="StartDate" Path="Request[StartDate]" Type="Parameter" />
+  <Parameter Name="EndDate" Path="Request[EndDate]" Type="Parameter" />
+</QueryJsonCommand>]]></Command>
+    <Command CommandID="M01670" Name="新增结果" Description="返回新增结果" CommandType="JsonActionCommand"><![CDATA[<JsonActionCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ContentType="application/json">
+  <Parameter Name="Data" Path="Results[执行新增].Json" Type="Parameter" />
+  <Parameter Name="HasError" Path="Results[执行新增].IsError" Type="Parameter" />
+  <Parameter Name="ErrorMessage" Path="Results[执行新增].ErrorMessage" Type="Parameter" />
+</JsonActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="290658a4-ae83-4917-8aef-94c5de54a5e2" Name="Edit" Title="修改" ActionValue="16">
+    <Command CommandID="M01671" Name="查询编辑" Description="查询编辑" CommandType="QuerySqlCommand"><![CDATA[<QueryCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" NextCommand="编辑产品" GroupName="业务模块" TableName="bi_Product" CommandName="GetEdit">
+  <Parameter Name="ProductID" Path="Request[ID]" Type="Parameter" />
+</QueryCommand>]]></Command>
+    <Command CommandID="M01678" Name="编辑产品" CommandType="RazorContentActionCommand"><![CDATA[<RazorContentActionCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ContentType="text/xml" TemplateFile="\Product\Edit.cshtml" SettingType="IndexPage">
+  <Parameter Name="Data" Path="LastResult.Item" Type="Parameter" />
+</RazorContentActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="12ac52e2-1a96-40ac-a081-0e2d59428a43" Name="Update" Title="修改" ActionValue="16">
+    <Command CommandID="M01673" Name="执行更新" Description="本查询的结果值为JSON，参数路径为Results[执行更新].Json" CommandType="QueryJsonSqlCommand">
+      <![CDATA[<QueryJsonCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" NextCommand="编辑结果" GroupName="业务模块" TableName="bi_Product" CommandName="Update" SqlType="QueryJson">
+  <Parameter Name="ModifiedUser" Path="CurrentUserID" Type="SystemParameter" />
+  <Parameter Name="ModifiedTime" Path="CurrentDateTime" Type="SystemParameter" />
+  <Parameter Name="ProductName" Path="Request[ProductName]" Type="Parameter" Converter="Trim" />
+  <Parameter Name="ProductTypeID" Path="Request[ProductTypeID]" Type="Parameter" Converter="Trim" />
+  <Parameter Name="SupplierID" Path="Request[SupplierID]" Type="Parameter" Converter="Trim" />
+  <Parameter Name="PState" Path="Request[PState]" Type="Parameter" Converter="Trim" />
+  <Parameter Name="Remark" Path="Request[Remark]" Type="Parameter" Converter="Trim" />
+  <Parameter Name="SortID" Path="Request[SortID]" Type="Parameter" Converter="Trim" />
+  <Parameter Name="Unit" Path="Request[Unit]" Type="Parameter" Converter="Trim" />
+  <Parameter Name="IsBiOrder" Path="Request[IsBiOrder]" Type="Parameter" Converter="Trim" DefaultValue="0" />
+  <Parameter Name="IsSeOrder" Path="Request[IsSeOrder]" Type="Parameter" Converter="Trim" DefaultValue="0" />
+  <Parameter Name="ProductID" Path="Request[ProductID]" Type="Parameter" Converter="Trim" />
+</QueryJsonCommand>]]></Command>
+    <Command CommandID="M01674" Name="编辑结果" Description="返回编辑结果" CommandType="JsonActionCommand"><![CDATA[<JsonActionCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ContentType="application/json">
+  <Parameter Name="Data" Path="Results[执行更新].Json" Type="Parameter" />
+  <Parameter Name="HasError" Path="Results[执行更新].IsError" Type="Parameter" />
+  <Parameter Name="ErrorMessage" Path="Results[执行更新].ErrorMessage" Type="Parameter" />
+</JsonActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="013d9d06-faeb-4915-a4d8-dd51e7cc8b06" Name="Delete" Title="删除" ActionValue="32" ErrorCommand="删除结果">
+    <Command CommandID="M01675" Name="执行删除" Description="本查询的结果值为JSON，参数路径为Results[执行删除].Json" CommandType="QueryJsonSqlCommand"><![CDATA[<QueryJsonCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" NextCommand="删除结果" GroupName="业务模块" TableName="bi_Product" CommandName="Delete" SqlType="QueryJson">
+  <Parameter Name="Keys" Path="Request[Keys]" Type="Parameter" />
+  <Parameter Name="ModifiedUser" Path="CurrentUserID" Type="SystemParameter" />
+  <Parameter Name="ModifiedTime" Path="CurrentDateTime" Type="SystemParameter" />
+</QueryJsonCommand>]]></Command>
+    <Command CommandID="M01676" Name="删除结果" Description="返回删除结果" CommandType="JsonActionCommand"><![CDATA[<JsonActionCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ContentType="application/json">
+  <Parameter Name="Data" Path="Results[执行删除].Json" Type="Parameter" />
+  <Parameter Name="HasError" Path="Results[执行删除].IsError" Type="Parameter" />
+  <Parameter Name="ErrorMessage" Path="Results[执行删除].ErrorMessage" Type="Parameter" />
+</JsonActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="c12c4ecf-c9bc-4a29-afcc-57ecfadf98e9" Name="Addcombo" Title="新增套餐" ActionValue="64">
+    <Command CommandID="M01664" Name="新增套餐" CommandType="RazorContentActionCommand"><![CDATA[<RazorContentActionCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ContentType="text/html" TemplateFile="\Product\AddCombo.cshtml" SettingType="EditDialog" />]]></Command>
+  </Action>
+  <Action ActionID="1f16ee42-684b-4a21-8121-328f95bd384d" Name="AddProduct" Title="新增套餐" ActionValue="64" ErrorCommand="返回">
+    <Command CommandID="M01665" Name="新增" CommandType="QueryJsonSqlCommand">
+    <![CDATA[<QueryJsonCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" NextCommand="返回" GroupName="业务模块" TableName="bi_ProductDetail" CommandName="AddProduct" SqlType="QueryJson">
+  <Parameter Name="ProductName" Path="Request[ProductName]" Type="Parameter" Converter="Trim" />
+  <Parameter Name="ProductID" Path="SerialCode" Type="SystemParameter" DefaultValue="ProductName,P,8" />
+  <Parameter Name="ProductTypeID" Path="Request[ProductTypeID]" Type="Parameter" Converter="Trim" />
+  <Parameter Name="UnitPrice" Path="Request[UnitPrice]" Type="Parameter" Converter="Trim" />
+  <Parameter Name="SupplierID" Path="Request[SupplierID]" Type="Parameter" Converter="Trim" />
+  <Parameter Name="PState" Path="Request[PState]" Type="Parameter" Converter="Trim" />
+  <Parameter Name="Remark" Path="Request[Remark]" Type="Parameter" Converter="Trim" />
+  <Parameter Name="SortID" Path="Request[SortID]" Type="Parameter" Converter="Trim" />
+  <Parameter Name="IsActive" Path="Request[IsActive]" Type="Const" DefaultValue="1" />
+  <Parameter Name="CreatedUser" Path="CurrentUserID" Type="SystemParameter" />
+  <Parameter Name="CreatedTime" Path="CurrentDateTime" Type="SystemParameter" />
+  <Parameter Name="ModifiedUser" Path="CurrentUserID" Type="SystemParameter" />
+  <Parameter Name="ModifiedTime" Path="CurrentDateTime" Type="SystemParameter" />
+  <Parameter Name="PriceID" Path="SerialCode" Type="SystemParameter" DefaultValue="ProductPrice,PP,8" />
+  <Parameter Name="IsBiOrder" Path="Request[IsBiOrder]" Type="Parameter" Converter="Trim" DefaultValue="0" />
+  <Parameter Name="IsSeOrder" Path="Request[IsSeOrder]" Type="Parameter" Converter="Trim" DefaultValue="0" />
+</QueryJsonCommand>]]></Command>
+    <Command CommandID="M01666" Name="返回" CommandType="JsonActionCommand"><![CDATA[<JsonActionCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ContentType="application/json">
+  <Parameter Name="Data" Path="Results[新增].Json" Type="Parameter" />
+  <Parameter Name="HasError" Path="Results[新增].IsError" Type="Parameter" />
+  <Parameter Name="ErrorMessage" Path="Results[新增].ErrorMessage" Type="Parameter" />
+</JsonActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="8ebef31a-1141-4e48-bf80-78228e4456dd" Name="AddSubProduct" Title="新增子产品" ErrorCommand="返回">
+    <Command CommandID="M01667" Name="新增" CommandType="QueryJsonSqlCommand"><![CDATA[<QueryJsonCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" NextCommand="返回" GroupName="业务模块" TableName="bi_ProductDetail" CommandName="AddProductDetail" SqlType="QueryJson">
+  <Parameter Name="ProductID" Path="Request[ProductID]" Type="Parameter" />
+  <Parameter Name="SubProductID" Path="Request[SubProductID]" Type="Parameter" />
+  <Parameter Name="UnitPrice" Path="Request[SubUnitPrice]" Type="Parameter" Converter="Trim" />
+  <Parameter Name="Unit" Path="Request[SubUnit]" Type="Parameter" Converter="Trim" />
+  <Parameter Name="Qty" Path="Request[Qty]" Type="Parameter" Converter="Trim" />
+  <Parameter Name="Price" Path="Request[SubPrice]" Type="Parameter" Converter="Trim" />
+  <Parameter Name="IsActive" Path="Request[IsActive]" Type="Const" DefaultValue="1" />
+  <Parameter Name="CreatedUser" Path="CurrentUserID" Type="SystemParameter" />
+  <Parameter Name="CreatedTime" Path="CurrentDateTime" Type="SystemParameter" />
+  <Parameter Name="ModifiedUser" Path="CurrentUserID" Type="SystemParameter" />
+  <Parameter Name="ModifiedTime" Path="CurrentDateTime" Type="SystemParameter" />
+</QueryJsonCommand>]]></Command>
+    <Command CommandID="M01668" Name="返回" CommandType="JsonActionCommand"><![CDATA[<JsonActionCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ContentType="application/json">
+  <Parameter Name="Data" Path="Results[新增].Json" Type="Parameter" />
+  <Parameter Name="HasError" Path="Results[新增].IsError" Type="Parameter" />
+  <Parameter Name="ErrorMessage" Path="Results[新增].ErrorMessage" Type="Parameter" />
+</JsonActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="06202710-a280-4eb4-bace-b7accb9b61c4" Name="GetSubProduct" Title="获取子产品信息" ErrorCommand="返回">
+    <Command CommandID="M01669" Name="获取子产品" CommandType="QueryJsonSqlCommand"><![CDATA[<QueryJsonCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" NextCommand="返回" GroupName="业务模块" TableName="bi_ProductDetail" CommandName="GetSubProduct" SqlType="QueryJson">
+  <Parameter Name="ProductID" Path="Request[ProductID]" Type="Parameter" />
+</QueryJsonCommand>]]></Command>
+    <Command CommandID="M01670" Name="返回" CommandType="ReturnActionCommand"><![CDATA[<ReturnActionCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ContentType="appplication/json">
+  <Parameter Name="json" Path="LastResult.Json" Type="Parameter" />
+</ReturnActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="0f7d73a4-fe92-44a0-94d7-630814998b3c" Name="UpdateProduct" Title="更新产品" ErrorCommand="返回">
+    <Command CommandID="M01671" Name="更新" CommandType="QueryJsonSqlCommand">
+    <![CDATA[<QueryJsonCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" NextCommand="返回" GroupName="业务模块" TableName="bi_ProductDetail" CommandName="UpdateProduct" SqlType="QueryJson">
+  <Parameter Name="ProductName" Path="Request[ProductName]" Type="Parameter" />
+  <Parameter Name="ProductID" Path="Request[ProductID]" Type="Parameter" />
+  <Parameter Name="ModifiedUser" Path="CurrentUserID" Type="SystemParameter" />
+  <Parameter Name="ModifiedTime" Path="CurrentDateTime" Type="SystemParameter" />
+  <Parameter Name="UnitPrice" Path="Request[UnitPrice]" Type="Parameter" />
+  <Parameter Name="SupplierID" Path="Request[SupplierID]" Type="Parameter" />
+  <Parameter Name="PState" Path="Request[PState]" Type="Parameter" />
+  <Parameter Name="Remark" Path="Request[Remark]" Type="Parameter" />
+  <Parameter Name="SortID" Path="Request[SortID]" Type="Parameter" />
+  <Parameter Name="IsBiOrder" Path="Request[IsBiOrder]" Type="Parameter" Converter="Trim" DefaultValue="0" />
+  <Parameter Name="IsSeOrder" Path="Request[IsSeOrder]" Type="Parameter" Converter="Trim" DefaultValue="0" />
+</QueryJsonCommand>]]></Command>
+    <Command CommandID="M01672" Name="返回" CommandType="JsonActionCommand"><![CDATA[<JsonActionCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ContentType="application/json">
+  <Parameter Name="Data" Path="Results[更新].Json" Type="Parameter" />
+  <Parameter Name="HasError" Path="Results[更新].IsError" Type="Parameter" />
+  <Parameter Name="ErorMessage" Path="Results[更新].ErrorMessage" Type="Parameter" />
+</JsonActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="5d9a3207-8f18-456f-9578-b45048160256" Name="UpdateSubProduct" Title="更新子产品信息" ErrorCommand="返回">
+    <Command CommandID="M01673" Name="更新" CommandType="QueryJsonSqlCommand"><![CDATA[<QueryJsonCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" NextCommand="返回" GroupName="业务模块" TableName="bi_ProductDetail" CommandName="UpdateSubProduct" SqlType="QueryJson">
+  <Parameter Name="ProductID" Path="Request[ProductID]" Type="Parameter" />
+  <Parameter Name="SubProductID" Path="Request[SubProductID]" Type="Parameter" />
+  <Parameter Name="UnitPrice" Path="Request[SubUnitPrice]" Type="Parameter" />
+  <Parameter Name="Unit" Path="Request[SubUnit]" Type="Parameter" Converter="Trim" />
+  <Parameter Name="Qty" Path="Request[Qty]" Type="Parameter" Converter="Trim" />
+  <Parameter Name="Price" Path="Request[SubPrice]" Type="Parameter" Converter="Trim" />
+  <Parameter Name="ModifiedUser" Path="CurrentUserID" Type="SystemParameter" />
+  <Parameter Name="ModifiedTime" Path="CurrentDateTime" Type="SystemParameter" />
+  <Parameter Name="AutoKey" Path="Request[AutoKey]" Type="Parameter" />
+</QueryJsonCommand>]]></Command>
+    <Command CommandID="M01674" Name="返回" CommandType="JsonActionCommand"><![CDATA[<JsonActionCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ContentType="application/json">
+  <Parameter Name="Data" Path="Results[更新].Json" Type="Parameter" />
+  <Parameter Name="HasError" Path="Results[更新].IsError" Type="Parameter" />
+  <Parameter Name="ErrorMessage" Path="Results[更新].ErrorMessage" Type="Parameter" />
+</JsonActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="7b4af9d3-d305-4449-825a-f52fe90b3aec" Name="DeleteSubProduct" Title="删除子产品信息" ErrorCommand="返回">
+    <Command CommandID="M01675" Name="删除" CommandType="QueryJsonSqlCommand"><![CDATA[<QueryJsonCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" NextCommand="返回" GroupName="业务模块" TableName="bi_ProductDetail" CommandName="DeleteSubProduct" SqlType="QueryJson">
+  <Parameter Name="ModifiedUser" Path="CurrentUserID" Type="SystemParameter" />
+  <Parameter Name="ModifiedTime" Path="CurrentDateTime" Type="SystemParameter" />
+  <Parameter Name="AutoKey" Path="Request[Key]" Type="Parameter" Converter="Trim" />
+  <Parameter Name="ProductID" Path="Request[ID]" Type="Parameter" />
+</QueryJsonCommand>]]></Command>
+    <Command CommandID="M01676" Name="返回" CommandType="JsonActionCommand"><![CDATA[<JsonActionCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ContentType="application/json">
+  <Parameter Name="Data" Path="Results[删除].Json" Type="Parameter" />
+  <Parameter Name="HasError" Path="Results[删除].IsError" Type="Parameter" />
+  <Parameter Name="ErrorMessage" Path="Results[删除].ErrorMessage" Type="Parameter" />
+</JsonActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="3dfe8795-5a20-403b-8761-7f48114b065a" Name="EditSubProduct" Title="更新子产品界面">
+    <Command CommandID="M01678" Name="查询" CommandType="QuerySqlCommand"><![CDATA[<QueryCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" NextCommand="更新界面" GroupName="业务模块" TableName="bi_ProductDetail" CommandName="GetItemProduct">
+  <Parameter Name="ProductID" Path="Request[ID]" Type="Parameter" />
+</QueryCommand>]]></Command>
+    <Command CommandID="M01677" Name="更新界面" CommandType="RazorContentActionCommand"><![CDATA[<RazorContentActionCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ContentType="text/html" TemplateFile="\Product\EditSubProduct.cshtml" SettingType="EditDialog">
+  <Parameter Name="Data" Path="LastResult.Item" Type="Parameter" />
+</RazorContentActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="c7b5f85f-8a5c-4f53-bb9a-a8ac6e06320f" Name="DetailSubProduct" Title="查看子产品界面">
+    <Command CommandID="M01679" Name="查看" CommandType="QuerySqlCommand"><![CDATA[<QueryCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" NextCommand="界面" GroupName="业务模块" TableName="bi_ProductDetail" CommandName="GetItemProduct">
+  <Parameter Name="ProductID" Path="Request[ID]" Type="Parameter" />
+</QueryCommand>]]></Command>
+    <Command CommandID="M01680" Name="界面" CommandType="RazorContentActionCommand"><![CDATA[<RazorContentActionCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ContentType="text/html" TemplateFile="\Product\DetailSubProduct.cshtml" SettingType="EditDialog">
+  <Parameter Name="Data" Path="LastResult.Item" Type="Parameter" />
+</RazorContentActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="1d504e52-6ba8-40f5-af64-a733a06c96aa" Name="ProductUI" Title="界面设定" ActionValue="128" ErrorCommand="查询明细">
+    <Command CommandID="M01706" Name="查询明细" CommandType="QuerySqlCommand"><![CDATA[<QueryCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" NextCommand="界面设定" GroupName="业务模块" TableName="bi_Product" CommandName="GetDetail">
+  <Parameter Name="ProductID" Path="Request[ID]" Type="Parameter" />
+</QueryCommand>]]></Command>
+    <Command CommandID="M01707" Name="界面设定" CommandType="RazorContentActionCommand"><![CDATA[<RazorContentActionCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ContentType="text/html" TemplateFile="\Product\ProductUI.cshtml" SettingType="EditDialog">
+  <Parameter Name="Data" Path="LastResult.Item" Type="Parameter" />
+</RazorContentActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="9904cd12-c5e2-4a7c-8800-6b67dc1f9467" Name="GetProductUI" Title="获取产品界面设定信息" ErrorCommand="返回数据">
+    <Command CommandID="M01708" Name="返回数据" CommandType="QueryJsonSqlCommand"><![CDATA[<QueryJsonCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" NextCommand="返回信息" GroupName="业务模块" TableName="bi_Product" CommandName="GetProductUI" SqlType="QueryJson">
+  <Parameter Name="ProductID" Path="Request[ProductID]" Type="Parameter" />
+</QueryJsonCommand>]]></Command>
+    <Command CommandID="M01709" Name="返回信息" CommandType="ReturnActionCommand"><![CDATA[<ReturnActionCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ContentType="appplication/json">
+  <Parameter Name="json" Path="LastResult.Json" Type="Parameter" />
+</ReturnActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="09a04955-7449-4862-bb4c-a7e5076b304c" Name="AddproductUI" Title="新增产品下单界面设定" ErrorCommand="返回">
+    <Command CommandID="M01710" Name="新增" CommandType="QueryJsonSqlCommand"><![CDATA[<QueryJsonCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" NextCommand="返回" GroupName="业务模块" TableName="bi_ProductUI" CommandName="Add" SqlType="QueryJson">
+  <Parameter Name="ProductID" Path="Request[ProductID]" Type="Parameter" />
+  <Parameter Name="CreatedUser" Path="CurrentUserID" Type="SystemParameter" />
+  <Parameter Name="CreatedTime" Path="CurrentDateTime" Type="SystemParameter" />
+  <Parameter Name="ModifiedUser" Path="CurrentUserID" Type="SystemParameter" />
+  <Parameter Name="ModifiedTime" Path="CurrentDateTime" Type="SystemParameter" />
+  <Parameter Name="PUIISD" Path="Request[PUIISD]" Type="Parameter" />
+  <Parameter Name="ItemCol" Path="Request[ItemCol]" Type="Parameter" />
+  <Parameter Name="ItemSort" Path="Request[ItemSort]" Type="Parameter" />
+  <Parameter Name="ItemName" Path="Request[ItemName]" Type="Parameter" />
+  <Parameter Name="IsRequired" Path="Request[IsRequired]" Type="Parameter" />
+  <Parameter Name="Remark" Path="Request[Remark]" Type="Parameter" />  
+</QueryJsonCommand>]]></Command>
+    <Command CommandID="M01711" Name="返回" CommandType="JsonActionCommand"><![CDATA[<JsonActionCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ContentType="application/json">
+  <Parameter Name="Data" Path="Results[新增].Json" Type="Parameter" />
+  <Parameter Name="HasError" Path="Results[新增].IsError" Type="Parameter" />
+  <Parameter Name="ErrorMessage" Path="Results[新增].ErrorMessage" Type="Parameter" />
+</JsonActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="125d0211-848f-2b23-3239-e29f4c9fa7d0" Name="PriceSet" Title="价格设定" ActionValue="256" ErrorCommand="查询明细">
+    <Command CommandID="M01706" Name="查询明细" CommandType="QuerySqlCommand">
+      <![CDATA[<QueryCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" NextCommand="价格设定" GroupName="业务模块" TableName="bi_Product" CommandName="GetDetail">
+  <Parameter Name="ProductID" Path="Request[ID]" Type="Parameter" />
+</QueryCommand>]]>
+    </Command>
+    <Command CommandID="M01707" Name="价格设定" CommandType="RazorContentActionCommand">
+      <![CDATA[<RazorContentActionCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ContentType="text/html" TemplateFile="\Product\PriceSet.cshtml" SettingType="EditDialog">
+  <Parameter Name="Data" Path="LastResult.Item" Type="Parameter" />
+</RazorContentActionCommand>]]>
+    </Command>
+  </Action>
+  <Action ActionID="ade9f70a-5891-3eb3-fb47-ba2e1f525ae3" Name="UpdatePrice" Title="更新价格信息" ErrorCommand="返回数据">
+    <Command CommandID="M01201" Name="更新价格信息" CommandType="QuerySqlCommand">
+      <![CDATA[<QueryCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" NextCommand="返回数据" GroupName="业务模块" TableName="bi_Product" CommandName="UpdatePrice">
+  <Parameter Name="DeleteCheck" Path="Request[DeleteCheck]" Type="Parameter" />
+  <Parameter Name="PriceID" Path="Request[PriceID]" Type="Parameter" />
+  <Parameter Name="ProductID" Path="Request[ProductID]" Type="Parameter" />
+  <Parameter Name="UnitPrice" Path="Request[UnitPrice]" Type="Parameter" Converter="Trim" />
+  <Parameter Name="CostPrice" Path="Request[CostPrice]" Type="Parameter" Converter="Trim" />
+  <Parameter Name="TaxRate" Path="Request[TaxRate]" Type="Parameter" Converter="Trim" />
+  <Parameter Name="RebateRate" Path="Request[RebateRate]" Type="Parameter" Converter="Trim" />
+  <Parameter Name="Discount" Path="Request[Discount]" Type="Parameter" Converter="Trim" />
+  <Parameter Name="StartDate" Path="Request[StartDate]" Type="Parameter" Converter="Trim" />
+  <Parameter Name="EndDate" Path="Request[EndDate]" Type="Parameter" Converter="Trim" />
+  <Parameter Name="Remark" Path="Request[Remark]" Type="Parameter" Converter="Trim" />
+  <Parameter Name="ModifiedUser" Path="CurrentUserID" Type="SystemParameter" />
+  <Parameter Name="ModifiedTime" Path="CurrentDateTime" Type="SystemParameter" />
+</QueryCommand>]]>
+    </Command>
+    <Command CommandID="M01202" Name="返回数据" CommandType="JsonActionCommand">
+      <![CDATA[<JsonActionCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ContentType="application/json">
+  <Parameter Name="Data" Path="Results[更新价格信息].Items" Type="Parameter" />
+  <Parameter Name="HasError" Path="Results[更新价格信息].IsError" Type="Parameter" />
+  <Parameter Name="ErrorMessage" Path="Results[更新价格信息].ErrorMessage" Type="Parameter" />
+</JsonActionCommand>]]>
+    </Command>
+  </Action>
+  <Layout EditFieldClass="edit-field" />
+  <Buttons>
+    <Button ID="btn-search" Title="检索" ActionValue="2" Action="showActDlg('检索','/Page/P01064/Search',400,300)" Class="easyui-linkbutton" Option="iconCls:'icon-search'" />
+    <Button ID="btn-query" Title="确定" ActionValue="2" Action="submitAct_DGReplace('dataform','/Page/P01064/Query','datagrid')" Class="easyui-linkbutton edit-button" Option="iconCls:'icon-ok'" ShowInToolBar="false" />
+    <Button ID="btn-detail" Title="查看" ActionValue="4" Action="showActDlg_DGItemActDlg('datagrid','查看','/Page/P01064/Detail',400,300)" Class="easyui-linkbutton toolradio" Option="iconCls:'icon-add'" />
+    <Button ID="btn-create" Title="新增" ActionValue="8" Action="showActDlg('新增','/Page/P01064/Create',400,300)" Class="easyui-linkbutton" Option="iconCls:'icon-add'" />
+    <Button ID="btn-add" Title="确定" ActionValue="8" Action="submitAct_DGAppend('dataform','/Page/P01064/Add','datagrid')" Class="easyui-linkbutton edit-button" Option="iconCls:'icon-ok'" ShowInToolBar="false" />
+    <Button ID="btn-edit" Title="修改" ActionValue="16" Action="showActDlg_DGItemActDlg('datagrid','修改','/Page/P01064/Edit',400,300)" Class="easyui-linkbutton toolradio" Option="iconCls:'icon-edit'" />
+    <Button ID="btn-update" Title="确定" ActionValue="16" Action="submitAct_DGUpdate('dataform','/Page/P01064/Update','datagrid')" Class="easyui-linkbutton edit-button" Option="iconCls:'icon-ok'" ShowInToolBar="false" />
+    <Button ID="btn-delete" Title="删除" ActionValue="32" Action="showActDlg_DGItemsConfirm('datagrid','删除','确认删除选择项？','/Page/P01064/Delete',400,300)" Class="easyui-linkbutton toolmultiple" Option="iconCls:'icon-cancel'" />
+    <Button ID="btn-import" Title="导入" ActionValue="64" Action="showActDlg('导入','/Page/P01064/Import',400,300)" Class="easyui-linkbutton" Option="iconCls:'icon-import'" />
+    <Button ID="btn-export" Title="导出" ActionValue="128" Action="showActDlg('导出','/Page/P01064/Export',400,300)" Class="easyui-linkbutton" Option="iconCls:'icon-export'" />
+    <Button ID="btn-cancel" Title="取消" Action="cancel()" Class="easyui-linkbutton edit-button" Option="iconCls:'icon-cancel'" ShowInToolBar="false" />
+    <Button ID="btn-close" Title="确定" Action="cancel()" Class="easyui-linkbutton edit-button" ShowInToolBar="false" />
+  </Buttons>
+  <EditSource GroupName="业务模块" TableName="bi_Product" Key="ProductID" LogicDeleteFlag="IsActive=0">
+    <Fields>
+      <EditField Name="ProductID" Title="产品编号" DataType="varchar" Length="8" ShowInSearch="false" IsRequired="false" EditBox="Hidden" />
+      <EditField Name="ProductName" Title="产品名称" DataType="nvarchar" Length="50" />
+      <EditField Name="ProductTypeID" Title="产品类型" DataType="varchar" Length="4" />
+      <EditField Name="UnitPrice" Title="单价" DataType="money" ShowInSearch="false" IsRequired="false" />
+      <EditField Name="Unit" Title="Unit" DataType="varchar" Length="2" ShowInGrid="false" ShowInSearch="false" IsRequired="false" />
+      <EditField Name="CostPrice" Title="成本" DataType="money" ShowInGrid="false" ShowInSearch="false" IsRequired="false" />
+      <EditField Name="TaxRate" Title="增值税率" DataType="decimal" ShowInGrid="false" ShowInSearch="false" IsRequired="false" />
+      <EditField Name="RebateRate" Title="返点率" DataType="decimal" ShowInGrid="false" ShowInSearch="false" IsRequired="false" />
+      <EditField Name="Discount" Title="折扣" DataType="decimal" ShowInGrid="false" ShowInSearch="false" IsRequired="false" />
+      <EditField Name="SupplierID" Title="供应商" DataType="varchar" Length="8" ShowInGrid="false" ShowInSearch="false" />
+      <EditField Name="PState" Title="状态" DataType="nvarchar" Length="10" ShowInSearch="false" />
+      <EditField Name="Remark" Title="备注" DataType="nvarchar" Length="200" ShowInSearch="false" />
+      <EditField Name="SortID" Title="显示排序" DataType="int" ShowInGrid="false" ShowInSearch="false" />
+      <EditField Name="IsActive" Title="IsActive" DataType="bit" ShowInGrid="false" ShowInCreate="false" ShowInEdit="false" ShowInDetail="false" ShowInSearch="false" IsRequired="false" EnableEdit="false" EditBox="ComboBox" ItemsSource="1:是|0:否" />
+      <EditField Name="CreatedUser" Title="CreatedUser" DataType="varchar" Length="6" ShowInGrid="false" ShowInCreate="false" ShowInEdit="false" ShowInDetail="false" ShowInSearch="false" IsRequired="false" EnableEdit="false" />
+      <EditField Name="CreatedTime" Title="CreatedTime" DataType="datetime" ShowInGrid="false" ShowInCreate="false" ShowInEdit="false" ShowInDetail="false" ShowInSearch="false" IsRequired="false" EnableEdit="false" />
+      <EditField Name="ModifiedUser" Title="ModifiedUser" DataType="varchar" Length="6" ShowInGrid="false" ShowInCreate="false" ShowInEdit="false" ShowInDetail="false" ShowInSearch="false" IsRequired="false" EnableEdit="false" />
+      <EditField Name="ModifiedTime" Title="ModifiedTime" DataType="datetime" ShowInGrid="false" ShowInCreate="false" ShowInEdit="false" ShowInDetail="false" ShowInSearch="false" IsRequired="false" EnableEdit="false" />
+      <EditField Name="AutoKey" Title="AutoKey" DataType="int" ShowInGrid="false" ShowInCreate="false" ShowInEdit="false" ShowInDetail="false" ShowInSearch="false" IsRequired="false" EnableEdit="false" />
+    </Fields>
+    <ChildTables />
+  </EditSource>
+</MvcEditPage>

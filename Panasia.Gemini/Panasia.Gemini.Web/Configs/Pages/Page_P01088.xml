@@ -1,0 +1,136 @@
+<?xml version="1.0"?>
+<MvcEditPage xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" PageID="P01088" Controller="" DefaultAction="Index">
+  <Action ActionID="f86d26c3-7aa5-4e73-b20e-c1fb33dabe36" Name="Index" Title="列表" ActionValue="1">
+    <Command CommandID="M01465" Name="列表页面" Description="这个命令会直接返回到客户端，无需后继命令" CommandType="IndexPageActionCommand"><![CDATA[<IndexPageActionCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ContentType="text/html">
+  <Page SettingType="IndexPage">
+    <ToolBar Tag="div" ID="toolbar" Class="toolbar-panel" PageID="P01088">
+      <Buttons>
+        <UIButton ID="btn-search" Class="easyui-linkbutton  normal-button" Options="iconCls:'icon-search',plain:true" Title="检索" ActionValue="2" Action="showActDlg('检索','/Page/P01088/Search',400,300)" />
+        <UIButton ID="btn-detail" Class="easyui-linkbutton toolradio  normal-button" Options="iconCls:'icon-detail',plain:true" Title="查看" ActionValue="4" Action="showActDlg_DGItemActDlg('datagrid','查看','/Page/P01088/Detail',400,300)" />
+        <UIButton Tag="a" />
+      </Buttons>
+    </ToolBar>
+    <DataGrid Tag="table" ID="datagrid" Class="easyui-datagrid" Options="fitColumns:true,fit:true,pagination: true,rownumbers: true,nowrap: true,striped: true,collapsible: false,resizable:true,onClickRow:oncheckstate,onSelect:oncheckstate,onCheck:oncheckstate,onCheckAll:oncheckstate,onUncheckAll:oncheckstate,onUncheck:oncheckstate,onUnselect:oncheckstate" Key="EmployeeID">
+      <Column Title="EmployeeID" FieldName="EmployeeID" IsCheckBox="true" />
+      <Column Title="公司" FieldName="CompanyName" />
+      <Column Title="部门" FieldName="DeptName" />
+      <Column Title="员工" FieldName="EmployeeName" />
+      <Column Title="状态" FieldName="State" />
+      <Column HAlign="Center" Title="入职日期" FieldName="HireDate" />
+      <Column HAlign="Center" Title="生日" FieldName="Birthday" />
+      <Column HAlign="Center" Title="合同日期起" FieldName="ContractStartDate" />
+      <Column HAlign="Center" Title="合同日期讫" FieldName="ContractEndDate" />
+    </DataGrid>
+  </Page>
+</IndexPageActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="d241d9e1-c067-4b26-a12a-e789861b1672" Name="Search" Title="检索" ActionValue="2">
+    <Command CommandID="M01500" Name="检索页面" Description="这个命令会直接返回到客户端，无需后继命令" CommandType="EditDialogActionCommand">
+          <![CDATA[<EditDialogActionCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ContentType="text/html">
+  <Page SettingType="EditDialog">
+    <Form ID="dataform" Class="form-dialog">
+      <TableLayout />
+      <Fields>
+        <Field Title="公司" FieldType="ComboBox">
+          <ComboBox Tag="input" ID="Company" Name="CompanyID" Class="edit-input easyui-combobox" Options="editable:false" Binding="Company" IsRequired="false" Length="8" DisplayMember="Name" ValueMember="ID" DataUrl="/Share/Query?name=GetCompanyName&amp;Key=" IsAutoHeight="false" OnSelect="function(rec){&#xD;&#xA;var url='/Share/Query?name=GetDeptTreeByCompanyID&amp;resultformat=jsontree&amp;root='+rec.ID+'&amp;pid=PID&amp;id=ID&amp;text=Name&amp;CompanyID='+rec.ID;&#xD;&#xA;var url1='/Share/Query?name=GetEmpByDeptAndJob&amp;JobID=&amp;DeptID=xxxxxx';&#xD;&#xA;var url2='/Share/Query?name=GetPositionByDeptID&amp;DeptID=xxxxxx';&#xD;&#xA;$('#DeptID').combotree({url:url});&#xD;&#xA;$('#EmployeeID').combobox({url:url1});&#xD;&#xA;$('#JobID').combobox({url:url2});&#xD;&#xA;}" />
+        </Field>
+        <Field Title="部门" FieldType="ComboTree">
+          <ComboTree Tag="input" ID="DeptID" Name="DeptID" Class="edit-input easyui-combotree" Options="editable:false" IsRequired="false" Length="8" DataUrl="/Share/Query?name=GetDeptTreeByCompanyID&amp;resultformat=jsontree&amp;root=000000&amp;pid=PID&amp;id=ID&amp;text=Name&amp;CompanyID=xxxxxxx" DisplayMember="text" ValueMember="id" IsAutoHeight="false" />
+        </Field>
+        <Field Title="年月" FieldType="TextBox">
+          <Input Tag="input" ID="YearMonth" Name="YearMonth" Class="edit-input easyui-textbox" Options="prompt:'输入格式为:YYYY-MM',missingMessage:'请输入年月',validType:'yearmonth'" Binding="YearMonth" />
+        </Field>
+      </Fields>
+      <ToolBar Tag="div" ID="toolbar" Class="dialog-button" PageID="P01088">
+        <Buttons>
+          <UIButton Tag="a" ID="btn-query" Class="easyui-linkbutton edit-button" Options="iconCls:'icon-ok'" Title="确定" ActionValue="2" Action="submitAct_DGReplace('dataform','/Page/P01088/Query','datagrid')" />
+          <UIButton Tag="a" ID="btn-cancel" Class="easyui-linkbutton edit-button" Options="iconCls:'icon-cancel'" Title="取消" Action="cancel()" />
+        </Buttons>
+      </ToolBar>
+    </Form>
+  </Page>
+</EditDialogActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="e6e7ae87-d362-4308-ae24-b3101fe07f5a" Name="Query" Title="检索" ActionValue="2" ErrorCommand="搜索结果">
+    <Command CommandID="M01770" Name="查询总数" CommandType="ScalarSqlCommand"><![CDATA[<ScalarCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" NextCommand="执行查询" GroupName="人事管理" TableName="hr_Employee" CommandName="QueryCountEM" SqlType="Scalar">
+  <Parameter Name="DeptID" Path="Request[DeptID]" Type="Parameter" />
+  <Parameter Name="YearMonth" Path="Request[YearMonth]" Type="Parameter" />
+  <Parameter Name="CompanyID" Path="Request[CompanyID]" Type="Parameter" />
+  <Parameter Name="UserID" Path="CurrentUserID" Type="SystemParameter" />
+</ScalarCommand>]]></Command>
+    <Command CommandID="M01467" Name="执行查询" Description="本查询的结果值为JSON，参数路径为Results[执行查询].Json" CommandType="QueryJsonSqlCommand"><![CDATA[<QueryJsonCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" NextCommand="搜索结果" GroupName="人事管理" TableName="hr_Employee" CommandName="EmployeeMessage" SqlType="QueryJson">
+  <Parameter Name="DeptID" Path="Request[DeptID]" Type="Parameter" />
+  <Parameter Name="YearMonth" Path="Request[YearMonth]" Type="Parameter" />
+  <Parameter Name="Page" Path="Request[Page]" Type="Parameter" />
+  <Parameter Name="Rows" Path="Request[Rows]" Type="Parameter" />
+  <Parameter Name="CompanyID" Path="Request[CompanyID]" Type="Parameter" />
+  <Parameter Name="UserID" Path="CurrentUserID" Type="SystemParameter" />
+</QueryJsonCommand>]]></Command>
+    <Command CommandID="M01468" Name="搜索结果" Description="返回搜索结果" CommandType="JsonActionCommand"><![CDATA[<JsonActionCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ContentType="application/json">
+  <Parameter Name="rows" Path="Results[执行查询].Json" Type="Parameter" />
+  <Parameter Name="HasError" Path="Results[执行查询].IsError" Type="Parameter" />
+  <Parameter Name="ErrorMessage" Path="Results[执行查询].ErrorMessage" Type="Parameter" />
+  <Parameter Name="total" Path="Results[查询总数].Value" Type="Parameter" />
+</JsonActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="caa7df45-4e47-4274-baf5-a240c7d39d63" Name="Detail" Title="查看" ActionValue="4">
+    <Command CommandID="M01272" Name="查询明细" Description="查询明细" CommandType="QuerySqlCommand"><![CDATA[<QueryCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" NextCommand="查看页面" GroupName="人事管理" TableName="hr_Employee" CommandName="EmployeeMessageDetail">
+  <Parameter Name="EmployeeID" Path="Request[ID]" Type="Parameter" />
+</QueryCommand>]]></Command>
+    <Command CommandID="M01273" Name="查看页面" Description="这个命令会直接返回到客户端，无需后继命令" CommandType="EditDialogActionCommand"><![CDATA[<EditDialogActionCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ContentType="text/html">
+  <Parameter Name="Data" Path="LastResult.Items" Type="Parameter" />
+  <Page SettingType="EditDialog">
+    <Form ID="dataform" Class="form-dialog" DataBinding="Parameters[Data]" EditPanelClass="edit-panel-w2">
+      <TableLayout />
+      <Fields>
+        <Field Title="EmployeeID">
+          <Input Tag="input" Name="EmployeeID" Class="edit-input" InputType="hidden" Binding="EmployeeID" IsReadOnly="true" IsRequired="false" IsHidden="true" />
+        </Field>
+        <Field Title="公司" FieldType="TextBox">
+          <PickBox Tag="input" Name="CompanyName" Class="edit-input easyui-textbox" Binding="CompanyName" IsReadOnly="true" IsRequired="false" Length="6" />
+        </Field>
+        <Field Title="部门" FieldType="TextBox">
+          <PickBox Tag="input" Name="DeptName" Class="edit-input easyui-textbox" Binding="DeptName" IsReadOnly="true" IsRequired="false" Length="20" />
+        </Field>
+        <Field Title="员工" FieldType="TextBox">
+          <PickBox Tag="input" Name="EmployeeName" Class="edit-input easyui-textbox" Binding="EmployeeName" IsReadOnly="true" IsRequired="false" />
+        </Field>
+        <Field Title="生日" FieldType="TextBox">
+          <PickBox Tag="input" Name="Birthday" Class="edit-input easyui-textbox" Binding="Birthday" IsReadOnly="true" IsRequired="false" />
+        </Field>
+        <Field Title="状态" FieldType="TextBox">
+          <PickBox Tag="input" Name="State" Class="edit-input easyui-textbox" Binding="State" IsReadOnly="true" IsRequired="false" />
+        </Field>
+        <Field Title="入职日期" FieldType="TextBox">
+          <PickBox Tag="input" Name="HireDate" Class="edit-input easyui-textbox" Binding="HireDate" IsReadOnly="true" IsRequired="false" />
+        </Field>
+        <Field Title="合同日期起" FieldType="TextBox">
+          <Input Tag="input" Name="ContractStartDate " Class="edit-input easyui-textbox" Binding="ContractStartDate " IsReadOnly="true" IsRequired="false" />
+        </Field>
+        <Field Title="合同日期讫" FieldType="TextBox">
+          <Input Tag="input" Name="ContractEndDate " Class="edit-input easyui-textbox" Binding="ContractEndDate " IsReadOnly="true" IsRequired="false" />
+        </Field>
+      </Fields>
+      <ErrorMessage ID="showmsg" Class="showmsg" />
+      <ToolBar Tag="div" Class="dialog-button" PageID="P01088">
+        <Buttons>
+          <UIButton ID="btn-cancel" Class="easyui-linkbutton edit-button" Options="iconCls:'icon-cancel'" Title="关闭" Action="cancel()" />
+        </Buttons>
+      </ToolBar>
+    </Form>
+  </Page>
+</EditDialogActionCommand>]]></Command>
+  </Action>
+  <Action ActionID="ce034e89-e459-4506-be62-1f884a855a61" Name="GetData" Title="加载数据">
+    <Command CommandID="M01797" Name="查询数据" CommandType="QueryJsonSqlCommand"><![CDATA[<QueryJsonCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" NextCommand="返回数据" GroupName="人事管理" TableName="hr_Employee" CommandName="EmployeeMessageGetData" SqlType="QueryJson" />]]></Command>
+    <Command CommandID="M01800" Name="返回数据" CommandType="ReturnActionCommand"><![CDATA[<ReturnActionCommand xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ContentType="appplication/json">
+  <Parameter Name="json" Path="LastResult.Json" Type="Parameter" />
+</ReturnActionCommand>]]></Command>
+  </Action>
+  <Layout EditFieldClass="edit-field" />
+  <Buttons />
+  <EditSource GroupName="人事管理" TableName="hr_Employee">
+    <Fields />
+    <ChildTables />
+  </EditSource>
+</MvcEditPage>
