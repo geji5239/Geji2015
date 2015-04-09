@@ -1,9 +1,0 @@
-﻿@model FormActionViewModel
-@{ 
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
-
-    <img id="progresImage" class="progress hide" src="~/Content/Images/loading.gif" />
-    <div id="maskOfProgressImage" class="mask hide"></div>
-    @Html.Partial("_Form", Model)
-    <div id="dialog"></div>

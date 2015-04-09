@@ -1,7 +1,0 @@
-E:\Code2014\Panasia.Gemini\Panasia.Core.Sys\bin\Debug\Panasia.Core.Sys.dll
-E:\Code2014\Panasia.Gemini\Panasia.Core.Sys\bin\Debug\Panasia.Core.Sys.pdb
-E:\Code2014\Panasia.Gemini\bin\Panasia.Core.Sys.dll
-E:\Code2014\Panasia.Gemini\bin\Panasia.Core.Sys.pdb
-E:\Code2014\Panasia.Gemini\Panasia.Core.Sys\obj\Debug\Panasia.Core.Sys.dll
-E:\Code2014\Panasia.Gemini\Panasia.Core.Sys\obj\Debug\Panasia.Core.Sys.pdb
-E:\Code2014\Panasia.Gemini\Panasia.Core.Sys\obj\Debug\Panasia.Core.Sys.csprojResolveAssemblyReference.cache
